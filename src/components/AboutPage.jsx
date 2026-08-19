@@ -127,24 +127,24 @@ export default function AboutPage({ onNavigate }) {
         <div className="max-w-7xl mx-auto relative z-10 space-y-10 sm:space-y-14">
           
           {/* Section Header */}
-          <div className="text-center sm:text-left max-w-2xl space-y-2">
+          <div className="text-center lg:text-left max-w-2xl mx-auto lg:mx-0 space-y-2">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs mb-1">
               <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
               <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
                 Our Approach
               </span>
             </div>
-            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight leading-[1.15]">
+            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight leading-[1.18]">
               OUR APPROACH <br />
-              <span className="italic font-serif text-[#9E3F5C] font-normal lowercase text-3xl sm:text-4xl lg:text-5xl">to personalised beauty</span>
+              to personalised beauty
             </h2>
           </div>
 
-          {/* Master Stage Container */}
-          <div className="relative w-full max-w-5xl mx-auto min-h-[580px] sm:min-h-[640px] flex items-center justify-center">
+          {/* Master Stage Container - Responsive Grid on Mobile/Tablet, Floating Stage on Desktop */}
+          <div className="relative w-full max-w-5xl mx-auto flex flex-col lg:block items-center justify-center min-h-0 lg:min-h-[600px]">
             
-            {/* 1. DEAD CENTER SLENDER TALL TILTED OVAL IMAGE */}
-            <div className="relative z-10 w-[240px] h-[400px] sm:w-[310px] sm:h-[520px] lg:w-[350px] lg:h-[590px] rounded-full border-4 border-white shadow-2xl overflow-hidden transform -rotate-[22deg] bg-white flex-shrink-0 my-4 lg:my-0 -mt-4 lg:-mt-8">
+            {/* 1. CENTRAL TILTED OVAL IMAGE */}
+            <div className="relative z-10 w-[220px] h-[360px] sm:w-[280px] sm:h-[460px] lg:w-[350px] lg:h-[580px] rounded-full border-4 border-white shadow-2xl overflow-hidden transform -rotate-[12deg] lg:-rotate-[22deg] bg-white flex-shrink-0 mx-auto my-4 lg:my-0 lg:-mt-6">
               <img 
                 src={image9} 
                 alt="Miss Nous Personalised Beauty" 
@@ -153,11 +153,12 @@ export default function AboutPage({ onNavigate }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none"></div>
             </div>
 
-            {/* 2. FLOATING CARDS & BUTTON OVERLAPPING AROUND CENTER IMAGE */}
-            <div className="w-full lg:absolute lg:inset-0 z-20 pointer-events-none grid grid-cols-1 sm:grid-cols-2 lg:block gap-5 mt-6 lg:mt-0">
+            {/* 2. APPROACH CARDS & CTA BUTTON */}
+            {/* Mobile/Tablet Grid (< lg) vs Desktop Absolute Floating Stage (lg+) */}
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:block gap-4 sm:gap-6 lg:gap-0 mt-6 lg:mt-0 lg:absolute lg:inset-0 z-20 pointer-events-none">
               
-              {/* Box 1: Top Right - Scroll-Triggered Animated */}
-              <div className={`pointer-events-auto lg:absolute lg:-top-4 lg:right-[18%] z-20 bg-white/95 backdrop-blur-md border border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-top-right' : 'opacity-0'}`}>
+              {/* Box 1: Top Right */}
+              <div className={`pointer-events-auto lg:absolute lg:-top-4 lg:right-[18%] z-20 bg-white/95 backdrop-blur-md border border-[#F7D6DF] sm:border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-top-right' : 'opacity-100 lg:opacity-0'}`}>
                 <div className="w-11 h-11 rounded-full bg-[#FFF9F5] text-[#D4AF6A] border border-[#E8D3A5] shadow-xs mx-auto flex items-center justify-center">
                   <Leaf className="w-5 h-5" />
                 </div>
@@ -169,8 +170,8 @@ export default function AboutPage({ onNavigate }) {
                 </p>
               </div>
 
-              {/* Box 2: Middle Left - Scroll-Triggered Animated */}
-              <div className={`pointer-events-auto lg:absolute lg:top-[28%] lg:left-[6%] z-20 bg-white/95 backdrop-blur-md border border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-left' : 'opacity-0'}`}>
+              {/* Box 2: Middle Left */}
+              <div className={`pointer-events-auto lg:absolute lg:top-[28%] lg:left-[6%] z-20 bg-white/95 backdrop-blur-md border border-[#F7D6DF] sm:border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-left' : 'opacity-100 lg:opacity-0'}`}>
                 <div className="w-11 h-11 rounded-full bg-[#FDF2F5] text-[#9E3F5C] border border-[#F7D6DF] shadow-xs mx-auto flex items-center justify-center">
                   <Award className="w-5 h-5" />
                 </div>
@@ -182,8 +183,8 @@ export default function AboutPage({ onNavigate }) {
                 </p>
               </div>
 
-              {/* Box 3: Middle Right - Scroll-Triggered Animated */}
-              <div className={`pointer-events-auto lg:absolute lg:top-[32%] lg:right-[6%] z-20 bg-white/95 backdrop-blur-md border border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-right' : 'opacity-0'}`}>
+              {/* Box 3: Middle Right */}
+              <div className={`pointer-events-auto lg:absolute lg:top-[32%] lg:right-[6%] z-20 bg-white/95 backdrop-blur-md border border-[#F7D6DF] sm:border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-right' : 'opacity-100 lg:opacity-0'}`}>
                 <div className="w-11 h-11 rounded-full bg-[#FFF9F5] text-[#D4AF6A] border border-[#E8D3A5] shadow-xs mx-auto flex items-center justify-center">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
@@ -195,8 +196,8 @@ export default function AboutPage({ onNavigate }) {
                 </p>
               </div>
 
-              {/* Box 4: Bottom Left - Scroll-Triggered Animated */}
-              <div className={`pointer-events-auto lg:absolute lg:-bottom-2 lg:left-[20%] z-20 bg-white/95 backdrop-blur-md border border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-bottom-left' : 'opacity-0'}`}>
+              {/* Box 4: Bottom Left */}
+              <div className={`pointer-events-auto lg:absolute lg:-bottom-2 lg:left-[20%] z-20 bg-white/95 backdrop-blur-md border border-[#F7D6DF] sm:border-white/80 p-5 rounded-2xl shadow-luxury text-center space-y-2 w-full lg:w-[210px] hover:scale-105 transition-all duration-300 ${isSection3Visible ? 'animate-card-bottom-left' : 'opacity-100 lg:opacity-0'}`}>
                 <div className="w-11 h-11 rounded-full bg-[#FDF2F5] text-[#9E3F5C] border border-[#F7D6DF] shadow-xs mx-auto flex items-center justify-center">
                   <Heart className="w-5 h-5" />
                 </div>
@@ -208,14 +209,14 @@ export default function AboutPage({ onNavigate }) {
                 </p>
               </div>
 
-              {/* Circle CTA Button - Scroll-Triggered Animated */}
-              <div className={`pointer-events-auto lg:absolute lg:-bottom-2 lg:right-[18%] z-30 flex justify-center sm:justify-start ${isSection3Visible ? 'animate-button-pop' : 'opacity-0'}`}>
+              {/* Circle CTA Button */}
+              <div className={`pointer-events-auto lg:absolute lg:-bottom-2 lg:right-[18%] z-30 col-span-1 sm:col-span-2 flex justify-center mt-4 lg:mt-0 ${isSection3Visible ? 'animate-button-pop' : 'opacity-100 lg:opacity-0'}`}>
                 <button
                   onClick={() => onNavigate && onNavigate('shop')}
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] border-4 border-white shadow-pink-glow flex flex-col items-center justify-center p-3 text-center transition-all duration-300 transform hover:scale-110 group cursor-pointer"
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] border-4 border-white shadow-pink-glow flex flex-col items-center justify-center p-3 text-center transition-all duration-300 transform hover:scale-110 group cursor-pointer"
                 >
-                  <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider leading-tight">Explore Collection</span>
-                  <ArrowRight className="w-4 h-4 mt-1 text-[#FFF9F5] group-hover:translate-x-1 transition-transform" />
+                  <span className="font-sans text-xs font-bold uppercase tracking-wider leading-tight">Explore Collection</span>
+                  <ArrowRight className="w-3.5 h-3.5 mt-1 text-[#FFF9F5] group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
 

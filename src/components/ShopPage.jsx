@@ -166,17 +166,22 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
           {filteredProducts.map((product, idx) => (
             <div 
               key={product.id}
-              className={`bg-white rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-6 sm:p-8 relative ${
+              className={`bg-white rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-6 relative ${
                 idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
               }`}
             >
               
-              {/* Product Image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 border border-[#F7D6DF]/60 shadow-xs">
+              {/* Product Image Stage - 100% Un-cropped, Aligned & Centered */}
+              <div className="relative h-56 sm:h-64 lg:h-72 w-full rounded-2xl overflow-hidden mb-4 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-4 flex items-center justify-center group shadow-xs">
+                
+                {/* Soft Radial Ambient Glow */}
+                <div className="absolute inset-0 m-auto w-40 h-40 bg-[#D4AF6A]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                {/* 100% Un-cropped Bottle Image - Straight, Centered & Un-clipped */}
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  className="relative z-10 h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out p-1"
                 />
               </div>
 

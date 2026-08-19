@@ -45,21 +45,26 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           </p>
         </div>
 
-        {/* 2 Compact Products Showcase */}
+        {/* 2 Compact Redesigned Products Showcase */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-stretch">
           {PRODUCTS.map((product, idx) => (
             <div 
               key={product.id}
-              className={`bg-white rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-6 sm:p-8 relative ${
+              className={`bg-white rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-6 relative ${
                 idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
               }`}
             >
-              {/* Product Image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 border border-[#F7D6DF]/60 shadow-xs">
+              {/* Product Image Stage - 100% Un-cropped, Aligned & Centered */}
+              <div className="relative h-56 sm:h-64 lg:h-72 w-full rounded-2xl overflow-hidden mb-4 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-4 flex items-center justify-center group shadow-xs">
+                
+                {/* Soft Radial Ambient Glow */}
+                <div className="absolute inset-0 m-auto w-40 h-40 bg-[#D4AF6A]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                {/* 100% Un-cropped Bottle Image - Straight, Centered & Un-clipped */}
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  className="relative z-10 h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out p-1"
                 />
               </div>
 
@@ -83,7 +88,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                     </div>
                   </div>
                   
-                  <h3 className="font-sans text-xl sm:text-2xl font-medium text-[#2B2225] leading-snug">
+                  <h3 className="font-sans text-xl sm:text-2xl font-semibold text-[#2B2225] leading-snug">
                     {product.name}
                   </h3>
 
@@ -103,7 +108,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                       onClick={() => setSelectedProduct(product)}
-                      className="w-full py-3 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-3.5 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5 text-[#D4AF6A]" />
                       <span>View Product</span>
@@ -111,7 +116,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
 
                     <button
                       onClick={() => onAddToCart && onAddToCart(product)}
-                      className="w-full py-3 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5"
+                      className="w-full py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
                       <span>Add to Bag</span>
@@ -138,18 +143,18 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           >
             <button 
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#FDF2F5] text-[#2B2225] transition-colors"
+              className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#FDF2F5] text-[#2B2225] transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-              <div className="sm:col-span-5 bg-[#FDF2F5] rounded-2xl p-5 flex items-center justify-center">
+              <div className="sm:col-span-5 bg-[#FDF2F5] rounded-2xl p-5 flex items-center justify-center h-64">
                 <img 
                   src={selectedProduct.image} 
                   alt={selectedProduct.name} 
-                  className="max-h-56 w-auto object-contain drop-shadow-md rounded-lg"
+                  className="max-h-full w-auto object-contain drop-shadow-md rounded-lg"
                 />
               </div>
 
@@ -184,14 +189,16 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                   </span>
                 </div>
 
-                <div className="space-y-1.5 pt-1">
-                  {selectedProduct.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-[#5A4B50]">
-                      <CheckCircle2 className="w-4 h-4 text-[#9E3F5C]" />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
-                </div>
+                {selectedProduct.features && (
+                  <div className="space-y-1.5 pt-1">
+                    {selectedProduct.features.map((feat, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs text-[#5A4B50]">
+                        <CheckCircle2 className="w-4 h-4 text-[#9E3F5C]" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="pt-3">
                   <button
@@ -199,7 +206,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                       if (onAddToCart) onAddToCart(selectedProduct);
                       setSelectedProduct(null);
                     }}
-                    className="w-full py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     <span>Add to Shopping Bag</span>

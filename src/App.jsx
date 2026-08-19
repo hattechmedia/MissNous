@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import TrustBanner from './components/TrustBanner';
 import NaturalTouchSection from './components/NaturalTouchSection';
 import FeaturedProductsSection from './components/FeaturedProductsSection';
 import VideoSection from './components/VideoSection';
 import PureComfortSection from './components/PureComfortSection';
 import NewsletterSection from './components/NewsletterSection';
+import FaqSection from './components/FaqSection';
+import ProductBenefitsSection from './components/ProductBenefitsSection';
+import ParallaxBanner from './components/ParallaxBanner';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import ShopPage from './components/ShopPage';
@@ -235,6 +239,7 @@ export default function App() {
       {currentPage === 'home' && (
         <main>
           <HeroSection onNavigate={handleNavigate} />
+          <TrustBanner />
           <NaturalTouchSection onNavigate={handleNavigate} />
           <FeaturedProductsSection 
             onAddToCart={handleAddToCart}
@@ -243,7 +248,10 @@ export default function App() {
             onNavigate={handleNavigate}
           />
           <VideoSection />
+          <ProductBenefitsSection onNavigate={handleNavigate} />
+          <ParallaxBanner onNavigate={handleNavigate} />
           <PureComfortSection onNavigate={handleNavigate} />
+          <FaqSection />
           <NewsletterSection />
         </main>
       )}
