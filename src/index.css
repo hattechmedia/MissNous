@@ -390,9 +390,17 @@
   will-change: opacity, transform;
 }
 
+.reveal-down {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
 .reveal-left.is-visible,
 .reveal-right.is-visible,
 .reveal-up.is-visible,
+.reveal-down.is-visible,
 .reveal-scale.is-visible {
   opacity: 1;
   transform: translateX(0) translateY(0) scale(1);

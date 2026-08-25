@@ -386,10 +386,10 @@ export default function UserPanel({
                             <img src={item.image} alt={item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />
                             <div>
                               <p className="text-xs sm:text-sm font-semibold text-[#2B2225]">{item.title}</p>
-                              <p className="text-xs text-[#5A4B50]">Qty: {item.quantity} • Rs. {item.price}</p>
+                              <p className="text-xs text-[#5A4B50]">Qty: {item.quantity} • ${item.price}</p>
                             </div>
                           </div>
-                          <p className="text-xs sm:text-sm font-bold text-[#9E3F5C]">Rs. {item.price * item.quantity}</p>
+                          <p className="text-xs sm:text-sm font-bold text-[#9E3F5C]">${item.price * item.quantity}</p>
                         </div>
                       ))}
                     </div>
@@ -448,7 +448,7 @@ export default function UserPanel({
                             <div className="flex items-center gap-4">
                               <div className="text-right">
                                 <span className="text-[11px] text-[#A09095] block uppercase font-bold">Total Amount</span>
-                                <span className="font-sans text-base font-bold text-[#9E3F5C]">Rs. {order.total}</span>
+                                <span className="font-sans text-base font-bold text-[#9E3F5C]">${order.total}</span>
                               </div>
                               <button
                                 onClick={() => setSelectedOrderDetails(order)}
@@ -493,7 +493,7 @@ export default function UserPanel({
                                 <img src={item.image} alt={item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />
                                 <div>
                                   <h4 className="font-sans text-xs font-bold text-[#2B2225]">{item.title}</h4>
-                                  <p className="font-sans text-xs text-[#5A4B50]">Qty: {item.quantity} × Rs. {item.price}</p>
+                                  <p className="font-sans text-xs text-[#5A4B50]">Qty: {item.quantity} × ${item.price}</p>
                                 </div>
                               </div>
                             ))}
@@ -772,10 +772,10 @@ export default function UserPanel({
                       <img src={item.image} alt={item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />
                       <div>
                         <p className="text-xs sm:text-sm font-bold text-[#2B2225]">{item.title}</p>
-                        <p className="text-xs text-[#5A4B50]">Quantity: {item.quantity} × Rs. {item.price}</p>
+                        <p className="text-xs text-[#5A4B50]">Quantity: {item.quantity} × ${item.price}</p>
                       </div>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-[#9E3F5C]">Rs. {item.price * item.quantity}</p>
+                    <p className="text-xs sm:text-sm font-bold text-[#9E3F5C]">${item.price * item.quantity}</p>
                   </div>
                 ))}
               </div>
@@ -792,7 +792,7 @@ export default function UserPanel({
               <div className="bg-white p-4 rounded-2xl border border-[#F7D6DF] space-y-1">
                 <h5 className="text-xs font-bold uppercase text-[#D4AF6A]">Payment Method</h5>
                 <p className="text-xs font-medium text-[#2B2225]">{selectedOrderDetails.paymentMethod || 'Credit Card'}</p>
-                <p className="text-xs text-[#9E3F5C] font-bold">Total Paid: Rs. {selectedOrderDetails.total}</p>
+                <p className="text-xs text-[#9E3F5C] font-bold">Total Paid: ${selectedOrderDetails.total}</p>
               </div>
             </div>
 

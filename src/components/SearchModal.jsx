@@ -141,7 +141,7 @@ export default function SearchModal({ isOpen, onClose, onAddToCart, onToggleWish
                       </h4>
                       
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-sm font-bold text-[#9E3F5C]">Rs. {product.price}</span>
+                        <span className="text-sm font-bold text-[#9E3F5C]">${product.price}</span>
                         <div className="flex items-center gap-0.5">
                           <Star className="w-3 h-3 fill-[#D4AF6A] text-[#D4AF6A]" />
                           <span className="text-[11px] font-semibold text-[#2B2225]">{product.rating || 4.9}</span>
@@ -255,7 +255,7 @@ export default function SearchModal({ isOpen, onClose, onAddToCart, onToggleWish
                 )}
 
                 <div className="text-xl font-bold text-[#9E3F5C] pt-1">
-                  Rs. {selectedProduct.price}
+                  ${selectedProduct.price}
                 </div>
 
                 <p className="font-sans text-xs text-[#5A4B50] leading-relaxed pt-2 border-t border-[#F7D6DF]/60">

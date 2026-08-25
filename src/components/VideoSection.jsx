@@ -10,7 +10,7 @@ export default function VideoSection() {
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#F7D6DF]/50 rounded-full blur-[100px] pointer-events-none animate-pulse-glow"></div>
       <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-80 h-80 bg-[#E8D3A5]/40 rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto text-center relative z-10">
+      <div className="max-w-6xl mx-auto text-center relative z-10 reveal-up">
         
         {/* Animated Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs mb-4 animate-float">

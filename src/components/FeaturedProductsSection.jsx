@@ -101,7 +101,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                 <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
                   <div className="flex items-baseline gap-3">
                     <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                      Rs. {product.price}
+                      ${product.price}
                     </span>
                   </div>
 
@@ -185,7 +185,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
 
                 <div className="pt-1">
                   <span className="text-2xl font-bold text-[#9E3F5C]">
-                    Rs. {selectedProduct.price}
+                    ${selectedProduct.price}
                   </span>
                 </div>
 

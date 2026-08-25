@@ -3,9 +3,11 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import TrustBanner from './components/TrustBanner';
 import NaturalTouchSection from './components/NaturalTouchSection';
+import SkinRitualSection from './components/SkinRitualSection';
 import FeaturedProductsSection from './components/FeaturedProductsSection';
 import VideoSection from './components/VideoSection';
 import PureComfortSection from './components/PureComfortSection';
+import TestimonialsSection from './components/TestimonialsSection';
 import NewsletterSection from './components/NewsletterSection';
 import FaqSection from './components/FaqSection';
 import ProductBenefitsSection from './components/ProductBenefitsSection';
@@ -80,7 +82,7 @@ export default function App() {
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     const observeAll = () => {
-      const elements = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up, .reveal-scale');
+      const elements = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up, .reveal-scale, .reveal-down');
       elements.forEach(el => observer.observe(el));
     };
 
@@ -250,8 +252,10 @@ export default function App() {
           <VideoSection />
           <ProductBenefitsSection onNavigate={handleNavigate} />
           <ParallaxBanner onNavigate={handleNavigate} />
+          <SkinRitualSection onNavigate={handleNavigate} />
           <PureComfortSection onNavigate={handleNavigate} />
           <FaqSection />
+          <TestimonialsSection />
           <NewsletterSection />
         </main>
       )}

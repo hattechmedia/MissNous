@@ -74,7 +74,7 @@ export default function WishlistDrawer({ isOpen, onClose, wishlistItems, onRemov
                       {item.name}
                     </h4>
                     <span className="text-sm font-bold text-[#9E3F5C] block">
-                      Rs. {item.price}
+                      ${item.price}
                     </span>
 
                     <div className="flex items-center gap-2 mt-2">

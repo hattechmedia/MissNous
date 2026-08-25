@@ -86,7 +86,7 @@ export default function TrustBanner() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF6A]/60 to-transparent pointer-events-none"></div>
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF6A]/60 to-transparent pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto reveal-up">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0 lg:divide-x lg:divide-[#D96B8A]/40">
           
           {trustItems.map((item) => {

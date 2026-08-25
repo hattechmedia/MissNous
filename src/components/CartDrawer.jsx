@@ -106,7 +106,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                       </div>
 
                       <span className="text-sm font-bold text-[#9E3F5C]">
-                        Rs. {item.price * item.quantity}
+                        ${item.price * item.quantity}
                       </span>
                     </div>
 
@@ -123,7 +123,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               <div className="space-y-2 font-sans">
                 <div className="flex justify-between text-sm text-[#5A4B50]">
                   <span>Subtotal</span>
-                  <span className="font-medium text-[#2B2225]">Rs. {subtotal}</span>
+                  <span className="font-medium text-[#2B2225]">${subtotal}</span>
                 </div>
                 <div className="flex justify-between text-sm text-[#5A4B50]">
                   <span>Shipping</span>
@@ -131,7 +131,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 </div>
                 <div className="flex justify-between text-base font-bold text-[#2B2225] pt-2 border-t border-[#F7D6DF]">
                   <span>Total</span>
-                  <span className="text-[#9E3F5C]">Rs. {subtotal}</span>
+                  <span className="text-[#9E3F5C]">${subtotal}</span>
                 </div>
               </div>
 

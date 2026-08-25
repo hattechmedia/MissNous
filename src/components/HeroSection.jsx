@@ -1,76 +1,25 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { Sparkles } from 'lucide-react';
-import video2 from '../assets/video-2.mp4';
+import video6 from '../assets/video-6.mp4';
 
 import { PRODUCTS } from '../data/products';
 
 export default function HeroSection({ onNavigate }) {
-  const videoRef = useRef(null);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Start time set to 3.8s to skip initial product frame & resolution shift
-    const START_TIME = 3.8;
-
-    const handleLoadedMetadata = () => {
-      if (video.currentTime < START_TIME) {
-        video.currentTime = START_TIME;
-      }
-    };
-
-    const handleTimeUpdate = () => {
-      if (video.currentTime >= START_TIME) {
-        if (!isVideoReady) setIsVideoReady(true);
-      } else {
-        video.currentTime = START_TIME;
-      }
-      if (video.duration && video.currentTime >= video.duration - 0.4) {
-        video.currentTime = START_TIME;
-      }
-    };
-
-    const handleEnded = () => {
-      video.currentTime = START_TIME;
-      video.play().catch(() => {});
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('loadeddata', handleLoadedMetadata);
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('ended', handleEnded);
-
-    if (video.currentTime >= START_TIME) {
-      setIsVideoReady(true);
-    }
-
-    return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('loadeddata', handleLoadedMetadata);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('ended', handleEnded);
-    };
-  }, [isVideoReady]);
-
   return (
     <section className="relative overflow-hidden bg-[#2B2225] min-h-[440px] sm:min-h-[500px] lg:min-h-[560px] pt-28 sm:pt-32 pb-16 sm:pb-20 flex items-center justify-center px-4 sm:px-8 lg:px-16 border-b border-[#F7D6DF]/60">
       
       {/* Background Video Animation Extending Behind Navbar with Seamless Loop */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#2B2225]">
         <video 
-          ref={videoRef}
-          src={video2}
+          src={video6}
           autoPlay 
+          loop
           muted 
           playsInline 
-          className={`w-full h-full object-cover object-center scale-[1.05] transition-opacity duration-500 ${
-            isVideoReady ? 'opacity-100' : 'opacity-0'
-          }`}
+          className="w-full h-full object-cover object-center scale-[1.05]"
         />
-        {/* Subtle Dark Overlay for optimal text readability */}
-        <div className="absolute inset-0 bg-black/25"></div>
+        {/* Higher Opacity Dark Overlay for maximum text readability & cinematic look */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/55 to-black/65 backdrop-blur-[1px]"></div>
       </div>
 
       {/* Floating Ambient Glow Effect */}

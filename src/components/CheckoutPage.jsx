@@ -268,7 +268,7 @@ export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAdd
                       <h5 className="text-xs font-semibold text-[#2B2225] truncate">{item.name}</h5>
                       <span className="text-[11px] text-[#A09095]">Qty: {item.quantity}</span>
                     </div>
-                    <span className="text-xs font-bold text-[#9E3F5C]">Rs. {item.price * item.quantity}</span>
+                    <span className="text-xs font-bold text-[#9E3F5C]">${item.price * item.quantity}</span>
                   </div>
                 ))}
               </div>
@@ -277,7 +277,7 @@ export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAdd
               <div className="space-y-2 pt-4 border-t border-[#F7D6DF] text-xs font-sans text-[#5A4B50]">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-medium text-[#2B2225]">Rs. {subtotal}</span>
+                  <span className="font-medium text-[#2B2225]">${subtotal}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
@@ -285,12 +285,12 @@ export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAdd
                 </div>
                 <div className="flex justify-between">
                   <span>Estimated Tax (5%)</span>
-                  <span className="font-medium text-[#2B2225]">Rs. {tax.toFixed(2)}</span>
+                  <span className="font-medium text-[#2B2225]">${tax.toFixed(2)}</span>
                 </div>
 
                 <div className="flex justify-between text-base font-bold text-[#2B2225] pt-3 border-t border-[#F7D6DF]">
                   <span>Total Amount</span>
-                  <span className="text-[#9E3F5C]">Rs. {total.toFixed(2)}</span>
+                  <span className="text-[#9E3F5C]">${total.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -299,7 +299,7 @@ export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAdd
                 type="submit"
                 className="w-full py-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                Place Order (Rs. {total.toFixed(2)})
+                Place Order (${total.toFixed(2)})
               </button>
 
               <div className="text-center text-[11px] text-[#A09095] space-y-1">

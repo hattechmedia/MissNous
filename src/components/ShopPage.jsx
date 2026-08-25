@@ -220,7 +220,7 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                   
                   <div className="flex items-baseline gap-3">
                     <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                      Rs. {product.price}
+                      ${product.price}
                     </span>
                   </div>
 
@@ -307,7 +307,7 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
 
                 <div className="pt-1">
                   <span className="text-2xl font-bold text-[#9E3F5C]">
-                    Rs. {selectedProduct.price}
+                    ${selectedProduct.price}
                   </span>
                 </div>
 

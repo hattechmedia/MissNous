@@ -1,13 +1,64 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, ShieldCheck, Heart, Award, Leaf, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ShieldCheck, Heart, Award, Leaf, Lock, ArrowRight, CheckCircle2, Star } from 'lucide-react';
+import img1 from '../assets/img-1.jpg';
+import img2 from '../assets/img-2.jpg';
 import image4 from '../assets/image-4.jpeg';
 import image7 from '../assets/image-7.jpeg';
 import image8 from '../assets/image-8.png';
 import image9 from '../assets/image-9.png';
+import image10 from '../assets/Imagr-10.png';
+import image11 from '../assets/image-11.png';
+import image12 from '../assets/image-12.jpeg';
+import image13 from '../assets/image-13.jpeg';
+
+function CounterNumber({ endValue, decimalPlaces = 0, suffix = '' }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    let timer;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        let start = 0;
+        const duration = 1400;
+        const steps = 45;
+        const stepTime = duration / steps;
+        const increment = endValue / steps;
+
+        timer = setInterval(() => {
+          start += increment;
+          if (start >= endValue) {
+            setCount(endValue);
+            clearInterval(timer);
+          } else {
+            setCount(start);
+          }
+        }, stepTime);
+      }
+    }, { threshold: 0.1 });
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => {
+      if (timer) clearInterval(timer);
+      observer.disconnect();
+    };
+  }, [endValue]);
+
+  return (
+    <span ref={ref}>
+      {decimalPlaces > 0 ? count.toFixed(decimalPlaces) : Math.floor(count)}
+      {suffix}
+    </span>
+  );
+}
 
 export default function AboutPage({ onNavigate }) {
   const section3Ref = useRef(null);
   const [isSection3Visible, setIsSection3Visible] = useState(false);
+
+  const showcaseRef = useRef(null);
+  const [isShowcaseVisible, setIsShowcaseVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,6 +76,25 @@ export default function AboutPage({ onNavigate }) {
       if (section3Ref.current) {
         observer.unobserve(section3Ref.current);
       }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsShowcaseVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (showcaseRef.current) {
+      observer.observe(showcaseRef.current);
+    }
+
+    return () => {
+      if (showcaseRef.current) observer.unobserve(showcaseRef.current);
     };
   }, []);
 
@@ -224,6 +294,137 @@ export default function AboutPage({ onNavigate }) {
 
           </div>
 
+        </div>
+      </section>
+
+      {/* 3.5 POPULAR RITUALS SHOWCASE SECTION (Right after Our Approach) */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-b border-[#F7D6DF]/60 relative overflow-hidden font-sans">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+            
+            {/* LEFT COLUMN: 3 Vertically Stacked Animated Counter Lines (Slides in from Left) */}
+            <div className="lg:col-span-4 flex flex-col justify-between h-full min-h-[460px] sm:min-h-[500px] reveal-left py-1 space-y-6">
+              
+              {/* Top Text Block */}
+              <div className="space-y-3.5">
+                {/* Eyebrow Badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF] shadow-xs w-fit">
+                  <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+                  <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                    Bestseller Showcase
+                  </span>
+                </div>
+
+                {/* Main Copy */}
+                <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
+                  Shop our most popular products, trusted by beauty lovers everywhere.
+                </h3>
+
+                {/* Refined Description Paragraph */}
+                <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
+                  Discover Miss Nous signature organic formulations, precisely crafted in Paris with natural botanicals to hydrate, repair, and protect your skin for long-lasting confidence.
+                </p>
+              </div>
+
+              {/* 3 VERTICALLY STACKED ANIMATED COUNTER LINES (1 COUNTER PER LINE / ROW) */}
+              <div className="space-y-3.5 py-4 border-y border-[#F7D6DF]/80">
+                
+                {/* Line 1: Counter 1 */}
+                <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/90 border border-[#F7D6DF] shadow-xs group hover:shadow-pink-glow transition-all duration-300">
+                  <div className="w-10 h-10 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] shadow-xs flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Heart className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="font-sans text-xl font-bold text-[#9E3F5C] leading-none">
+                      <CounterNumber endValue={500} suffix="+" />
+                    </div>
+                    <div className="font-sans text-xs font-semibold text-[#2B2225] mt-1">
+                      Happy Clients & Beauty Lovers
+                    </div>
+                  </div>
+                </div>
+
+                {/* Line 2: Counter 2 */}
+                <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/90 border border-[#F7D6DF] shadow-xs group hover:shadow-gold-glow transition-all duration-300">
+                  <div className="w-10 h-10 rounded-full bg-[#FFF9F5] border border-[#E8D3A5] flex items-center justify-center text-[#D4AF6A] shadow-xs flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Star className="w-5 h-5 fill-[#D4AF6A]" />
+                  </div>
+                  <div>
+                    <div className="font-sans text-xl font-bold text-[#2B2225] leading-none">
+                      <CounterNumber endValue={4.9} decimalPlaces={1} suffix="/5" />
+                    </div>
+                    <div className="font-sans text-xs font-semibold text-[#2B2225] mt-1">
+                      Customer Rating Across Europe
+                    </div>
+                  </div>
+                </div>
+
+                {/* Line 3: Counter 3 */}
+                <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/90 border border-[#F7D6DF] shadow-xs group hover:shadow-pink-glow transition-all duration-300">
+                  <div className="w-10 h-10 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] shadow-xs flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="font-sans text-xl font-bold text-[#9E3F5C] leading-none">
+                      <CounterNumber endValue={100} suffix="%" />
+                    </div>
+                    <div className="font-sans text-xs font-semibold text-[#2B2225] mt-1">
+                      Organic Botanical Quality & Care
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* CTA Pill Button matching Homepage Subscribe button style */}
+              <div>
+                <button
+                  onClick={() => onNavigate && onNavigate('shop')}
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-[#9E3F5C] via-[#D96B8A] to-[#9E3F5C] hover:brightness-110 text-[#FFF9F5] font-sans text-xs uppercase tracking-widest font-bold rounded-full shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+                >
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>VIEW ALL PRODUCTS</span>
+                </button>
+              </div>
+
+            </div>
+
+            {/* MIDDLE COLUMN: Large Featured Product Card (image-12.jpeg) - Moves DOWN from TOP */}
+            <div className="lg:col-span-5 flex flex-col reveal-down">
+              <div className="relative rounded-none overflow-hidden shadow-luxury bg-white group h-full min-h-[460px] sm:min-h-[500px] flex items-center justify-center">
+                <img 
+                  src={image12} 
+                  alt="Miss Nous Bestselling Botanical Product" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-30 pointer-events-none"></div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: image-13 moves DOWN from TOP, image-11 moves UP from BOTTOM */}
+            <div className="lg:col-span-3 flex flex-col gap-4 h-full min-h-[460px] sm:min-h-[500px] justify-between">
+              
+              {/* Top Card: image-13.jpeg (38% Height) - Moves DOWN from TOP */}
+              <div className="h-[38%] relative rounded-none overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-down">
+                <img 
+                  src={image13} 
+                  alt="Miss Nous Formula Bottle" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Bottom Card: image-11.png (Remaining Height) - Moves UP from BOTTOM */}
+              <div className="flex-1 relative rounded-none overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
+                <img 
+                  src={image11} 
+                  alt="Miss Nous Skincare Model" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </section>
 

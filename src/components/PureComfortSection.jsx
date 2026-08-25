@@ -9,7 +9,7 @@ export default function PureComfortSection({ onNavigate }) {
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-center">
         
         {/* LEFT SIDE: Text Content */}
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-6 text-left p-6 sm:p-12 lg:p-20 order-2 lg:order-1">
+        <div className="lg:col-span-6 flex flex-col justify-center space-y-6 text-left p-6 sm:p-12 lg:p-20 order-2 lg:order-1 reveal-left">
           
           {/* Eyebrow / Subheading Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#F7D6DF] shadow-xs w-fit">
@@ -42,7 +42,7 @@ export default function PureComfortSection({ onNavigate }) {
         </div>
 
         {/* RIGHT SIDE: image-4 banner with NO spacing around section and NO rounded corners */}
-        <div className="lg:col-span-6 relative order-1 lg:order-2 w-full h-full min-h-[380px] sm:min-h-[480px]">
+        <div className="lg:col-span-6 relative order-1 lg:order-2 w-full h-full min-h-[380px] sm:min-h-[480px] reveal-right">
           <img 
             src={image4} 
             alt="Miss Nous Hydrating Serum" 

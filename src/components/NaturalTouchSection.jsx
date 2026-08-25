@@ -11,7 +11,7 @@ export default function NaturalTouchSection({ onNavigate }) {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
         {/* LEFT SIDE: Staggered 3-Image Gallery matching reference layout */}
-        <div className="lg:col-span-6 relative">
+        <div className="lg:col-span-6 relative reveal-left">
           
           {/* Subtle Decorative Dot Grid Graphic in background */}
           <div className="absolute -bottom-6 -right-4 w-40 h-40 opacity-30 pointer-events-none z-0">
@@ -65,7 +65,7 @@ export default function NaturalTouchSection({ onNavigate }) {
         </div>
 
         {/* RIGHT SIDE: Content & Copy matching exact reference text layout */}
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-6 text-left">
+        <div className="lg:col-span-6 flex flex-col justify-center space-y-6 text-left reveal-right">
           
           {/* Subheading / Eyebrow Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#F7D6DF] shadow-xs w-fit">
