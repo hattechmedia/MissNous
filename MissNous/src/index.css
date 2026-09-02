@@ -1,0 +1,407 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* User Specified Luxury Palette */
+    --color-primary-pink: #D96B8A;
+    --color-deep-pink: #9E3F5C;
+    --color-light-pink: #F7D6DF;
+
+    --color-primary-gold: #D4AF6A;
+    --color-dark-gold: #B88A3B;
+    --color-light-gold: #E8D3A5;
+
+    --color-background: #FDF2F5;
+    --color-cream: #FFF9F5;
+    --color-text: #2B2225;
+
+    /* Fonts */
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Poppins', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html {
+    scroll-behavior: auto;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+
+  ::selection {
+    background-color: #F7D6DF;
+    color: #9E3F5C;
+  }
+}
+
+/* Custom Typography Utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Gold Gradient & Shimmer Effects */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #D4AF6A 0%, #E8D3A5 50%, #B88A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #D4AF6A 0%, #E8D3A5 50%, #B88A3B 100%);
+}
+
+.rose-gold-gradient {
+  background: linear-gradient(135deg, #9E3F5C 0%, #D96B8A 50%, #D4AF6A 100%);
+}
+
+.bg-blush-soft {
+  background-color: #FDF2F5;
+}
+
+.bg-cream-soft {
+  background-color: #FFF9F5;
+}
+
+/* Glassmorphism Navigation & Cards */
+.glass-nav {
+  background: rgba(253, 242, 245, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(247, 214, 223, 0.5);
+}
+
+.glass-card {
+  background: rgba(255, 249, 245, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(247, 214, 223, 0.6);
+}
+
+/* Custom Shadows */
+.shadow-pink-glow {
+  box-shadow: 0 12px 35px -8px rgba(217, 107, 138, 0.25);
+}
+
+.shadow-gold-glow {
+  box-shadow: 0 12px 35px -8px rgba(212, 175, 106, 0.25);
+}
+
+.shadow-luxury {
+  box-shadow: 0 20px 40px -15px rgba(43, 34, 37, 0.08);
+}
+
+/* Luxury Button System */
+.btn-primary-rose {
+  background-color: #9E3F5C;
+  color: #FFF9F5;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(158, 63, 92, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-primary-rose:hover {
+  background-color: #823049;
+  box-shadow: 0 8px 25px rgba(158, 63, 92, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary-gold {
+  background: linear-gradient(135deg, #D4AF6A 0%, #E8D3A5 50%, #B88A3B 100%);
+  color: #2B2225;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 18px rgba(212, 175, 106, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-secondary-gold:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 28px rgba(212, 175, 106, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn-outline-dark {
+  background: transparent;
+  color: #141416;
+  border: 1px solid rgba(20, 20, 22, 0.25);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-outline-dark:hover {
+  border-color: #141416;
+  background: rgba(20, 20, 22, 0.04);
+  transform: translateY(-1px);
+}
+
+.btn-ghost-rose {
+  background: transparent;
+  color: #4C0519;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-ghost-rose:hover {
+  background: rgba(254, 236, 239, 0.6);
+}
+
+/* Keyframe Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Gold Shimmer Overlay */
+.shimmer-badge {
+  background: linear-gradient(90deg, #FAF7F2 0%, #F5E9C9 50%, #FAF7F2 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(158, 63, 92, 0.3);
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(158, 63, 92, 0.7);
+}
+
+/* Firefox scrollbar support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(158, 63, 92, 0.35) transparent;
+}
+
+/* Utility to hide scrollbar when needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Entrance Animations for Our Approach Floating Stage */
+@keyframes cardFloatFromTopRight {
+  0% {
+    opacity: 0;
+    transform: translate(40px, -40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes cardFloatFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate(-50px, 0) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes cardFloatFromRight {
+  0% {
+    opacity: 0;
+    transform: translate(50px, 0) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes cardFloatFromBottomLeft {
+  0% {
+    opacity: 0;
+    transform: translate(-40px, 40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes buttonPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-15deg);
+  }
+  70% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-card-top-right {
+  animation: cardFloatFromTopRight 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.animate-card-left {
+  animation: cardFloatFromLeft 1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.animate-card-right {
+  animation: cardFloatFromRight 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.animate-card-bottom-left {
+  animation: cardFloatFromBottomLeft 1s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
+}
+
+.animate-button-pop {
+  animation: buttonPopIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
+}
+
+/* Scroll Reveal Animations */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(45px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-down {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-up.is-visible,
+.reveal-down.is-visible,
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+}

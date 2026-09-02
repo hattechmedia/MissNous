@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Miss Nous Luxury Design Palette */
+    --color-primary-pink: #D96B8A;
+    --color-deep-pink: #9E3F5C;
+    --color-light-pink: #F7D6DF;
+
+    --color-primary-gold: #D4AF6A;
+    --color-dark-gold: #B88A3B;
+    --color-light-gold: #E8D3A5;
+
+    --color-background: #FDF2F5;
+    --color-cream: #FFF9F5;
+    --color-text: #2B2225;
+
+    /* Fonts */
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Poppins', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+
+  ::selection {
+    background-color: #F7D6DF;
+    color: #9E3F5C;
+  }
+
+  /* Lock body and main scroll container when modal is open */
+  body.modal-open,
+  body.modal-open #admin-main-scroll {
+    overflow: hidden !important;
+  }
+}
+
+/* Custom Typography Utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Luxury Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #D4AF6A 0%, #E8D3A5 50%, #B88A3B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rose-gold-gradient {
+  background: linear-gradient(135deg, #9E3F5C 0%, #D96B8A 50%, #D4AF6A 100%);
+}
+
+.bg-blush-soft {
+  background-color: #FDF2F5;
+}
+
+.bg-cream-soft {
+  background-color: #FFF9F5;
+}
+
+/* Custom Shadows & Glows */
+.shadow-pink-glow {
+  box-shadow: 0 12px 35px -8px rgba(158, 63, 92, 0.25);
+}
+
+.shadow-gold-glow {
+  box-shadow: 0 12px 35px -8px rgba(212, 175, 106, 0.25);
+}
+
+.shadow-luxury {
+  box-shadow: 0 20px 40px -15px rgba(43, 34, 37, 0.08);
+}
+
+.shadow-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shadow-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -12px rgba(158, 63, 92, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Hide scrollbar completely on modals so no vertical bar/line appears on the side */
+.custom-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MissNous Storage Bridge</title>
+</head>
+<body>
+  <script>
+    (function() {
+      const STORAGE_KEY = 'missnous_products';
+      const CATEGORIES_KEY = 'missnous_categories';
+
+      window.addEventListener('message', function(event) {
+        try {
+          const data = event.data;
+          if (!data || typeof data !== 'object') return;
+
+          if (data.type === 'SYNC_PRODUCTS' && Array.isArray(data.products)) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data.products));
+            window.dispatchEvent(new Event('missnous_data_changed'));
+            if ('BroadcastChannel' in window) {
+              const bc = new BroadcastChannel('missnous_channel');
+              bc.postMessage({ type: 'SYNC_PRODUCTS', products: data.products });
+              bc.close();
+            }
+          } else if (data.type === 'SYNC_CATEGORIES' && Array.isArray(data.categories)) {
+            localStorage.setItem(CATEGORIES_KEY, JSON.stringify(data.categories));
+            window.dispatchEvent(new Event('missnous_data_changed'));
+          } else if (data.type === 'REQUEST_PRODUCTS') {
+            const current = localStorage.getItem(STORAGE_KEY);
+            if (event.source && event.source.postMessage) {
+              event.source.postMessage({
+                type: 'PRODUCTS_RESPONSE',
+                products: current ? JSON.parse(current) : null
+              }, '*');
+            }
+          }
+        } catch (e) {
+          console.error('Storage bridge error:', e);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
