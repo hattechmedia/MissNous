@@ -15,6 +15,7 @@ import ParallaxBanner from './components/ParallaxBanner';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import ShopPage from './components/ShopPage';
+import ProductDetailPage from './components/ProductDetailPage';
 import CheckoutPage from './components/CheckoutPage';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
@@ -50,6 +51,7 @@ export default function App() {
   // Cart & Wishlist (session-only, no DB needed)
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Drawer states
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -154,6 +156,12 @@ export default function App() {
     setIsAuthModalOpen(true);
   };
 
+  const handleViewProduct = (product) => {
+    setSelectedProduct(product);
+    setCurrentPage('product-detail');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  };
+
   // Called by AuthModal after successful login/signup via API
   const handleLoginSuccess = (userData) => {
     setCurrentUser(userData);
@@ -161,8 +169,12 @@ export default function App() {
       localStorage.setItem('missnous_current_user', JSON.stringify(userData));
     } catch (e) {}
     setIsAuthModalOpen(false);
-    setCurrentPage('account');
-    setUserPanelTab('dashboard');
+    if (currentPage === 'product-detail' || (cartItems && cartItems.length > 0)) {
+      setCurrentPage('checkout');
+    } else {
+      setCurrentPage('account');
+      setUserPanelTab('dashboard');
+    }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
@@ -211,17 +223,20 @@ export default function App() {
   };
 
   // Cart Operations
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product, quantityToAdd = 1, openCart = true) => {
     setCartItems(prev => {
-      const existing = prev.find(item => item._id === product._id);
+      const pId = product._id || product.id;
+      const existing = prev.find(item => (item._id || item.id) === pId);
       if (existing) {
         return prev.map(item =>
-          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+          (item._id || item.id) === pId ? { ...item, quantity: item.quantity + (quantityToAdd || 1) } : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: quantityToAdd || 1 }];
     });
-    setIsCartOpen(true);
+    if (openCart) {
+      setIsCartOpen(true);
+    }
   };
 
   const handleUpdateCartQty = (id, delta) => {
@@ -284,6 +299,7 @@ export default function App() {
             wishlistItems={wishlistItems}
             onNavigate={handleNavigate}
             products={products}
+            onViewProduct={handleViewProduct}
           />
           <VideoSection />
           <ProductBenefitsSection onNavigate={handleNavigate} />
@@ -309,6 +325,23 @@ export default function App() {
             onNavigate={handleNavigate}
             products={products}
             categories={categories}
+            onViewProduct={handleViewProduct}
+          />
+        </main>
+      )}
+
+      {currentPage === 'product-detail' && (
+        <main>
+          <ProductDetailPage
+            product={selectedProduct || products[0]}
+            products={products}
+            onAddToCart={handleAddToCart}
+            onNavigate={handleNavigate}
+            onViewProduct={handleViewProduct}
+            onToggleWishlist={handleToggleWishlist}
+            wishlistItems={wishlistItems}
+            currentUser={currentUser}
+            onOpenAuthModal={handleOpenAuthModal}
           />
         </main>
       )}
@@ -363,6 +396,7 @@ export default function App() {
         wishlistItems={wishlistItems}
         products={products}
         categories={categories}
+        onViewProduct={handleViewProduct}
       />
 
       <WishlistDrawer

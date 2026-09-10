@@ -3,7 +3,7 @@ import { Sparkles, ShoppingBag, Eye, Heart, CheckCircle2, ArrowRight, ArrowLeft,
 import video3 from '../assets/video-3.mp4';
 import { PRODUCTS } from '../data/products';
 
-export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems = [], onNavigate, products = PRODUCTS, categories = [] }) {
+export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems = [], onNavigate, products = PRODUCTS, categories = [], onViewProduct }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -155,9 +155,9 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
         </div>
       </section>
 
-      {/* 3. COMPACT PRODUCT SHOWCASE GRID */}
-      <section className="py-6 sm:py-12 pb-20 px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-stretch">
+      {/* 3. ELEGANT PRODUCT SHOWCASE GRID */}
+      <section className="py-6 sm:py-12 pb-20 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch justify-items-center">
           
           {filteredProducts.length === 0 ? (
             <div className="col-span-2 text-center py-20 text-[#A09095]">
@@ -166,16 +166,19 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
           ) : filteredProducts.map((product, idx) => (
             <div 
               key={product._id || product.id}
-              className={`bg-white rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-6 relative ${
+              className={`w-full max-w-[580px] bg-white rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-7 sm:p-10 relative ${
                 idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
               }`}
             >
               
               {/* Product Image Stage - 100% Un-cropped, Aligned & Centered */}
-              <div className="relative h-56 sm:h-64 lg:h-72 w-full rounded-2xl overflow-hidden mb-4 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-4 flex items-center justify-center group shadow-xs">
+              <div 
+                onClick={() => onViewProduct && onViewProduct(product)}
+                className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-6 flex items-center justify-center group shadow-xs cursor-pointer"
+              >
                 
                 {/* Soft Radial Ambient Glow */}
-                <div className="absolute inset-0 m-auto w-40 h-40 bg-[#D4AF6A]/20 rounded-full blur-2xl pointer-events-none"></div>
+                <div className="absolute inset-0 m-auto w-56 h-56 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
 
                 {/* 100% Un-cropped Bottle Image - Straight, Centered & Un-clipped */}
                 <img 
@@ -186,16 +189,19 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
               </div>
 
               {/* Product Info */}
-              <div className="space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-4 flex-1 flex flex-col justify-between text-left">
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
+                    <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
                       {product.category}
                     </span>
                   </div>
                   
-                  <h3 className="font-sans text-xl sm:text-2xl font-medium text-[#2B2225] leading-snug">
+                  <h3 
+                    onClick={() => onViewProduct && onViewProduct(product)}
+                    className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                  >
                     {product.name}
                   </h3>
 
@@ -213,20 +219,20 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <button
-                      onClick={() => setSelectedProduct(product)}
-                      className="w-full py-3 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors"
+                      onClick={() => onViewProduct && onViewProduct(product)}
+                      className="w-full py-3.5 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
-                      <Eye className="w-3.5 h-3.5 text-[#D4AF6A]" />
+                      <Eye className="w-4 h-4 text-[#D4AF6A]" />
                       <span>View Product</span>
                     </button>
 
                     <button
                       onClick={() => onAddToCart && onAddToCart(product)}
-                      className="w-full py-3 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5"
+                      className="w-full py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
                     >
-                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <ShoppingBag className="w-4 h-4" />
                       <span>Add to Bag</span>
                     </button>
                   </div>
@@ -240,84 +246,6 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
 
         </div>
       </section>
-
-      {/* 4. PRODUCT QUICK DETAILS MODAL */}
-      {selectedProduct && (
-        <div 
-          onClick={() => setSelectedProduct(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md animate-fade-in overflow-y-auto"
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            className="bg-[#FFF9F5] border border-[#F7D6DF] w-full max-w-2xl rounded-3xl shadow-luxury p-6 sm:p-8 relative overflow-y-auto my-auto max-h-[90vh] space-y-6"
-          >
-            
-            <button 
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#FDF2F5] text-[#2B2225] transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-              <div className="sm:col-span-5 bg-[#FDF2F5] rounded-2xl p-5 flex items-center justify-center">
-                <img 
-                  src={selectedProduct.image} 
-                  alt={selectedProduct.name} 
-                  className="max-h-56 w-auto object-contain drop-shadow-md rounded-lg"
-                />
-              </div>
-
-              <div className="sm:col-span-7 space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                    {selectedProduct.category}
-                  </span>
-                </div>
-
-                <h3 className="font-sans text-xl sm:text-2xl font-medium text-[#2B2225]">
-                  {selectedProduct.name}
-                </h3>
-                <p className="font-sans text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
-                  {selectedProduct.description}
-                </p>
-
-                <div className="pt-1">
-                  <span className="text-2xl font-bold text-[#9E3F5C]">
-                    ${selectedProduct.price}
-                  </span>
-                </div>
-
-                {/* Features Checklist */}
-                <div className="space-y-1.5 pt-1">
-                  {selectedProduct.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-[#5A4B50]">
-                      <CheckCircle2 className="w-4 h-4 text-[#9E3F5C]" />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-3">
-                  <button
-                    onClick={() => {
-                      if (onAddToCart) onAddToCart(selectedProduct);
-                      setSelectedProduct(null);
-                    }}
-                    className="w-full py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>Add to Shopping Bag</span>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {/* 5. BOTTOM CTA SECTION */}
       <section className="py-20 sm:py-28 px-6 sm:px-12 lg:px-20 bg-[#FFF9F5] border-t border-[#F7D6DF]/60 text-center">

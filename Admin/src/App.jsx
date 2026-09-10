@@ -304,7 +304,17 @@ export default function App() {
   // ─── Admin Change Password ──────────────────────────────
   const handleUpdateAdminPassword = async (currentPassword, newPass) => {
     try {
-      await api.put('/users/me/password', { currentPassword, newPassword: newPass });
+      const token = currentUser?.token;
+      const res = await fetch('http://localhost:5000/api/users/me/password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ currentPassword, newPassword: newPass })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
       showToast('Password updated successfully!');
     } catch (err) {
       showToast(err.message || 'Failed to update password.');

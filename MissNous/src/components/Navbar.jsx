@@ -69,14 +69,14 @@ export default function Navbar({
     }
   };
 
-  // Determine if navbar should display dark text / solid background (e.g., when scrolled or on Checkout/Account pages)
-  const isDarkTheme = isScrolled || currentPage === 'checkout' || currentPage === 'account';
+  // Determine if navbar should display dark text / solid background (e.g., when scrolled or on Light background pages)
+  const isDarkTheme = isScrolled || currentPage === 'product-detail' || currentPage === 'checkout' || currentPage === 'account' || currentPage === 'contact';
 
   return (
     <>
       {/* Main Navigation Bar */}
       <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isDarkTheme ? 'bg-[#FDF2F5]/90 backdrop-blur-md shadow-luxury py-3' : 'bg-transparent py-4 border-none'
+        isDarkTheme ? 'bg-[#FDF2F5]/95 backdrop-blur-md shadow-luxury py-3 border-b border-[#F7D6DF]/60' : 'bg-transparent py-4 border-none'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ export default function Navbar({
 
             {/* Center Navigation Links (White BG & Pink Text for Selected Nav Item) */}
             <nav className={`hidden md:flex items-center gap-2 sm:gap-3 p-1.5 rounded-full transition-all duration-300 ${
-              isDarkTheme ? 'bg-white/60 border border-[#F7D6DF]/60 shadow-xs' : 'bg-black/15 backdrop-blur-xs border border-white/20'
+              isDarkTheme ? 'bg-white/80 border border-[#F7D6DF] shadow-xs' : 'bg-black/20 backdrop-blur-xs border border-white/20'
             }`}>
               {[
                 { id: 'home', label: 'Home' },
@@ -119,12 +119,14 @@ export default function Navbar({
                     key={item.id}
                     href={`#${item.id}`} 
                     onClick={(e) => handleNavClick(e, item.id)} 
-                    className={`px-4 py-1.5 rounded-full text-sm sm:text-base font-sans font-semibold transition-all duration-300 ${
+                    className={`px-4 py-1.5 rounded-full text-sm sm:text-base font-sans transition-all duration-300 ${
                       isActive 
-                        ? 'bg-white text-[#9E3F5C] shadow-md scale-105 font-bold border border-[#F7D6DF]/40' 
+                        ? isDarkTheme
+                          ? 'bg-[#9E3F5C] text-[#FFF9F5] shadow-md font-bold'
+                          : 'bg-white text-[#9E3F5C] shadow-md font-bold'
                         : isDarkTheme 
-                          ? 'text-[#2B2225] hover:text-[#9E3F5C] hover:bg-white/60' 
-                          : 'text-[#FFF9F5] hover:text-[#FFF9F5] hover:bg-white/20 drop-shadow'
+                          ? 'text-[#2B2225] hover:text-[#9E3F5C] hover:bg-white/60 font-semibold' 
+                          : 'text-[#FFF9F5] hover:text-[#FFF9F5] hover:bg-white/20 font-semibold drop-shadow'
                     }`}
                   >
                     {item.label}

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, CreditCard, CheckCircle2, ArrowLeft, Truck, Sparkles } from 'lucide-react';
 
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
+const BASE_URL = 'http://localhost:5000/api';
 
 export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAddNewOrder, currentUser, onOpenAuthModal, onUpdateUser, fetchUserOrders }) {
   const [orderPlaced, setOrderPlaced] = useState(false);

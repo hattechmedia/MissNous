@@ -640,28 +640,143 @@ export default function AboutPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* 5. CLOSING CTA */}
-      <section className="py-16 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60 text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
+      {/* 5. CLOSING CTA BANNER WITH ORGANIC FLOATING BLOB IMAGES (Fully Mobile Responsive) */}
+      <section className="relative py-12 sm:py-20 lg:py-24 min-h-[340px] sm:min-h-[440px] px-4 sm:px-8 lg:px-16 bg-gradient-to-r from-[#9E3F5C] via-[#8C354E] to-[#7C2F47] text-center overflow-hidden border-t border-[#E8D3A5]/30 flex items-center justify-center">
+        
+        {/* Soft Ambient Background Glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[24rem] sm:w-[44rem] h-[16rem] sm:h-[22rem] bg-[#D4AF6A]/15 rounded-full blur-[90px] sm:blur-[110px] pointer-events-none"></div>
+
+        {/* ORGANIC FLOATING BLOB IMAGES - RESPONSIVE SIZES FOR ALL DEVICES */}
+        
+        {/* Top-Left Organic Blob: image12 */}
+        <div className="absolute top-2 left-2 sm:top-4 sm:left-6 lg:top-6 lg:left-10 w-16 h-12 sm:w-36 sm:h-28 lg:w-44 lg:h-34 rounded-[50%_50%_70%_30%/40%_60%_40%_60%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
+          <img 
+            src={image12} 
+            alt="Miss Nous Bestselling Formula" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+        </div>
+
+        {/* Bottom-Left Organic Blob: image4 */}
+        <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-8 lg:bottom-6 lg:left-14 w-14 h-16 sm:w-32 sm:h-36 lg:w-40 lg:h-44 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
+          <img 
+            src={image4} 
+            alt="Miss Nous Skincare Ritual" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+        </div>
+
+        {/* Top-Right Organic Blob: image11 */}
+        <div className="absolute top-2 right-2 sm:top-4 sm:right-6 lg:top-6 lg:right-10 w-16 h-16 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-[50%_50%_40%_60%/60%_40%_60%_40%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
+          <img 
+            src={image11} 
+            alt="Miss Nous Beauty Model" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+        </div>
+
+        {/* Bottom-Right Organic Blob: image15 */}
+        <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-8 lg:bottom-6 lg:right-14 w-14 h-14 sm:w-30 sm:h-30 lg:w-38 lg:h-38 rounded-[70%_30%_50%_50%/50%_30%_70%_50%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
+          <img 
+            src={image15} 
+            alt="Miss Nous Botanical Care" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+        </div>
+
+        {/* Center Content Box */}
+        <div className="relative z-10 w-full max-w-2xl mx-auto px-2 sm:px-4 space-y-3.5 sm:space-y-5 my-auto">
           
-          <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+          {/* Eyebrow Badge */}
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-[#E8D3A5]/40 shadow-sm">
+            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] animate-pulse" />
+            <span className="font-sans text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#FFF9F5]">
+              Personalised Care
+            </span>
+          </div>
+
+          {/* Main Heading */}
+          <h2 className="font-sans text-xl sm:text-4xl lg:text-5xl font-medium text-[#FFF9F5] tracking-tight leading-snug sm:leading-[1.18] drop-shadow-md">
             Discover Something Made With Care.
           </h2>
 
-          <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed max-w-xl mx-auto">
+          {/* Subtitle */}
+          <p className="font-sans text-xs sm:text-sm lg:text-base text-[#F7D6DF] font-normal leading-relaxed max-w-lg mx-auto drop-shadow-sm">
             Explore our organic intimate lubricants and hydrating facial serums formulated for everyday elegance.
           </p>
 
-          <div className="pt-2">
+          {/* Center Pill Button */}
+          <div className="pt-1.5 sm:pt-2">
             <button 
               onClick={() => onNavigate && onNavigate('shop')}
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-md transition-all duration-300 transform hover:-translate-y-0.5 gap-2"
+              className="inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-3.5 bg-[#FFF9F5] hover:bg-[#E8D3A5] text-[#9E3F5C] hover:text-[#2B2225] font-sans text-xs sm:text-sm font-bold rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 gap-2 cursor-pointer"
             >
               <span>Shop Collection</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
 
+        </div>
+
+      </section>
+
+      {/* 6. BRAND COUNTER & FEATURED IMAGE SECTION (Right below Discover Something Made With Care) */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-b border-[#F7D6DF]/60 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column: Title, Description & ONE Giant Counter Number */}
+            <div className="lg:col-span-6 space-y-8 text-left reveal-left">
+              
+              {/* Eyebrow Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF] shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+                <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                  Pure Purity & Excellence
+                </span>
+              </div>
+
+              {/* Section Title */}
+              <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] leading-[1.18] tracking-tight">
+                Formulated to Perfection for Your Daily Harmony
+              </h2>
+
+              {/* Description Paragraph */}
+              <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+                At Miss Nous, every single batch is crafted in Paris with strict physiological standards. We blend pure organic botanicals with pH 4.5 precision, ensuring gentle skin barrier restoration, deep hydration, and complete peace of mind.
+              </p>
+
+              {/* ONE SINGLE GIANT COUNTER NUMBER */}
+              <div className="pt-4 border-t border-[#F7D6DF] space-y-2">
+                <div className="font-sans text-6xl sm:text-7xl lg:text-8xl font-extrabold text-[#9E3F5C] tracking-tight leading-none">
+                  <CounterNumber endValue={100} suffix="%" />
+                </div>
+                <div className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-wide uppercase pt-1">
+                  Organic & Pure Botanical Formula
+                </div>
+                <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
+                  Zero synthetic preservatives, parabens, or artificial dyes — calibrated for total skin comfort.
+                </p>
+              </div>
+
+            </div>
+
+            {/* Right Column: Featured Image (/image-18.png from public folder) */}
+            <div className="lg:col-span-6 reveal-right flex items-center justify-center">
+              <div className="relative w-full max-w-[540px] mx-auto group flex items-center justify-center">
+                
+                {/* Soft Luxury Glow behind image */}
+                <div className="absolute inset-0 m-auto w-80 h-80 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <img 
+                  src="/image-18.png" 
+                  alt="Miss Nous Botanical Product Care" 
+                  className="relative z-10 w-full h-auto max-h-[620px] object-contain rounded-[2rem] group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 

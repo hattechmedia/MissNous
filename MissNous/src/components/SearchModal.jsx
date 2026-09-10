@@ -9,7 +9,8 @@ export default function SearchModal({
   onToggleWishlist, 
   wishlistItems = [],
   products = PRODUCTS,
-  categories = []
+  categories = [],
+  onViewProduct
 }) {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
@@ -169,11 +170,11 @@ export default function SearchModal({
                         <button 
                           onClick={(e) => {
                             e.stopPropagation();
-                            setSelectedProduct(product);
-                            setQuantity(1);
+                            onClose();
+                            if (onViewProduct) onViewProduct(product);
                           }}
-                          className="p-1.5 rounded-full border border-[#F7D6DF] bg-white text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
-                          title="Quick View"
+                          className="p-1.5 rounded-full border border-[#F7D6DF] bg-white text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors cursor-pointer"
+                          title="View Details"
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>

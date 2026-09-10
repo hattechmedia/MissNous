@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Mail, Lock, User, Eye, EyeOff, CheckCircle2, ArrowRight } from 'lucide-react';
 
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
+const BASE_URL = 'http://localhost:5000/api';
 
 export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab = 'login' }) {
   const [activeTab, setActiveTab] = useState(initialTab);

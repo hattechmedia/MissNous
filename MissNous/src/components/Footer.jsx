@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle2, Send, MapPin } from 'lucide-react';
+import { Mail, CheckCircle2, Send, MapPin, ArrowRight } from 'lucide-react';
 
 export default function Footer({ onNavigate }) {
   const [email, setEmail] = useState('');
@@ -120,25 +120,25 @@ export default function Footer({ onNavigate }) {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-2.5">
-                {/* Gmail / Email Input Field */}
+                {/* Email Input Field Row */}
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9E3F5C]">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#9E3F5C]">
                     <Mail className="w-4 h-4" />
                   </div>
                   <input 
                     type="email" 
                     required
-                    placeholder="Enter your Gmail address"
+                    placeholder="Enter your email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#FFF9F5] border border-[#E8D3A5]/70 rounded-xl pl-9 pr-3 py-2.5 text-xs text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
+                    className="w-full bg-[#FFF9F5] border border-[#E8D3A5] rounded-full pl-10 pr-4 py-2.5 text-xs text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all font-medium"
                   />
                 </div>
 
-                {/* Submit Button */}
+                {/* Separate Row for Subscribe Button */}
                 <button 
                   type="submit"
-                  className="w-full py-2.5 px-4 bg-gradient-to-r from-[#D4AF6A] via-[#E8D3A5] to-[#B88A3B] hover:brightness-110 text-[#2B2225] font-sans text-xs font-bold rounded-xl shadow-md transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-2.5 px-5 bg-gradient-to-r from-[#D4AF6A] via-[#E8D3A5] to-[#B88A3B] hover:brightness-110 text-[#2B2225] font-sans text-xs font-bold rounded-full shadow-md transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Subscribe</span>
                   <Send className="w-3.5 h-3.5" />

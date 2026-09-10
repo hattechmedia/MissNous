@@ -55,54 +55,45 @@ export default function NewsletterSection() {
 
             {/* Right Side Glassmorphic Form Card */}
             <div className="lg:col-span-5 relative z-10 reveal-right">
-              <div className="bg-white/20 backdrop-blur-md p-2.5 sm:p-3.5 rounded-[2rem] border border-[#E8D3A5]/40 shadow-2xl">
+              <div className="bg-white/15 backdrop-blur-md p-2 sm:p-2.5 rounded-full border border-[#E8D3A5]/40 shadow-2xl">
                 
                 {subscribed ? (
-                  <div className="p-4 bg-white/95 border border-[#E8D3A5] rounded-[1.5rem] flex items-center gap-3 text-[#9E3F5C] animate-fade-up">
+                  <div className="p-3.5 sm:p-4 bg-white/95 border border-[#E8D3A5] rounded-full flex items-center justify-center gap-3 text-[#9E3F5C] animate-fade-up px-6">
                     <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-[#9E3F5C]" />
-                    <span className="font-sans text-xs sm:text-sm font-semibold">
-                      Thank you! You are now subscribed to Miss Nous Inner Circle.
+                    <span className="font-sans text-xs sm:text-sm font-semibold text-center">
+                      Thank you! You are now subscribed to Miss Nous.
                     </span>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-2.5">
-                    
-                    {/* Input Field Pill Box */}
-                    <div className="bg-[#FFF9F5] rounded-[1.5rem] px-5 py-2.5 sm:py-3 flex-1 shadow-sm flex flex-col justify-center relative border border-[#E8D3A5]/60">
-                      <div className="flex items-center justify-between text-[10px] font-bold text-[#9E3F5C] uppercase tracking-wider mb-0.5">
-                        <span className="flex items-center gap-1.5">
-                          <Mail className="w-3.5 h-3.5 text-[#9E3F5C]" />
-                          <span>Your Email Address</span>
-                        </span>
-                        {email && (
-                          <button 
-                            type="button" 
-                            onClick={() => setEmail('')}
-                            className="text-[#9E3F5C]/60 hover:text-[#9E3F5C]"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        )}
-                      </div>
+                  <form onSubmit={handleSubmit} className="w-full">
+                    {/* Unified Single Input Container with Embedded Arrow Button */}
+                    <div className="bg-[#FFF9F5] rounded-full p-1.5 sm:p-2 pl-4 sm:pl-6 flex items-center gap-2 border border-[#E8D3A5] shadow-inner focus-within:border-[#9E3F5C] focus-within:ring-2 focus-within:ring-[#9E3F5C]/20 transition-all">
+                      <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#9E3F5C] flex-shrink-0" />
                       <input 
                         type="email" 
                         required
-                        placeholder="Enter your email address..."
+                        placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-transparent border-none p-0 text-xs sm:text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none font-medium"
                       />
+                      {email && (
+                        <button 
+                          type="button" 
+                          onClick={() => setEmail('')}
+                          className="text-[#9E3F5C]/50 hover:text-[#9E3F5C] flex-shrink-0 px-1"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                      <button 
+                        type="submit"
+                        aria-label="Subscribe"
+                        className="bg-[#9E3F5C] hover:bg-[#7C2F47] active:scale-95 text-[#FFF9F5] rounded-full w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center shadow-md transition-all duration-300 flex-shrink-0 cursor-pointer"
+                      >
+                        <ArrowRight className="w-5 h-5" />
+                      </button>
                     </div>
-
-                    {/* Action Submit Button */}
-                    <button 
-                      type="submit"
-                      className="bg-gradient-to-r from-[#D4AF6A] via-[#E8D3A5] to-[#B88A3B] hover:brightness-110 text-[#2B2225] rounded-[1.5rem] px-6 py-3.5 sm:py-4 flex items-center justify-center gap-2 font-bold text-xs sm:text-sm shadow-lg transition-all duration-300 transform hover:scale-[1.02] cursor-pointer whitespace-nowrap"
-                    >
-                      <span>Subscribe</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-
                   </form>
                 )}
 

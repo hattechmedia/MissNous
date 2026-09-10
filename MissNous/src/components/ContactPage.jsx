@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Mail, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react';
 import image5 from '../assets/image-5.jpeg';
 
 export default function ContactPage() {
@@ -103,18 +103,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Phone */}
-              <div className="p-5 bg-white rounded-3xl border border-[#F7D6DF] shadow-sm flex items-start gap-4 hover:shadow-gold-glow transition-all">
-                <div className="w-11 h-11 rounded-2xl bg-[#FFF9F5] text-[#D4AF6A] flex items-center justify-center flex-shrink-0 border border-[#E8D3A5]">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-sans text-xs uppercase tracking-wider font-bold text-[#9E3F5C]">Phone Helpline (USA)</h4>
-                  <a href="tel:+18005556477" className="font-sans text-sm sm:text-base font-medium text-[#2B2225] hover:text-[#9E3F5C] transition-colors">
-                    +1 (800) 555-6477
-                  </a>
-                </div>
-              </div>
 
               {/* Address */}
               <div className="p-5 bg-white rounded-3xl border border-[#F7D6DF] shadow-sm flex items-start gap-4 hover:shadow-pink-glow transition-all">
