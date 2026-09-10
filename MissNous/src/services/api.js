@@ -1,7 +1,8 @@
 // Central API client for MissNous Frontend
 // All requests go through this file
 
-const BASE_URL = 'http://localhost:5000/api';
+const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
 // Get JWT token from localStorage
 const getToken = () => {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, Mail, Sparkles, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
-const BASE_URL = 'http://localhost:5000/api';
+const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
 export default function AdminLoginPage({ onLoginSuccess }) {
   const [email, setEmail] = useState('admin@missnous.com');
