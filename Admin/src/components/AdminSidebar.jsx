@@ -13,6 +13,7 @@ import {
   CreditCard,
   ChevronUp
 } from 'lucide-react';
+import logoIcon from '../assets/logo-icon.png';
 
 export default function AdminSidebar({ 
   activeTab, 
@@ -46,8 +47,8 @@ export default function AdminSidebar({
         {/* Top Brand Logo Section */}
         <div className="flex items-center justify-between pt-2 pb-4 border-b border-white/10 px-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#D4AF6A] to-[#B88A3B] text-[#2B2225] flex items-center justify-center font-bold shadow-md">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-md">
+              <img src={logoIcon} alt="Miss Nous" className="w-full h-full object-contain" />
             </div>
             <div>
               <h2 className="font-serif font-bold text-xl text-[#D4AF6A] leading-tight tracking-wide">Miss Nous</h2>
