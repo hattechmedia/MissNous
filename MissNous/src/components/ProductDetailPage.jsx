@@ -25,6 +25,7 @@ export const isStrawberryLubricantProduct = (prod) => {
     catKey === 'strawberry-intimate-care' ||
     id === 'prod-2' ||
     id === '6a9294e8f879ce3143960099' ||
+    img.includes('gpt-14') ||
     img.includes('gpt-6')
   );
 };
@@ -285,7 +286,7 @@ export default function ProductDetailPage({
     : (activeProduct.features || []);
 
   // Gallery image sets for each product
-  const STRAWBERRY_GALLERY = ['/gpt-6.png', '/gpt-1.png', '/gpt-2.png', '/jpt-6.jpeg'];
+  const STRAWBERRY_GALLERY = ['/gpt-14.png', '/gpt-1.png', '/gpt-2.png', '/jpt-6.jpeg'];
   const PINEAPPLE_GALLERY = ['/gpt-7.jpeg', '/gpt-5.png', '/gpt-8.jpeg'];
 
   const galleryImages = isStrawberryProduct
@@ -346,7 +347,7 @@ export default function ProductDetailPage({
     setAddedAnimation(false);
     const isStraw = isStrawberryLubricantProduct(activeProduct);
     const currentGallery = isStraw ? STRAWBERRY_GALLERY : PINEAPPLE_GALLERY;
-    const defaultActive = isStraw ? '/gpt-6.png' : '/gpt-7.jpeg';
+    const defaultActive = isStraw ? '/gpt-14.png' : '/gpt-7.jpeg';
     setActiveImage(currentGallery[0] || defaultActive);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [activeProduct?._id, activeProduct?.id, activeProduct?.name, activeProduct?.image]);

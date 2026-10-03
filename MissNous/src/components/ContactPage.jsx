@@ -130,7 +130,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="font-sans text-xs uppercase tracking-wider font-bold text-[#9E3F5C]">Business Hours (USA)</h4>
                   <p className="font-sans text-sm text-[#2B2225] font-medium leading-normal">
-                    Monday - Friday: 9:00 AM - 6:00 PM EST
+                    24 Hours / 7 Days a Week (24/7 Support)
                   </p>
                 </div>
               </div>

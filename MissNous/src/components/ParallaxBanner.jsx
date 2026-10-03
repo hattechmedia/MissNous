@@ -9,7 +9,7 @@ export default function ParallaxBanner({ onNavigate }) {
       {/* Background Image with Smooth Parallax effect */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed filter brightness-90"
-        style={{ backgroundImage: `url(${image9})` }}
+        style={{ backgroundImage: "url('/gpt-15.png')" }}
       >
         {/* Dark Luxury Overlay for high text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/85 via-[#2B2225]/65 to-[#2B2225]/75 backdrop-blur-[1px]"></div>

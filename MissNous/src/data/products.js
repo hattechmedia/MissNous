@@ -24,7 +24,7 @@ export const PRODUCTS = [
     price: 31.99,
     originalPrice: 39.99,
     discount: '20% OFF',
-    image: '/gpt-6.png',
+    image: '/gpt-14.png',
     rating: 4.9,
     reviewsCount: 128,
     description: 'A colorful, water-based lubricant with a glycerin and propylene glycol base. 100ml size. Ships across the USA.'

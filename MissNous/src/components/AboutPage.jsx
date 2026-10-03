@@ -527,10 +527,10 @@ export default function AboutPage({ onNavigate }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left items-stretch">
             
-            {/* Card 1: Featured Image (image-15.png) */}
+            {/* Card 1: Featured Image (/gpt-14.png) */}
             <div className="bg-white rounded-tl-[3.5rem] rounded-tr-2xl rounded-br-2xl rounded-bl-2xl border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow transition-all duration-500 overflow-hidden group min-h-[260px] flex items-center justify-center p-2">
               <img 
-                src={image15} 
+                src="/gpt-14.png" 
                 alt="Miss Nous Pure Botanical Care" 
                 className="w-full h-full object-cover rounded-tl-[3rem] rounded-tr-xl rounded-br-xl rounded-bl-xl group-hover:scale-105 transition-transform duration-700 ease-out"
               />
@@ -675,10 +675,10 @@ export default function AboutPage({ onNavigate }) {
           />
         </div>
 
-        {/* Bottom-Right Organic Blob: image15 */}
+        {/* Bottom-Right Organic Blob: /gpt-14.png */}
         <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-8 lg:bottom-6 lg:right-14 w-14 h-14 sm:w-30 sm:h-30 lg:w-38 lg:h-38 rounded-[70%_30%_50%_50%/50%_30%_70%_50%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
           <img 
-            src={image15} 
+            src="/gpt-14.png" 
             alt="Miss Nous Botanical Care" 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
