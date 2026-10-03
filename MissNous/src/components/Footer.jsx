@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle2, Send, MapPin, ArrowRight } from 'lucide-react';
+import { Mail, CheckCircle2, Send, MapPin, ArrowRight, Link } from 'lucide-react';
 
 export default function Footer({ onNavigate }) {
   const [email, setEmail] = useState('');
@@ -50,13 +50,18 @@ export default function Footer({ onNavigate }) {
               <strong className="text-[#E8D3A5] font-semibold">Miss Nous</strong> is dedicated to luxury intimate wellness and premium body care, formulating 100% organic botanical rituals that empower self-love and natural confidence.
             </p>
 
-            {/* Address Display */}
-            <div className="flex items-start gap-2.5 text-xs text-[#E8D3A5] font-sans pt-1">
-              <MapPin className="w-4 h-4 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
-              <span className="leading-relaxed font-medium">
+            {/* Address Display with Google Maps Link */}
+            <a 
+              href="https://maps.app.goo.gl/6JLfHRwixqptWBXS7" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-start gap-2.5 text-xs text-[#E8D3A5] hover:text-white font-sans pt-1 transition-colors group"
+            >
+              <MapPin className="w-4 h-4 text-[#D4AF6A] group-hover:text-white flex-shrink-0 mt-0.5 transition-colors" />
+              <span className="leading-relaxed font-medium underline underline-offset-4 decoration-[#D4AF6A]/50 group-hover:decoration-white">
                 18 Garibaldi Avenue, Newark, New Jersey 07114
               </span>
-            </div>
+            </a>
           </div>
 
 

@@ -111,9 +111,14 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-sans text-xs uppercase tracking-wider font-bold text-[#9E3F5C]">Official Address</h4>
-                  <p className="font-sans text-sm text-[#2B2225] font-medium leading-normal">
+                  <a 
+                    href="https://maps.app.goo.gl/6JLfHRwixqptWBXS7" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-sans text-sm text-[#2B2225] font-medium leading-normal hover:text-[#9E3F5C] transition-colors block hover:underline"
+                  >
                     18 Garibaldi Avenue, Newark, New Jersey 07114
-                  </p>
+                  </a>
                 </div>
               </div>
 
