@@ -148,7 +148,7 @@ export default function Navbar({
               <button 
                 onClick={onOpenCart}
                 className="p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors relative flex items-center"
-                aria-label="Shopping Bag"
+                aria-label="Shopping Cart"
               >
                 <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
                 {cartCount > 0 && (

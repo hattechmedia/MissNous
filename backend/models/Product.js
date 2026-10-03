@@ -10,6 +10,8 @@ const productSchema = new mongoose.Schema({
   category: { type: String, default: 'Uncategorized' },
   categoryKey: { type: String, default: 'uncategorized' },
   price: { type: Number, required: true, min: 0 },
+  originalPrice: { type: Number, default: null },
+  discount: { type: String, default: '' },
   stock: { type: Number, default: 0, min: 0 },
   rating: { type: Number, default: 4.9, min: 0, max: 5 },
   reviewsCount: { type: Number, default: 1, min: 0 },

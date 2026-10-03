@@ -17,8 +17,8 @@ const TESTIMONIALS = [
     role: 'Verified Purchaser • Lyon, France',
     avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    quote: 'The Hydrating Serum with Damask Rose and Hyaluronic Acid absorbed into my skin like magic. My face feels glowing, soft, and deeply nourished every morning.',
-    product: 'Miss Nous Hydrating Serum'
+    quote: 'I was hesitant about flavored lubricants, but the pineapple flavor is so light and fresh, not artificial at all! It rinses off cleanly with water and feels completely gentle on sensitive skin.',
+    product: 'Touch of Love - Pineapple'
   },
   {
     id: 3,
@@ -26,8 +26,8 @@ const TESTIMONIALS = [
     role: 'Verified Purchaser • Milan, Italy',
     avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    quote: '100% organic purity, refined scents, and packaged with ultimate Parisian elegance. I appreciate how discreet the shipping was. Absolutely 10/10 recommendation!',
-    product: 'Touch of Love - Strawberry'
+    quote: 'Water-based, pH-balanced, and zero sticky residue. Order arrived in plain, discreet packaging within two days. Absolutely 10/10 recommendation!',
+    product: 'Touch of Love - Pineapple'
   },
   {
     id: 4,
@@ -35,8 +35,8 @@ const TESTIMONIALS = [
     role: 'Verified Purchaser • London, UK',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    quote: 'Finally a wellness brand that puts organic purity and luxurious aesthetics first. My skin texture has noticeably improved within just two weeks of use.',
-    product: 'Miss Nous Hydrating Serum'
+    quote: 'Finally an intimate lubricant that puts organic purity and sensitive skin first. Non-irritating, silky glide that stays comfortable without needing constant reapplication.',
+    product: 'Touch of Love - Strawberry'
   },
   {
     id: 5,
@@ -44,8 +44,8 @@ const TESTIMONIALS = [
     role: 'Verified Purchaser • Geneva, Switzerland',
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    quote: 'The natural botanical aroma is divine without any artificial chemical harshness. Miss Nous standard of organic luxury is unmatched!',
-    product: 'Touch of Love - Strawberry'
+    quote: 'The natural fruit-inspired aroma is divine without any artificial harshness. Knowing it is paraben-free and condom-safe gives complete peace of mind.',
+    product: 'Touch of Love - Pineapple'
   }
 ];
 
@@ -105,7 +105,7 @@ export default function TestimonialsSection() {
       <div className="w-full space-y-6 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto px-4 space-y-3 reveal-up">
+        <div className="text-center max-w-2xl mx-auto px-4 space-y-3 reveal-up">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF] shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
             <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
@@ -113,12 +113,12 @@ export default function TestimonialsSection() {
             </span>
           </div>
 
-          <h2 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-medium text-[#2B2225] tracking-tight">
-            Words of Love & Harmony
+          <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+            Real Reviews From Our Lubricant Customers
           </h2>
 
           <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-            Real feedback from clients across Europe who have embraced Miss Nous in their daily self-care rituals.
+            Real feedback from customers who made Miss Nous part of their everyday routine.
           </p>
         </div>
 

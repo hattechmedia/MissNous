@@ -1,6 +1,14 @@
 import React, { useRef } from 'react';
-import { Sparkles, ShoppingBag, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, ShoppingBag, ShoppingCart, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
+import { 
+  getProductDisplayName, 
+  getProductDisplayDescription, 
+  getProductDisplayCategory,
+  getProductDisplayPrice, 
+  getProductDisplayOriginalPrice, 
+  getProductDisplayDiscount 
+} from './ProductDetailPage';
 
 export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist, wishlistItems = [], onNavigate, products = PRODUCTS, onViewProduct }) {
   const scrollContainerRef = useRef(null);
@@ -37,12 +45,12 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
             </span>
           </div>
 
-          <h2 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-medium text-[#2B2225] tracking-tight">
-            Flagship Organic Rituals
+          <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+            Our Two Best-Selling Organic Intimate Lubricants
           </h2>
 
           <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-            Formulated in Paris with pure organic botanicals for gentle body harmony and daily radiance.
+            Both formulas are water-based and built on a gentle glycerin base, with the full ingredient list on every product page so you always know what you are putting on your body. Each one carries a fruit-inspired flavor, so comfort and a little enjoyment come from the same bottle. Pick the flavor that fits your mood.
           </p>
 
           {/* Left / Right Arrow Controls when 3 or more products exist */}
@@ -81,16 +89,15 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                 key={product.id || product._id}
                 className="w-[350px] sm:w-[500px] lg:w-[580px] max-w-full flex-shrink-0 bg-white rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-7 sm:p-10 relative text-left"
               >
-                {/* Product Image Stage (Extra Wide & Enlarged) */}
+                {/* Product Image Stage */}
                 <div 
                   onClick={() => onViewProduct && onViewProduct(product)}
-                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-6 flex items-center justify-center group shadow-xs cursor-pointer"
+                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
                 >
-                  <div className="absolute inset-0 m-auto w-56 h-56 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
                   <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="relative z-10 h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out p-1"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                 </div>
 
@@ -98,25 +105,37 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                 <div className="space-y-4 flex-1 flex flex-col justify-between">
                   <div className="space-y-2 text-left">
                     <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                      {product.category}
+                      {getProductDisplayCategory(product)}
                     </span>
                     
                     <h3 
                       onClick={() => onViewProduct && onViewProduct(product)}
                       className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug line-clamp-1 cursor-pointer hover:text-[#9E3F5C] transition-colors"
                     >
-                      {product.name}
+                      {getProductDisplayName(product)}
                     </h3>
 
                     <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed line-clamp-2">
-                      {product.description}
+                      {getProductDisplayDescription(product)}
                     </p>
                   </div>
 
                   <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
-                    <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C] block text-left">
-                      ${product.price}
-                    </span>
+                    <div className="flex items-baseline gap-2.5 text-left">
+                      <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
+                        ${getProductDisplayPrice(product)}
+                      </span>
+                      {getProductDisplayOriginalPrice(product) && (
+                        <span className="text-sm sm:text-base text-[#7A6B70] line-through font-normal">
+                          ${getProductDisplayOriginalPrice(product)}
+                        </span>
+                      )}
+                      {getProductDisplayDiscount(product) && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-[10px] font-bold">
+                          {getProductDisplayDiscount(product)}
+                        </span>
+                      )}
+                    </div>
 
                     <div className="grid grid-cols-2 gap-3.5">
                       <button
@@ -128,10 +147,17 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                       </button>
 
                       <button
-                        onClick={() => onAddToCart && onAddToCart(product)}
+                        onClick={() => onAddToCart && onAddToCart({
+                          ...product,
+                          name: getProductDisplayName(product),
+                          description: getProductDisplayDescription(product),
+                          price: getProductDisplayPrice(product),
+                          originalPrice: getProductDisplayOriginalPrice(product),
+                          discount: getProductDisplayDiscount(product)
+                        })}
                         className="py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer"
                       >
-                        <ShoppingBag className="w-4 h-4" />
+                        <ShoppingCart className="w-4 h-4" />
                         <span>Add to Bag</span>
                       </button>
                     </div>
@@ -151,16 +177,15 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                   idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
                 }`}
               >
-                {/* Product Image Stage (Enlarged) */}
+                {/* Product Image Stage */}
                 <div 
                   onClick={() => onViewProduct && onViewProduct(product)}
-                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-6 flex items-center justify-center group shadow-xs cursor-pointer"
+                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
                 >
-                  <div className="absolute inset-0 m-auto w-56 h-56 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
                   <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="relative z-10 h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out p-1"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                 </div>
 
@@ -169,7 +194,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                   <div className="space-y-2 text-left">
                     <div className="flex items-center justify-between gap-2">
                       <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                        {product.category}
+                        {getProductDisplayCategory(product)}
                       </span>
                     </div>
                     
@@ -177,19 +202,29 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                       onClick={() => onViewProduct && onViewProduct(product)}
                       className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug cursor-pointer hover:text-[#9E3F5C] transition-colors"
                     >
-                      {product.name}
+                      {getProductDisplayName(product)}
                     </h3>
 
                     <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-                      {product.description}
+                      {getProductDisplayDescription(product)}
                     </p>
                   </div>
 
                   <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
                     <div className="flex items-baseline gap-3">
                       <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                        ${product.price}
+                        ${getProductDisplayPrice(product)}
                       </span>
+                      {getProductDisplayOriginalPrice(product) && (
+                        <span className="text-base sm:text-lg text-[#7A6B70] line-through font-normal">
+                          ${getProductDisplayOriginalPrice(product)}
+                        </span>
+                      )}
+                      {getProductDisplayDiscount(product) && (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-xs font-bold">
+                          {getProductDisplayDiscount(product)}
+                        </span>
+                      )}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -202,10 +237,17 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                       </button>
 
                       <button
-                        onClick={() => onAddToCart && onAddToCart(product)}
+                        onClick={() => onAddToCart && onAddToCart({
+                          ...product,
+                          name: getProductDisplayName(product),
+                          description: getProductDisplayDescription(product),
+                          price: getProductDisplayPrice(product),
+                          originalPrice: getProductDisplayOriginalPrice(product),
+                          discount: getProductDisplayDiscount(product)
+                        })}
                         className="w-full py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
                       >
-                        <ShoppingBag className="w-4 h-4" />
+                        <ShoppingCart className="w-4 h-4" />
                         <span>Add to Bag</span>
                       </button>
                     </div>

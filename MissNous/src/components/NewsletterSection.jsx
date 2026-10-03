@@ -44,12 +44,12 @@ export default function NewsletterSection() {
                 </span>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#E8D3A5] leading-tight tracking-tight drop-shadow-md">
+              <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#FFF9F5] leading-tight tracking-tight drop-shadow-md">
                 Join the Miss Nous Inner Circle
               </h2>
 
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#FFF9F5]/90 font-normal leading-relaxed max-w-lg drop-shadow-sm">
-                Receive exclusive access to new luxury ritual releases, secret seasonal promotions, and expert intimate wellness guides.
+                Sign up to be first to hear about new formulas, seasonal offers, and simple intimate care tips, straight to your inbox.
               </p>
             </div>
 
@@ -66,7 +66,7 @@ export default function NewsletterSection() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="w-full">
-                    {/* Unified Single Input Container with Embedded Arrow Button */}
+                    {/* Unified Single Input Container with Embedded Subscribe Button */}
                     <div className="bg-[#FFF9F5] rounded-full p-1.5 sm:p-2 pl-4 sm:pl-6 flex items-center gap-2 border border-[#E8D3A5] shadow-inner focus-within:border-[#9E3F5C] focus-within:ring-2 focus-within:ring-[#9E3F5C]/20 transition-all">
                       <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#9E3F5C] flex-shrink-0" />
                       <input 
@@ -88,10 +88,10 @@ export default function NewsletterSection() {
                       )}
                       <button 
                         type="submit"
-                        aria-label="Subscribe"
-                        className="bg-[#9E3F5C] hover:bg-[#7C2F47] active:scale-95 text-[#FFF9F5] rounded-full w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center shadow-md transition-all duration-300 flex-shrink-0 cursor-pointer"
+                        className="bg-[#9E3F5C] hover:bg-[#7C2F47] active:scale-95 text-[#FFF9F5] font-sans text-xs sm:text-sm font-semibold rounded-full px-5 py-2.5 sm:py-3 flex items-center justify-center gap-2 shadow-md transition-all duration-300 flex-shrink-0 cursor-pointer"
                       >
-                        <ArrowRight className="w-5 h-5" />
+                        <span>Subscribe</span>
+                        <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
                   </form>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { ShieldCheck, Heart, Sparkles, Droplet } from 'lucide-react';
 
-function CounterNumber({ endValue, decimalPlaces = 0, suffix = '' }) {
+function CounterNumber({ endValue, decimalPlaces = 0, prefix = '', suffix = '' }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
 
@@ -37,6 +37,7 @@ function CounterNumber({ endValue, decimalPlaces = 0, suffix = '' }) {
 
   return (
     <span ref={ref}>
+      {prefix}
       {decimalPlaces > 0 ? count.toFixed(decimalPlaces) : Math.floor(count)}
       {suffix}
     </span>
@@ -48,33 +49,37 @@ export default function TrustBanner() {
     {
       id: 'happy-customers',
       endValue: 500,
+      prefix: '',
       suffix: '+',
       decimalPlaces: 0,
       label: 'Happy Customers',
       icon: Heart
     },
     {
-      id: 'customer-satisfaction',
+      id: 'water-based-formula',
       endValue: 100,
+      prefix: '',
       suffix: '%',
       decimalPlaces: 0,
-      label: 'Satisfaction Rate',
-      icon: Sparkles
+      label: 'Water-Based Formula',
+      icon: Droplet
     },
     {
-      id: 'quality-ingredients',
-      endValue: 100,
-      suffix: '%',
-      decimalPlaces: 0,
-      label: 'Organic Quality',
+      id: 'ph-balanced',
+      endValue: 4.5,
+      prefix: 'pH ',
+      suffix: '',
+      decimalPlaces: 1,
+      label: 'Balanced for Comfort',
       icon: ShieldCheck
     },
     {
-      id: 'everyday-comfort',
-      endValue: 24,
-      suffix: '/7',
+      id: 'fruit-flavors',
+      endValue: 2,
+      prefix: '',
+      suffix: '',
       decimalPlaces: 0,
-      label: 'Daily Skin Care',
+      label: 'Fruit-Inspired Flavors',
       icon: Sparkles
     }
   ];
@@ -107,6 +112,7 @@ export default function TrustBanner() {
                     <CounterNumber 
                       endValue={item.endValue} 
                       decimalPlaces={item.decimalPlaces} 
+                      prefix={item.prefix}
                       suffix={item.suffix} 
                     />
                   </div>

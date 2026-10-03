@@ -27,36 +27,36 @@ export default function ProductBenefitsSection({ onNavigate }) {
   const leftBenefits = [
     {
       id: 'left-1',
-      title: 'Direct delivery to your door.',
-      description: 'Order your products from the comfort of your home'
+      title: 'Delivered discreetly to your door.',
+      description: 'Order in minutes and let your flavor arrive quickly, in plain packaging.'
     },
     {
       id: 'left-2',
-      title: 'Safe for all skin+hair types',
-      description: 'PH balanced and small batch tested'
+      title: 'Made for daily comfort.',
+      description: 'Every batch is pH-balanced and tested in small quantities, so the formula stays consistent and gentle.'
     },
     {
       id: 'left-3',
-      title: 'Made for man and women',
-      description: 'Everyone can enjoy the product line'
+      title: 'Designed for every body.',
+      description: 'Our lubricant is made to feel comfortable for anyone, whatever your skin type or how often you use it.'
     }
   ];
 
   const rightBenefits = [
     {
       id: 'right-1',
-      title: 'Leaping bunny certified',
-      description: 'All products are plant based and cruelty free'
+      title: 'Fruit-inspired, not overpowering.',
+      description: 'We use light, fruit-inspired flavors instead of heavy artificial syrups, so comfort and enjoyment share the same bottle.'
     },
     {
       id: 'right-2',
-      title: 'High quality ingredients',
-      description: 'Natural essential oils and herbal extracts nourish skin and hair'
+      title: 'Made with recognizable ingredients.',
+      description: 'We build the formula around organic botanicals and a clean water base, and publish the full ingredient list on every product page.'
     },
     {
       id: 'right-3',
-      title: 'Trusted Quality & Care',
-      description: 'Quality-focused products designed with customer satisfaction in mind'
+      title: 'Held to a higher standard.',
+      description: 'From the formula to the bottle, every detail is made with your comfort in mind.'
     }
   ];
 
@@ -80,15 +80,15 @@ export default function ProductBenefitsSection({ onNavigate }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
             <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-              Why MissNous
+              Why Miss Nous
             </span>
           </div>
 
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
-            Why MissNous is the Perfect Choice
+            The Miss Nous Difference in Intimate Care
           </h2>
           <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
-            Formulated with pure botanical integrity to nourish, protect, and elevate your daily skincare ritual.
+            Choosing an intimate lubricant is personal, so we made every part of ours something you can feel good about. Here is what sets Miss Nous apart.
           </p>
         </div>
 
@@ -131,7 +131,7 @@ export default function ProductBenefitsSection({ onNavigate }) {
               <div className="absolute inset-0 m-auto w-72 h-72 bg-[#D4AF6A]/25 rounded-full blur-[60px] pointer-events-none z-0"></div>
               
               <img 
-                src={product1} 
+                src="/pr-2.png" 
                 alt="Miss Nous Skincare Bottle" 
                 className="relative z-10 h-[380px] sm:h-[480px] lg:h-[580px] w-auto object-contain scale-105 group-hover:scale-110 transition-transform duration-500 filter drop-shadow-2xl"
               />
@@ -176,7 +176,7 @@ export default function ProductBenefitsSection({ onNavigate }) {
             onClick={() => onNavigate && onNavigate('shop')}
             className="inline-flex items-center justify-center px-10 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-pink-glow transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
-            Buy Now
+            Shop the Collection
           </button>
         </div>
 

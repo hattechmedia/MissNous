@@ -187,9 +187,9 @@ function ApproachOrbitStage({ onNavigate }) {
               <div className="absolute inset-0 m-auto w-[340px] h-[340px] bg-[#D4AF6A]/25 rounded-full blur-[50px] pointer-events-none"></div>
               <div className="absolute inset-0 m-auto w-[280px] h-[280px] bg-[#9E3F5C]/15 rounded-full blur-[40px] pointer-events-none"></div>
 
-              {/* Pure product bottle - Significantly enlarged size (330px height inside 400px vertical diameter ellipse) */}
+              {/* Pure product bottle - Significantly enlarged size */}
               <img
-                src={image16}
+                src="/gpt-11-rem.png"
                 alt="Miss Nous Personalised Beauty Bottle"
                 className="relative z-10 h-[330px] w-auto object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-110"
               />
@@ -263,12 +263,12 @@ export default function AboutPage({ onNavigate }) {
       {/* 1. INNER PAGE HERO WITH IMAGE-4 AS BACKGROUND */}
       <section className="relative min-h-[440px] sm:min-h-[500px] lg:min-h-[560px] pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-8 lg:px-16 text-center overflow-hidden border-b border-[#F7D6DF]/60 bg-[#2B2225] flex items-center justify-center">
         
-        {/* Background Image image-4 with Lighter Opacity Overlay */}
+        {/* Background Image /gpt-10.png with Lighter Opacity Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src={image4} 
+            src="/gpt-10.png" 
             alt="Miss Nous About Us Header" 
-            className="w-full h-full object-cover object-center opacity-55"
+            className="w-full h-full object-cover object-center opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/60 via-[#2B2225]/25 to-[#2B2225]/40"></div>
         </div>
@@ -302,7 +302,7 @@ export default function AboutPage({ onNavigate }) {
           
           {/* Left Column: image-7.jpeg from assets */}
           <div className="lg:col-span-6 relative reveal-left">
-            <div className="relative rounded-[2.5rem] overflow-hidden border border-[#F7D6DF] shadow-luxury bg-white aspect-square sm:aspect-[4/3] lg:aspect-[4/5] flex items-center justify-center">
+            <div className="relative rounded-[2.5rem] overflow-hidden border border-[#F7D6DF] shadow-luxury bg-white aspect-square sm:aspect-[4/3] lg:aspect-[4/5.25] max-h-[535px] mx-auto flex items-center justify-center">
               <img 
                 src={image7} 
                 alt="Miss Nous Botanical Science" 
@@ -470,11 +470,11 @@ export default function AboutPage({ onNavigate }) {
 
             </div>
 
-            {/* MIDDLE COLUMN: Large Featured Product Card (image-12.jpeg) - Moves DOWN from TOP */}
+            {/* MIDDLE COLUMN: Large Featured Product Card (/gpt-5.png) - Moves DOWN from TOP */}
             <div className="lg:col-span-5 flex flex-col reveal-down">
               <div className="relative rounded-none overflow-hidden shadow-luxury bg-white group h-full min-h-[460px] sm:min-h-[500px] flex items-center justify-center">
                 <img 
-                  src={image12} 
+                  src="/gpt-5.png" 
                   alt="Miss Nous Bestselling Botanical Product" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
@@ -485,10 +485,10 @@ export default function AboutPage({ onNavigate }) {
             {/* RIGHT COLUMN: image-13 moves DOWN from TOP, image-11 moves UP from BOTTOM */}
             <div className="lg:col-span-3 flex flex-col gap-4 h-full min-h-[460px] sm:min-h-[500px] justify-between">
               
-              {/* Top Card: image-13.jpeg (38% Height) - Moves DOWN from TOP */}
+              {/* Top Card: /gpt-7.jpeg (38% Height) - Moves DOWN from TOP */}
               <div className="h-[38%] relative rounded-none overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-down">
                 <img 
-                  src={image13} 
+                  src="/gpt-7.jpeg" 
                   alt="Miss Nous Formula Bottle" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -648,19 +648,19 @@ export default function AboutPage({ onNavigate }) {
 
         {/* ORGANIC FLOATING BLOB IMAGES - RESPONSIVE SIZES FOR ALL DEVICES */}
         
-        {/* Top-Left Organic Blob: image12 */}
+        {/* Top-Left Organic Blob: /gpt-8.jpeg */}
         <div className="absolute top-2 left-2 sm:top-4 sm:left-6 lg:top-6 lg:left-10 w-16 h-12 sm:w-36 sm:h-28 lg:w-44 lg:h-34 rounded-[50%_50%_70%_30%/40%_60%_40%_60%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
           <img 
-            src={image12} 
+            src="/gpt-8.jpeg" 
             alt="Miss Nous Bestselling Formula" 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         </div>
 
-        {/* Bottom-Left Organic Blob: image4 */}
+        {/* Bottom-Left Organic Blob: /gpt-10.png */}
         <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-8 lg:bottom-6 lg:left-14 w-14 h-16 sm:w-32 sm:h-36 lg:w-40 lg:h-44 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] overflow-hidden border border-[#E8D3A5]/50 shadow-lg sm:shadow-2xl transition-transform duration-700 hover:scale-105 group z-0 opacity-75 sm:opacity-100">
           <img 
-            src={image4} 
+            src="/gpt-10.png" 
             alt="Miss Nous Skincare Ritual" 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
@@ -761,7 +761,7 @@ export default function AboutPage({ onNavigate }) {
 
             </div>
 
-            {/* Right Column: Featured Image (/image-18.png from public folder) */}
+            {/* Right Column: Featured Image (/gpt-12.png from public folder) */}
             <div className="lg:col-span-6 reveal-right flex items-center justify-center">
               <div className="relative w-full max-w-[540px] mx-auto group flex items-center justify-center">
                 
@@ -769,7 +769,7 @@ export default function AboutPage({ onNavigate }) {
                 <div className="absolute inset-0 m-auto w-80 h-80 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
 
                 <img 
-                  src="/image-18.png" 
+                  src="/gpt-12.png" 
                   alt="Miss Nous Botanical Product Care" 
                   className="relative z-10 w-full h-auto max-h-[620px] object-contain rounded-[2rem] group-hover:scale-105 transition-transform duration-700 ease-out"
                 />

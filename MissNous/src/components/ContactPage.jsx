@@ -28,22 +28,22 @@ export default function ContactPage() {
 
   return (
     <div className="bg-[#FDF2F5] text-[#2B2225] min-h-screen font-sans">
-      
+
       {/* 1. PAGE HERO WITH IMAGE-5 AS BACKGROUND */}
       <section className="relative min-h-[440px] sm:min-h-[500px] lg:min-h-[560px] pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-8 lg:px-16 text-center overflow-hidden border-b border-[#F7D6DF]/60 bg-[#2B2225] flex items-center justify-center">
-        
-        {/* Background Image image-5 with Lighter Opacity Overlay */}
+
+        {/* Background Image /gpt-8.jpeg with Lighter Opacity Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={image5} 
-            alt="Miss Nous Contact Background" 
-            className="w-full h-full object-cover object-center opacity-55"
+          <img
+            src="/gpt-13.png"
+            alt="Miss Nous Contact Background"
+            className="w-400 h-150 object-cover object-center opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/60 via-[#2B2225]/25 to-[#2B2225]/40"></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto relative z-10 space-y-6 reveal-up">
-          
+
           {/* Eyebrow Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#F7D6DF] shadow-md">
             <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
@@ -54,7 +54,7 @@ export default function ContactPage() {
 
           {/* Main Heading */}
           <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-md">
-            We'd Love to Hear From You
+            We’d Love to Hear From You
           </h1>
 
           {/* Supporting Intro */}
@@ -68,10 +68,10 @@ export default function ContactPage() {
       {/* 2. CONTACT CONTENT SECTION (2 Columns Desktop / Stacked Mobile) */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
+
           {/* LEFT COLUMN: Contact Information */}
           <div className="lg:col-span-5 space-y-8 reveal-left">
-            
+
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs">
                 <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
@@ -89,7 +89,7 @@ export default function ContactPage() {
 
             {/* Contact Details List */}
             <div className="space-y-4 pt-2">
-              
+
               {/* Email */}
               <div className="p-5 bg-white rounded-3xl border border-[#F7D6DF] shadow-sm flex items-start gap-4 hover:shadow-pink-glow transition-all">
                 <div className="w-11 h-11 rounded-2xl bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center flex-shrink-0 border border-[#F7D6DF]">
@@ -136,7 +136,7 @@ export default function ContactPage() {
 
           {/* RIGHT COLUMN: Contact Form */}
           <div className="lg:col-span-7 bg-white p-8 sm:p-10 lg:p-12 rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury">
-            
+
             <div className="space-y-2 mb-6">
               <h3 className="font-sans text-2xl sm:text-3xl font-medium text-[#2B2225] tracking-tight">
                 Send Us a Message
@@ -164,7 +164,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
-                
+
                 {/* Full Name & Email Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5 text-left">

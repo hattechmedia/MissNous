@@ -237,13 +237,14 @@ export default function AdminPanel({
     e.preventDefault();
     setProductFormError('');
 
-    if (!productFormData.name.trim() || !productFormData.price || !productFormData.category) {
+    if (!productFormData.name.trim() || productFormData.price === '' || productFormData.price === null || !productFormData.category) {
       setProductFormError('Please fill in all required fields (Name, Price, Category).');
       return;
     }
 
-    if (Number(productFormData.price) <= 0) {
-      setProductFormError('Price must be a positive number.');
+    const priceNum = parseFloat(productFormData.price);
+    if (isNaN(priceNum) || priceNum <= 0) {
+      setProductFormError('Price must be a valid positive number (e.g. 31.99).');
       return;
     }
 
@@ -251,15 +252,18 @@ export default function AdminPanel({
     const finalCategoryName = matchedCat ? matchedCat.name : productFormData.category;
     const finalCategoryKey = matchedCat ? matchedCat.key : productFormData.category.toLowerCase().replace(/\s+/g, '-');
 
+    const targetId = editingProduct ? (editingProduct._id || editingProduct.id) : `prod-${Date.now()}`;
+
     const productPayload = {
-      id: editingProduct ? editingProduct.id : `prod-${Date.now()}`,
+      id: targetId,
+      _id: targetId,
       name: productFormData.name.trim(),
       subtitle: productFormData.subtitle.trim(),
       category: finalCategoryName,
       categoryKey: finalCategoryKey,
-      price: Number(productFormData.price),
+      price: priceNum,
       stock: Number(productFormData.stock || 0),
-      image: productFormData.image.trim() || '/product-1-rm.png',
+      image: productFormData.image.trim() || '/gpt-6.png',
       description: productFormData.description.trim() || 'Premium botanical skincare formulation designed for natural daily radiance.',
       rating: editingProduct?.rating || 4.9,
       reviewsCount: editingProduct?.reviewsCount || 12
@@ -1411,12 +1415,17 @@ export default function AdminPanel({
                 <div className="space-y-1 text-left sm:col-span-1">
                   <label className="block text-xs font-semibold uppercase text-[#2B2225]">Price ($) *</label>
                   <input 
-                    type="number"
+                    type="text"
+                    inputMode="decimal"
                     required
-                    min="1"
-                    placeholder="1850"
+                    placeholder="31.99"
                     value={productFormData.price}
-                    onChange={(e) => setProductFormData({ ...productFormData, price: e.target.value })}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === '' || /^\d*\.?\d*$/.test(val)) {
+                        setProductFormData({ ...productFormData, price: val });
+                      }
+                    }}
                     className="w-full px-4 py-2.5 rounded-2xl bg-white border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
                   />
                 </div>

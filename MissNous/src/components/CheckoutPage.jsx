@@ -249,12 +249,12 @@ export default function CheckoutPage({ cartItems, onNavigate, onClearCart, onAdd
                       <h5 className="text-xs font-semibold text-[#2B2225] truncate">{item.name}</h5>
                       <span className="text-[11px] text-[#A09095]">Qty: {item.quantity}</span>
                     </div>
-                    <span className="text-xs font-bold text-[#9E3F5C]">${item.price * item.quantity}</span>
+                    <span className="text-xs font-bold text-[#9E3F5C]">${Number(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
               <div className="space-y-2 pt-4 border-t border-[#F7D6DF] text-xs font-sans text-[#5A4B50]">
-                <div className="flex justify-between"><span>Subtotal</span><span className="font-medium text-[#2B2225]">${subtotal}</span></div>
+                <div className="flex justify-between"><span>Subtotal</span><span className="font-medium text-[#2B2225]">${Number(subtotal).toFixed(2)}</span></div>
                 <div className="flex justify-between"><span>Shipping</span><span className="font-medium text-[#9E3F5C]">Complimentary</span></div>
                 <div className="flex justify-between"><span>Estimated Tax (5%)</span><span className="font-medium text-[#2B2225]">${tax.toFixed(2)}</span></div>
                 <div className="flex justify-between text-base font-bold text-[#2B2225] pt-3 border-t border-[#F7D6DF]">

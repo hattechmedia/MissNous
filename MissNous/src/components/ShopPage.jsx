@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, ShoppingBag, Eye, Heart, CheckCircle2, ArrowRight, ArrowLeft, Star, X } from 'lucide-react';
+import { Sparkles, ShoppingBag, ShoppingCart, Eye, Heart, CheckCircle2, ArrowRight, ArrowLeft, Star, X } from 'lucide-react';
 import video3 from '../assets/video-3.mp4';
 import { PRODUCTS } from '../data/products';
+import { 
+  getProductDisplayName, 
+  getProductDisplayDescription,
+  getProductDisplayCategory,
+  getProductDisplayPrice,
+  getProductDisplayOriginalPrice,
+  getProductDisplayDiscount
+} from './ProductDetailPage';
 
 export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems = [], onNavigate, products = PRODUCTS, categories = [], onViewProduct }) {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -171,20 +179,15 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
               }`}
             >
               
-              {/* Product Image Stage - 100% Un-cropped, Aligned & Centered */}
+              {/* Product Image Stage */}
               <div 
                 onClick={() => onViewProduct && onViewProduct(product)}
-                className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 border border-[#F7D6DF] bg-gradient-to-b from-[#FDF2F5] via-[#FFF9F5] to-[#FDF2F5]/50 p-6 flex items-center justify-center group shadow-xs cursor-pointer"
+                className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
               >
-                
-                {/* Soft Radial Ambient Glow */}
-                <div className="absolute inset-0 m-auto w-56 h-56 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none"></div>
-
-                {/* 100% Un-cropped Bottle Image - Straight, Centered & Un-clipped */}
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="relative z-10 h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out p-1"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                 />
               </div>
 
@@ -194,7 +197,7 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                      {product.category}
+                      {getProductDisplayCategory(product)}
                     </span>
                   </div>
                   
@@ -202,11 +205,11 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                     onClick={() => onViewProduct && onViewProduct(product)}
                     className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug cursor-pointer hover:text-[#9E3F5C] transition-colors"
                   >
-                    {product.name}
+                    {getProductDisplayName(product)}
                   </h3>
 
                   <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-                    {product.description}
+                    {getProductDisplayDescription(product)}
                   </p>
                 </div>
 
@@ -215,8 +218,18 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                   
                   <div className="flex items-baseline gap-3">
                     <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                      ${product.price}
+                      ${getProductDisplayPrice(product)}
                     </span>
+                    {getProductDisplayOriginalPrice(product) && (
+                      <span className="text-base sm:text-lg text-[#7A6B70] line-through font-normal">
+                        ${getProductDisplayOriginalPrice(product)}
+                      </span>
+                    )}
+                    {getProductDisplayDiscount(product) && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-xs font-bold">
+                        {getProductDisplayDiscount(product)}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -229,11 +242,18 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
                     </button>
 
                     <button
-                      onClick={() => onAddToCart && onAddToCart(product)}
+                      onClick={() => onAddToCart && onAddToCart({
+                        ...product,
+                        name: getProductDisplayName(product),
+                        description: getProductDisplayDescription(product),
+                        price: getProductDisplayPrice(product),
+                        originalPrice: getProductDisplayOriginalPrice(product),
+                        discount: getProductDisplayDiscount(product)
+                      })}
                       className="w-full py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
                     >
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>Add to Bag</span>
+                      <ShoppingCart className="w-4 h-4" />
+                      <span>Add to Cart</span>
                     </button>
                   </div>
 

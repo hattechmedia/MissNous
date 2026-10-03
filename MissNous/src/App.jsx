@@ -7,6 +7,7 @@ import SkinRitualSection from './components/SkinRitualSection';
 import FeaturedProductsSection from './components/FeaturedProductsSection';
 import VideoSection from './components/VideoSection';
 import PureComfortSection from './components/PureComfortSection';
+import SafetyTrustBand from './components/SafetyTrustBand';
 import TestimonialsSection from './components/TestimonialsSection';
 import NewsletterSection from './components/NewsletterSection';
 import FaqSection from './components/FaqSection';
@@ -199,37 +200,56 @@ export default function App() {
     setOrders(prev => [newOrder, ...prev]);
   };
 
-  // Product CRUD (admin-only, refreshes product list from API)
+  // Product CRUD (admin-only, refreshes product list from API with fallback)
   const handleAddProduct = async (newProd) => {
     try {
       const created = await api.post('/products', newProd);
       setProducts(prev => [created, ...prev]);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.warn('API add failed, saving product in local state:', err.message);
+      setProducts(prev => [newProd, ...prev]);
+    }
   };
 
   const handleUpdateProduct = async (updatedProd) => {
+    const targetId = updatedProd._id || updatedProd.id;
+    // Always update local state immediately for instant feedback
+    setProducts(prev => prev.map(p => {
+      const pId = p._id || p.id;
+      return pId === targetId ? { ...p, ...updatedProd } : p;
+    }));
+
     try {
-      const { _id, ...rest } = updatedProd;
-      const updated = await api.put(`/products/${_id}`, rest);
-      setProducts(prev => prev.map(p => p._id === updated._id ? updated : p));
-    } catch (err) { console.error(err); }
+      if (updatedProd._id) {
+        const { _id, ...rest } = updatedProd;
+        await api.put(`/products/${_id}`, rest);
+      } else {
+        await api.post('/products', updatedProd);
+      }
+    } catch (err) {
+      console.warn('API update failed, local state preserved:', err.message);
+    }
   };
 
   const handleDeleteProduct = async (id) => {
+    setProducts(prev => prev.filter(p => (p._id || p.id) !== id));
     try {
       await api.delete(`/products/${id}`);
-      setProducts(prev => prev.filter(p => p._id !== id));
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.warn('API delete failed, local state preserved:', err.message);
+    }
   };
 
   // Cart Operations
-  const handleAddToCart = (product, quantityToAdd = 1, openCart = true) => {
+  const handleAddToCart = (product, quantityToAdd = 1, openCart = true, setExactQty = false) => {
     setCartItems(prev => {
       const pId = product._id || product.id;
       const existing = prev.find(item => (item._id || item.id) === pId);
       if (existing) {
         return prev.map(item =>
-          (item._id || item.id) === pId ? { ...item, quantity: item.quantity + (quantityToAdd || 1) } : item
+          (item._id || item.id) === pId 
+            ? { ...item, ...product, quantity: setExactQty ? (quantityToAdd || 1) : (item.quantity + (quantityToAdd || 1)) } 
+            : item
         );
       }
       return [...prev, { ...product, quantity: quantityToAdd || 1 }];
@@ -241,7 +261,7 @@ export default function App() {
 
   const handleUpdateCartQty = (id, delta) => {
     setCartItems(prev => prev.map(item => {
-      if (item._id === id) {
+      if ((item._id || item.id) === id) {
         const newQty = item.quantity + delta;
         return newQty > 0 ? { ...item, quantity: newQty } : item;
       }
@@ -250,7 +270,7 @@ export default function App() {
   };
 
   const handleRemoveFromCart = (id) => {
-    setCartItems(prev => prev.filter(item => item._id !== id));
+    setCartItems(prev => prev.filter(item => (item._id || item.id) !== id));
   };
 
   const handleClearCart = () => setCartItems([]);
@@ -304,6 +324,7 @@ export default function App() {
           <VideoSection />
           <ProductBenefitsSection onNavigate={handleNavigate} />
           <ParallaxBanner onNavigate={handleNavigate} />
+          <SafetyTrustBand />
           <SkinRitualSection onNavigate={handleNavigate} />
           <PureComfortSection onNavigate={handleNavigate} />
           <FaqSection />

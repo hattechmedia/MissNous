@@ -127,11 +127,11 @@ export default function CategoriesPage({
       ) : (
         /* Category Grid Cards */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
-          {categories.map((cat) => {
+          {categories.map((cat, idx) => {
             const count = getProductCountForCategory(cat.key, cat.name);
             return (
               <div 
-                key={cat._id || cat.id}
+                key={cat._id || cat.id || cat.key || `cat-card-${idx}`}
                 className="bg-[#FFF9F5] border border-[#F7D6DF] rounded-3xl p-6 space-y-4 shadow-luxury hover:shadow-pink-glow transition-all group"
               >
                 <div className="flex items-start justify-between">

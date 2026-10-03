@@ -129,13 +129,14 @@ export default function ProductsPage({
     e.preventDefault();
     setProductFormError('');
 
-    if (!productFormData.name.trim() || !productFormData.price || !productFormData.category) {
+    if (!productFormData.name.trim() || productFormData.price === '' || productFormData.price === null || !productFormData.category) {
       setProductFormError('Please fill in all required fields (Name, Price, Category).');
       return;
     }
 
-    if (Number(productFormData.price) <= 0) {
-      setProductFormError('Price must be a positive number.');
+    const priceNum = parseFloat(productFormData.price);
+    if (isNaN(priceNum) || priceNum <= 0) {
+      setProductFormError('Price must be a valid positive number (e.g. 31.99).');
       return;
     }
 
@@ -143,15 +144,18 @@ export default function ProductsPage({
     const finalCategoryName = matchedCat ? matchedCat.name : productFormData.category;
     const finalCategoryKey = matchedCat ? matchedCat.key : productFormData.category.toLowerCase().replace(/\s+/g, '-');
 
+    const targetId = editingProduct ? (editingProduct._id || editingProduct.id) : `prod-${Date.now()}`;
+
     const productPayload = {
-      ...(editingProduct ? { _id: editingProduct._id } : {}),
+      id: targetId,
+      _id: targetId,
       name: productFormData.name.trim(),
       subtitle: productFormData.subtitle.trim(),
       category: finalCategoryName,
       categoryKey: finalCategoryKey,
-      price: Number(productFormData.price),
+      price: priceNum,
       stock: Number(productFormData.stock || 0),
-      image: productFormData.image.trim() || '/product-1-rm.png',
+      image: productFormData.image.trim() || '/gpt-6.png',
       description: productFormData.description.trim() || 'Premium botanical skincare formulation designed for natural daily radiance.',
       rating: editingProduct?.rating || 4.9,
       reviewsCount: editingProduct?.reviewsCount || 12,
@@ -278,9 +282,10 @@ export default function ProductsPage({
                 filteredProductsList.map((prod, idx) => {
                   const stockQty = prod.stock !== undefined ? prod.stock : 10;
                   const isStocked = stockQty > 0;
+                  const itemKey = prod._id || prod.id || `prod-row-${idx}`;
 
                   return (
-                    <tr key={prod._id || prod.id || idx} className="hover:bg-[#FFF9F5] transition-colors">
+                    <tr key={itemKey} className="hover:bg-[#FFF9F5] transition-colors">
                       
                       {/* PRODUCT Name & Thumbnail */}
                       <td className="py-4 px-4 font-bold whitespace-nowrap">
@@ -433,8 +438,8 @@ export default function ProductsPage({
                       }}
                       className="w-full px-3 py-2.5 rounded-2xl bg-white border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
                     >
-                      {categories.map(c => (
-                        <option key={c.id} value={c.name}>{c.name}</option>
+                      {categories.map((c, idx) => (
+                        <option key={c._id || c.id || c.key || `cat-opt-${idx}`} value={c.name}>{c.name}</option>
                       ))}
                     </select>
                   </div>
@@ -442,12 +447,17 @@ export default function ProductsPage({
                   <div className="space-y-1 text-left sm:col-span-1">
                     <label className="block text-xs font-semibold uppercase text-[#2B2225]">Price ($) *</label>
                     <input 
-                      type="number"
+                      type="text"
+                      inputMode="decimal"
                       required
-                      min="1"
-                      placeholder="1850"
+                      placeholder="31.99"
                       value={productFormData.price}
-                      onChange={(e) => setProductFormData({ ...productFormData, price: e.target.value })}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === '' || /^\d*\.?\d*$/.test(val)) {
+                          setProductFormData({ ...productFormData, price: val });
+                        }
+                      }}
                       className="w-full px-4 py-2.5 rounded-2xl bg-white border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
                     />
                   </div>

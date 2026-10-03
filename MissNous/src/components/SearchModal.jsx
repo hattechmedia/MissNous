@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Search, ShoppingBag, Heart, Star, Eye } from 'lucide-react';
+import { X, Search, ShoppingBag, ShoppingCart, Heart, Star, Eye } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
+import { getProductDisplayName, getProductDisplayDescription } from './ProductDetailPage';
 
 export default function SearchModal({ 
   isOpen, 
@@ -146,7 +147,7 @@ export default function SearchModal({
                       </span>
 
                       <h4 className="font-sans text-sm font-semibold text-[#2B2225] truncate mt-1">
-                        {product.name}
+                        {getProductDisplayName(product)}
                       </h4>
                       
                       <div className="flex items-center gap-2 mt-1">
@@ -158,12 +159,16 @@ export default function SearchModal({
                         <button 
                           onClick={(e) => {
                             e.stopPropagation();
-                            onAddToCart(product);
+                            onAddToCart({
+                              ...product,
+                              name: getProductDisplayName(product),
+                              description: getProductDisplayDescription(product)
+                            });
                             onClose();
                           }}
                           className="px-3 py-1 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] text-xs font-semibold rounded-full flex items-center gap-1 transition-colors"
                         >
-                          <ShoppingBag className="w-3 h-3" />
+                          <ShoppingCart className="w-3 h-3" />
                           <span>Add</span>
                         </button>
 
@@ -225,7 +230,7 @@ export default function SearchModal({
                 </div>
 
                 <h3 className="font-sans text-xl sm:text-2xl font-semibold text-[#2B2225]">
-                  {selectedProduct.name}
+                  {getProductDisplayName(selectedProduct)}
                 </h3>
                 
                 {selectedProduct.subtitle && (
@@ -239,7 +244,7 @@ export default function SearchModal({
                 </div>
 
                 <p className="font-sans text-xs text-[#5A4B50] leading-relaxed pt-2 border-t border-[#F7D6DF]/60">
-                  {selectedProduct.description}
+                  {getProductDisplayDescription(selectedProduct)}
                 </p>
 
                 {/* Quantity & Action CTA Buttons */}
@@ -262,16 +267,21 @@ export default function SearchModal({
 
                   <button 
                     onClick={() => {
+                      const itemToAdd = {
+                        ...selectedProduct,
+                        name: getProductDisplayName(selectedProduct),
+                        description: getProductDisplayDescription(selectedProduct)
+                      };
                       for (let i = 0; i < quantity; i++) {
-                        onAddToCart(selectedProduct);
+                        onAddToCart(itemToAdd);
                       }
                       setSelectedProduct(null);
                       onClose();
                     }}
                     className="flex-1 px-5 py-3 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] text-xs font-semibold rounded-full flex items-center justify-center gap-2 transition-all shadow-pink-glow"
                   >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>Add {quantity} to Bag</span>
+                    <ShoppingCart className="w-4 h-4" />
+                    <span>Add {quantity} to Cart</span>
                   </button>
                 </div>
               </div>

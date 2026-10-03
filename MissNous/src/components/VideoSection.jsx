@@ -21,9 +21,14 @@ export default function VideoSection() {
         </div>
 
         {/* Section Heading */}
-        <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight mb-8 max-w-2xl mx-auto">
-          Feel the Silky Touch of Organic Care.
+        <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight mb-4 max-w-3xl mx-auto">
+          See Our Water-Based, pH-Balanced Formula in Motion
         </h2>
+
+        {/* Section Caption Paragraph */}
+        <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
+          Watch how naturally this water-based formula moves. Made with organic botanicals and set to a gentle pH of 4.5, it was designed to feel like an extension of your body rather than a product you think twice about. Built on a water and glycerin base, it is not classified as a hazardous chemical under the GHS system, and it is not flammable.
+        </p>
 
         {/* Animated Visual Stage */}
         <div className="relative rounded-[2.5rem] overflow-hidden shadow-luxury border-2 border-[#F7D6DF] bg-white group max-w-5xl mx-auto aspect-video sm:aspect-[16/9] flex items-center justify-center">
@@ -38,18 +43,12 @@ export default function VideoSection() {
             className="w-full h-full object-cover scale-[1.01] hover:scale-105 transition-transform duration-1000 ease-out"
           />
 
-          {/* Floating Luxury Badges */}
-          <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-md rounded-2xl border border-[#F7D6DF] shadow-md flex items-center gap-2 pointer-events-none">
-            <span className="w-2 h-2 rounded-full bg-[#D4AF6A] animate-ping"></span>
-            <span className="text-xs font-semibold text-[#2B2225] font-sans">
-              100% Organic • Silky Texture
-            </span>
-          </div>
-
-          <div className="absolute bottom-6 right-6 px-4 py-2 bg-white/90 backdrop-blur-md rounded-2xl border border-[#F7D6DF] shadow-md flex items-center gap-2 pointer-events-none">
-            <Droplets className="w-4 h-4 text-[#9E3F5C]" />
-            <span className="text-xs font-semibold text-[#9E3F5C] font-sans">
-              pH 4.5 Calibrated Formula
+          {/* Badge Overlay */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-5 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl border border-[#F7D6DF] shadow-md flex items-center gap-2.5 pointer-events-none z-10 max-w-[90%]">
+            <span className="w-2 h-2 rounded-full bg-[#D4AF6A] animate-ping flex-shrink-0"></span>
+            <Droplets className="w-4 h-4 text-[#9E3F5C] flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-[#2B2225] font-sans tracking-wide">
+              Organic Botanicals • Silky Texture • pH 4.5 Formula
             </span>
           </div>
 

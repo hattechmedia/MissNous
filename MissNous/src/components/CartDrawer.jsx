@@ -38,7 +38,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
             <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-[#9E3F5C]" />
               <h3 className="font-sans text-lg font-medium text-[#2B2225]">
-                Your Shopping Bag ({cartItems.reduce((a, b) => a + b.quantity, 0)})
+                Your Shopping Cart ({cartItems.reduce((a, b) => a + b.quantity, 0)})
               </h3>
             </div>
             <button 
@@ -54,7 +54,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
             {cartItems.length === 0 ? (
               <div className="text-center py-16 space-y-4 text-[#5A4B50]">
                 <ShoppingBag className="w-12 h-12 text-[#D4AF6A] mx-auto opacity-50 stroke-[1.5]" />
-                <p className="font-sans text-base font-medium">Your Shopping Bag is empty</p>
+                <p className="font-sans text-base font-medium">Your Shopping Cart is empty</p>
                 <p className="font-sans text-xs text-[#A09095]">
                   Explore our luxury skincare rituals and add items to your cart.
                 </p>
@@ -62,7 +62,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
             ) : (
               cartItems.map(item => (
                 <div 
-                  key={item.id}
+                  key={item.id || item._id}
                   className="bg-white p-4 rounded-2xl border border-[#F7D6DF] shadow-sm flex items-center gap-4"
                 >
                   <img 
@@ -77,7 +77,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                         {item.name}
                       </h4>
                       <button 
-                        onClick={() => onRemoveFromCart(item.id)}
+                        onClick={() => onRemoveFromCart(item.id || item._id)}
                         className="p-1 text-[#A09095] hover:text-[#9E3F5C] transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -85,20 +85,20 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                     </div>
 
                     <span className="text-xs text-[#5A4B50] block truncate">
-                      {item.subtitle || item.category}
+                      {item.selectedSize ? `Size: ${item.selectedSize}` : (item.subtitle || item.category)}
                     </span>
 
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center border border-[#F7D6DF] rounded-full px-2 py-0.5 bg-[#FFF9F5]">
                         <button 
-                          onClick={() => onUpdateQuantity(item.id, -1)}
+                          onClick={() => onUpdateQuantity(item.id || item._id, -1)}
                           className="p-1 text-[#2B2225] hover:text-[#9E3F5C]"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
                         <span className="px-2 text-xs font-semibold text-[#2B2225]">{item.quantity}</span>
                         <button 
-                          onClick={() => onUpdateQuantity(item.id, 1)}
+                          onClick={() => onUpdateQuantity(item.id || item._id, 1)}
                           className="p-1 text-[#2B2225] hover:text-[#9E3F5C]"
                         >
                           <Plus className="w-3 h-3" />
@@ -106,7 +106,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                       </div>
 
                       <span className="text-sm font-bold text-[#9E3F5C]">
-                        ${item.price * item.quantity}
+                        ${Number(item.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
 
@@ -123,7 +123,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               <div className="space-y-2 font-sans">
                 <div className="flex justify-between text-sm text-[#5A4B50]">
                   <span>Subtotal</span>
-                  <span className="font-medium text-[#2B2225]">${subtotal}</span>
+                  <span className="font-medium text-[#2B2225]">${Number(subtotal).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-[#5A4B50]">
                   <span>Shipping</span>
@@ -131,7 +131,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 </div>
                 <div className="flex justify-between text-base font-bold text-[#2B2225] pt-2 border-t border-[#F7D6DF]">
                   <span>Total</span>
-                  <span className="text-[#9E3F5C]">${subtotal}</span>
+                  <span className="text-[#9E3F5C]">${Number(subtotal).toFixed(2)}</span>
                 </div>
               </div>
 
