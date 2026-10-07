@@ -176,7 +176,7 @@ export default function ProductBenefitsSection({ onNavigate }) {
             onClick={() => onNavigate && onNavigate('shop')}
             className="inline-flex items-center justify-center px-10 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-pink-glow transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
-            Shop the Collection
+            Shop Now
           </button>
         </div>
 

@@ -94,7 +94,7 @@ export default function Navbar({
             {/* Left: Brand Name Logo */}
             <div className="cursor-pointer">
               <a 
-                href="#" 
+                href="/" 
                 onClick={(e) => handleNavClick(e, 'home')} 
                 className="flex items-center group py-0.5"
                 aria-label="Miss Nous Home"
@@ -110,16 +110,16 @@ export default function Navbar({
             {/* Center Navigation Links */}
             <nav className="hidden md:flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-[#FDF2F5]/80 border border-[#F7D6DF]/60">
               {[
-                { id: 'home', label: 'Home' },
-                { id: 'about', label: 'About Us' },
-                { id: 'shop', label: 'Shop' },
-                { id: 'contact', label: 'Contact Us' }
+                { id: 'home', label: 'Home', path: '/' },
+                { id: 'about', label: 'About Us', path: '/about' },
+                { id: 'shop', label: 'Shop', path: '/shop' },
+                { id: 'contact', label: 'Contact Us', path: '/contact' }
               ].map((item) => {
                 const isActive = currentPage === item.id;
                 return (
                   <a 
                     key={item.id}
-                    href={`#${item.id}`} 
+                    href={item.path} 
                     onClick={(e) => handleNavClick(e, item.id)} 
                     className={`px-4 py-1.5 rounded-full text-sm sm:text-base font-sans transition-all duration-300 ${
                       isActive 
@@ -271,16 +271,16 @@ export default function Navbar({
 
               <nav className="flex flex-col gap-3 font-sans text-base font-medium text-[#2B2225]">
                 {[
-                  { id: 'home', label: 'Home' },
-                  { id: 'about', label: 'About Us' },
-                  { id: 'shop', label: 'Shop' },
-                  { id: 'contact', label: 'Contact Us' }
+                  { id: 'home', label: 'Home', path: '/' },
+                  { id: 'about', label: 'About Us', path: '/about' },
+                  { id: 'shop', label: 'Shop', path: '/shop' },
+                  { id: 'contact', label: 'Contact Us', path: '/contact' }
                 ].map((item) => {
                   const isActive = currentPage === item.id;
                   return (
                     <a 
                       key={item.id}
-                      href={`#${item.id}`} 
+                      href={item.path} 
                       onClick={(e) => handleNavClick(e, item.id)} 
                       className={`px-4 py-2.5 rounded-2xl transition-all ${
                         isActive 

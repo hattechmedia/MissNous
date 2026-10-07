@@ -45,7 +45,7 @@ export default function NewsletterSection() {
               </div>
 
               <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#FFF9F5] leading-tight tracking-tight drop-shadow-md">
-                Join the Miss Nous Inner Circle
+                Join the Miss Nous <br /> Inner Circle
               </h2>
 
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#FFF9F5]/90 font-normal leading-relaxed max-w-lg drop-shadow-sm">
@@ -108,8 +108,3 @@ export default function NewsletterSection() {
     </section>
   );
 }
-
-
-
-
-

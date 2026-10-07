@@ -116,9 +116,9 @@ export default function TrustBanner() {
                       suffix={item.suffix} 
                     />
                   </div>
-                  <h3 className="font-sans text-xs sm:text-sm font-semibold tracking-wider uppercase text-[#FFF9F5]/90">
+                  <span className="block font-sans text-xs sm:text-sm font-semibold tracking-wider uppercase text-[#FFF9F5]/90">
                     {item.label}
-                  </h3>
+                  </span>
                 </div>
               </div>
             );

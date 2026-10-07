@@ -1,23 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import TrustBanner from './components/TrustBanner';
-import NaturalTouchSection from './components/NaturalTouchSection';
-import SkinRitualSection from './components/SkinRitualSection';
-import FeaturedProductsSection from './components/FeaturedProductsSection';
-import VideoSection from './components/VideoSection';
-import PureComfortSection from './components/PureComfortSection';
-import SafetyTrustBand from './components/SafetyTrustBand';
-import TestimonialsSection from './components/TestimonialsSection';
-import NewsletterSection from './components/NewsletterSection';
-import FaqSection from './components/FaqSection';
-import ProductBenefitsSection from './components/ProductBenefitsSection';
-import ParallaxBanner from './components/ParallaxBanner';
-import AboutPage from './components/AboutPage';
-import ContactPage from './components/ContactPage';
-import ShopPage from './components/ShopPage';
-import ProductDetailPage from './components/ProductDetailPage';
-import CheckoutPage from './components/CheckoutPage';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CheckoutPage from './pages/CheckoutPage';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
@@ -26,8 +14,49 @@ import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
 import api from './services/api';
 
+// Map browser pathname to app page state
+const getPageFromPath = () => {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+  if (path === '' || path === '/') return 'home';
+  if (path === '/about' || path === '/about-us') return 'about';
+  if (path === '/contact' || path === '/contact-us') return 'contact';
+  if (path === '/shop' || path === '/products') return 'shop';
+  if (path === '/product-detail' || path.startsWith('/product/') || path.startsWith('/product-detail')) return 'product-detail';
+  if (path === '/checkout') return 'checkout';
+  if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
+  return 'home';
+};
+
+// Map app page state to browser URL path
+const getPathForPage = (page) => {
+  switch (page) {
+    case 'about': return '/about';
+    case 'contact': return '/contact';
+    case 'shop': return '/shop';
+    case 'product-detail': return '/product-detail';
+    case 'checkout': return '/checkout';
+    case 'account': return '/account';
+    case 'home':
+    default: return '/';
+  }
+};
+
+const syncBrowserUrl = (page, replace = false) => {
+  if (typeof window === 'undefined') return;
+  const targetPath = getPathForPage(page);
+  const currentPath = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+  if (currentPath !== targetPath) {
+    if (replace) {
+      window.history.replaceState({ page }, '', targetPath);
+    } else {
+      window.history.pushState({ page }, '', targetPath);
+    }
+  }
+};
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState(() => getPageFromPath());
 
   // Load user from localStorage (token-based session)
   const [currentUser, setCurrentUser] = useState(() => {
@@ -52,7 +81,14 @@ export default function App() {
   // Cart & Wishlist (session-only, no DB needed)
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(() => {
+    try {
+      const stored = localStorage.getItem('missnous_selected_product');
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      return null;
+    }
+  });
 
   // Drawer states
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -109,6 +145,32 @@ export default function App() {
       window.history.scrollRestoration = 'manual';
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    // Sync initial URL with history state
+    const initialPage = getPageFromPath();
+    syncBrowserUrl(initialPage, true);
+  }, []);
+
+  // Sync browser back/forward buttons (popstate) with current page
+  useEffect(() => {
+    const handlePopState = (e) => {
+      const pageFromUrl = (e.state && e.state.page) || getPageFromPath();
+      if (pageFromUrl === 'product-detail') {
+        try {
+          const stored = localStorage.getItem('missnous_selected_product');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && (parsed.id || parsed._id)) {
+              setSelectedProduct(parsed);
+            }
+          }
+        } catch (err) {}
+      }
+      setCurrentPage(pageFromUrl);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Scroll to top instantly on page change
@@ -136,8 +198,8 @@ export default function App() {
     return () => { observer.disconnect(); mutObs.disconnect(); };
   }, [currentPage]);
 
-  // Navigation Handler with Route Protection
-  const handleNavigate = (page, tab = 'dashboard') => {
+  // Navigation Handler with Route Protection and URL Synchronization
+  const handleNavigate = (page, tab = 'dashboard', scrollTarget = null) => {
     if (page === 'account' || page === 'account-orders' || page === 'admin') {
       if (!currentUser) {
         setAuthModalTab('login');
@@ -146,10 +208,42 @@ export default function App() {
       }
       setCurrentPage('account');
       setUserPanelTab(page === 'account-orders' ? 'orders' : tab);
+      syncBrowserUrl('account');
+    } else if (page === 'faq') {
+      setCurrentPage('home');
+      syncBrowserUrl('home');
+      setTimeout(() => {
+        const el = document.getElementById('faq');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return;
     } else {
+      if (page === 'product-detail') {
+        try {
+          const stored = localStorage.getItem('missnous_selected_product');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && (parsed.id || parsed._id)) {
+              setSelectedProduct(parsed);
+            }
+          }
+        } catch (e) {}
+      }
       setCurrentPage(page);
+      syncBrowserUrl(page);
     }
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (scrollTarget) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollTarget);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   };
 
   const handleOpenAuthModal = (tab = 'login') => {
@@ -159,7 +253,11 @@ export default function App() {
 
   const handleViewProduct = (product) => {
     setSelectedProduct(product);
+    try {
+      localStorage.setItem('missnous_selected_product', JSON.stringify(product));
+    } catch (e) {}
     setCurrentPage('product-detail');
+    syncBrowserUrl('product-detail');
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
@@ -172,9 +270,11 @@ export default function App() {
     setIsAuthModalOpen(false);
     if (currentPage === 'product-detail' || (cartItems && cartItems.length > 0)) {
       setCurrentPage('checkout');
+      syncBrowserUrl('checkout');
     } else {
       setCurrentPage('account');
       setUserPanelTab('dashboard');
+      syncBrowserUrl('account');
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
@@ -184,6 +284,7 @@ export default function App() {
     setOrders([]);
     try { localStorage.removeItem('missnous_current_user'); } catch (e) {}
     setCurrentPage('home');
+    syncBrowserUrl('home');
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
@@ -200,44 +301,27 @@ export default function App() {
     setOrders(prev => [newOrder, ...prev]);
   };
 
-  // Product CRUD (admin-only, refreshes product list from API with fallback)
+  // Product CRUD (admin-only, refreshes product list from API)
   const handleAddProduct = async (newProd) => {
     try {
       const created = await api.post('/products', newProd);
       setProducts(prev => [created, ...prev]);
-    } catch (err) {
-      console.warn('API add failed, saving product in local state:', err.message);
-      setProducts(prev => [newProd, ...prev]);
-    }
+    } catch (err) { console.error(err); }
   };
 
   const handleUpdateProduct = async (updatedProd) => {
-    const targetId = updatedProd._id || updatedProd.id;
-    // Always update local state immediately for instant feedback
-    setProducts(prev => prev.map(p => {
-      const pId = p._id || p.id;
-      return pId === targetId ? { ...p, ...updatedProd } : p;
-    }));
-
     try {
-      if (updatedProd._id) {
-        const { _id, ...rest } = updatedProd;
-        await api.put(`/products/${_id}`, rest);
-      } else {
-        await api.post('/products', updatedProd);
-      }
-    } catch (err) {
-      console.warn('API update failed, local state preserved:', err.message);
-    }
+      const { _id, ...rest } = updatedProd;
+      const updated = await api.put(`/products/${_id}`, rest);
+      setProducts(prev => prev.map(p => p._id === updated._id ? updated : p));
+    } catch (err) { console.error(err); }
   };
 
   const handleDeleteProduct = async (id) => {
-    setProducts(prev => prev.filter(p => (p._id || p.id) !== id));
     try {
       await api.delete(`/products/${id}`);
-    } catch (err) {
-      console.warn('API delete failed, local state preserved:', err.message);
-    }
+      setProducts(prev => prev.filter(p => p._id !== id));
+    } catch (err) { console.error(err); }
   };
 
   // Cart Operations
@@ -309,32 +393,18 @@ export default function App() {
       />
 
       {currentPage === 'home' && (
-        <main>
-          <HeroSection onNavigate={handleNavigate} />
-          <TrustBanner />
-          <NaturalTouchSection onNavigate={handleNavigate} />
-          <FeaturedProductsSection
-            onAddToCart={handleAddToCart}
-            onToggleWishlist={handleToggleWishlist}
-            wishlistItems={wishlistItems}
-            onNavigate={handleNavigate}
-            products={products}
-            onViewProduct={handleViewProduct}
-          />
-          <VideoSection />
-          <ProductBenefitsSection onNavigate={handleNavigate} />
-          <ParallaxBanner onNavigate={handleNavigate} />
-          <SafetyTrustBand />
-          <SkinRitualSection onNavigate={handleNavigate} />
-          <PureComfortSection onNavigate={handleNavigate} />
-          <FaqSection />
-          <TestimonialsSection />
-          <NewsletterSection />
-        </main>
+        <HomePage
+          onNavigate={handleNavigate}
+          onAddToCart={handleAddToCart}
+          onToggleWishlist={handleToggleWishlist}
+          wishlistItems={wishlistItems}
+          products={products}
+          onViewProduct={handleViewProduct}
+        />
       )}
 
       {currentPage === 'about' && (
-        <main><AboutPage onNavigate={handleNavigate} /></main>
+        <main><AboutPage onNavigate={handleNavigate} onViewProduct={handleViewProduct} /></main>
       )}
 
       {currentPage === 'shop' && (
@@ -368,7 +438,7 @@ export default function App() {
       )}
 
       {currentPage === 'contact' && (
-        <main><ContactPage /></main>
+        <main><ContactPage onNavigate={handleNavigate} /></main>
       )}
 
       {currentPage === 'checkout' && (
@@ -441,6 +511,7 @@ export default function App() {
             setIsAuthModalOpen(true);
           } else {
             setCurrentPage('checkout');
+            syncBrowserUrl('checkout');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}

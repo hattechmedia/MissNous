@@ -110,7 +110,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                     
                     <h3 
                       onClick={() => onViewProduct && onViewProduct(product)}
-                      className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug line-clamp-1 cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                      className="font-sans text-lg sm:text-xl lg:text-[1.35rem] font-bold text-[#2B2225] leading-snug tracking-tight whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:text-[#9E3F5C] transition-colors"
                     >
                       {getProductDisplayName(product)}
                     </h3>
@@ -200,7 +200,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                     
                     <h3 
                       onClick={() => onViewProduct && onViewProduct(product)}
-                      className="font-sans text-xl sm:text-2xl font-bold text-[#2B2225] leading-snug cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                      className="font-sans text-lg sm:text-xl lg:text-[1.35rem] font-bold text-[#2B2225] leading-snug tracking-tight whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:text-[#9E3F5C] transition-colors"
                     >
                       {getProductDisplayName(product)}
                     </h3>
