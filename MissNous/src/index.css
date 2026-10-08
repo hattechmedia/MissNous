@@ -20,11 +20,24 @@
     --font-sans: 'Poppins', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  html {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
     font-family: var(--font-sans);
     color: var(--color-text);
     background-color: var(--color-background);
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    min-height: 100vh;
   }
 
   ::selection {
@@ -374,6 +387,13 @@
   transform: translateX(50px);
   transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
+}
+
+@media (max-width: 768px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(30px);
+  }
 }
 
 .reveal-up {

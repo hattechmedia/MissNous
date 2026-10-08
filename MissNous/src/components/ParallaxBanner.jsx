@@ -7,7 +7,7 @@ export default function ParallaxBanner({ onNavigate }) {
       
       {/* Background Image with Smooth Parallax effect */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed filter brightness-75"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-scroll sm:bg-fixed filter brightness-75"
         style={{ backgroundImage: "url('/gpt-15.png')" }}
       >
         {/* Darker Contrast Luxury Overlay with Increased Opacity */}

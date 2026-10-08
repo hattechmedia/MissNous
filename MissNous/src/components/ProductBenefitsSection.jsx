@@ -63,11 +63,11 @@ export default function ProductBenefitsSection({ onNavigate }) {
   return (
     <section 
       ref={sectionRef} 
-      className="relative overflow-hidden py-10 sm:py-12 lg:py-14 px-6 sm:px-12 lg:px-20 xl:px-28 border-t border-[#F7D6DF]"
+      className="relative overflow-hidden py-10 sm:py-12 lg:py-14 px-4 sm:px-12 lg:px-20 xl:px-28 border-t border-[#F7D6DF] w-full max-w-full"
     >
       {/* Background Image with Parallax Scroll Effect (image-9) */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-scroll sm:bg-fixed"
         style={{ backgroundImage: `url(${image9})` }}
       >
         <div className="absolute inset-0 bg-[#FFF9F5]/94 backdrop-blur-xs"></div>

@@ -76,15 +76,16 @@ export default function Navbar({
   return (
     <>
       {/* Main Navigation Bar - Floating Rounded Capsule with White Background across entire website */}
-      <header className="fixed top-3 sm:top-5 left-0 right-0 z-40 px-3 sm:px-6 lg:px-8 transition-all duration-300 pointer-events-none">
+      {/* Main Navigation Bar - Floating Rounded Capsule with White Background across entire website */}
+      <header className="fixed top-2.5 sm:top-5 left-0 right-0 z-40 px-2 sm:px-6 lg:px-8 transition-all duration-300 pointer-events-none">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white/95 backdrop-blur-md rounded-full shadow-luxury border border-[#F7D6DF]/80 py-2 sm:py-2.5 px-3.5 sm:px-6 flex items-center justify-between pointer-events-auto">
+          <div className="bg-white/95 backdrop-blur-md rounded-full shadow-luxury border border-[#F7D6DF]/80 py-1.5 sm:py-2.5 px-2.5 sm:px-6 flex items-center justify-between pointer-events-auto gap-1 sm:gap-4">
 
             {/* Mobile Menu Icon */}
-            <div className="flex items-center md:hidden">
+            <div className="flex items-center md:hidden flex-shrink-0">
               <button 
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
+                className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
                 aria-label="Open Mobile Menu"
               >
                 <Menu className="w-5 h-5 stroke-[1.8]" />
@@ -92,7 +93,7 @@ export default function Navbar({
             </div>
 
             {/* Left: Brand Name Logo */}
-            <div className="cursor-pointer">
+            <div className="cursor-pointer min-w-0 flex-shrink-1">
               <a 
                 href="/" 
                 onClick={(e) => handleNavClick(e, 'home')} 
@@ -102,7 +103,7 @@ export default function Navbar({
                 <img 
                   src={logoHorizontal} 
                   alt="Miss Nous" 
-                  className="h-8 sm:h-9 md:h-10 lg:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+                  className="h-7 sm:h-9 md:h-10 lg:h-11 max-w-[120px] sm:max-w-none w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                 />
               </a>
             </div>
@@ -134,11 +135,11 @@ export default function Navbar({
             </nav>
 
             {/* Right Action Icons (Search, Bag, Profile/User) */}
-            <div className="flex items-center gap-1 sm:gap-2 relative" ref={dropdownRef}>
+            <div className="flex items-center gap-0.5 sm:gap-2 relative flex-shrink-0" ref={dropdownRef}>
               {/* Search Toggle */}
               <button 
                 onClick={onOpenSearch}
-                className="p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
+                className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
                 aria-label="Search"
               >
                 <Search className="w-5 h-5 stroke-[1.8]" />
@@ -147,7 +148,7 @@ export default function Navbar({
               {/* Shopping Bag Icon with Badge */}
               <button 
                 onClick={onOpenCart}
-                className="p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors relative flex items-center"
+                className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors relative flex items-center"
                 aria-label="Shopping Cart"
               >
                 <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
@@ -169,10 +170,10 @@ export default function Navbar({
                     <img 
                       src={currentUser.avatar} 
                       alt={currentUser.name} 
-                      className="w-8 h-8 rounded-full object-cover border-2 border-[#9E3F5C] shadow-xs"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border-2 border-[#9E3F5C] shadow-xs"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-[#9E3F5C] text-white flex items-center justify-center text-xs font-bold shadow-xs border-2 border-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#9E3F5C] text-white flex items-center justify-center text-xs font-bold shadow-xs border-2 border-white">
                       {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
                     </div>
                   )}
@@ -180,7 +181,7 @@ export default function Navbar({
               ) : (
                 <button 
                   onClick={handleProfileClick}
-                  className="p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors relative flex items-center hover:scale-105"
+                  className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors relative flex items-center hover:scale-105"
                   aria-label="User Profile / Login"
                   title="Log In / Sign Up"
                 >

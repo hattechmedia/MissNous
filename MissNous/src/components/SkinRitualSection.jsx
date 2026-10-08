@@ -35,7 +35,7 @@ export default function SkinRitualSection({ onNavigate }) {
           <div className="absolute inset-0 flex flex-col pointer-events-none z-0">
             {/* Top Parallax portion behind heading */}
             <div 
-              className="h-[200px] sm:h-[220px] lg:h-[230px] w-full relative overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed"
+              className="h-[200px] sm:h-[220px] lg:h-[230px] w-full relative overflow-hidden bg-cover bg-center bg-no-repeat bg-scroll sm:bg-fixed"
               style={{ backgroundImage: `url(${image9})` }}
             >
               <div className="absolute inset-0 bg-[#FFF9F5]/88 backdrop-blur-xs border-b border-[#F7D6DF]/60" />

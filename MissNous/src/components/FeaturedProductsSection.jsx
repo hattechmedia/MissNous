@@ -87,7 +87,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
             {products.map((product) => (
               <div 
                 key={product.id || product._id}
-                className="w-[350px] sm:w-[500px] lg:w-[580px] max-w-full flex-shrink-0 bg-white rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-7 sm:p-10 relative text-left"
+                className="w-[88vw] sm:w-[500px] lg:w-[580px] max-w-[580px] flex-shrink-0 bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-10 relative text-left"
               >
                 {/* Product Image Stage */}
                 <div 
@@ -173,7 +173,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
             {products.map((product, idx) => (
               <div 
                 key={product.id || product._id}
-                className={`w-full max-w-[580px] bg-white rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-7 sm:p-10 relative text-left ${
+                className={`w-full max-w-[580px] bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-10 relative text-left ${
                   idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
                 }`}
               >

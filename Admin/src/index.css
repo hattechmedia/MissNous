@@ -20,11 +20,23 @@
     --font-sans: 'Poppins', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  html {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
     scroll-behavior: smooth;
     font-family: var(--font-sans);
     color: var(--color-text);
     background-color: var(--color-background);
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    min-height: 100vh;
   }
 
   ::selection {
