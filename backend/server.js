@@ -92,7 +92,11 @@ const startServer = (port) => {
   });
 };
 
-startServer(DEFAULT_PORT);
+if (!process.env.VERCEL) {
+  startServer(DEFAULT_PORT);
+}
+
+module.exports = app;
 
 // Connect to MongoDB with retry logic in background
 const connectWithRetry = async () => {
