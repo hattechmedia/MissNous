@@ -130,14 +130,24 @@ export default function Footer({ onNavigate }) {
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <span>Copyright © 2026 Miss Nous Inc. All rights reserved.</span>
             <span className="hidden sm:inline text-[#D4AF6A]">•</span>
-            <span className="font-semibold text-[#E8D3A5]">Powered by Hat Tech Media</span>
+            <span className="font-semibold text-[#E8D3A5]">
+              Powered by{' '}
+              <a
+                href="https://hattechmedia.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                Hat Tech Media
+              </a>
+            </span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-[#E8D3A5] transition-colors">
+            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-white transition-colors">
               Privacy Policy
             </a>
             <span>·</span>
-            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-[#E8D3A5] transition-colors">
+            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-white transition-colors">
               Terms of Use
             </a>
           </div>

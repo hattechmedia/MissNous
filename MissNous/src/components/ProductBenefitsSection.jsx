@@ -100,16 +100,16 @@ export default function ProductBenefitsSection({ onNavigate }) {
             {leftBenefits.map((b, index) => (
               <div 
                 key={b.id} 
-                className={`relative group text-left transition-all duration-700 ease-out ${
+                className={`relative group text-center lg:text-left transition-all duration-700 ease-out ${
                   isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
                 }`}
                 style={{ transitionDelay: `${index * 150 + 100}ms` }}
               >
-                <div className="space-y-0.5 pb-1.5">
+                <div className="space-y-0.5 pb-1.5 flex flex-col items-center lg:items-start">
                   <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
                     {b.title}
                   </h3>
-                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs">
+                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto lg:ml-0">
                     {b.description}
                   </p>
                 </div>
@@ -143,16 +143,16 @@ export default function ProductBenefitsSection({ onNavigate }) {
             {rightBenefits.map((b, index) => (
               <div 
                 key={b.id} 
-                className={`relative group text-left lg:text-right transition-all duration-700 ease-out ${
+                className={`relative group text-center lg:text-right transition-all duration-700 ease-out ${
                   isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
                 }`}
                 style={{ transitionDelay: `${index * 150 + 100}ms` }}
               >
-                <div className="space-y-0.5 pb-1.5">
+                <div className="space-y-0.5 pb-1.5 flex flex-col items-center lg:items-end">
                   <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
                     {b.title}
                   </h3>
-                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs ml-0 lg:ml-auto">
+                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto lg:ml-auto">
                     {b.description}
                   </p>
                 </div>
