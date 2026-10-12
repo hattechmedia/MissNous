@@ -11,7 +11,8 @@ import {
   X,
   Sparkles,
   CreditCard,
-  ChevronUp
+  ChevronUp,
+  BookOpen
 } from 'lucide-react';
 import logoIcon from '../assets/logo-icon.png';
 
@@ -23,6 +24,7 @@ export default function AdminSidebar({
   pendingOrdersCount = 0, 
   customersCount = 0, 
   paymentsCount = 0,
+  blogsCount = 0,
   onLogout,
   mobileOpen = false,
   setMobileOpen,
@@ -36,7 +38,8 @@ export default function AdminSidebar({
     { id: 'categories', label: 'Categories', icon: FolderTree, count: categoriesCount },
     { id: 'orders', label: 'Orders', icon: ShoppingBag, badge: pendingOrdersCount > 0 ? `${pendingOrdersCount} New` : null },
     { id: 'payments', label: 'Payments', icon: CreditCard, count: paymentsCount },
-    { id: 'customers', label: 'Customers', icon: Users, count: customersCount }
+    { id: 'customers', label: 'Customers', icon: Users, count: customersCount },
+    { id: 'blogs', label: 'Blog Manager', icon: BookOpen, count: blogsCount }
   ];
 
   const sidebarContent = (

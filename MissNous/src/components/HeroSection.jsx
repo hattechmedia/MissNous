@@ -15,10 +15,10 @@ export default function HeroSection({ onNavigate }) {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover object-center scale-[1.05]"
+          className="w-full h-full object-cover object-center"
         />
-        {/* Higher Opacity Dark Overlay for maximum text readability & cinematic look */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/55 to-black/65 backdrop-blur-[1px]"></div>
+        {/* Deep Dark Overlay for a duller background & high contrast text (no blur) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/78 to-black/82"></div>
       </div>
 
       {/* Floating Ambient Glow Effect */}

@@ -70,8 +70,8 @@ export default function FaqSection() {
         {/* 2-Column Grid Layout: 35% Image / 65% FAQ Accordion Split with Equal Height */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           
-          {/* LEFT COLUMN: ~35% Width Product Image matching exact right column height */}
-          <div className="lg:col-span-4 flex flex-col reveal-left h-full">
+          {/* LEFT COLUMN: ~35% Width Product Image (hidden on mobile, visible on lg screens) */}
+          <div className="hidden lg:flex lg:col-span-4 flex-col reveal-left h-full">
             <div className="relative rounded-3xl overflow-hidden border border-[#F7D6DF] shadow-luxury bg-white group h-full flex-1 min-h-[350px] sm:min-h-[420px] lg:min-h-0">
               <img 
                 src={image6} 
@@ -97,8 +97,8 @@ export default function FaqSection() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: ~65% Width FAQ Accordion */}
-          <div className="lg:col-span-8 flex flex-col space-y-3.5 reveal-right h-full justify-between">
+          {/* RIGHT COLUMN: ~65% Width FAQ Accordion (full width on mobile) */}
+          <div className="col-span-1 lg:col-span-8 flex flex-col space-y-3.5 reveal-right h-full justify-between">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               return (

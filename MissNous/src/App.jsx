@@ -6,6 +6,7 @@ import ContactPage from './pages/ContactPage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
+import BlogPage from './pages/BlogPage';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
@@ -22,6 +23,7 @@ const getPageFromPath = () => {
   if (path === '/about' || path === '/about-us') return 'about';
   if (path === '/contact' || path === '/contact-us') return 'contact';
   if (path === '/shop' || path === '/products') return 'shop';
+  if (path === '/blog') return 'blog';
   if (path === '/product-detail' || path.startsWith('/product/') || path.startsWith('/product-detail')) return 'product-detail';
   if (path === '/checkout') return 'checkout';
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
@@ -34,6 +36,7 @@ const getPathForPage = (page) => {
     case 'about': return '/about';
     case 'contact': return '/contact';
     case 'shop': return '/shop';
+    case 'blog': return '/blog';
     case 'product-detail': return '/product-detail';
     case 'checkout': return '/checkout';
     case 'account': return '/account';
@@ -73,6 +76,14 @@ export default function App() {
   // Products & Categories from API
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [blogs, setBlogs] = useState(() => {
+    try {
+      const local = localStorage.getItem('missnous_published_blogs');
+      return local ? JSON.parse(local) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [loadingProducts, setLoadingProducts] = useState(true);
 
   // Orders from API
@@ -95,16 +106,21 @@ export default function App() {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Fetch products & categories from API on mount
+  // Fetch products, categories & blogs from API on mount
   const fetchPublicData = useCallback(async () => {
     try {
       setLoadingProducts(true);
-      const [prods, cats] = await Promise.all([
-        api.get('/products'),
-        api.get('/categories')
+      const [prods, cats, blgs] = await Promise.all([
+        api.get('/products').catch(() => []),
+        api.get('/categories').catch(() => []),
+        api.get('/blogs').catch(() => null)
       ]);
-      setProducts(prods);
-      setCategories(cats);
+      setProducts(prods || []);
+      setCategories(cats || []);
+      if (Array.isArray(blgs) && blgs.length > 0) {
+        setBlogs(blgs);
+        localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs));
+      }
     } catch (err) {
       console.error('Failed to load data:', err.message);
     } finally {
@@ -117,9 +133,39 @@ export default function App() {
     fetchPublicData();
   }, [fetchPublicData]);
 
-  // Re-fetch products & categories every time user visits the shop page
+  // Sync blogs via BroadcastChannel & localStorage
   useEffect(() => {
-    if (currentPage === 'shop') {
+    let bc;
+    if ('BroadcastChannel' in window) {
+      bc = new BroadcastChannel('missnous_channel');
+      bc.onmessage = (event) => {
+        if (event.data?.type === 'SYNC_BLOGS' && Array.isArray(event.data.blogs)) {
+          setBlogs(event.data.blogs);
+        }
+      };
+    }
+
+    const handleStorageEvent = (e) => {
+      if (e.key === 'missnous_published_blogs' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) {
+            setBlogs(parsed);
+          }
+        } catch (err) {}
+      }
+    };
+
+    window.addEventListener('storage', handleStorageEvent);
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener('storage', handleStorageEvent);
+    };
+  }, []);
+
+  // Re-fetch products & categories every time user visits the shop or blog page
+  useEffect(() => {
+    if (currentPage === 'shop' || currentPage === 'blog') {
       fetchPublicData();
     }
   }, [currentPage, fetchPublicData]);
@@ -172,6 +218,32 @@ export default function App() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // Dynamic Canonical Tag Updater for SEO (missnous.com)
+  useEffect(() => {
+    const domain = 'https://missnous.com';
+    let path = '/';
+    switch (currentPage) {
+      case 'about': path = '/about'; break;
+      case 'contact': path = '/contact'; break;
+      case 'shop': path = '/shop'; break;
+      case 'blog': path = '/blog'; break;
+      case 'product-detail': path = '/product-detail'; break;
+      case 'checkout': path = '/checkout'; break;
+      case 'account': path = '/account'; break;
+      case 'home':
+      default: path = '/'; break;
+    }
+    const canonicalUrl = `${domain}${path}`;
+
+    let link = document.querySelector("link[rel='canonical']");
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
+    }
+    link.setAttribute('href', canonicalUrl);
+  }, [currentPage]);
 
   // Scroll to top instantly on page change
   useEffect(() => {
@@ -435,6 +507,10 @@ export default function App() {
             onOpenAuthModal={handleOpenAuthModal}
           />
         </main>
+      )}
+
+      {currentPage === 'blog' && (
+        <main><BlogPage blogs={blogs} onNavigate={handleNavigate} /></main>
       )}
 
       {currentPage === 'contact' && (

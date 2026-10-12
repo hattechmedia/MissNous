@@ -10,6 +10,7 @@ import OrdersPage from './pages/Orders/OrdersPage';
 import PaymentsPage from './pages/Payments/PaymentsPage';
 import CustomersPage from './pages/Customers/CustomersPage';
 import SettingsPage from './pages/Settings/SettingsPage';
+import BlogsPage from './pages/Blogs/BlogsPage';
 
 import api from './services/api';
 
@@ -34,6 +35,14 @@ export default function App() {
   const [categories, setCategories] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
   const [usersList, setUsersList] = useState([]);
+  const [blogs, setBlogs] = useState(() => {
+    try {
+      const local = localStorage.getItem('missnous_published_blogs');
+      return local ? JSON.parse(local) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [loading, setLoading] = useState(false);
 
   // Notifications state
@@ -106,11 +115,12 @@ export default function App() {
     if (!currentUser) return;
     try {
       setLoading(true);
-      const [prods, cats, orders, users] = await Promise.all([
+      const [prods, cats, orders, users, blgs] = await Promise.all([
         api.get('/products').catch(err => { console.error('Products fetch failed:', err); return []; }),
         api.get('/categories').catch(err => { console.error('Categories fetch failed:', err); return []; }),
         api.get('/orders').catch(err => { console.error('Orders fetch failed:', err); return []; }),
-        api.get('/users').catch(err => { console.error('Users fetch failed:', err); return []; })
+        api.get('/users').catch(err => { console.error('Users fetch failed:', err); return []; }),
+        api.get('/blogs?all=true').catch(err => { console.warn('Blogs fetch failed, using local:', err.message); return null; })
       ]);
       setProducts(prods || []);
       setCategories(cats || []);
@@ -118,6 +128,10 @@ export default function App() {
       setAllOrders(fetchedOrders);
       checkForNewOrders(fetchedOrders);
       setUsersList(users || []);
+      if (Array.isArray(blgs) && blgs.length > 0) {
+        setBlogs(blgs);
+        localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs));
+      }
     } catch (err) {
       console.error('Failed to load admin data:', err.message);
     } finally {
@@ -311,6 +325,84 @@ export default function App() {
     }
   };
 
+  // ─── Blog CRUD ──────────────────────────────────────────
+  const syncBlogsToStorageAndChannel = (updatedList) => {
+    try {
+      localStorage.setItem('missnous_published_blogs', JSON.stringify(updatedList));
+      if ('BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('missnous_channel');
+        bc.postMessage({ type: 'SYNC_BLOGS', blogs: updatedList });
+        bc.close();
+      }
+    } catch (e) {}
+  };
+
+  const handleAddBlog = async (newBlogData) => {
+    try {
+      const created = await api.post('/blogs', newBlogData);
+      setBlogs(prev => {
+        const updated = [created, ...prev];
+        syncBlogsToStorageAndChannel(updated);
+        return updated;
+      });
+      showToast(`Article "${created.title}" published!`);
+    } catch (err) {
+      // Fallback local save if offline
+      const localBlog = {
+        _id: `blog-${Date.now()}`,
+        id: `blog-${Date.now()}`,
+        ...newBlogData,
+        date: new Date().toISOString(),
+        createdAt: new Date().toISOString()
+      };
+      setBlogs(prev => {
+        const updated = [localBlog, ...prev];
+        syncBlogsToStorageAndChannel(updated);
+        return updated;
+      });
+      showToast(`Article "${localBlog.title}" published!`);
+    }
+  };
+
+  const handleUpdateBlog = async (updatedBlogData) => {
+    const { _id, ...rest } = updatedBlogData;
+    try {
+      const updated = await api.put(`/blogs/${_id}`, rest);
+      setBlogs(prev => {
+        const updatedList = prev.map(b => (b._id === _id || b.id === _id) ? updated : b);
+        syncBlogsToStorageAndChannel(updatedList);
+        return updatedList;
+      });
+      showToast(`Article "${updated.title}" updated!`);
+    } catch (err) {
+      setBlogs(prev => {
+        const updatedList = prev.map(b => (b._id === _id || b.id === _id) ? { ...b, ...rest } : b);
+        syncBlogsToStorageAndChannel(updatedList);
+        return updatedList;
+      });
+      showToast('Article updated!');
+    }
+  };
+
+  const handleDeleteBlog = async (blogId) => {
+    try {
+      await api.delete(`/blogs/${blogId}`);
+      setBlogs(prev => {
+        const updatedList = prev.filter(b => b._id !== blogId && b.id !== blogId);
+        syncBlogsToStorageAndChannel(updatedList);
+        return updatedList;
+      });
+      showToast('Article deleted successfully.');
+    } catch (err) {
+      setBlogs(prev => {
+        const updatedList = prev.filter(b => b._id !== blogId && b.id !== blogId);
+        syncBlogsToStorageAndChannel(updatedList);
+        return updatedList;
+      });
+      showToast('Article deleted.');
+    }
+  };
+
   if (!currentUser || currentUser.role !== 'admin') {
     return <AdminLoginPage onLoginSuccess={handleLoginSuccess} />;
   }
@@ -336,6 +428,7 @@ export default function App() {
         pendingOrdersCount={pendingOrdersCount}
         customersCount={registeredCustomersCount}
         paymentsCount={allOrders.length}
+        blogsCount={blogs.length}
         onLogout={handleLogout}
         mobileOpen={mobileMenuOpen}
         setMobileOpen={setMobileMenuOpen}
@@ -411,6 +504,16 @@ export default function App() {
             <CustomersPage
               users={usersList}
               allOrders={allOrders}
+            />
+          )}
+
+          {activeTab === 'blogs' && (
+            <BlogsPage
+              blogs={blogs}
+              onAddBlog={handleAddBlog}
+              onUpdateBlog={handleUpdateBlog}
+              onDeleteBlog={handleDeleteBlog}
+              showToast={showToast}
             />
           )}
 

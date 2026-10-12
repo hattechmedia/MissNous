@@ -85,10 +85,10 @@ export default function NaturalTouchSection({ onNavigate }) {
           {/* CTA Button */}
           <div className="pt-3">
             <button 
-              onClick={() => onNavigate && onNavigate('about')}
+              onClick={() => onNavigate && onNavigate('shop')}
               className="inline-flex items-center justify-center px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-md transition-all duration-300 transform hover:-translate-y-0.5"
             >
-              Learn More
+              Shop Now
             </button>
           </div>
 

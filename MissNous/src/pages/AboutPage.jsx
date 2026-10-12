@@ -533,42 +533,39 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
       {/* 3.5 POPULAR RITUALS SHOWCASE SECTION (Right after Our Approach) */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-b border-[#F7D6DF]/60 relative overflow-hidden font-sans">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
-            {/* LEFT COLUMN: Text Content & CTA (Slides in from Left) */}
-            <div className="lg:col-span-4 flex flex-col justify-between reveal-left py-0.5">
+            {/* LEFT COLUMN: Text Content & CTA */}
+            <div className="flex flex-col justify-center reveal-left space-y-6 sm:space-y-8">
 
-              {/* Top Text Block */}
-              <div className="space-y-4 sm:space-y-5">
-                {/* Eyebrow Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF] shadow-xs w-fit">
-                  <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
-                  <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                    Product Information
-                  </span>
-                </div>
-
-                {/* Main Copy */}
-                <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
-                  Product Information Matters to Us
-                </h3>
-
-                {/* Description Paragraphs with clean, spacious line-height */}
-                <div className="space-y-3.5 sm:space-y-4 text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-                  <p>
-                    Intimate care is personal, so knowing more about the product you choose matters.
-                  </p>
-                  <p>
-                    The available safety documentation for the water-based lubricant includes information about its ingredients, handling, storage, transport, and other product characteristics. The document also states that the product is not classified as a hazardous chemical under the referenced GHS system.
-                  </p>
-                  <p>
-                    Our goal is to make relevant product information easier to understand so customers can make more informed choices.
-                  </p>
-                </div>
+              {/* Eyebrow Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF] shadow-xs w-fit">
+                <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+                <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                  Product Information
+                </span>
               </div>
 
-              {/* CTA Pill Button aligned to bottom */}
-              <div className="pt-4 sm:pt-6">
+              {/* Main Copy */}
+              <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
+                Product Information Matters to Us
+              </h3>
+
+              {/* Description Paragraphs */}
+              <div className="space-y-3.5 sm:space-y-4 text-xs sm:text-sm lg:text-base text-[#5A4B50] font-normal leading-relaxed">
+                <p>
+                  Intimate care is personal, so knowing more about the product you choose matters.
+                </p>
+                <p>
+                  The available safety documentation for the water-based lubricant includes information about its ingredients, handling, storage, transport, and other product characteristics. The document also states that the product is not classified as a hazardous chemical under the referenced GHS system.
+                </p>
+                <p>
+                  Our goal is to make relevant product information easier to understand so customers can make more informed choices.
+                </p>
+              </div>
+
+              {/* CTA Pill Button */}
+              <div className="pt-2 sm:pt-4">
                 <button
                   onClick={() => onNavigate && onNavigate('shop')}
                   className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-[#9E3F5C] via-[#D96B8A] to-[#9E3F5C] hover:brightness-110 text-[#FFF9F5] font-sans text-xs uppercase tracking-widest font-bold rounded-full shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
@@ -580,9 +577,11 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
 
             </div>
 
-            {/* MIDDLE COLUMN: Large Featured Product Card (/gpt-5.png) */}
-            <div className="lg:col-span-5 flex flex-col h-[440px] sm:h-[470px] lg:h-[485px] reveal-down">
-              <div className="relative rounded-none overflow-hidden shadow-luxury bg-white group h-full flex items-center justify-center">
+            {/* RIGHT COLUMN: Images Grid (equal height to text) */}
+            <div className="grid grid-cols-2 gap-4 reveal-down">
+
+              {/* Large Featured Product - spans full width */}
+              <div className="col-span-2 h-[280px] sm:h-[320px] lg:h-[340px] relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center">
                 <img
                   src="/gpt-5.png"
                   alt="Miss Nous Bestselling Botanical Product"
@@ -590,13 +589,9 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-30 pointer-events-none"></div>
               </div>
-            </div>
 
-            {/* RIGHT COLUMN: image-13 and image-11 */}
-            <div className="lg:col-span-3 flex flex-col gap-4 h-[440px] sm:h-[470px] lg:h-[485px] justify-between">
-
-              {/* Top Card: /gpt-7.jpeg */}
-              <div className="h-[48%] relative rounded-none overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-down">
+              {/* Bottom Left: gpt-7.jpeg */}
+              <div className="h-[180px] sm:h-[200px] lg:h-[220px] relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
                 <img
                   src="/gpt-7.jpeg"
                   alt="Miss Nous Formula Bottle"
@@ -604,8 +599,8 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
                 />
               </div>
 
-              {/* Bottom Card: image-11.png */}
-              <div className="flex-1 relative rounded-none overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
+              {/* Bottom Right: image-11 */}
+              <div className="h-[180px] sm:h-[200px] lg:h-[220px] relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
                 <img
                   src={image11}
                   alt="Miss Nous Skincare Model"
