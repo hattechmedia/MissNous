@@ -100,28 +100,16 @@ export default function ProductBenefitsSection({ onNavigate }) {
             {leftBenefits.map((b, index) => (
               <div 
                 key={b.id} 
-<<<<<<< HEAD
-                className={`relative group text-center transition-all duration-700 ease-out ${
-=======
                 className={`relative group text-center lg:text-left transition-all duration-700 ease-out ${
->>>>>>> ee838378d54f8c32c5a29efd7c0ce02052bf669d
                   isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
                 }`}
                 style={{ transitionDelay: `${index * 150 + 100}ms` }}
               >
-<<<<<<< HEAD
-                <div className="space-y-0.5 pb-1.5 flex flex-col items-center">
-                  <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
-                    {b.title}
-                  </h3>
-                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto">
-=======
                 <div className="space-y-0.5 pb-1.5 flex flex-col items-center lg:items-start">
                   <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
                     {b.title}
                   </h3>
                   <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto lg:ml-0">
->>>>>>> ee838378d54f8c32c5a29efd7c0ce02052bf669d
                     {b.description}
                   </p>
                 </div>
@@ -155,28 +143,16 @@ export default function ProductBenefitsSection({ onNavigate }) {
             {rightBenefits.map((b, index) => (
               <div 
                 key={b.id} 
-<<<<<<< HEAD
-                className={`relative group text-center transition-all duration-700 ease-out ${
-=======
                 className={`relative group text-center lg:text-right transition-all duration-700 ease-out ${
->>>>>>> ee838378d54f8c32c5a29efd7c0ce02052bf669d
                   isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
                 }`}
                 style={{ transitionDelay: `${index * 150 + 100}ms` }}
               >
-<<<<<<< HEAD
-                <div className="space-y-0.5 pb-1.5 flex flex-col items-center">
-                  <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
-                    {b.title}
-                  </h3>
-                  <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto">
-=======
                 <div className="space-y-0.5 pb-1.5 flex flex-col items-center lg:items-end">
                   <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] tracking-tight group-hover:text-[#9E3F5C] transition-colors">
                     {b.title}
                   </h3>
                   <p className="font-sans text-xs sm:text-sm text-[#706065] font-normal leading-relaxed max-w-xs mx-auto lg:ml-auto">
->>>>>>> ee838378d54f8c32c5a29efd7c0ce02052bf669d
                     {b.description}
                   </p>
                 </div>
