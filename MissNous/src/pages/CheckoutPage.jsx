@@ -422,7 +422,7 @@ export default function CheckoutPage({
               </div>
             </div>
 
-            {/* 2. Stripe Hosted Redirect Payment Card */}
+            {/* 2. Payment Method Card */}
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#F7D6DF] shadow-sm space-y-5">
               <div className="flex items-center justify-between">
                 <h3 className="font-sans text-lg font-medium text-[#2B2225] flex items-center gap-2">
@@ -435,15 +435,15 @@ export default function CheckoutPage({
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl border-2 border-[#9E3F5C] bg-[#FFF9F5] space-y-4 shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#F7D6DF]/60 pb-3">
+              <div className="p-5 rounded-2xl border-2 border-[#9E3F5C] bg-[#FFF9F5] space-y-3.5 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-white text-[#9E3F5C] flex items-center justify-center flex-shrink-0 border border-[#F7D6DF] shadow-xs">
                       <CreditCard className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-sans text-sm font-bold text-[#2B2225]">Stripe Official Checkout</h4>
-                      <p className="font-sans text-xs text-[#5A4B50]">Redirect to Stripe secure payment page</p>
+                      <h4 className="font-sans text-sm font-bold text-[#2B2225]">Credit / Debit Card & Digital Wallets</h4>
+                      <p className="font-sans text-xs text-[#5A4B50]">Pay securely with Visa, Mastercard, Amex, Apple Pay, or Google Pay.</p>
                     </div>
                   </div>
 
@@ -458,16 +458,9 @@ export default function CheckoutPage({
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white border border-[#F7D6DF] flex items-start gap-3">
-                  <ExternalLink className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-[#5A4B50] leading-relaxed">
-                    When you click <strong>Pay with Stripe</strong>, you will be redirected to Stripe’s secure hosted checkout page (<span className="text-[#9E3F5C] font-mono">checkout.stripe.com</span>). After completing your payment, you will automatically return here with your order confirmation.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 text-[11px] text-[#A09095]">
+                <div className="flex items-center gap-2 text-[11px] text-[#A09095] pt-2 border-t border-[#F7D6DF]/60">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                  <span>100% encrypted and guaranteed by Stripe.</span>
+                  <span>Guaranteed 100% safe & encrypted payment powered by Stripe.</span>
                 </div>
               </div>
             </div>
