@@ -32,12 +32,37 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
 
   const isCarouselMode = products.length >= 3;
 
-  // Home page featured section specifically features the two best-selling intimate lubricants
-  const featuredProducts = products
-    .filter(p => (p.categoryKey === 'lubricants' || p.category?.toLowerCase().includes('lubricant') || p.name?.toLowerCase().includes('lubricant')))
-    .slice(0, 2);
+  // Exactly 2 best-selling intimate lubricants for the homepage (Strawberry & Pineapple)
+  const defaultLubricants = PRODUCTS.slice(0, 2);
+  let displayProducts = [];
 
-  const displayProducts = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 2);
+  if (Array.isArray(products) && products.length > 0) {
+    const filtered = products.filter(p => {
+      const name = (p.name || '').toLowerCase();
+      const cat = (p.category || '').toLowerCase();
+      const catKey = (p.categoryKey || '').toLowerCase();
+      return (
+        name.includes('strawberry') || 
+        name.includes('pineapple') || 
+        cat.includes('lubricant') || 
+        catKey.includes('lubricant')
+      );
+    });
+
+    if (filtered.length >= 2) {
+      displayProducts = filtered.slice(0, 2);
+    } else if (filtered.length === 1) {
+      // Find the other product from default list to guarantee 2 products
+      const missing = defaultLubricants.find(d => 
+        (d.id !== filtered[0].id && d._id !== filtered[0]._id && !filtered[0].name.toLowerCase().includes(d.name.toLowerCase().includes('pineapple') ? 'pineapple' : 'strawberry'))
+      );
+      displayProducts = missing ? [filtered[0], missing] : defaultLubricants;
+    } else {
+      displayProducts = defaultLubricants;
+    }
+  } else {
+    displayProducts = defaultLubricants;
+  }
 
   return (
     <section className="py-16 lg:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60">
