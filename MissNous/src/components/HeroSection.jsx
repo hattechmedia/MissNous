@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Sparkles } from 'lucide-react';
 
 import { PRODUCTS } from '../data/products';
 
 export default function HeroSection({ onNavigate }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+  }, []);
+
   return (
     <section className="relative overflow-hidden w-full max-w-full bg-[#2B2225] min-h-[420px] sm:min-h-[500px] lg:min-h-[560px] pt-24 sm:pt-32 pb-14 sm:pb-20 flex items-center justify-center px-3 sm:px-8 lg:px-16 border-b border-[#F7D6DF]/60">
 
       {/* Background Video Animation Extending Behind Navbar with Seamless Loop */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#2B2225]">
         <video
+          ref={videoRef}
           src="/hero-bg.mp4"
           autoPlay
           loop
           muted
+          defaultMuted
           playsInline
           className="w-full h-full object-cover object-center"
         />

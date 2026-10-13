@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Sparkles, Droplets } from 'lucide-react';
 import video1 from '../assets/video-1.mp4';
 
 export default function VideoSection() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+  }, []);
+
   return (
     <section className="relative bg-[#FDF2F5] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden border-t border-[#F7D6DF]/60">
       
@@ -35,10 +45,12 @@ export default function VideoSection() {
           
           {/* Seamless Looping Animated Video Asset */}
           <video
+            ref={videoRef}
             src={video1}
             autoPlay
             loop
             muted
+            defaultMuted
             playsInline
             className="w-full h-full object-cover scale-[1.01] hover:scale-105 transition-transform duration-1000 ease-out"
           />

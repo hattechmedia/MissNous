@@ -21,6 +21,10 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
     const video = videoRef.current;
     if (!video) return;
 
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+
     const START_TIME = 0.5;
 
     const handleLoadedMetadata = () => {
@@ -104,7 +108,9 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
             ref={videoRef}
             src={video3} 
             autoPlay 
+            loop
             muted 
+            defaultMuted
             playsInline 
             className={`w-full h-full object-cover object-center scale-[1.05] transition-opacity duration-500 ${
               isVideoReady ? 'opacity-55' : 'opacity-0'
