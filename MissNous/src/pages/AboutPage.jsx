@@ -581,26 +581,26 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             <div className="grid grid-cols-2 gap-4 reveal-down">
 
               {/* Large Featured Product - spans full width */}
-              <div className="col-span-2 aspect-[16/11] sm:aspect-[16/10] min-h-[300px] sm:min-h-[360px] lg:min-h-[400px] relative rounded-xl overflow-hidden shadow-luxury bg-[#FAF8F5] group flex items-center justify-center">
+              <div className="col-span-2 aspect-square sm:aspect-[4/3] relative rounded-xl overflow-hidden shadow-luxury bg-[#FAF8F5] group flex items-center justify-center">
                 <img
                   src="/gpt-5.png"
                   alt="Miss Nous Bestselling Botanical Product"
-                  className="w-full h-full object-contain p-2 sm:p-4 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-[85%] h-[85%] object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-20 pointer-events-none"></div>
               </div>
 
               {/* Bottom Left: gpt-7.jpeg */}
-              <div className="aspect-square h-auto w-full relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
+              <div className="aspect-square w-full relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
                 <img
                   src="/gpt-7.jpeg"
                   alt="Miss Nous Formula Bottle"
-                  className="w-full h-full object-contain p-2 sm:p-3 group-hover:scale-105 transition-transform duration-500"
+                  className="w-[85%] h-[85%] object-contain group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
               {/* Bottom Right: image-11 */}
-              <div className="aspect-square h-auto w-full relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
+              <div className="aspect-[2/3] w-full relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
                 <img
                   src={image11}
                   alt="Miss Nous Skincare Model"
