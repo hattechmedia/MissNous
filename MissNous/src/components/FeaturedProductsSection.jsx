@@ -32,11 +32,18 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
 
   const isCarouselMode = products.length >= 3;
 
+  // Home page featured section specifically features the two best-selling intimate lubricants
+  const featuredProducts = products
+    .filter(p => (p.categoryKey === 'lubricants' || p.category?.toLowerCase().includes('lubricant') || p.name?.toLowerCase().includes('lubricant')))
+    .slice(0, 2);
+
+  const displayProducts = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 2);
+
   return (
     <section className="py-16 lg:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60">
       <div className="max-w-7xl mx-auto space-y-10">
         
-        {/* Centered Section Header with Navigation Arrows */}
+        {/* Centered Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 reveal-up">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
             <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
@@ -46,7 +53,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           </div>
 
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
-            {products.length === 2 ? 'Our Two Best-Selling Organic Intimate Lubricants' : 'Our Best-Selling Organic Products'}
+            Our Two Best-Selling Organic Intimate Lubricants
           </h2>
 
           <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
@@ -54,15 +61,9 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           </p>
         </div>
 
-        {/* Dynamic Products Grid Layout (1 col mobile, 2 col tablet, 3 col desktop) */}
-        <div className={`grid gap-6 sm:gap-8 items-stretch justify-items-center max-w-7xl mx-auto ${
-          products.length === 1 
-            ? 'grid-cols-1 max-w-md' 
-            : products.length === 2 
-            ? 'grid-cols-1 md:grid-cols-2 max-w-4xl' 
-            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-        }`}>
-          {products.map((product, idx) => (
+        {/* 2-Column Wide Centered Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch justify-items-center max-w-5xl mx-auto">
+          {displayProducts.map((product, idx) => (
             <div 
               key={product.id || product._id}
               className={`w-full bg-white rounded-3xl sm:rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-7 relative text-left reveal-up`}
