@@ -15,7 +15,8 @@ import {
   HeartHandshake, 
   Check, 
   Star,
-  ChevronRight
+  ChevronRight,
+  Phone
 } from 'lucide-react';
 
 const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -30,7 +31,14 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
   const [agreeTerms, setAgreeTerms] = useState(true);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signUpData, setSignUpData] = useState({ fullName: '', email: '', password: '' });
+  const [signUpData, setSignUpData] = useState({ 
+    fullName: '', 
+    email: '', 
+    phone: '', 
+    password: '', 
+    confirmPassword: '' 
+  });
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -89,12 +97,17 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
     setError('');
 
     if (!signUpData.fullName || !signUpData.email || !signUpData.password) {
-      setError('Please fill in all required fields.');
+      setError('Please fill in all required fields (Full Name, Email, Password).');
       return;
     }
 
     if (signUpData.password.length < 6) {
       setError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    if (signUpData.password !== signUpData.confirmPassword) {
+      setError('Passwords do not match. Please re-enter your confirm password.');
       return;
     }
 
@@ -111,6 +124,7 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
         body: JSON.stringify({
           name: signUpData.fullName.trim(),
           email: signUpData.email.trim(),
+          phone: signUpData.phone ? signUpData.phone.trim() : '',
           password: signUpData.password
         })
       });
@@ -414,6 +428,22 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
 
               <div>
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-[#2B2225] mb-1.5">
+                  Phone Number (For Delivery Updates)
+                </label>
+                <div className="relative">
+                  <Phone className="w-4 h-4 text-[#A09095] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="tel"
+                    value={signUpData.phone}
+                    onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
+                    placeholder="e.g. +1 (555) 019-2834"
+                    className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-xl pl-11 pr-4 py-3.5 text-xs sm:text-sm text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:bg-white focus:ring-2 focus:ring-[#9E3F5C]/15 transition-all font-medium"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#2B2225] mb-1.5">
                   Create Password (Min. 6 Characters) <span className="text-[#9E3F5C]">*</span>
                 </label>
                 <div className="relative">
@@ -443,6 +473,42 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
                       </span>
                     ) : (
                       <span className="text-amber-600">Must be at least 6 characters</span>
+                    )}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#2B2225] mb-1.5">
+                  Confirm Password <span className="text-[#9E3F5C]">*</span>
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[#A09095] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={signUpData.confirmPassword}
+                    onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
+                    placeholder="Re-enter password"
+                    className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-xl pl-11 pr-11 py-3.5 text-xs sm:text-sm text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:bg-white focus:ring-2 focus:ring-[#9E3F5C]/15 transition-all font-medium"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A09095] hover:text-[#2B2225] transition-colors cursor-pointer"
+                    aria-label="Toggle confirm password visibility"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {signUpData.confirmPassword && (
+                  <p className="text-[11px] text-[#7A6B70] mt-1 pl-1">
+                    {signUpData.password === signUpData.confirmPassword ? (
+                      <span className="text-emerald-600 font-medium inline-flex items-center gap-1">
+                        <Check className="w-3 h-3" /> Passwords match
+                      </span>
+                    ) : (
+                      <span className="text-red-500 font-medium">Passwords do not match</span>
                     )}
                   </p>
                 )}

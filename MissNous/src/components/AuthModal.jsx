@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Mail, Lock, User, Eye, EyeOff, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff, CheckCircle2, ArrowRight, Phone } from 'lucide-react';
 
 const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
@@ -11,7 +11,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
   const [loading, setLoading] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signUpData, setSignUpData] = useState({ fullName: '', email: '', password: '' });
+  const [signUpData, setSignUpData] = useState({ 
+    fullName: '', 
+    email: '', 
+    phone: '', 
+    password: '', 
+    confirmPassword: '' 
+  });
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     setActiveTab(initialTab);
@@ -23,7 +30,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
     } else {
       document.body.style.overflow = '';
       setLoginData({ email: '', password: '' });
-      setSignUpData({ fullName: '', email: '', password: '' });
+      setSignUpData({ fullName: '', email: '', phone: '', password: '', confirmPassword: '' });
       setError('');
       setLoading(false);
     }
@@ -35,7 +42,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
   const handleClose = () => {
     document.body.style.overflow = '';
     setLoginData({ email: '', password: '' });
-    setSignUpData({ fullName: '', email: '', password: '' });
+    setSignUpData({ fullName: '', email: '', phone: '', password: '', confirmPassword: '' });
     setError('');
     setLoading(false);
     onClose();
@@ -82,6 +89,10 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
       setError('Password should be at least 6 characters long.');
       return;
     }
+    if (signUpData.password !== signUpData.confirmPassword) {
+      setError('Passwords do not match. Please re-enter confirm password.');
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch(`${BASE_URL}/auth/register`, {
@@ -90,6 +101,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
         body: JSON.stringify({
           name: signUpData.fullName.trim(),
           email: signUpData.email.trim(),
+          phone: signUpData.phone ? signUpData.phone.trim() : '',
           password: signUpData.password
         })
       });
@@ -101,7 +113,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
       try {
         localStorage.setItem('missnous_new_user_event', JSON.stringify({ time: Date.now(), user: userWithToken }));
       } catch (e) {}
-      setSignUpData({ fullName: '', email: '', password: '' });
+      setSignUpData({ fullName: '', email: '', phone: '', password: '', confirmPassword: '' });
       onLoginSuccess(userWithToken);
       handleClose();
     } catch (err) {
@@ -290,6 +302,22 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
 
             <div className="space-y-1.5">
               <label className="block font-sans text-[11px] font-bold uppercase tracking-wider text-[#2B2225]">
+                Phone Number
+              </label>
+              <div className="relative">
+                <Phone className="w-4 h-4 text-[#A09095] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="tel"
+                  placeholder="+1 (555) 019-2834"
+                  value={signUpData.phone}
+                  onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] font-sans text-xs sm:text-sm text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:bg-white focus:ring-2 focus:ring-[#9E3F5C]/15 transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block font-sans text-[11px] font-bold uppercase tracking-wider text-[#2B2225]">
                 Password (Min. 6 characters)
               </label>
               <div className="relative">
@@ -310,6 +338,39 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block font-sans text-[11px] font-bold uppercase tracking-wider text-[#2B2225]">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-[#A09095] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required
+                  placeholder="••••••••"
+                  value={signUpData.confirmPassword}
+                  onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
+                  className="w-full pl-10 pr-10 py-3 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] font-sans text-xs sm:text-sm text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:bg-white focus:ring-2 focus:ring-[#9E3F5C]/15 transition-all"
+                />
+                <button 
+                  type="button" 
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A09095] hover:text-[#9E3F5C] cursor-pointer"
+                >
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {signUpData.confirmPassword && (
+                <p className="text-[10px] pl-1 font-semibold">
+                  {signUpData.password === signUpData.confirmPassword ? (
+                    <span className="text-emerald-600">✓ Passwords match</span>
+                  ) : (
+                    <span className="text-red-500">Passwords do not match</span>
+                  )}
+                </p>
+              )}
             </div>
 
             <button

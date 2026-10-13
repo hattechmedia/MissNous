@@ -313,8 +313,7 @@ export default function App() {
   const handleNavigate = (page, tab = 'dashboard', scrollTarget = null) => {
     if (page === 'account' || page === 'account-orders' || page === 'admin') {
       if (!currentUser) {
-        setAuthModalTab('login');
-        setIsAuthModalOpen(true);
+        handleOpenAuthModal('login');
         return;
       }
       setCurrentPage('account');
@@ -358,8 +357,10 @@ export default function App() {
   };
 
   const handleOpenAuthModal = (tab = 'login') => {
-    setAuthModalTab(tab);
-    setIsAuthModalOpen(true);
+    const targetPage = (tab === 'register' || tab === 'signup') ? 'register' : 'login';
+    setCurrentPage(targetPage);
+    syncBrowserUrl(targetPage);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
   const handleViewProduct = (product) => {
@@ -644,8 +645,7 @@ export default function App() {
         onProceedToCheckout={() => {
           setIsCartOpen(false);
           if (!currentUser) {
-            setAuthModalTab('login');
-            setIsAuthModalOpen(true);
+            handleOpenAuthModal('login');
           } else {
             setCurrentPage('checkout');
             syncBrowserUrl('checkout');
