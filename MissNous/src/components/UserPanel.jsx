@@ -453,10 +453,10 @@ export default function UserPanel({
 
                     {/* Products in recent order */}
                     <div className="divide-y divide-[#F7D6DF]/40 pt-2">
-                      {recentOrder.items.map((item, i) => (
+                      {(recentOrder.items || []).map((item, i) => (
                         <div key={i} className="py-3 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <img src={item.image} alt={item.name || item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />
+                            <img src={item.image} alt={item.name || item.title} className="w-12 h-12 rounded-xl object-contain bg-white p-1 border border-[#F7D6DF]" />
                             <div>
                               <p className="text-xs sm:text-sm font-semibold text-[#2B2225]">{item.name || item.title}</p>
                               <p className="text-xs text-[#5A4B50]">Qty: {item.quantity} • ${item.price}</p>
@@ -509,14 +509,17 @@ export default function UserPanel({
                           {/* Order Header */}
                           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#F7D6DF]/60 pb-4">
                             <div className="space-y-1">
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-wrap items-center gap-2">
                                 <span className="font-sans text-base font-bold text-[#2B2225]">Order #{order.orderId || order._id || order.id}</span>
                                 <span className="px-3 py-0.5 rounded-full bg-[#FDF2F5] text-[#9E3F5C] text-[11px] font-bold border border-[#F7D6DF]">
                                   {order.status}
                                 </span>
+                                <span className="px-2.5 py-0.5 rounded-full bg-white text-[#5A4B50] text-[11px] font-semibold border border-[#F7D6DF] shadow-xs">
+                                  {(order.items || []).length} {(order.items || []).length === 1 ? 'Product' : 'Products'}
+                                </span>
                               </div>
                               <p className="text-xs text-[#5A4B50]">
-                                Date: {order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : order.date || '-'} • Payment: {order.paymentMethod || 'Cash on Delivery (COD)'}
+                                Date: {order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : order.date || '-'} • Payment: {order.paymentMethod || 'Stripe'}
                                 {order.shippingAddress?.city ? ` • Ship to: ${order.shippingAddress.city}` : ''}
                               </p>
                             </div>
@@ -580,14 +583,15 @@ export default function UserPanel({
                           </div>
 
                           {/* Items Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                            {order.items.map((item, idx) => (
-                              <div key={idx} className="flex items-center gap-3 p-3 bg-[#FFF9F5] rounded-2xl border border-[#F7D6DF]/60">
-                                <img src={item.image} alt={item.name || item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />
-                                <div>
-                                  <h4 className="font-sans text-xs font-bold text-[#2B2225]">{item.name || item.title}</h4>
-                                  <p className="font-sans text-xs text-[#5A4B50]">Qty: {item.quantity} × ${item.price}</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
+                            {(order.items || []).map((item, idx) => (
+                              <div key={idx} className="flex items-center gap-3 p-3.5 bg-[#FFF9F5] rounded-2xl border border-[#F7D6DF]/60 shadow-xs">
+                                <img src={item.image} alt={item.name || item.title} className="w-14 h-14 rounded-xl object-contain bg-white p-1 border border-[#F7D6DF] flex-shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="font-sans text-xs sm:text-sm font-bold text-[#2B2225] truncate">{item.name || item.title}</h4>
+                                  <p className="font-sans text-xs text-[#5A4B50] mt-0.5">Qty: {item.quantity} × ${Number(item.price).toFixed(2)}</p>
                                 </div>
+                                <span className="font-sans text-xs sm:text-sm font-bold text-[#9E3F5C] flex-shrink-0">${(Number(item.price) * Number(item.quantity)).toFixed(2)}</span>
                               </div>
                             ))}
                           </div>
@@ -875,7 +879,7 @@ export default function UserPanel({
             <div className="bg-white rounded-3xl border border-[#F7D6DF] p-5 space-y-3">
               <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#2B2225]">Products Ordered</h4>
               <div className="divide-y divide-[#F7D6DF]/60">
-                {selectedOrderDetails.items.map((item, idx) => (
+                {(selectedOrderDetails.items || []).map((item, idx) => (
                   <div key={idx} className="py-3 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <img src={item.image} alt={item.name || item.title} className="w-12 h-12 rounded-xl object-cover border border-[#F7D6DF]" />

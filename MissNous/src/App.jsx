@@ -11,6 +11,7 @@ import TermsOfUsePage from './pages/TermsOfUsePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
+import AuthPage from './pages/AuthPage';
 import Footer from './components/Footer';
 import SearchModal from './components/SearchModal';
 import WishlistDrawer from './components/WishlistDrawer';
@@ -32,6 +33,8 @@ const getPageFromPath = () => {
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
   if (path === '/terms' || path === '/terms-of-use' || path === '/terms-of-service') return 'terms-of-use';
   if (path === '/privacy' || path === '/privacy-policy') return 'privacy-policy';
+  if (path === '/login' || path === '/signin') return 'login';
+  if (path === '/register' || path === '/signup') return 'register';
   return 'home';
 };
 
@@ -47,6 +50,8 @@ const getPathForPage = (page) => {
     case 'account': return '/account';
     case 'terms-of-use': return '/terms-of-use';
     case 'privacy-policy': return '/privacy-policy';
+    case 'login': return '/login';
+    case 'register': return '/register';
     case 'home':
     default: return '/';
   }
@@ -263,6 +268,8 @@ export default function App() {
       case 'account': path = '/account'; break;
       case 'terms-of-use': path = '/terms-of-use'; break;
       case 'privacy-policy': path = '/privacy-policy'; break;
+      case 'login': path = '/login'; break;
+      case 'register': path = '/register'; break;
       case 'home':
       default: path = '/'; break;
     }
@@ -555,6 +562,20 @@ export default function App() {
 
       {currentPage === 'privacy-policy' && (
         <main><PrivacyPolicyPage onNavigate={handleNavigate} /></main>
+      )}
+
+      {(currentPage === 'login' || currentPage === 'register') && (
+        <main>
+          <AuthPage
+            initialTab={currentPage === 'register' ? 'register' : 'login'}
+            onLoginSuccess={(user) => {
+              setCurrentUser(user);
+              handleNavigate('account');
+            }}
+            onNavigate={handleNavigate}
+            currentUser={currentUser}
+          />
+        </main>
       )}
 
       {currentPage === 'checkout' && (
