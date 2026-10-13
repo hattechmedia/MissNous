@@ -89,21 +89,21 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                 key={product.id || product._id}
                 className="w-[88vw] sm:w-[500px] lg:w-[580px] max-w-[580px] flex-shrink-0 bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-10 relative text-left"
               >
+                {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
+                {getProductDisplayDiscount(product) && (
+                  <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
+                    <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
+                      <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
+                      <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Product Image Stage */}
                 <div 
                   onClick={() => onViewProduct && onViewProduct(product)}
                   className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
                 >
-                  {/* 3D Wrapped Diagonal Ribbon Badge on Image */}
-                  {getProductDisplayDiscount(product) && (
-                    <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
-                      <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
-                        <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
-                        <span className="whitespace-nowrap drop-shadow-xs leading-none">Discount Offer</span>
-                      </div>
-                    </div>
-                  )}
-
                   <img 
                     src={product.image} 
                     alt={product.name} 
@@ -187,20 +187,21 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
                   idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
                 }`}
               >
+                {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
+                {getProductDisplayDiscount(product) && (
+                  <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
+                    <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
+                      <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
+                      <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Product Image Stage */}
                 <div 
                   onClick={() => onViewProduct && onViewProduct(product)}
                   className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
                 >
-                  {/* 3D Wrapped Diagonal Ribbon Badge on Image */}
-                  {getProductDisplayDiscount(product) && (
-                    <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
-                      <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
-                        <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
-                        <span className="whitespace-nowrap drop-shadow-xs leading-none">Discount Offer</span>
-                      </div>
-                    </div>
-                  )}
                   <img 
                     src={product.image} 
                     alt={product.name} 

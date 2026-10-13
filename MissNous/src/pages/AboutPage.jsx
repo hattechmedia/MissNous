@@ -581,30 +581,30 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             <div className="grid grid-cols-2 gap-4 reveal-down">
 
               {/* Large Featured Product - spans full width */}
-              <div className="col-span-2 h-[280px] sm:h-[320px] lg:h-[340px] relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center">
+              <div className="col-span-2 aspect-[16/11] sm:aspect-[16/10] min-h-[300px] sm:min-h-[360px] lg:min-h-[400px] relative rounded-xl overflow-hidden shadow-luxury bg-[#FAF8F5] group flex items-center justify-center">
                 <img
                   src="/gpt-5.png"
                   alt="Miss Nous Bestselling Botanical Product"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-contain p-2 sm:p-4 group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-30 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-20 pointer-events-none"></div>
               </div>
 
               {/* Bottom Left: gpt-7.jpeg */}
-              <div className="h-[180px] sm:h-[200px] lg:h-[220px] relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
+              <div className="aspect-square h-auto w-full relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
                 <img
                   src="/gpt-7.jpeg"
                   alt="Miss Nous Formula Bottle"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain p-2 sm:p-3 group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
               {/* Bottom Right: image-11 */}
-              <div className="h-[180px] sm:h-[200px] lg:h-[220px] relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
+              <div className="aspect-square h-auto w-full relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
                 <img
                   src={image11}
                   alt="Miss Nous Skincare Model"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
@@ -933,7 +933,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
               {/* Product Image Frame (Full bleed, no padding, no dividing line, no tags) */}
               <div
                 onClick={handleShopStrawberry}
-                className="relative w-full h-72 sm:h-84 overflow-hidden flex items-center justify-center cursor-pointer"
+                className="relative w-full aspect-square overflow-hidden flex items-center justify-center cursor-pointer bg-[#FFF0F4]/30"
               >
                 <img
                   src="/jpt-6.jpeg"
@@ -975,7 +975,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
               {/* Product Image Frame (Full bleed, no padding, no dividing line, no tags) */}
               <div
                 onClick={handleShopPineapple}
-                className="relative w-full h-72 sm:h-84 overflow-hidden flex items-center justify-center cursor-pointer"
+                className="relative w-full aspect-square overflow-hidden flex items-center justify-center cursor-pointer bg-[#FFF9F5]/30"
               >
                 <img
                   src="/gpt-5.png"

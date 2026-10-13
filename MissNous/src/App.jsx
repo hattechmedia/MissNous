@@ -7,6 +7,8 @@ import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import BlogPage from './pages/BlogPage';
+import TermsOfUsePage from './pages/TermsOfUsePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
@@ -27,6 +29,8 @@ const getPageFromPath = () => {
   if (path === '/product-detail' || path.startsWith('/product/') || path.startsWith('/product-detail')) return 'product-detail';
   if (path === '/checkout') return 'checkout';
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
+  if (path === '/terms' || path === '/terms-of-use' || path === '/terms-of-service') return 'terms-of-use';
+  if (path === '/privacy' || path === '/privacy-policy') return 'privacy-policy';
   return 'home';
 };
 
@@ -40,6 +44,8 @@ const getPathForPage = (page) => {
     case 'product-detail': return '/product-detail';
     case 'checkout': return '/checkout';
     case 'account': return '/account';
+    case 'terms-of-use': return '/terms-of-use';
+    case 'privacy-policy': return '/privacy-policy';
     case 'home':
     default: return '/';
   }
@@ -231,6 +237,8 @@ export default function App() {
       case 'product-detail': path = '/product-detail'; break;
       case 'checkout': path = '/checkout'; break;
       case 'account': path = '/account'; break;
+      case 'terms-of-use': path = '/terms-of-use'; break;
+      case 'privacy-policy': path = '/privacy-policy'; break;
       case 'home':
       default: path = '/'; break;
     }
@@ -515,6 +523,14 @@ export default function App() {
 
       {currentPage === 'contact' && (
         <main><ContactPage onNavigate={handleNavigate} /></main>
+      )}
+
+      {currentPage === 'terms-of-use' && (
+        <main><TermsOfUsePage onNavigate={handleNavigate} /></main>
+      )}
+
+      {currentPage === 'privacy-policy' && (
+        <main><PrivacyPolicyPage onNavigate={handleNavigate} /></main>
       )}
 
       {currentPage === 'checkout' && (

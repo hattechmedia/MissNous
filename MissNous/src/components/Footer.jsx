@@ -152,11 +152,11 @@ export default function Footer({ onNavigate }) {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-white transition-colors">
+            <a href="/privacy-policy" onClick={(e) => handleNavClick(e, 'privacy-policy')} className="hover:text-white transition-colors">
               Privacy Policy
             </a>
             <span>·</span>
-            <a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-white transition-colors">
+            <a href="/terms-of-use" onClick={(e) => handleNavClick(e, 'terms-of-use')} className="hover:text-white transition-colors">
               Terms of Use
             </a>
           </div>
