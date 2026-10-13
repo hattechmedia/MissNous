@@ -64,7 +64,11 @@ export default function Navbar({
 
   const handleProfileClick = () => {
     if (!currentUser) {
-      if (onOpenAuthModal) onOpenAuthModal('login');
+      if (onNavigate) {
+        onNavigate('login');
+      } else if (onOpenAuthModal) {
+        onOpenAuthModal('login');
+      }
     } else {
       setUserDropdownOpen(!userDropdownOpen);
     }
@@ -309,7 +313,11 @@ export default function Navbar({
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
-                        if (onOpenAuthModal) onOpenAuthModal('login');
+                        if (onNavigate) {
+                          onNavigate('login');
+                        } else if (onOpenAuthModal) {
+                          onOpenAuthModal('login');
+                        }
                       }}
                       className="w-full px-4 py-3 rounded-2xl bg-[#9E3F5C] text-white text-sm font-semibold flex items-center justify-between"
                     >
