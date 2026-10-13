@@ -21,13 +21,15 @@ router.get('/', protect, async (req, res) => {
 // POST /api/orders - Create new order (logged-in user)
 router.post('/', protect, async (req, res) => {
   try {
-    const { items, subtotal, tax, shipping, total, paymentMethod, shippingAddress } = req.body;
+    const { items, subtotal, tax, shipping, total, paymentMethod, shippingAddress, stripePaymentIntentId, paymentStatus } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ message: 'Order must contain at least one item.' });
     }
 
     const orderId = `MN-${Math.floor(10000 + Math.random() * 90000)}`;
+
+    const isStripe = Boolean(stripePaymentIntentId);
 
     const order = await Order.create({
       orderId,
@@ -39,9 +41,10 @@ router.post('/', protect, async (req, res) => {
       tax: tax || 0,
       shipping: shipping || 0,
       total,
-      paymentMethod: paymentMethod || 'Cash on Delivery (COD)',
-      paymentStatus: 'Pending',
-      status: 'Pending',
+      paymentMethod: paymentMethod || (isStripe ? 'Stripe (Credit / Debit Card)' : 'Stripe'),
+      stripePaymentIntentId: stripePaymentIntentId || null,
+      paymentStatus: paymentStatus || (isStripe ? 'Paid' : 'Pending'),
+      status: isStripe ? 'Confirmed' : 'Pending',
       shippingAddress
     });
 

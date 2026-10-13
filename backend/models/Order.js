@@ -36,7 +36,8 @@ const orderSchema = new mongoose.Schema({
   tax: { type: Number, default: 0 },
   shipping: { type: Number, default: 0 },
   total: { type: Number, required: true },
-  paymentMethod: { type: String, default: 'Cash on Delivery (COD)' },
+  paymentMethod: { type: String, default: 'Stripe (Credit / Debit Card)' },
+  stripePaymentIntentId: { type: String },
   paymentStatus: {
     type: String,
     enum: ['Pending', 'Paid', 'Refunded', 'Failed'],
