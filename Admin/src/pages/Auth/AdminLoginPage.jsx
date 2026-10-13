@@ -6,7 +6,7 @@ const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, 
 
 export default function AdminLoginPage({ onLoginSuccess }) {
   const [email, setEmail] = useState('admin@missnous.com');
-  const [password, setPassword] = useState('admin123');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -87,7 +87,7 @@ export default function AdminLoginPage({ onLoginSuccess }) {
                 placeholder="admin@missnous.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-3.5 rounded-full bg-[#EEF4FF] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] focus:ring-2 focus:ring-[#9E3F5C]/20 transition-all font-medium"
+                className="w-full pl-11 pr-4 py-3.5 rounded-full bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] focus:ring-2 focus:ring-[#9E3F5C]/20 transition-all font-medium"
               />
             </div>
           </div>
@@ -99,10 +99,10 @@ export default function AdminLoginPage({ onLoginSuccess }) {
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder="admin123"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-11 py-3.5 rounded-full bg-[#EEF4FF] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] focus:ring-2 focus:ring-[#9E3F5C]/20 transition-all font-medium"
+                className="w-full pl-11 pr-11 py-3.5 rounded-full bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] focus:ring-2 focus:ring-[#9E3F5C]/20 transition-all font-medium"
               />
               <button
                 type="button"
