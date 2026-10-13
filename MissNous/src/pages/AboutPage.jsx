@@ -580,12 +580,12 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             {/* RIGHT COLUMN: Stylish Images Grid */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4 reveal-down">
 
-              {/* Large Featured Product - spans full width, compact landscape */}
-              <div className="col-span-2 aspect-[3/2] relative rounded-2xl overflow-hidden shadow-luxury border border-[#F7D6DF]/40 group hover:shadow-pink-glow transition-all duration-500">
+              {/* Large Featured Product - spans full width, balanced landscape */}
+              <div className="col-span-2 aspect-[16/11] sm:aspect-[16/10] max-h-[380px] relative rounded-2xl overflow-hidden shadow-luxury border border-[#F7D6DF]/40 group hover:shadow-pink-glow transition-all duration-500">
                 <img
                   src="/gpt-5.png"
                   alt="Miss Nous Bestselling Botanical Product"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_12%] group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#9E3F5C]/5 via-transparent to-transparent pointer-events-none"></div>
               </div>

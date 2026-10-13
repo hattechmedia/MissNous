@@ -8,36 +8,49 @@ export default function TermsOfUsePage({ onNavigate }) {
 
   return (
     <div className="bg-[#FDF2F5] text-[#2B2225] min-h-screen font-sans">
-      {/* 1. HERO HEADER */}
-      <section className="relative min-h-[360px] sm:min-h-[420px] pt-28 sm:pt-32 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 text-center overflow-hidden border-b border-[#F7D6DF]/60 bg-[#2B2225] flex items-center justify-center">
-        {/* Ambient Dark Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/70 to-[#2B2225]/90 pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#D4AF6A]/15 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* 1. HERO BANNER HEADER */}
+      <section className="relative min-h-[380px] sm:min-h-[440px] pt-28 sm:pt-36 pb-16 sm:pb-20 px-4 sm:px-8 lg:px-16 text-center overflow-hidden border-b border-[#F7D6DF]/60 bg-[#2B2225] flex items-center justify-center">
+        {/* Hero Background Banner Image */}
+        <img
+          src="/gpt-8.jpeg"
+          alt="Miss Nous Terms of Use Banner"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30 scale-105 filter blur-[0.5px]"
+        />
+        {/* Ambient Dark, Rose & Gold Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225] via-[#2B2225]/85 to-[#2B2225]/65 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#9E3F5C]/35 via-transparent to-[#D4AF6A]/25 pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#D4AF6A]/15 rounded-full blur-[140px] pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-4xl mx-auto space-y-4 reveal-down">
+        <div className="relative z-10 max-w-4xl mx-auto space-y-4 sm:space-y-5 reveal-down">
           {/* Back button */}
           <button
             onClick={() => onNavigate && onNavigate('home')}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 text-xs font-semibold uppercase tracking-wider transition-all duration-300 mb-2 cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] backdrop-blur-md border border-white/25 text-xs font-semibold uppercase tracking-wider transition-all duration-300 mb-2 cursor-pointer shadow-lg hover:shadow-pink-glow/30"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Home</span>
           </button>
 
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-            <Sparkles className="w-3.5 h-3.5 text-[#F7D6DF]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] animate-pulse" />
             <span className="font-sans text-xs uppercase tracking-[0.25em] font-semibold text-[#FFF9F5]">
               Legal & Compliance
             </span>
           </div>
 
-          <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-md">
+          <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-lg">
             Terms of Use
           </h1>
 
-          <p className="font-sans text-sm sm:text-base text-[#F7D6DF] max-w-xl mx-auto font-light leading-relaxed">
-            Last updated: October 13, 2026 • Miss Nous Inc.
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+            <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#9E3F5C]/30 border border-[#F7D6DF]/30 text-[#F7D6DF] text-xs font-medium">
+              Effective Date: October 13, 2026
+            </span>
+            <span className="text-[#E8D3A5] text-xs">•</span>
+            <span className="text-[#FFF9F5]/80 text-xs font-light">
+              Miss Nous Inc. Official Customer Terms
+            </span>
+          </div>
         </div>
       </section>
 
