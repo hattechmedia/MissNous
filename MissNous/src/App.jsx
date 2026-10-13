@@ -23,7 +23,7 @@ const getPageFromPath = () => {
   if (path === '/about' || path === '/about-us') return 'about';
   if (path === '/contact' || path === '/contact-us') return 'contact';
   if (path === '/shop' || path === '/products') return 'shop';
-  if (path === '/blog') return 'blog';
+  if (path === '/blog' || path === '/blogs' || path.startsWith('/blog/') || path.startsWith('/blogs/')) return 'blog';
   if (path === '/product-detail' || path.startsWith('/product/') || path.startsWith('/product-detail')) return 'product-detail';
   if (path === '/checkout') return 'checkout';
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
@@ -36,7 +36,7 @@ const getPathForPage = (page) => {
     case 'about': return '/about';
     case 'contact': return '/contact';
     case 'shop': return '/shop';
-    case 'blog': return '/blog';
+    case 'blog': return '/blog/';
     case 'product-detail': return '/product-detail';
     case 'checkout': return '/checkout';
     case 'account': return '/account';
@@ -227,7 +227,7 @@ export default function App() {
       case 'about': path = '/about'; break;
       case 'contact': path = '/contact'; break;
       case 'shop': path = '/shop'; break;
-      case 'blog': path = '/blog'; break;
+      case 'blog': path = '/blog/'; break;
       case 'product-detail': path = '/product-detail'; break;
       case 'checkout': path = '/checkout'; break;
       case 'account': path = '/account'; break;

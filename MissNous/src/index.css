@@ -24,12 +24,6 @@
     font-size: 16px;
   }
 
-  @media (min-width: 1024px) {
-    html {
-      font-size: 18px;
-    }
-  }
-
   html,
   body {
     overflow-x: hidden;
@@ -44,11 +38,10 @@
     font-size: 16px;
   }
 
-  @media (min-width: 1024px) {
-    html,
-    body {
-      font-size: 18px;
-    }
+  /* Site-wide standardized paragraph font size: exactly 18px */
+  p:not(.admin-panel *):not([data-admin] *):not(.auth-modal *):not(.cart-drawer *):not(.wishlist-drawer *):not(.micro-text) {
+    font-size: 18px !important;
+    line-height: 1.7;
   }
 
   #root {

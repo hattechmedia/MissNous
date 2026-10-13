@@ -48,7 +48,7 @@ export default function NewsletterSection() {
                 Join the Miss Nous <br /> Inner Circle
               </h2>
 
-              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#FFF9F5]/90 font-normal leading-relaxed max-w-lg drop-shadow-sm">
+              <p className="font-sans text-[18px] text-[#FFF9F5]/90 font-normal leading-relaxed max-w-lg drop-shadow-sm">
                 Sign up to be first to hear about new formulas, seasonal offers, and simple intimate care tips, straight to your inbox.
               </p>
             </div>

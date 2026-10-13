@@ -141,7 +141,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
         {/* Post Body */}
         <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12 sm:py-16 space-y-8">
           {selectedPost.excerpt && (
-            <p className="font-sans text-base sm:text-lg text-[#5A4B50] leading-relaxed font-medium italic border-l-4 border-[#D4AF6A] pl-5 py-2 bg-[#FFF9F5] rounded-r-2xl">
+            <p className="font-sans text-[18px] text-[#5A4B50] leading-relaxed font-medium italic border-l-4 border-[#D4AF6A] pl-5 py-2 bg-[#FFF9F5] rounded-r-2xl">
               {selectedPost.excerpt}
             </p>
           )}
@@ -150,14 +150,14 @@ export default function BlogPage({ blogs = [], onNavigate }) {
           {Array.isArray(selectedPost.content) ? (
             <div className="space-y-6">
               {selectedPost.content.map((paragraph, i) => (
-                <p key={i} className="font-sans text-sm sm:text-base text-[#2B2225] leading-[1.85] font-normal">
+                <p key={i} className="font-sans text-[18px] text-[#2B2225] leading-[1.85] font-normal">
                   {paragraph}
                 </p>
               ))}
             </div>
           ) : (
             <div
-              className="font-sans text-sm sm:text-base text-[#2B2225] leading-[1.85] space-y-4
+              className="font-sans text-[18px] text-[#2B2225] leading-[1.85] space-y-4
                 [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-bold [&>h2]:text-[#2B2225] [&>h2]:mt-8 [&>h2]:mb-3 [&>h2]:leading-snug
                 [&>h3]:text-lg [&>h3]:sm:text-xl [&>h3]:font-bold [&>h3]:text-[#9E3F5C] [&>h3]:mt-6 [&>h3]:mb-2
                 [&>p]:text-[#2B2225] [&>p]:leading-[1.85]
@@ -224,7 +224,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
           </h1>
 
           {/* Description */}
-          <p className="font-sans text-sm sm:text-base text-[#F7D6DF] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
+          <p className="font-sans text-[18px] text-[#F7D6DF] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
             Discover expert insights, ingredient deep-dives, and self-care rituals crafted to elevate your intimate wellness journey.
           </p>
         </div>

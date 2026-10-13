@@ -87,7 +87,7 @@ export default function ProductBenefitsSection({ onNavigate }) {
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
             The Miss Nous Difference in Intimate Care
           </h2>
-          <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
+          <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
             Choosing an intimate lubricant is personal, so we made every part of ours something you can feel good about. Here is what sets Miss Nous apart.
           </p>
         </div>

@@ -49,7 +49,7 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
             Our Two Best-Selling Organic Intimate Lubricants
           </h2>
 
-          <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
+          <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
             Both formulas are water-based and built on a gentle glycerin base, with the full ingredient list on every product page so you always know what you are putting on your body. Each one carries a fruit-inspired flavor, so comfort and a little enjoyment come from the same bottle. Pick the flavor that fits your mood.
           </p>
 

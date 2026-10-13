@@ -39,7 +39,7 @@ export default function ParallaxBanner({ onNavigate }) {
               <Sparkles className="w-4 h-4 text-[#E8D3A5]" />
               <span>Our Pure Promise</span>
             </div>
-            <p className="font-sans text-xs sm:text-sm lg:text-base text-[#FFF9F5]/95 font-normal leading-relaxed drop-shadow-sm">
+            <p className="font-sans text-[18px] text-[#FFF9F5]/95 font-normal leading-relaxed drop-shadow-sm">
               Every Miss Nous lubricant starts with the same promise: a water-based formula, organic botanicals, and nothing on the label you cannot make sense of. We leave out the heavy, sticky fillers found in many mainstream products and build each formula around ingredients meant to feel gentle on sensitive skin. The result is a pH-balanced formula that feels as clean as it is comfortable.
             </p>
           </div>
@@ -50,7 +50,7 @@ export default function ParallaxBanner({ onNavigate }) {
               <ShieldCheck className="w-4 h-4 text-[#E8D3A5]" />
               <span>Formula at a Glance</span>
             </div>
-            <p className="font-sans text-xs sm:text-sm lg:text-base text-[#FFF9F5]/95 font-normal leading-relaxed drop-shadow-sm">
+            <p className="font-sans text-[18px] text-[#FFF9F5]/95 font-normal leading-relaxed drop-shadow-sm">
               A water and glycerin base, thickened for a silky glide, with a light preservative system to keep it fresh, and no parabens. The complete ingredient breakdown is listed on every product page. It is not classified as a hazardous chemical under the GHS system, and it is not flammable.
             </p>
           </div>

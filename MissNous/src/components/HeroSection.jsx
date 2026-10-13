@@ -49,11 +49,11 @@ export default function HeroSection({ onNavigate }) {
 
         {/* Main Headline */}
         <h1 className="font-sans text-2xl sm:text-4xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.2] sm:leading-[1.12] drop-shadow-md break-words">
-          Organic, Flavored Water-Based Intimate Lubricant
+          Miss Nous Water-Based Intimate Lubricant, Organic & Flavored
         </h1>
 
         {/* Description Paragraph */}
-        <p className="font-sans text-xs sm:text-base lg:text-lg text-[#FFF9F5] font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-sm px-1 sm:px-0">
+        <p className="font-sans text-[18px] text-[#FFF9F5] font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-sm px-1 sm:px-0">
           Miss Nous is a gentle, organic, water-based intimate lubricant that glides on smooth and stays silky without ever turning tacky, so comfort feels natural instead of forced. Available in pineapple and strawberry.
         </p>
 

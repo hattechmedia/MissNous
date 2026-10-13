@@ -132,7 +132,7 @@ export default function ShopPage({ onAddToCart, onToggleWishlist, wishlistItems 
             The Intimate Collection
           </h1>
 
-          <p className="font-sans text-sm sm:text-base text-[#F7D6DF] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
+          <p className="font-sans text-[18px] text-[#F7D6DF] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
             Discover 100% organic, pH-balanced formulas designed for silky comfort, deep botanical moisture, and everyday skin confidence.
           </p>
         </div>

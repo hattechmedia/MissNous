@@ -24,7 +24,7 @@ export default function PureComfortSection({ onNavigate }) {
           </h2>
 
           {/* Description Paragraph */}
-          <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed max-w-xl">
+          <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed max-w-xl">
             Touch of Love was made for the moments when comfort matters most. This water-based lubricant feels silky on contact, glides easily, and is set to a gentle pH so it never feels harsh. Whether you reach for it daily or only now and then, it is made to support real intimacy, not get in the way of it. Available in 100ml, in pineapple and strawberry.
           </p>
 

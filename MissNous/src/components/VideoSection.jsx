@@ -36,7 +36,7 @@ export default function VideoSection() {
         </h2>
 
         {/* Section Caption Paragraph */}
-        <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
+        <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
           Watch how naturally this water-based formula moves. Made with organic botanicals and set to a gentle pH of 4.5, it was designed to feel like an extension of your body rather than a product you think twice about. Built on a water and glycerin base, it is not classified as a hazardous chemical under the GHS system, and it is not flammable.
         </p>
 

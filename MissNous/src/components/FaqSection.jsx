@@ -62,7 +62,7 @@ export default function FaqSection() {
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] leading-[1.2] tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
+          <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
             Everything you need to know about our organic skincare formulations, application tips, and daily routines.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function FaqSection() {
                   {/* Expandable Answer */}
                   {isOpen && (
                     <div className="px-5 sm:px-6 pb-5 pt-1 border-t border-[#F7D6DF]/40 animate-fade-up">
-                      <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
+                      <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
                         {faq.answer}
                       </p>
                     </div>

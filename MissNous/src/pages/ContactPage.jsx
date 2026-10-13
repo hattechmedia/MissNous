@@ -88,7 +88,7 @@ export default function ContactPage({ onNavigate }) {
           </h1>
 
           {/* Supporting Intro */}
-          <p className="font-sans text-base sm:text-lg text-[#F7D6DF] font-light leading-relaxed max-w-2xl mx-auto drop-shadow-sm">
+          <p className="font-sans text-[18px] text-[#F7D6DF] font-light leading-relaxed max-w-2xl mx-auto drop-shadow-sm">
             Have questions about our ingredients, pH-balanced formulas, or your order? The Miss Nous team is here to guide you and help with anything you need.
           </p>
 
@@ -112,7 +112,7 @@ export default function ContactPage({ onNavigate }) {
               <h2 className="font-sans text-3xl sm:text-4xl font-medium text-[#2B2225] tracking-tight">
                 Other ways to reach us
               </h2>
-              <p className="font-sans text-sm text-[#5A4B50] font-normal leading-relaxed">
+              <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
                 You can also email us directly, and our team will respond as soon as possible.
               </p>
             </div>

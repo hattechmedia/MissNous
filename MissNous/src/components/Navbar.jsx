@@ -114,7 +114,7 @@ export default function Navbar({
                 { id: 'home', label: 'Home', path: '/' },
                 { id: 'about', label: 'About Us', path: '/about' },
                 { id: 'shop', label: 'Shop', path: '/shop' },
-                { id: 'blog', label: 'Blogs', path: '/blog' },
+                { id: 'blog', label: 'Blog', path: '/blog/' },
                 { id: 'contact', label: 'Contact Us', path: '/contact' }
               ].map((item) => {
                 const isActive = currentPage === item.id;
@@ -276,7 +276,7 @@ export default function Navbar({
                   { id: 'home', label: 'Home', path: '/' },
                   { id: 'about', label: 'About Us', path: '/about' },
                   { id: 'shop', label: 'Shop', path: '/shop' },
-                  { id: 'blog', label: 'Blogs', path: '/blog' },
+                  { id: 'blog', label: 'Blog', path: '/blog/' },
                   { id: 'contact', label: 'Contact Us', path: '/contact' }
                 ].map((item) => {
                   const isActive = currentPage === item.id;

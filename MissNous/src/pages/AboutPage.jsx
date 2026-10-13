@@ -429,7 +429,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
           </h1>
 
           {/* Short Intro Paragraph */}
-          <p className="font-sans text-base sm:text-lg text-[#FFF9F5] font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-sm">
+          <p className="font-sans text-[18px] text-[#FFF9F5] font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-sm">
             Miss Nous was created with a simple idea: intimate care should feel comfortable, straightforward, and easy to understand.
             We focus on water-based intimate lubricants with clear product information and simple choices. Our current range includes two flavors, Strawberry and Pineapple, made for adults who want an uncomplicated addition to their personal care routine.
 
@@ -473,18 +473,18 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
 
             </h2>
 
-            <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+            <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
               Shopping for intimate care can feel more complicated than it needs to be. Labels are not always easy to understand, product differences can be unclear, and finding the right option can quickly become confusing.
               Miss Nous was created to offer a simpler experience.
               We believe intimate care should come with straightforward information, products that are easy to understand, and choices that do not leave you guessing. That approach guides everything we want the Miss Nous brand to represent.
 
             </p>
 
-            <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+            <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
               Every formula is precisely calibrated to a pH 4.5 balance, blending pure organic aloe vera, natural fruit extracts, and plant-derived hyaluronic acid. We prioritize body harmony and absolute confidence in every drop.
             </p>
 
-            <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+            <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
               Gentle yet effective, our products seamlessly integrate into your daily lifestyle while supporting long-term skin health.
             </p>
 
@@ -512,7 +512,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight leading-[1.18]">
               Our Approach to Ingredients
             </h2>
-            <div className="space-y-3 max-w-2xl mx-auto text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
+            <div className="space-y-3 max-w-2xl mx-auto text-[18px] text-[#5A4B50] font-normal leading-relaxed">
               <p>
                 We believe you should be able to understand what you are using on your body.
                 <br />
@@ -552,7 +552,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
               </h3>
 
               {/* Description Paragraphs */}
-              <div className="space-y-3.5 sm:space-y-4 text-xs sm:text-sm lg:text-base text-[#5A4B50] font-normal leading-relaxed">
+              <div className="space-y-3.5 sm:space-y-4 text-[18px] text-[#5A4B50] font-normal leading-relaxed">
                 <p>
                   Intimate care is personal, so knowing more about the product you choose matters.
                 </p>
@@ -870,7 +870,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
               </h2>
 
               {/* Description Paragraphs */}
-              <div className="space-y-4 sm:space-y-5 text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+              <div className="space-y-4 sm:space-y-5 text-[18px] text-[#5A4B50] font-normal leading-relaxed">
                 <p>
                   Miss Nous is made for adults looking for a simple water-based intimate lubricant that can fit naturally into their routine.
                 </p>
@@ -919,7 +919,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight leading-[1.18]">
               Signature Water-Based Flavors
             </h2>
-            <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed max-w-xl mx-auto">
+            <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed max-w-xl mx-auto">
               Designed for gentle hydration, easy cleaning, and familiar comfort — explore our signature intimate care formulas.
             </p>
           </div>

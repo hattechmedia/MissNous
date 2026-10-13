@@ -76,7 +76,7 @@ export default function SkinRitualSection({ onNavigate }) {
             {/* Bottom Content Box: Soft Pink bg-[#FDF2F5] */}
             <div className="p-6 sm:p-10 lg:p-12 flex-1 flex flex-col justify-between space-y-6">
               
-              <p className="font-sans text-sm sm:text-base text-[#5A4B50] font-normal leading-relaxed">
+              <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
                 Sensitive skin should never mean settling for less comfort. Our formula is gentle enough for daily use and made to work with your body, not against it.
               </p>
 
