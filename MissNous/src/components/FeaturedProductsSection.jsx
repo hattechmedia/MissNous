@@ -46,238 +46,116 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           </div>
 
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
-            Our Two Best-Selling Organic Intimate Lubricants
+            {products.length === 2 ? 'Our Two Best-Selling Organic Intimate Lubricants' : 'Our Best-Selling Organic Products'}
           </h2>
 
           <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
             Both formulas are water-based and built on a gentle glycerin base, with the full ingredient list on every product page so you always know what you are putting on your body. Each one carries a fruit-inspired flavor, so comfort and a little enjoyment come from the same bottle. Pick the flavor that fits your mood.
           </p>
-
-          {/* Left / Right Arrow Controls when 3 or more products exist */}
-          {isCarouselMode && (
-            <div className="flex items-center justify-center gap-3 pt-3">
-              <button 
-                onClick={scrollLeft}
-                className="w-11 h-11 rounded-full bg-white border border-[#F7D6DF] text-[#9E3F5C] hover:bg-[#9E3F5C] hover:text-white transition-all shadow-sm flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95"
-                aria-label="Previous products"
-                title="Scroll Left"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button 
-                onClick={scrollRight}
-                className="w-11 h-11 rounded-full bg-white border border-[#F7D6DF] text-[#9E3F5C] hover:bg-[#9E3F5C] hover:text-white transition-all shadow-sm flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95"
-                aria-label="Next products"
-                title="Scroll Right"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* Dynamic Products Layout */}
-        {isCarouselMode ? (
-          /* Single Horizontal Row Carousel Slider when 3+ Products (Wide Centered Cards) */
-          <div 
-            ref={scrollContainerRef}
-            className="flex items-stretch justify-start sm:justify-center gap-6 sm:gap-10 overflow-x-auto scroll-smooth py-4 px-2 no-scrollbar"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {products.map((product) => (
-              <div 
-                key={product.id || product._id}
-                className="w-[88vw] sm:w-[500px] lg:w-[580px] max-w-[580px] flex-shrink-0 bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-10 relative text-left"
-              >
-                {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
-                {getProductDisplayDiscount(product) && (
-                  <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
-                    <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
-                      <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
-                      <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
-                    </div>
+        {/* Dynamic Products Grid Layout (1 col mobile, 2 col tablet, 3 col desktop) */}
+        <div className={`grid gap-6 sm:gap-8 items-stretch justify-items-center max-w-7xl mx-auto ${
+          products.length === 1 
+            ? 'grid-cols-1 max-w-md' 
+            : products.length === 2 
+            ? 'grid-cols-1 md:grid-cols-2 max-w-4xl' 
+            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+        }`}>
+          {products.map((product, idx) => (
+            <div 
+              key={product.id || product._id}
+              className={`w-full bg-white rounded-3xl sm:rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-7 relative text-left reveal-up`}
+            >
+              {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
+              {getProductDisplayDiscount(product) && (
+                <div className="absolute top-0 left-0 w-36 sm:w-40 h-36 sm:h-40 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-6 sm:top-7 -left-11 sm:-left-12 w-48 sm:w-52 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-6 gap-1 leading-none">
+                    <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Product Image Stage */}
-                <div 
-                  onClick={() => onViewProduct && onViewProduct(product)}
-                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
-                >
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
+              {/* Product Image Stage */}
+              <div 
+                onClick={() => onViewProduct && onViewProduct(product)}
+                className="relative h-64 sm:h-72 lg:h-80 w-full rounded-2xl sm:rounded-3xl overflow-hidden mb-5 group cursor-pointer shadow-xs border border-[#F7D6DF]/60 bg-[#FFF9F5]"
+              >
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                />
+              </div>
+
+              {/* Product Info */}
+              <div className="space-y-4 flex-1 flex flex-col justify-between">
+                <div className="space-y-2 text-left">
+                  <span className="inline-flex items-center px-3 py-0.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
+                    {getProductDisplayCategory(product)}
+                  </span>
+                  
+                  <h3 
+                    onClick={() => onViewProduct && onViewProduct(product)}
+                    className="font-sans text-lg sm:text-xl font-bold text-[#2B2225] leading-snug tracking-tight line-clamp-1 cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                    title={getProductDisplayName(product)}
+                  >
+                    {getProductDisplayName(product)}
+                  </h3>
+
+                  <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed line-clamp-2">
+                    {getProductDisplayDescription(product)}
+                  </p>
                 </div>
 
-                {/* Product Info */}
-                <div className="space-y-4 flex-1 flex flex-col justify-between">
-                  <div className="space-y-2 text-left">
-                    <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                      {getProductDisplayCategory(product)}
+                <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
+                  <div className="flex items-baseline gap-2.5 text-left">
+                    <span className="text-2xl font-bold text-[#9E3F5C]">
+                      ${getProductDisplayPrice(product)}
                     </span>
-                    
-                    <h3 
+                    {getProductDisplayOriginalPrice(product) && (
+                      <span className="text-sm text-[#7A6B70] line-through font-normal">
+                        ${getProductDisplayOriginalPrice(product)}
+                      </span>
+                    )}
+                    {getProductDisplayDiscount(product) && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-[10px] font-bold">
+                        {getProductDisplayDiscount(product)}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+                    <button
                       onClick={() => onViewProduct && onViewProduct(product)}
-                      className="font-sans text-lg sm:text-xl lg:text-[1.35rem] font-bold text-[#2B2225] leading-snug tracking-tight whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                      className="py-3 px-3 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      {getProductDisplayName(product)}
-                    </h3>
+                      <Eye className="w-3.5 h-3.5 text-[#D4AF6A]" />
+                      <span>View</span>
+                    </button>
 
-                    <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed line-clamp-2">
-                      {getProductDisplayDescription(product)}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
-                    <div className="flex items-baseline gap-2.5 text-left">
-                      <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                        ${getProductDisplayPrice(product)}
-                      </span>
-                      {getProductDisplayOriginalPrice(product) && (
-                        <span className="text-sm sm:text-base text-[#7A6B70] line-through font-normal">
-                          ${getProductDisplayOriginalPrice(product)}
-                        </span>
-                      )}
-                      {getProductDisplayDiscount(product) && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-[10px] font-bold">
-                          {getProductDisplayDiscount(product)}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3.5">
-                      <button
-                        onClick={() => onViewProduct && onViewProduct(product)}
-                        className="py-3.5 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                      >
-                        <Eye className="w-4 h-4 text-[#D4AF6A]" />
-                        <span>View Product</span>
-                      </button>
-
-                      <button
-                        onClick={() => onAddToCart && onAddToCart({
-                          ...product,
-                          name: getProductDisplayName(product),
-                          description: getProductDisplayDescription(product),
-                          price: getProductDisplayPrice(product),
-                          originalPrice: getProductDisplayOriginalPrice(product),
-                          discount: getProductDisplayDiscount(product)
-                        })}
-                        className="py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        <span>Add to Bag</span>
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          /* Wide Grid Layout for <= 2 Products (Centered) */
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch justify-items-center max-w-7xl mx-auto">
-            {products.map((product, idx) => (
-              <div 
-                key={product.id || product._id}
-                className={`w-full max-w-[580px] bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-10 relative text-left ${
-                  idx % 2 === 0 ? 'reveal-left' : 'reveal-right'
-                }`}
-              >
-                {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
-                {getProductDisplayDiscount(product) && (
-                  <div className="absolute top-0 left-0 w-36 sm:w-44 h-36 sm:h-44 overflow-hidden pointer-events-none z-20">
-                    <div className="absolute top-6 sm:top-7 -left-11 sm:-left-13 w-48 sm:w-56 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-7 gap-1 leading-none">
-                      <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
-                      <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Product Image Stage */}
-                <div 
-                  onClick={() => onViewProduct && onViewProduct(product)}
-                  className="relative h-64 sm:h-80 lg:h-96 w-full rounded-3xl overflow-hidden mb-6 group cursor-pointer shadow-xs border border-[#F7D6DF]/60"
-                >
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                </div>
-
-                {/* Product Info */}
-                <div className="space-y-4 flex-1 flex flex-col justify-between">
-                  <div className="space-y-2 text-left">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#9E3F5C]">
-                        {getProductDisplayCategory(product)}
-                      </span>
-                    </div>
-                    
-                    <h3 
-                      onClick={() => onViewProduct && onViewProduct(product)}
-                      className="font-sans text-lg sm:text-xl lg:text-[1.35rem] font-bold text-[#2B2225] leading-snug tracking-tight whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:text-[#9E3F5C] transition-colors"
+                    <button
+                      onClick={() => onAddToCart && onAddToCart({
+                        ...product,
+                        name: getProductDisplayName(product),
+                        description: getProductDisplayDescription(product),
+                        price: getProductDisplayPrice(product),
+                        originalPrice: getProductDisplayOriginalPrice(product),
+                        discount: getProductDisplayDiscount(product)
+                      })}
+                      className="py-3 px-3 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
                     >
-                      {getProductDisplayName(product)}
-                    </h3>
-
-                    <p className="font-sans text-xs sm:text-sm text-[#5A4B50] font-normal leading-relaxed">
-                      {getProductDisplayDescription(product)}
-                    </p>
+                      <ShoppingCart className="w-3.5 h-3.5" />
+                      <span>Add to Bag</span>
+                    </button>
                   </div>
-
-                  <div className="pt-4 border-t border-[#F7D6DF] space-y-4">
-                    <div className="flex items-baseline gap-3">
-                      <span className="text-2xl sm:text-3xl font-bold text-[#9E3F5C]">
-                        ${getProductDisplayPrice(product)}
-                      </span>
-                      {getProductDisplayOriginalPrice(product) && (
-                        <span className="text-base sm:text-lg text-[#7A6B70] line-through font-normal">
-                          ${getProductDisplayOriginalPrice(product)}
-                        </span>
-                      )}
-                      {getProductDisplayDiscount(product) && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#FDF2F5] border border-[#9E3F5C]/30 text-[#9E3F5C] text-xs font-bold">
-                          {getProductDisplayDiscount(product)}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      <button
-                        onClick={() => onViewProduct && onViewProduct(product)}
-                        className="w-full py-3.5 px-4 bg-[#FFF9F5] hover:bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                      >
-                        <Eye className="w-4 h-4 text-[#D4AF6A]" />
-                        <span>View Product</span>
-                      </button>
-
-                      <button
-                        onClick={() => onAddToCart && onAddToCart({
-                          ...product,
-                          name: getProductDisplayName(product),
-                          description: getProductDisplayDescription(product),
-                          price: getProductDisplayPrice(product),
-                          originalPrice: getProductDisplayOriginalPrice(product),
-                          discount: getProductDisplayDiscount(product)
-                        })}
-                        className="w-full py-3.5 px-4 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs uppercase tracking-wider font-semibold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        <span>Add to Bag</span>
-                      </button>
-                    </div>
-                  </div>
-
                 </div>
+
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
 
       </div>
     </section>

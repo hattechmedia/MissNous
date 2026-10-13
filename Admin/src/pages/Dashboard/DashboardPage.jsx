@@ -68,22 +68,21 @@ export default function DashboardPage({
   // Default display top products if none ordered yet
   const displayTopProducts = topProductsList.length > 0 ? topProductsList : products.slice(0, 4).map(p => ({ title: p.name, qty: 1 }));
 
-  // Compute Real-time Weekly Sales Breakdown from allOrders
-  const weeklySales = [0, 0, 0, 0];
+  // Compute Real-time Month-wise Sales Breakdown from allOrders
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthlySales = Array(12).fill(0);
   allOrders.forEach(order => {
     if (order.status === 'Cancelled') return;
     const amount = Number(order.total || 0);
-    const dateObj = order.createdAt ? new Date(order.createdAt) : new Date();
-    const day = dateObj.getDate();
-
-    if (day <= 7) weeklySales[0] += amount;
-    else if (day <= 14) weeklySales[1] += amount;
-    else if (day <= 21) weeklySales[2] += amount;
-    else weeklySales[3] += amount;
+    const dateObj = order.createdAt ? new Date(order.createdAt) : (order.date ? new Date(order.date) : new Date());
+    const m = dateObj.getMonth();
+    if (!isNaN(m) && m >= 0 && m < 12) {
+      monthlySales[m] += amount;
+    }
   });
 
-  const maxWeeklySales = Math.max(...weeklySales, 100);
-  const chartMaxScale = Math.ceil(maxWeeklySales / 500) * 500 || 1000;
+  const maxMonthlySales = Math.max(...monthlySales, 100);
+  const chartMaxScale = Math.ceil(maxMonthlySales / 500) * 500 || 1000;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -110,13 +109,31 @@ export default function DashboardPage({
             </div>
           </div>
 
-          <button
-            onClick={() => setActiveTab('orders')}
-            className="px-4 py-2 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-white text-xs font-bold shadow-pink-glow transition-all cursor-pointer flex items-center gap-1.5 self-end sm:self-auto flex-shrink-0"
-          >
-            <span>Review Orders Now</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-2 self-end sm:self-auto flex-shrink-0">
+            <button
+              onClick={async () => {
+                const pending = allOrders.filter(o => o.status === 'Pending');
+                if (pending.length > 0 && onUpdateOrderStatus) {
+                  for (const ord of pending) {
+                    await onUpdateOrderStatus(ord._id || ord.id, 'Confirmed');
+                  }
+                  if (showToast) showToast(`${pending.length} order(s) confirmed successfully!`);
+                }
+              }}
+              className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Confirm with 1-Click</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('orders')}
+              className="px-4 py-2 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-white text-xs font-bold shadow-pink-glow transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              <span>Review Orders</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       )}
 
@@ -199,17 +216,17 @@ export default function DashboardPage({
               <span>$0</span>
             </div>
 
-            {/* Bars Visualization */}
-            <div className="flex items-end justify-between h-40 pt-4 px-4 gap-3">
-              {['Week 1', 'Week 2', 'Week 3', 'Week 4'].map((wk, idx) => {
-                const salesVal = weeklySales[idx];
+            {/* Bars Visualization (Month-wise) */}
+            <div className="flex items-end justify-between h-40 pt-4 px-1 sm:px-2 gap-1 sm:gap-2">
+              {monthNames.map((month, idx) => {
+                const salesVal = monthlySales[idx];
                 const heightPercent = chartMaxScale > 0 ? (salesVal / chartMaxScale) * 100 : 0;
                 const barHeight = salesVal > 0 ? `${Math.max(heightPercent, 6)}%` : '4px';
 
                 return (
-                  <div key={wk} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group relative">
+                  <div key={month} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group relative">
                     <div 
-                      className={`w-full max-w-[56px] rounded-t-lg transition-all duration-500 shadow-xs relative flex flex-col justify-start items-center ${
+                      className={`w-full max-w-[32px] sm:max-w-[40px] rounded-t-lg transition-all duration-500 shadow-xs relative flex flex-col justify-start items-center ${
                         salesVal > 0 
                           ? 'bg-gradient-to-t from-[#9E3F5C] to-[#D96B8A] group-hover:from-[#7C2F47] group-hover:to-[#9E3F5C]' 
                           : 'bg-[#F7D6DF]/60'
@@ -217,14 +234,14 @@ export default function DashboardPage({
                       style={{ height: barHeight }}
                     >
                       {/* Tooltip & Value Badge */}
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-[#2B2225] text-white text-[10px] py-1 px-2 rounded-lg font-bold shadow-md whitespace-nowrap z-20">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-[#2B2225] text-white text-[10px] py-1 px-2 rounded-lg font-bold shadow-md whitespace-nowrap z-20 pointer-events-none">
                         ${salesVal.toLocaleString()}
                       </span>
                     </div>
 
                     <div className="text-center">
-                      <span className="text-[11px] font-bold text-[#2B2225] block">{wk}</span>
-                      <span className="text-[10px] text-[#9E3F5C] font-extrabold">${salesVal.toLocaleString()}</span>
+                      <span className="text-[10px] sm:text-[11px] font-bold text-[#2B2225] block group-hover:text-[#9E3F5C] transition-colors">{month}</span>
+                      <span className="text-[9px] text-[#9E3F5C] font-semibold hidden md:block">${Math.round(salesVal)}</span>
                     </div>
                   </div>
                 );
