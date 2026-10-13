@@ -41,12 +41,14 @@ export default function VideoSection() {
         </p>
 
         {/* Animated Visual Stage */}
-        <div className="relative rounded-[2.5rem] overflow-hidden shadow-luxury border-2 border-[#F7D6DF] bg-white group max-w-5xl mx-auto aspect-video sm:aspect-[16/9] flex items-center justify-center">
+        <div className="relative rounded-[2.5rem] overflow-hidden shadow-luxury border-2 border-[#F7D6DF] bg-[#2B2225] group max-w-5xl mx-auto aspect-video sm:aspect-[16/9] flex items-center justify-center">
           
           {/* Seamless Looping Animated Video Asset */}
           <video
             ref={videoRef}
             src={video1}
+            poster="/gpt-8.jpeg"
+            preload="auto"
             autoPlay
             loop
             muted

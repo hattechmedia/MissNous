@@ -52,4 +52,9 @@ export const PRODUCTS = [
   }
 ];
 
+export const CATEGORIES = [
+  { _id: 'cat-1', name: 'Intimate Lubricants', slug: 'lubricants' },
+  { _id: 'cat-2', name: 'Facial Serums', slug: 'serums' }
+];
+
 export { PRODUCTS as getProducts };

@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import SearchModal from './components/SearchModal';
 import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
+import { PRODUCTS, CATEGORIES } from './data/products';
 import api from './services/api';
 
 // Map browser pathname to app page state
@@ -79,9 +80,29 @@ export default function App() {
   const [authModalTab, setAuthModalTab] = useState('login');
   const [userPanelTab, setUserPanelTab] = useState('dashboard');
 
-  // Products & Categories from API
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  // Products & Categories from Local Cache/Fallback and synced with API
+  const [products, setProducts] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_cached_products');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return PRODUCTS;
+  });
+
+  const [categories, setCategories] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_cached_categories');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return CATEGORIES;
+  });
+
   const [blogs, setBlogs] = useState(() => {
     try {
       const local = localStorage.getItem('missnous_published_blogs');
@@ -90,7 +111,7 @@ export default function App() {
       return [];
     }
   });
-  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [loadingProducts, setLoadingProducts] = useState(false);
 
   // Orders from API
   const [orders, setOrders] = useState([]);
@@ -115,22 +136,25 @@ export default function App() {
   // Fetch products, categories & blogs from API on mount
   const fetchPublicData = useCallback(async () => {
     try {
-      setLoadingProducts(true);
       const [prods, cats, blgs] = await Promise.all([
         api.get('/products').catch(() => []),
         api.get('/categories').catch(() => []),
         api.get('/blogs').catch(() => null)
       ]);
-      setProducts(prods || []);
-      setCategories(cats || []);
+      if (Array.isArray(prods) && prods.length > 0) {
+        setProducts(prods);
+        try { localStorage.setItem('missnous_cached_products', JSON.stringify(prods)); } catch (e) {}
+      }
+      if (Array.isArray(cats) && cats.length > 0) {
+        setCategories(cats);
+        try { localStorage.setItem('missnous_cached_categories', JSON.stringify(cats)); } catch (e) {}
+      }
       if (Array.isArray(blgs) && blgs.length > 0) {
         setBlogs(blgs);
         localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs));
       }
     } catch (err) {
       console.error('Failed to load data:', err.message);
-    } finally {
-      setLoadingProducts(false);
     }
   }, []);
 
@@ -264,7 +288,7 @@ export default function App() {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('is-visible');
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.01, rootMargin: '250px 0px 100px 0px' });
 
     const observeAll = () => {
       document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up, .reveal-scale, .reveal-down')

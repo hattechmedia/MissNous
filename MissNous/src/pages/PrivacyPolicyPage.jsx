@@ -14,40 +14,40 @@ export default function PrivacyPolicyPage({ onNavigate }) {
         <img
           src="/gpt-16.jpeg"
           alt="Miss Nous Privacy Policy Banner"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30 scale-105 filter blur-[0.5px]"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-75 scale-100"
         />
-        {/* Ambient Dark, Rose & Gold Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225] via-[#2B2225]/85 to-[#2B2225]/65 pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#9E3F5C]/35 via-transparent to-[#D4AF6A]/25 pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#9E3F5C]/20 rounded-full blur-[140px] pointer-events-none"></div>
+        {/* Subtle Luxury Gradient for Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/85 via-black/45 to-black/35 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#9E3F5C]/25 via-transparent to-[#D4AF6A]/20 pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#9E3F5C]/25 rounded-full blur-[140px] pointer-events-none"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto space-y-4 sm:space-y-5 reveal-down">
           {/* Back button */}
           <button
             onClick={() => onNavigate && onNavigate('home')}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] backdrop-blur-md border border-white/25 text-xs font-semibold uppercase tracking-wider transition-all duration-300 mb-2 cursor-pointer shadow-lg hover:shadow-pink-glow/30"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/40 hover:bg-black/60 text-[#FFF9F5] backdrop-blur-md border border-white/25 text-xs font-semibold uppercase tracking-wider transition-all duration-300 mb-2 cursor-pointer shadow-lg hover:shadow-pink-glow/30"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Home</span>
           </button>
 
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/35 backdrop-blur-md border border-white/25 shadow-sm">
             <Lock className="w-3.5 h-3.5 text-[#E8D3A5] animate-pulse" />
             <span className="font-sans text-xs uppercase tracking-[0.25em] font-semibold text-[#FFF9F5]">
               Discretion & Trust
             </span>
           </div>
 
-          <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-lg">
+          <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-xl">
             Privacy Policy
           </h1>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-            <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#9E3F5C]/30 border border-[#F7D6DF]/30 text-[#F7D6DF] text-xs font-medium">
+            <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#9E3F5C]/50 backdrop-blur-sm border border-[#F7D6DF]/40 text-[#FFF9F5] text-xs font-medium">
               Effective Date: October 13, 2026
             </span>
             <span className="text-[#E8D3A5] text-xs">•</span>
-            <span className="text-[#FFF9F5]/80 text-xs font-light">
+            <span className="text-[#FFF9F5] text-xs font-medium drop-shadow-sm">
               100% Discreet Packaging & Encrypted Data
             </span>
           </div>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage({ onNavigate }) {
           {/* Intro */}
           <div className="space-y-4 text-sm sm:text-base text-[#5A4B50] leading-relaxed border-b border-[#F7D6DF]/60 pb-8">
             <p>
-              This Privacy Policy explains how Miss Nous Inc. (&ldquo;Miss Nous,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, shares, and protects your personal information when you visit missnous.com (the &ldquo;Site&rdquo;), place an order, or otherwise interact with us. Because of the intimate nature of our products, we understand that privacy and discretion matter to you, and we treat your information with that in mind.
+              This Privacy Policy explains how Miss Nous Inc. collects, uses, shares, and protects your personal information when you visit missnous.com, place an order, or otherwise interact with us. Because of the intimate nature of our products, we understand that privacy and discretion matter to you, and we treat your information with that in mind.
             </p>
           </div>
 
