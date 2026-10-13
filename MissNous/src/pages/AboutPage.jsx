@@ -577,34 +577,34 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
 
             </div>
 
-            {/* RIGHT COLUMN: Images Grid (equal height to text) */}
-            <div className="grid grid-cols-2 gap-4 reveal-down">
+            {/* RIGHT COLUMN: Stylish Images Grid */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 reveal-down">
 
-              {/* Large Featured Product - spans full width */}
-              <div className="col-span-2 aspect-square sm:aspect-[4/3] relative rounded-xl overflow-hidden shadow-luxury bg-[#FAF8F5] group flex items-center justify-center">
+              {/* Large Featured Product - spans full width, compact landscape */}
+              <div className="col-span-2 aspect-[3/2] relative rounded-2xl overflow-hidden shadow-luxury border border-[#F7D6DF]/40 bg-gradient-to-br from-[#FFF9F5] to-[#FDF2F5] group hover:shadow-pink-glow transition-all duration-500">
                 <img
                   src="/gpt-5.png"
                   alt="Miss Nous Bestselling Botanical Product"
-                  className="w-[85%] h-[85%] object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="absolute inset-0 w-full h-full object-contain p-6 sm:p-8 group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-20 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#9E3F5C]/5 via-transparent to-transparent pointer-events-none"></div>
               </div>
 
               {/* Bottom Left: gpt-7.jpeg */}
-              <div className="aspect-square w-full relative rounded-xl overflow-hidden shadow-luxury bg-[#FDF2F5] group flex items-center justify-center reveal-up">
+              <div className="aspect-[3/4] w-full relative rounded-2xl overflow-hidden shadow-luxury border border-[#F7D6DF]/40 bg-gradient-to-br from-[#FDF2F5] to-[#FFF9F5] group hover:shadow-pink-glow transition-all duration-500 reveal-up">
                 <img
                   src="/gpt-7.jpeg"
                   alt="Miss Nous Formula Bottle"
-                  className="w-[85%] h-[85%] object-contain group-hover:scale-105 transition-transform duration-500"
+                  className="absolute inset-0 w-full h-full object-contain p-4 sm:p-6 group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
               {/* Bottom Right: image-11 */}
-              <div className="aspect-[2/3] w-full relative rounded-xl overflow-hidden shadow-luxury bg-white group flex items-center justify-center reveal-up">
+              <div className="aspect-[3/4] w-full relative rounded-2xl overflow-hidden shadow-luxury border border-[#F7D6DF]/40 bg-white group hover:shadow-pink-glow transition-all duration-500 reveal-up">
                 <img
                   src={image11}
                   alt="Miss Nous Skincare Model"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
