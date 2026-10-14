@@ -16,16 +16,8 @@ import InquiriesPage from './pages/Inquiries/InquiriesPage';
 import api from './services/api';
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('missnous_current_user');
-      const user = saved ? JSON.parse(saved) : null;
-      if (user && user.role === 'admin') return user;
-      return null;
-    } catch (e) {
-      return null;
-    }
-  });
+  // Security requirement: Never auto-login when visiting domain. Admin must authenticate each session.
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -156,77 +148,80 @@ export default function App() {
     }
   }, [playNewOrderChime]);
 
-  // Fetch all data from API - non-blocking progressive hydration for instant loading
+  // Fetch all data from API - single ultra-fast aggregated bootstrap round-trip
   const fetchAllData = useCallback(async () => {
     if (!currentUser) return;
     try {
       setLoading(true);
 
+      // Single ultra-fast bootstrap request: queries all 6 collections via .lean() in 1 round trip
+      const data = await api.get('/admin/bootstrap').catch(err => {
+        console.warn('Admin bootstrap fast fetch failed, falling back:', err.message);
+        return null;
+      });
+
+      if (data && typeof data === 'object') {
+        if (Array.isArray(data.products)) {
+          setProducts(data.products);
+          try { localStorage.setItem('missnous_admin_products', JSON.stringify(data.products)); } catch (e) {}
+        }
+        if (Array.isArray(data.categories)) {
+          setCategories(data.categories);
+          try { localStorage.setItem('missnous_admin_categories', JSON.stringify(data.categories)); } catch (e) {}
+        }
+        if (Array.isArray(data.orders)) {
+          setAllOrders(data.orders);
+          checkForNewOrders(data.orders);
+          try { localStorage.setItem('missnous_admin_orders', JSON.stringify(data.orders)); } catch (e) {}
+        }
+        if (Array.isArray(data.users)) {
+          setUsersList(data.users);
+          try { localStorage.setItem('missnous_admin_users', JSON.stringify(data.users)); } catch (e) {}
+        }
+        if (Array.isArray(data.inquiries)) {
+          setInquiries(data.inquiries);
+          try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(data.inquiries)); } catch (e) {}
+        }
+        if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+          setBlogs(data.blogs);
+          try { localStorage.setItem('missnous_published_blogs', JSON.stringify(data.blogs)); } catch (e) {}
+        }
+        return;
+      }
+
+      // Fallback: Parallel individual endpoints if bootstrap endpoint is unavailable
       const fetchProducts = api.get('/products')
         .then(prods => {
           const list = Array.isArray(prods) ? prods : (prods?.products || prods?.data || []);
-          if (Array.isArray(list)) {
-            setProducts(list);
-            try { localStorage.setItem('missnous_admin_products', JSON.stringify(list)); } catch (e) {}
-          }
+          if (Array.isArray(list)) setProducts(list);
         })
-        .catch(err => console.error('Products fetch failed:', err.message));
+        .catch(() => {});
 
       const fetchCategories = api.get('/categories')
         .then(cats => {
           const list = Array.isArray(cats) ? cats : (cats?.categories || cats?.data || []);
-          if (Array.isArray(list)) {
-            setCategories(list);
-            try { localStorage.setItem('missnous_admin_categories', JSON.stringify(list)); } catch (e) {}
-          }
+          if (Array.isArray(list)) setCategories(list);
         })
-        .catch(err => console.error('Categories fetch failed:', err.message));
+        .catch(() => {});
 
       const fetchOrders = api.get('/orders')
         .then(orders => {
           if (Array.isArray(orders)) {
             setAllOrders(orders);
             checkForNewOrders(orders);
-            try { localStorage.setItem('missnous_admin_orders', JSON.stringify(orders)); } catch (e) {}
           }
         })
-        .catch(err => console.error('Orders fetch failed:', err.message));
+        .catch(() => {});
 
       const fetchUsers = api.get('/users')
-        .then(users => {
-          if (Array.isArray(users)) {
-            setUsersList(users);
-            try { localStorage.setItem('missnous_admin_users', JSON.stringify(users)); } catch (e) {}
-          }
-        })
-        .catch(err => console.error('Users fetch failed:', err.message));
+        .then(users => { if (Array.isArray(users)) setUsersList(users); })
+        .catch(() => {});
 
       const fetchInquiries = api.get('/inquiries')
-        .then(inqs => {
-          if (Array.isArray(inqs)) {
-            setInquiries(inqs);
-            try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(inqs)); } catch (e) {}
-          }
-        })
-        .catch(err => console.error('Inquiries fetch failed:', err.message));
+        .then(inqs => { if (Array.isArray(inqs)) setInquiries(inqs); })
+        .catch(() => {});
 
-      const fetchBlogs = api.get('/blogs?all=true')
-        .then(blgs => {
-          if (Array.isArray(blgs) && blgs.length > 0) {
-            setBlogs(blgs);
-            try { localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs)); } catch (e) {}
-          }
-        })
-        .catch(err => console.warn('Blogs fetch failed, using local/cached:', err.message));
-
-      await Promise.allSettled([
-        fetchProducts,
-        fetchCategories,
-        fetchOrders,
-        fetchUsers,
-        fetchInquiries,
-        fetchBlogs
-      ]);
+      await Promise.allSettled([fetchProducts, fetchCategories, fetchOrders, fetchUsers, fetchInquiries]);
     } catch (err) {
       console.error('Failed to load admin data:', err.message);
     } finally {
@@ -338,6 +333,8 @@ export default function App() {
     setUsersList([]);
     setInquiries([]);
     try { 
+      sessionStorage.removeItem('missnous_admin_token');
+      sessionStorage.removeItem('missnous_admin_user');
       localStorage.removeItem('missnous_current_user'); 
       localStorage.removeItem('missnous_admin_products');
       localStorage.removeItem('missnous_admin_categories');

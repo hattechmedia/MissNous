@@ -12,12 +12,14 @@ const getApiBase = () => {
 const RAW_URL = getApiBase();
 export const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
-// Get JWT token from localStorage
+// Get JWT token from active session
 const getToken = () => {
   try {
-    const user = localStorage.getItem('missnous_current_user');
-    if (user) {
-      const parsed = JSON.parse(user);
+    const token = sessionStorage.getItem('missnous_admin_token');
+    if (token) return token;
+    const sessionUser = sessionStorage.getItem('missnous_admin_user');
+    if (sessionUser) {
+      const parsed = JSON.parse(sessionUser);
       return parsed.token || null;
     }
   } catch (e) {}
@@ -43,6 +45,8 @@ const request = async (endpoint, options = {}) => {
   if (!response.ok) {
     if (response.status === 401) {
       try {
+        sessionStorage.removeItem('missnous_admin_token');
+        sessionStorage.removeItem('missnous_admin_user');
         localStorage.removeItem('missnous_current_user');
         window.dispatchEvent(new Event('auth_unauthorized'));
       } catch (e) {}

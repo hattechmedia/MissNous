@@ -44,9 +44,13 @@ export default function AdminLoginPage({ onLoginSuccess }) {
         return;
       }
 
-      // Store token with user object
+      // Store token with user object in session storage only (no persistent auto-login on domain re-entry)
       const userWithToken = { ...data.user, token: data.token };
-      localStorage.setItem('missnous_current_user', JSON.stringify(userWithToken));
+      try {
+        sessionStorage.setItem('missnous_admin_token', data.token);
+        sessionStorage.setItem('missnous_admin_user', JSON.stringify(userWithToken));
+        localStorage.removeItem('missnous_current_user');
+      } catch (e) {}
       onLoginSuccess(userWithToken);
     } catch (err) {
       setErrorMessage(err.message || 'Login failed. Please try again.');
