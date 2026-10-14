@@ -44,7 +44,7 @@ export default function HeroSection({ onNavigate }) {
           <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse flex-shrink-0" />
           <span className="font-sans text-[11px] sm:text-sm font-bold uppercase tracking-wider sm:tracking-[0.25em] text-[#9E3F5C] truncate">
             100% Organic Intimate Wellness
-          </span>
+          </span> 
         </div>
 
         {/* Main Headline - exactly 50px on desktop and formatted into 2 balanced lines */}
