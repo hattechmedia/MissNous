@@ -24,20 +24,43 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
-// PUT /api/users/me - Update own profile
+// PUT /api/users/me - Update own profile (name, email, avatar, phone, address)
 router.put('/me', protect, async (req, res) => {
   try {
-    const { name, phone, address, city, country, avatar } = req.body;
+    const { name, email, phone, address, city, country, avatar } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
-      { name, phone, address, city, country, avatar },
-      { new: true, runValidators: true }
-    ).select('-password');
+    if (name && name.trim()) user.name = name.trim();
+    if (phone !== undefined) user.phone = phone.trim();
+    if (address !== undefined) user.address = address.trim();
+    if (city !== undefined) user.city = city.trim();
+    if (country !== undefined) user.country = country.trim();
+    if (avatar !== undefined) user.avatar = avatar;
 
-    res.json(updatedUser);
+    if (email && email.toLowerCase().trim() !== user.email) {
+      const cleanEmail = email.toLowerCase().trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(cleanEmail)) {
+        return res.status(400).json({ message: 'Please provide a valid email address.' });
+      }
+      const existing = await User.findOne({ email: cleanEmail });
+      if (existing && existing._id.toString() !== user._id.toString()) {
+        return res.status(400).json({ message: 'This email is already in use by another account.' });
+      }
+      user.email = cleanEmail;
+    }
+
+    await user.save();
+    const updated = user.toJSON();
+    delete updated.password;
+
+    res.json(updated);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update profile.' });
+    console.error('Update profile error:', err);
+    res.status(500).json({ message: err.message || 'Failed to update profile.' });
   }
 });
 
@@ -58,6 +81,10 @@ router.put('/me/password', protect, passwordChangeLimiter, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
 
     const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
       return res.status(400).json({ message: 'Current password is incorrect.' });
@@ -70,9 +97,12 @@ router.put('/me/password', protect, passwordChangeLimiter, async (req, res) => {
     user.password = newPassword;
     await user.save();
 
-    res.json({ message: 'Password updated successfully.' });
+    const jwt = require('jsonwebtoken');
+    const freshToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+
+    res.json({ message: 'Password updated successfully.', token: freshToken });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update password.' });
+    res.status(500).json({ message: err.message || 'Failed to update password.' });
   }
 });
 

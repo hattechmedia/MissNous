@@ -462,13 +462,35 @@ export default function App() {
     }
   };
 
-  // ─── Admin Change Password ──────────────────────────────
+  // ─── Admin Profile & Credentials Update ──────────────────
+  const handleUpdateAdminProfile = async (profileData) => {
+    try {
+      const updated = await api.put('/users/me', profileData);
+      setCurrentUser(prev => {
+        const next = { ...prev, ...updated };
+        try {
+          sessionStorage.setItem('missnous_admin_user', JSON.stringify(next));
+        } catch (e) {}
+        return next;
+      });
+      setUsersList(prev => prev.map(u => (u._id === updated._id || u.id === updated._id) ? { ...u, ...updated } : u));
+      return updated;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const handleUpdateAdminPassword = async (currentPassword, newPass) => {
     try {
-      await api.put('/users/me/password', { currentPassword, newPassword: newPass });
-      showToast('Password updated successfully!');
+      const res = await api.put('/users/me/password', { currentPassword, newPassword: newPass });
+      if (res && res.token) {
+        try {
+          sessionStorage.setItem('missnous_admin_token', res.token);
+          setCurrentUser(prev => prev ? ({ ...prev, token: res.token }) : prev);
+        } catch (e) {}
+      }
     } catch (err) {
-      showToast(err.message || 'Failed to update password.');
+      throw err;
     }
   };
 
@@ -627,6 +649,7 @@ export default function App() {
           }}
           onClearNotifications={() => setNotifications([])}
           onNavigateToOrders={() => setActiveTab('orders')}
+          onNavigateToSettings={() => setActiveTab('settings')}
         />
 
         <main className="p-6 sm:p-8 space-y-6 flex-1 max-w-7xl w-full mx-auto">
@@ -708,6 +731,7 @@ export default function App() {
           {activeTab === 'settings' && (
             <SettingsPage
               currentUser={currentUser}
+              onUpdateAdminProfile={handleUpdateAdminProfile}
               onUpdateAdminPassword={handleUpdateAdminPassword}
               showToast={showToast}
             />

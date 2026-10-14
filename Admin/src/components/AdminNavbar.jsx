@@ -7,9 +7,13 @@ import {
   Bell,
   CheckCheck,
   ChevronRight,
+  ChevronDown,
   Sparkles,
   X,
-  Clock
+  Clock,
+  User,
+  Settings,
+  Lock
 } from 'lucide-react';
 
 export default function AdminNavbar({ 
@@ -20,18 +24,24 @@ export default function AdminNavbar({
   notifications = [],
   onMarkNotificationRead,
   onClearNotifications,
-  onNavigateToOrders
+  onNavigateToOrders,
+  onNavigateToSettings
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const dropdownRef = useRef(null);
+  const profileMenuRef = useRef(null);
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
+      }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -171,9 +181,102 @@ export default function AdminNavbar({
           )}
         </div>
 
-        {/* Far Right Logo Avatar */}
-        <div className="w-10 h-10 rounded-full bg-[#2B2225] text-[#D4AF6A] flex items-center justify-center font-serif font-bold text-sm border-2 border-[#D4AF6A] shadow-md flex-shrink-0">
-          MN
+        {/* Interactive Admin Profile Menu */}
+        <div className="relative" ref={profileMenuRef}>
+          <button
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-2xl bg-[#FFF9F5] hover:bg-[#FDF2F5] border border-[#F7D6DF] transition-all cursor-pointer shadow-xs group"
+            title="Admin Profile & Settings"
+          >
+            {currentUser?.avatar ? (
+              <img 
+                src={currentUser.avatar} 
+                alt={currentUser.name || 'Admin'} 
+                className="w-8 h-8 rounded-full object-cover border-2 border-[#9E3F5C] shadow-xs flex-shrink-0" 
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-[#9E3F5C] text-white flex items-center justify-center font-bold text-xs border border-[#F7D6DF] shadow-pink-glow flex-shrink-0">
+                {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'AD'}
+              </div>
+            )}
+
+            <div className="text-left hidden md:block">
+              <p className="text-xs font-bold text-[#2B2225] line-clamp-1 leading-tight group-hover:text-[#9E3F5C] transition-colors">
+                {currentUser?.name || 'Admin'}
+              </p>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span className="text-[10px] text-[#A09095] font-semibold">Super Admin</span>
+              </div>
+            </div>
+
+            <ChevronDown className={`w-3.5 h-3.5 text-[#A09095] transition-transform duration-200 hidden sm:block ${showProfileMenu ? 'rotate-180 text-[#9E3F5C]' : ''}`} />
+          </button>
+
+          {/* Profile Dropdown Popover */}
+          {showProfileMenu && (
+            <div className="absolute right-0 mt-3 w-64 bg-white border border-[#F7D6DF] rounded-3xl shadow-2xl z-50 overflow-hidden animate-fade-in p-2 space-y-1">
+              
+              {/* Profile Card Header */}
+              <div className="p-3 bg-[#FFF9F5] rounded-2xl border border-[#F7D6DF]/60 flex items-center gap-3">
+                {currentUser?.avatar ? (
+                  <img 
+                    src={currentUser.avatar} 
+                    alt={currentUser.name || 'Admin'} 
+                    className="w-10 h-10 rounded-full object-cover border-2 border-[#9E3F5C] flex-shrink-0" 
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-[#9E3F5C] text-white flex items-center justify-center font-bold text-sm shadow-pink-glow flex-shrink-0">
+                    {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'AD'}
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-xs font-bold text-[#2B2225] truncate">{currentUser?.name || 'Administrator'}</h4>
+                  <p className="text-[11px] text-[#5A4B50] truncate">{currentUser?.email || 'admin@missnous.com'}</p>
+                </div>
+              </div>
+
+              {/* Navigation Options */}
+              <div className="pt-1 space-y-0.5">
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    if (onNavigateToSettings) onNavigateToSettings();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#2B2225] hover:bg-[#FDF2F5] hover:text-[#9E3F5C] transition-colors cursor-pointer text-left"
+                >
+                  <User className="w-4 h-4 text-[#9E3F5C]" />
+                  <span>Profile & Account Settings</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    if (onNavigateToSettings) onNavigateToSettings();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#2B2225] hover:bg-[#FDF2F5] hover:text-[#9E3F5C] transition-colors cursor-pointer text-left"
+                >
+                  <Lock className="w-4 h-4 text-[#9E3F5C]" />
+                  <span>Change Password</span>
+                </button>
+              </div>
+
+              <div className="border-t border-[#F7D6DF]/60 my-1"></div>
+
+              {/* Logout Option */}
+              <button
+                onClick={() => {
+                  setShowProfileMenu(false);
+                  if (onLogout) onLogout();
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer text-left"
+              >
+                <LogOut className="w-4 h-4 text-rose-500" />
+                <span>Sign Out</span>
+              </button>
+
+            </div>
+          )}
         </div>
       </div>
 
