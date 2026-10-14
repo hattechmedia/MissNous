@@ -47,9 +47,9 @@ export default function HeroSection({ onNavigate }) {
           </span>
         </div>
 
-        {/* Main Headline */}
-        <h1 className="font-sans text-2xl sm:text-4xl lg:text-6xl font-medium text-[#FFF9F5] tracking-tight leading-[1.2] sm:leading-[1.12] drop-shadow-md break-words">
-          Miss Nous Water-Based Intimate Lubricant, Organic & Flavored
+        {/* Main Headline - 2 balanced lines with reduced size */}
+        <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-medium text-[#FFF9F5] tracking-tight leading-[1.25] sm:leading-[1.2] drop-shadow-md max-w-4xl mx-auto">
+          Miss Nous Water-Based Intimate Lubricant,<br className="hidden sm:inline" /> Organic & Flavored
         </h1>
 
         {/* Description Paragraph */}
