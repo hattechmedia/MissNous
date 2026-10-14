@@ -91,11 +91,18 @@ export default function App() {
       const cached = localStorage.getItem('missnous_cached_products');
       if (cached) {
         const parsed = JSON.parse(cached);
+        // Bust stale cache: if it still contains the old fake Hydrating Serum, clear it
+        const hasStaleSerum = Array.isArray(parsed) && parsed.some(p => p._id === 'prod-2' || p.id === 'prod-2');
+        if (hasStaleSerum) {
+          localStorage.removeItem('missnous_cached_products');
+          return PRODUCTS;
+        }
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     } catch (e) {}
     return PRODUCTS;
   });
+
 
   const [categories, setCategories] = useState(() => {
     try {
@@ -254,35 +261,57 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Dynamic Canonical Tag Updater for SEO (missnous.com)
+  // Dynamic Canonical Tag & Meta Robots Updater for SEO (missnous.com)
   useEffect(() => {
     const domain = 'https://missnous.com';
-    let path = '/';
-    switch (currentPage) {
-      case 'about': path = '/about'; break;
-      case 'contact': path = '/contact'; break;
-      case 'shop': path = '/shop'; break;
-      case 'blog': path = '/blog/'; break;
-      case 'product-detail': path = '/product-detail'; break;
-      case 'checkout': path = '/checkout'; break;
-      case 'account': path = '/account'; break;
-      case 'terms-of-use': path = '/terms-of-use'; break;
-      case 'privacy-policy': path = '/privacy-policy'; break;
-      case 'login': path = '/login'; break;
-      case 'register': path = '/register'; break;
-      case 'home':
-      default: path = '/'; break;
-    }
-    const canonicalUrl = `${domain}${path}`;
 
+    // Private pages that should NOT be indexed by Google
+    const privatePages = ['checkout', 'account', 'login', 'register'];
+    const isPrivate = privatePages.includes(currentPage);
+
+    // --- Canonical Tag ---
     let link = document.querySelector("link[rel='canonical']");
     if (!link) {
       link = document.createElement('link');
       link.setAttribute('rel', 'canonical');
       document.head.appendChild(link);
     }
-    link.setAttribute('href', canonicalUrl);
+
+    if (isPrivate) {
+      // Remove canonical from private pages entirely
+      link.remove();
+    } else {
+      let path = '/';
+      switch (currentPage) {
+        case 'about': path = '/about'; break;
+        case 'contact': path = '/contact'; break;
+        case 'shop': path = '/shop'; break;
+        case 'blog': path = '/blog'; break;
+        case 'product-detail': path = '/shop'; break; // products are on /shop context
+        case 'terms-of-use': path = '/terms-of-use'; break;
+        case 'privacy-policy': path = '/privacy-policy'; break;
+        case 'home':
+        default: path = '/'; break;
+      }
+      link.setAttribute('href', `${domain}${path}`);
+    }
+
+    // --- Meta Robots Tag ---
+    let robotsMeta = document.querySelector("meta[name='robots']");
+    if (isPrivate) {
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta');
+        robotsMeta.setAttribute('name', 'robots');
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.setAttribute('content', 'noindex, nofollow');
+    } else {
+      if (robotsMeta) {
+        robotsMeta.remove();
+      }
+    }
   }, [currentPage]);
+
 
   // Scroll to top instantly on page change
   useEffect(() => {

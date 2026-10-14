@@ -30,31 +30,13 @@ export const PRODUCTS = [
     rating: 4.9,
     reviewsCount: 114,
     description: 'A silky, water-based lubricant with a light, fruit-inspired pineapple flavor. Set to a gentle pH so it stays comfortable on sensitive skin. 100ml size. Ships across the USA.'
-  },
-  {
-    id: 'prod-2',
-    _id: 'prod-2',
-    name: 'Miss Nous Hydrating Serum',
-    subtitle: 'Damask Rose & Hyaluronic Acid Facial Serum (50ml)',
-    category: 'Facial Serums',
-    categoryKey: 'serums',
-    price: 110,
-    image: '/product-2.png',
-    rating: 4.9,
-    reviewsCount: 94,
-    description: 'Concentrated hydrating serum delivering deep botanical moisture, restoring natural radiance, elasticity, and long-lasting barrier softness.',
-    features: [
-      'Damask Rose & Hyaluronic Acid',
-      'Deep Botanical Barrier Moisture',
-      'Restores Natural Elasticity & Radiance',
-      'Dermatologist Tested & Paraben-Free'
-    ]
   }
 ];
 
+
 export const CATEGORIES = [
-  { _id: 'cat-1', name: 'Intimate Lubricants', slug: 'lubricants' },
-  { _id: 'cat-2', name: 'Facial Serums', slug: 'serums' }
+  { _id: 'cat-1', name: 'Intimate Lubricants', slug: 'lubricants' }
 ];
+
 
 export { PRODUCTS as getProducts };
