@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import RichEditor from '../../components/RichEditor';
 import { compressImage } from '../../utils/imageCompressor';
+import DOMPurify from 'dompurify';
 
 export default function BlogsPage({
   blogs = [],
@@ -242,7 +243,7 @@ export default function BlogsPage({
 
             <div
               className="prose prose-rose max-w-none text-[#2B2225] leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: previewBlog.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewBlog.content) }}
             />
           </div>
         </article>

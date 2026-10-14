@@ -43,11 +43,13 @@ const allowedOrigins = [
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // Allow server-to-server or tools without origin
-    if (
+    const isAllowed = 
       allowedOrigins.includes(origin) ||
-      origin.endsWith('.vercel.app') ||
-      origin.endsWith('.missnous.com')
-    ) {
+      (process.env.VERCEL_URL && origin === `https://${process.env.VERCEL_URL}`) ||
+      /^https:\/\/([a-zA-Z0-9-]+\.)*missnous\.com$/.test(origin) ||
+      /^https:\/\/missnous[a-zA-Z0-9-]*\.vercel\.app$/.test(origin);
+
+    if (isAllowed) {
       return callback(null, true);
     }
     return callback(new Error('CORS policy: Access blocked from unauthorized origin.'));

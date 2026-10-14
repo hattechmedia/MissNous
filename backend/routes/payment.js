@@ -1,6 +1,7 @@
 const express = require('express');
 const { protect } = require('../middleware/auth');
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 const router = express.Router();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -14,21 +15,63 @@ router.post('/create-checkout-session', protect, async (req, res) => {
       return res.status(400).json({ message: 'Cart cannot be empty.' });
     }
 
-    const appOrigin = origin || req.headers.origin || 'https://missnous.com';
+    // Security: Validate origin against allowed whitelist to prevent Open Redirect phishing
+    const defaultOrigin = process.env.FRONTEND_URL || 'https://missnous.com';
+    let appOrigin = defaultOrigin;
+    const requestedOrigin = origin || req.headers.origin;
+    if (requestedOrigin) {
+      try {
+        const parsed = new URL(requestedOrigin);
+        const isAllowed = 
+          parsed.origin === 'https://missnous.com' ||
+          parsed.origin === 'https://www.missnous.com' ||
+          parsed.hostname === 'localhost' ||
+          parsed.hostname === '127.0.0.1' ||
+          (process.env.FRONTEND_URL && parsed.origin === new URL(process.env.FRONTEND_URL).origin);
+        if (isAllowed) {
+          appOrigin = parsed.origin;
+        }
+      } catch (e) {}
+    }
 
-    // Map cart items to Stripe line items
-    const line_items = items.map(item => ({
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: item.name || 'Miss Nous Product',
-          description: item.subtitle || 'Organic Intimate Wellness Ritual',
-          images: item.image && item.image.startsWith('http') ? [item.image] : []
+    // Security: Fetch official prices from database to prevent Client-Side Price Manipulation
+    const line_items = [];
+    for (const item of items) {
+      let officialPrice = Number(item.price);
+      let officialName = item.name || 'Miss Nous Product';
+      let officialSubtitle = item.subtitle || 'Organic Intimate Wellness Ritual';
+      let officialImage = item.image;
+
+      const pId = item.productId || item._id || item.id;
+      if (pId) {
+        try {
+          const dbProduct = await Product.findById(pId);
+          if (dbProduct) {
+            officialPrice = dbProduct.price;
+            officialName = dbProduct.name;
+            officialSubtitle = dbProduct.subtitle || officialSubtitle;
+            if (dbProduct.image) officialImage = dbProduct.image;
+          }
+        } catch (e) {}
+      }
+
+      // Ensure price is a valid positive number
+      const safePrice = Math.max(0.5, Number(officialPrice) || 0.5);
+      const safeQuantity = Math.max(1, parseInt(item.quantity, 10) || 1);
+
+      line_items.push({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: officialName,
+            description: officialSubtitle,
+            images: officialImage && officialImage.startsWith('http') ? [officialImage] : []
+          },
+          unit_amount: Math.round(safePrice * 100)
         },
-        unit_amount: Math.round(Number(item.price) * 100)
-      },
-      quantity: Math.max(1, Number(item.quantity) || 1)
-    }));
+        quantity: safeQuantity
+      });
+    }
 
     // If there is estimated tax, add it as a separate line item
     if (tax && Number(tax) > 0) {

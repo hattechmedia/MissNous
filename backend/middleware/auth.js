@@ -21,6 +21,11 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: 'User not found.' });
     }
 
+    // Security: Invalidate token if user changed password after this token was issued
+    if (user.changedPasswordAfter && user.changedPasswordAfter(decoded.iat)) {
+      return res.status(401).json({ message: 'Password recently changed. Please log in again.' });
+    }
+
     req.user = user;
     next();
   } catch (err) {

@@ -57,9 +57,26 @@ router.post('/', protect, adminOnly, async (req, res) => {
 // PUT /api/products/:id - Admin only: update product
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
+    const { name, subtitle, category, categoryKey, price, originalPrice, discount, stock, rating, reviewsCount, image, description, features } = req.body;
+    const updateData = {};
+
+    if (name !== undefined) updateData.name = name.trim();
+    if (subtitle !== undefined) updateData.subtitle = subtitle;
+    if (category !== undefined) updateData.category = category;
+    if (categoryKey !== undefined) updateData.categoryKey = categoryKey;
+    if (price !== undefined) updateData.price = Number(price);
+    if (originalPrice !== undefined) updateData.originalPrice = Number(originalPrice);
+    if (discount !== undefined) updateData.discount = discount;
+    if (stock !== undefined) updateData.stock = Number(stock);
+    if (rating !== undefined) updateData.rating = Number(rating);
+    if (reviewsCount !== undefined) updateData.reviewsCount = Number(reviewsCount);
+    if (image !== undefined) updateData.image = image;
+    if (description !== undefined) updateData.description = description;
+    if (features !== undefined && Array.isArray(features)) updateData.features = features;
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { ...req.body },
+      updateData,
       { new: true, runValidators: true }
     );
     if (!product) return res.status(404).json({ message: 'Product not found.' });

@@ -28,17 +28,30 @@ const userSchema = new mongoose.Schema({
   address: { type: String, default: '' },
   city: { type: String, default: '' },
   country: { type: String, default: '' },
-  avatar: { type: String, default: null }
+  avatar: { type: String, default: null },
+  passwordChangedAt: { type: Date }
 }, {
   timestamps: true
 });
 
-// Hash password before saving
+// Hash password before saving & update passwordChangedAt
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
+  if (!this.isNew) {
+    this.passwordChangedAt = new Date(Date.now() - 1000);
+  }
   next();
 });
+
+// Check if password was changed after token was issued
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
 
 // Compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {

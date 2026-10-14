@@ -3,6 +3,7 @@ import { Sparkles, ArrowRight, User, ChevronLeft, Calendar, BookOpen } from 'luc
 import { BLOG_POSTS } from '../data/blogPosts';
 import NewsletterSection from '../components/NewsletterSection';
 import api from '../services/api';
+import DOMPurify from 'dompurify';
 
 export default function BlogPage({ blogs = [], onNavigate }) {
   const [selectedPost, setSelectedPost] = useState(null);
@@ -167,7 +168,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
                 [&>blockquote]:border-l-4 [&>blockquote]:border-[#D4AF6A] [&>blockquote]:pl-5 [&>blockquote]:py-2 [&>blockquote]:italic [&>blockquote]:text-[#5A4B50] [&>blockquote]:bg-[#FFF9F5] [&>blockquote]:rounded-r-xl [&>blockquote]:my-6
                 [&>img]:rounded-2xl [&>img]:shadow-luxury [&>img]:max-w-full [&>img]:w-full [&>img]:object-cover [&>img]:my-6
                 [&>a]:text-[#9E3F5C] [&>a]:underline [&>a]:font-semibold hover:[&>a]:text-[#7C2F47]"
-              dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedPost.content) }}
             />
           )}
 
