@@ -96,15 +96,16 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
               key={product.id || product._id}
               className={`w-full bg-white rounded-3xl sm:rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-7 relative text-left reveal-up`}
             >
-              {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card — wider & taller so text fits */}
+              {/* Diagonal Corner Ribbon — properly centered so text is never cut */}
               {getProductDisplayDiscount(product) && (
-                <div className="absolute top-0 left-0 w-44 sm:w-48 h-44 sm:h-48 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-8 sm:top-9 -left-14 sm:-left-16 w-56 sm:w-60 h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[12px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-6 sm:pr-8 gap-1.5 leading-none">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
-                    <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
+                <div className="absolute top-0 left-0 w-52 h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[48px] -left-[52px] w-[280px] h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[11px] font-bold uppercase tracking-wide -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap">Discounted Offer</span>
                   </div>
                 </div>
               )}
+
 
 
               {/* Product Image Stage */}
