@@ -37,7 +37,7 @@ export default function HeroSection({ onNavigate }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-[34rem] sm:h-[34rem] bg-[#D4AF6A]/20 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none z-5"></div>
 
       {/* Text Content Overlay on top of Background Video */}
-      <div className="max-w-4xl mx-auto w-full text-center relative z-10 space-y-5 sm:space-y-6 reveal-up px-1 sm:px-4">
+      <div className="max-w-6xl mx-auto w-full text-center relative z-10 space-y-5 sm:space-y-6 reveal-up px-2 sm:px-6">
 
         {/* Subtitle Eyebrow Badge */}
         <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#F7D6DF] shadow-md max-w-[95%]">
@@ -47,9 +47,10 @@ export default function HeroSection({ onNavigate }) {
           </span>
         </div>
 
-        {/* Main Headline - 2 balanced lines with reduced size */}
-        <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-medium text-[#FFF9F5] tracking-tight leading-[1.25] sm:leading-[1.2] drop-shadow-md max-w-4xl mx-auto">
-          Miss Nous Water-Based Intimate Lubricant,<br className="hidden sm:inline" /> Organic & Flavored
+        {/* Main Headline - exactly 50px on desktop and formatted into 2 lines */}
+        <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-[50px] font-medium text-[#FFF9F5] tracking-tight leading-[1.2] lg:leading-[1.16] drop-shadow-md max-w-6xl mx-auto">
+          <span className="block lg:whitespace-nowrap">Miss Nous Water-Based Intimate Lubricant,</span>
+          <span className="block">Organic & Flavored</span>
         </h1>
 
         {/* Description Paragraph */}
