@@ -16,8 +16,19 @@ import InquiriesPage from './pages/Inquiries/InquiriesPage';
 import api from './services/api';
 
 export default function App() {
-  // Security requirement: Never auto-login when visiting domain. Admin must authenticate each session.
-  const [currentUser, setCurrentUser] = useState(null);
+  // Restore active session across page reloads (F5/refresh) while keeping fresh domain visits protected
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const sessionSaved = sessionStorage.getItem('missnous_admin_user');
+      if (sessionSaved) {
+        const user = JSON.parse(sessionSaved);
+        if (user && user.role === 'admin' && user.token) return user;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  });
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -322,6 +333,10 @@ export default function App() {
 
   const handleLoginSuccess = (userData) => {
     setCurrentUser(userData);
+    try {
+      sessionStorage.setItem('missnous_admin_token', userData.token);
+      sessionStorage.setItem('missnous_admin_user', JSON.stringify(userData));
+    } catch (e) {}
     showToast(`Welcome back, ${userData.name || 'Admin'}!`);
   };
 
