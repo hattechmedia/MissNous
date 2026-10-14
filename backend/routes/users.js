@@ -52,8 +52,8 @@ router.put('/me/password', protect, async (req, res) => {
       return res.status(400).json({ message: 'Current password is incorrect.' });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ message: 'New password must be at least 6 characters.' });
+    if (newPassword.length < 8) {
+      return res.status(400).json({ message: 'New password must be at least 8 characters.' });
     }
 
     user.password = newPassword;
@@ -65,14 +65,28 @@ router.put('/me/password', protect, async (req, res) => {
   }
 });
 
-// PUT /api/users/:id - Admin: update any user
+// PUT /api/users/:id - Admin: update user safely (prevents mass assignment)
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
+    const { name, phone, address, city, country, avatar, role } = req.body;
+    const updateData = {};
+
+    if (name !== undefined) updateData.name = name.trim();
+    if (phone !== undefined) updateData.phone = phone.trim();
+    if (address !== undefined) updateData.address = address;
+    if (city !== undefined) updateData.city = city;
+    if (country !== undefined) updateData.country = country;
+    if (avatar !== undefined) updateData.avatar = avatar;
+    if (role !== undefined && ['user', 'admin'].includes(role)) {
+      updateData.role = role;
+    }
+
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { ...req.body },
-      { new: true }
+      updateData,
+      { new: true, runValidators: true }
     ).select('-password');
+
     if (!user) return res.status(404).json({ message: 'User not found.' });
     res.json(user);
   } catch (err) {

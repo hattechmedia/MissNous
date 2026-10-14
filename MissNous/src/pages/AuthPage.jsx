@@ -101,8 +101,8 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
       return;
     }
 
-    if (signUpData.password.length < 6) {
-      setError('Password must be at least 6 characters long.');
+    if (signUpData.password.length < 8) {
+      setError('Password must be at least 8 characters long.');
       return;
     }
 
@@ -467,12 +467,12 @@ export default function AuthPage({ initialTab = 'login', onLoginSuccess, onNavig
                 </div>
                 {signUpData.password && (
                   <p className="text-[11px] text-[#7A6B70] mt-1 pl-1">
-                    {signUpData.password.length >= 6 ? (
+                    {signUpData.password.length >= 8 ? (
                       <span className="text-emerald-600 font-medium inline-flex items-center gap-1">
-                        <Check className="w-3 h-3" /> Password length is good
+                        <Check className="w-3 h-3" /> Password length is good (8+ chars)
                       </span>
                     ) : (
-                      <span className="text-amber-600">Must be at least 6 characters</span>
+                      <span className="text-amber-600">Must be at least 8 characters</span>
                     )}
                   </p>
                 )}

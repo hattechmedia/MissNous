@@ -85,8 +85,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
       setError('Please fill in all required fields.');
       return;
     }
-    if (signUpData.password.length < 6) {
-      setError('Password should be at least 6 characters long.');
+    if (signUpData.password.length < 8) {
+      setError('Password should be at least 8 characters long.');
       return;
     }
     if (signUpData.password !== signUpData.confirmPassword) {
@@ -318,7 +318,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, initialTab 
 
             <div className="space-y-1.5">
               <label className="block font-sans text-[11px] font-bold uppercase tracking-wider text-[#2B2225]">
-                Password (Min. 6 characters)
+                Password (Min. 8 characters)
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-[#A09095] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />

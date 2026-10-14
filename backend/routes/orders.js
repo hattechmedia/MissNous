@@ -27,7 +27,7 @@ router.post('/', protect, async (req, res) => {
       return res.status(400).json({ message: 'Order must contain at least one item.' });
     }
 
-    const orderId = `MN-${Math.floor(10000 + Math.random() * 90000)}`;
+    const orderId = `MN-${Date.now().toString().slice(-4)}${Math.floor(1000 + Math.random() * 9000)}`;
 
     const isStripe = Boolean(stripePaymentIntentId);
 
@@ -37,14 +37,14 @@ router.post('/', protect, async (req, res) => {
       userEmail: req.user.email,
       userName: req.user.name,
       items,
-      subtotal: subtotal || 0,
-      tax: tax || 0,
-      shipping: shipping || 0,
-      total,
-      paymentMethod: paymentMethod || (isStripe ? 'Stripe (Credit / Debit Card)' : 'Stripe'),
+      subtotal: Number(subtotal) || 0,
+      tax: Number(tax) || 0,
+      shipping: Number(shipping) || 0,
+      total: Number(total) || 0,
+      paymentMethod: paymentMethod || 'Standard Checkout',
       stripePaymentIntentId: stripePaymentIntentId || null,
-      paymentStatus: paymentStatus || (isStripe ? 'Paid' : 'Pending'),
-      status: isStripe ? 'Confirmed' : 'Pending',
+      paymentStatus: 'Pending',
+      status: 'Pending',
       shippingAddress
     });
 

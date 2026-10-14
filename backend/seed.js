@@ -18,19 +18,21 @@ const seed = async () => {
     console.log('✅ Connected to MongoDB');
 
     // Seed Admin
-    const adminExists = await User.findOne({ email: 'admin@missnous.com' });
+    const adminEmail = process.env.ADMIN_SEED_EMAIL || 'admin@missnous.com';
+    const adminPassword = process.env.ADMIN_SEED_PASSWORD || 'ChangeMeImmediately@MissNous2026!';
+    const adminExists = await User.findOne({ email: adminEmail.toLowerCase().trim() });
     if (!adminExists) {
       await User.create({
         name: 'Super Admin',
-        email: 'admin@missnous.com',
-        password: 'admin123',
+        email: adminEmail.toLowerCase().trim(),
+        password: adminPassword,
         role: 'admin',
         phone: '+92 300 0000000',
         address: 'Miss Nous HQ Atelier',
         city: 'Karachi',
         country: 'Pakistan'
       });
-      console.log('✅ Admin seeded: admin@missnous.com / admin123');
+      console.log(`✅ Admin seeded for ${adminEmail}. (Remember to change default password on first login!)`);
     } else {
       console.log('ℹ️  Admin already exists');
     }

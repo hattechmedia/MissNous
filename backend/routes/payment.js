@@ -90,6 +90,11 @@ router.post('/verify-session', protect, async (req, res) => {
       });
     }
 
+    // Security: Verify that the current user owns this Stripe session
+    if (session.client_reference_id && session.client_reference_id !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Unauthorized session verification.' });
+    }
+
     const paymentIntentId = session.payment_intent || session.id;
 
     // Check if an order was already created for this session
@@ -106,7 +111,7 @@ router.post('/verify-session', protect, async (req, res) => {
       } catch (e) {}
     }
 
-    const orderId = `MN-${Math.floor(10000 + Math.random() * 90000)}`;
+    const orderId = `MN-${Date.now().toString().slice(-4)}${Math.floor(1000 + Math.random() * 9000)}`;
     const totalAmount = session.amount_total ? session.amount_total / 100 : 0;
 
     const newOrder = await Order.create({

@@ -16,25 +16,60 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 
-// Permissive CORS & Content Security Policy Headers
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline' https:; font-src * data: https:; img-src * data: blob:; connect-src *;"
-  );
-  next();
+// Security: Security Headers with Helmet
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allows static images in /uploads to load on frontend
+  contentSecurityPolicy: false // Handled by frontend bundler / CDN
+}));
+
+// Security: Prevent NoSQL Query Injection (sanitizes req.body, req.query, req.params)
+app.use(mongoSanitize());
+
+// Security: Strict CORS whitelist
+const allowedOrigins = [
+  'https://missnous.com',
+  'https://www.missnous.com',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow server-to-server or tools without origin
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.missnous.com')
+    ) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS policy: Access blocked from unauthorized origin.'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+// Body parsing with safe limits (2MB max to prevent payload exhaustion attacks)
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+
+// Global API rate limiter: 300 requests per 15 minutes per IP
+const globalApiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests from this IP, please try again after 15 minutes.' }
 });
+app.use('/api', globalApiLimiter);
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
