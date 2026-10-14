@@ -38,14 +38,26 @@ const getPageFromPath = () => {
   return 'home';
 };
 
+// Helper to get slug for products
+export const getProductSlug = (prod) => {
+  if (!prod) return '';
+  const name = (prod.name || '').toLowerCase();
+  if (name.includes('pineapple')) return 'miss-nous-pineapple-intimate-lubricant';
+  if (name.includes('strawberry')) return 'miss-nous-strawberry-intimate-lubricant';
+  return (prod.slug || prod.id || '').toLowerCase();
+};
+
 // Map app page state to browser URL path
-const getPathForPage = (page) => {
+const getPathForPage = (page, prod = null) => {
   switch (page) {
     case 'about': return '/about';
     case 'contact': return '/contact';
     case 'shop': return '/shop';
-    case 'blog': return '/blog/';
-    case 'product-detail': return '/product-detail';
+    case 'blog': return '/blog';
+    case 'product-detail': {
+      const slug = getProductSlug(prod);
+      return slug ? `/product-detail?product=${slug}` : '/product-detail';
+    }
     case 'checkout': return '/checkout';
     case 'account': return '/account';
     case 'terms-of-use': return '/terms-of-use';
@@ -57,18 +69,19 @@ const getPathForPage = (page) => {
   }
 };
 
-const syncBrowserUrl = (page, replace = false) => {
+const syncBrowserUrl = (page, replace = false, prod = null) => {
   if (typeof window === 'undefined') return;
-  const targetPath = getPathForPage(page);
-  const currentPath = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+  const targetPath = getPathForPage(page, prod);
+  const currentPath = window.location.pathname.toLowerCase().replace(/\/+$/, '') + window.location.search;
   if (currentPath !== targetPath) {
     if (replace) {
-      window.history.replaceState({ page }, '', targetPath);
+      window.history.replaceState({ page, productSlug: getProductSlug(prod) }, '', targetPath);
     } else {
-      window.history.pushState({ page }, '', targetPath);
+      window.history.pushState({ page, productSlug: getProductSlug(prod) }, '', targetPath);
     }
   }
 };
+
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(() => getPageFromPath());
@@ -236,7 +249,33 @@ export default function App() {
 
     // Sync initial URL with history state
     const initialPage = getPageFromPath();
-    syncBrowserUrl(initialPage, true);
+    if (initialPage === 'product-detail') {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const prodParam = (params.get('product') || '').toLowerCase();
+        if (prodParam) {
+          const match = products.find(p => {
+            const pName = (p.name || '').toLowerCase();
+            return (
+              (prodParam.includes('pineapple') && pName.includes('pineapple')) ||
+              (prodParam.includes('strawberry') && pName.includes('strawberry'))
+            );
+          });
+          if (match) {
+            setSelectedProduct(match);
+            syncBrowserUrl(initialPage, true, match);
+          } else {
+            syncBrowserUrl(initialPage, true);
+          }
+        } else {
+          syncBrowserUrl(initialPage, true);
+        }
+      } catch (err) {
+        syncBrowserUrl(initialPage, true);
+      }
+    } else {
+      syncBrowserUrl(initialPage, true);
+    }
   }, []);
 
   // Sync browser back/forward buttons (popstate) with current page
@@ -245,11 +284,26 @@ export default function App() {
       const pageFromUrl = (e.state && e.state.page) || getPageFromPath();
       if (pageFromUrl === 'product-detail') {
         try {
-          const stored = localStorage.getItem('missnous_selected_product');
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            if (parsed && (parsed.id || parsed._id)) {
-              setSelectedProduct(parsed);
+          const params = new URLSearchParams(window.location.search);
+          const prodParam = (params.get('product') || '').toLowerCase();
+          if (prodParam) {
+            const match = products.find(p => {
+              const pName = (p.name || '').toLowerCase();
+              return (
+                (prodParam.includes('pineapple') && pName.includes('pineapple')) ||
+                (prodParam.includes('strawberry') && pName.includes('strawberry'))
+              );
+            });
+            if (match) {
+              setSelectedProduct(match);
+            }
+          } else {
+            const stored = localStorage.getItem('missnous_selected_product');
+            if (stored) {
+              const parsed = JSON.parse(stored);
+              if (parsed && (parsed.id || parsed._id)) {
+                setSelectedProduct(parsed);
+              }
             }
           }
         } catch (err) {}
@@ -259,9 +313,9 @@ export default function App() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [products]);
 
-  // Dynamic Canonical Tag & Meta Robots Updater for SEO (missnous.com)
+  // Dynamic Canonical Tag, Document Title & Meta Robots Updater for SEO (missnous.com)
   useEffect(() => {
     const domain = 'https://missnous.com';
 
@@ -282,18 +336,71 @@ export default function App() {
       link.remove();
     } else {
       let path = '/';
+      let pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
+      let pageDesc = 'Shop water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, available in pineapple and strawberry for everyday intimate comfort.';
+
       switch (currentPage) {
-        case 'about': path = '/about'; break;
-        case 'contact': path = '/contact'; break;
-        case 'shop': path = '/shop'; break;
-        case 'blog': path = '/blog'; break;
-        case 'product-detail': path = '/shop'; break; // products are on /shop context
-        case 'terms-of-use': path = '/terms-of-use'; break;
-        case 'privacy-policy': path = '/privacy-policy'; break;
+        case 'about':
+          path = '/about';
+          pageTitle = 'About Us | Miss Nous - Pure Botanical Wellness';
+          pageDesc = 'Learn about Miss Nous and our mission to create pure, organic, pH-balanced intimate wellness essentials crafted for comfort and gentle daily care.';
+          break;
+        case 'contact':
+          path = '/contact';
+          pageTitle = 'Contact Us | Miss Nous Support & Customer Care';
+          pageDesc = 'Have questions about Miss Nous lubricants or your order? Get in touch with our customer support team.';
+          break;
+        case 'shop':
+          path = '/shop';
+          pageTitle = 'Shop Organic Water-Based Lubricants | Miss Nous';
+          pageDesc = 'Explore Miss Nous organic water-based intimate lubricants in Pineapple and Strawberry flavors. pH 4.5 balanced, non-sticky, and body-safe.';
+          break;
+        case 'blog':
+          path = '/blog';
+          pageTitle = 'Intimate Wellness Blog & Botanical Care Guides | Miss Nous';
+          pageDesc = 'Read expert tips, ingredient deep dives, and wellness advice on water-based lubricants, pH balance, and organic intimate care.';
+          break;
+        case 'product-detail': {
+          const prodName = (selectedProduct?.name || '').toLowerCase();
+          if (prodName.includes('pineapple')) {
+            path = '/product-detail?product=miss-nous-pineapple-intimate-lubricant';
+            pageTitle = 'Miss Nous Pineapple Intimate Lubricant | Organic & Water-Based';
+            pageDesc = 'Buy Miss Nous Pineapple Flavored Intimate Lubricant (100ml). Water-based, pH 4.5 calibrated, gentle glycerin base for sensitive skin.';
+          } else if (prodName.includes('strawberry')) {
+            path = '/product-detail?product=miss-nous-strawberry-intimate-lubricant';
+            pageTitle = 'Miss Nous Strawberry Intimate Lubricant | Organic & Water-Based';
+            pageDesc = 'Buy Miss Nous Strawberry Flavored Intimate Lubricant (100ml). 100% organic water-based formula, non-sticky, body-safe intimacy.';
+          } else {
+            path = '/product-detail';
+            pageTitle = `${selectedProduct?.name || 'Organic Intimate Lubricant'} | Miss Nous`;
+          }
+          break;
+        }
+        case 'terms-of-use':
+          path = '/terms-of-use';
+          pageTitle = 'Terms of Use | Miss Nous';
+          pageDesc = 'Review the official terms of use and purchase conditions for Miss Nous products and online store.';
+          break;
+        case 'privacy-policy':
+          path = '/privacy-policy';
+          pageTitle = 'Privacy Policy | Miss Nous';
+          pageDesc = 'Learn how Miss Nous collects, safeguards, and respects your personal privacy and customer data.';
+          break;
         case 'home':
-        default: path = '/'; break;
+        default:
+          path = '/';
+          pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
+          pageDesc = 'Shop water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, available in pineapple and strawberry for everyday intimate comfort.';
+          break;
       }
+
       link.setAttribute('href', `${domain}${path}`);
+      document.title = pageTitle;
+
+      let metaDesc = document.querySelector("meta[name='description']");
+      if (metaDesc && pageDesc) {
+        metaDesc.setAttribute('content', pageDesc);
+      }
     }
 
     // --- Meta Robots Tag ---
@@ -310,7 +417,7 @@ export default function App() {
         robotsMeta.remove();
       }
     }
-  }, [currentPage]);
+  }, [currentPage, selectedProduct]);
 
 
   // Scroll to top instantly on page change
@@ -398,7 +505,7 @@ export default function App() {
       localStorage.setItem('missnous_selected_product', JSON.stringify(product));
     } catch (e) {}
     setCurrentPage('product-detail');
-    syncBrowserUrl('product-detail');
+    syncBrowserUrl('product-detail', false, product);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 

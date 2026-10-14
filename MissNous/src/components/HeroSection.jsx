@@ -47,10 +47,10 @@ export default function HeroSection({ onNavigate }) {
           </span>
         </div>
 
-        {/* Main Headline - exactly 50px on desktop and formatted into 2 lines */}
+        {/* Main Headline - exactly 50px on desktop and formatted into 2 balanced lines */}
         <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-[50px] font-medium text-[#FFF9F5] tracking-tight leading-[1.2] lg:leading-[1.16] drop-shadow-md max-w-6xl mx-auto">
-          <span className="block lg:whitespace-nowrap">Miss Nous Water-Based Intimate Lubricant,</span>
-          <span className="block">Organic & Flavored</span>
+          <span className="block lg:whitespace-nowrap">Miss Nous Water-Based Intimate</span>
+          <span className="block">Lubricant, Organic & Flavored</span>
         </h1>
 
         {/* Description Paragraph */}
