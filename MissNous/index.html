@@ -8,8 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Organic Water-Based Intimate Lubricant | Miss Nous</title>
     <meta name="description" content="Shop water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, available in pineapple and strawberry for everyday intimate comfort." />
-    <link rel="canonical" href="https://missnous.com/" />
-    <!-- Dynamic canonical is also updated per-page by React for JS-capable crawlers -->
+    <!-- Dynamic Canonical Tag (matches exact current URL on every page) -->
+    <link id="canonical-tag" rel="canonical" href="https://missnous.com/" />
+    <script>
+      (function() {
+        try {
+          var p = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '';
+          var s = window.location.search || '';
+          var u = 'https://missnous.com' + (p === '' ? '/' : p) + s;
+          var el = document.getElementById('canonical-tag');
+          if (el) el.setAttribute('href', u);
+        } catch(e) {}
+      })();
+    </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

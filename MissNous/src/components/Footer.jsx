@@ -1,7 +1,25 @@
 import React from 'react';
 import { MapPin, Phone } from 'lucide-react';
 
+// Official clean Instagram SVG Icon
+const InstagramIcon = ({ className = "w-4 h-4" }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
 export default function Footer({ onNavigate }) {
+
   const handleNavClick = (e, page) => {
     e.preventDefault();
     if (onNavigate) {
@@ -57,6 +75,20 @@ export default function Footer({ onNavigate }) {
                   18 Garibaldi Avenue, Newark, New Jersey 07114
                 </span>
               </a>
+
+              {/* Instagram Profile Link */}
+              <div className="pt-2">
+                <a
+                  href="https://www.instagram.com/missnousllc/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-[#D4AF6A] text-[#FFF9F5] hover:text-[#2B2225] border border-white/15 hover:border-[#D4AF6A] transition-all duration-300 group/insta font-sans text-xs font-semibold shadow-xs"
+                  aria-label="Follow Miss Nous on Instagram"
+                >
+                  <InstagramIcon className="w-4 h-4 text-[#E8D3A5] group-hover/insta:text-[#2B2225] transition-colors" />
+                  <span>Follow @missnousllc</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -96,7 +128,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/blog/"
+                  href="/blog"
                   onClick={(e) => handleNavClick(e, 'blog')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -152,6 +184,17 @@ export default function Footer({ onNavigate }) {
             </span>
           </div>
           <div className="flex items-center gap-4">
+            <a
+              href="https://www.instagram.com/missnousllc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1 rounded-md bg-white/10 hover:bg-[#D4AF6A] text-[#E8D3A5] hover:text-[#2B2225] transition-all"
+              aria-label="Instagram"
+              title="Miss Nous Instagram (@missnousllc)"
+            >
+              <InstagramIcon className="w-3.5 h-3.5" />
+            </a>
+            <span>·</span>
             <a href="/privacy-policy" onClick={(e) => handleNavClick(e, 'privacy-policy')} className="hover:text-white transition-colors">
               Privacy Policy
             </a>
