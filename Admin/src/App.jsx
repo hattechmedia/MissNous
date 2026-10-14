@@ -11,6 +11,7 @@ import PaymentsPage from './pages/Payments/PaymentsPage';
 import CustomersPage from './pages/Customers/CustomersPage';
 import SettingsPage from './pages/Settings/SettingsPage';
 import BlogsPage from './pages/Blogs/BlogsPage';
+import InquiriesPage from './pages/Inquiries/InquiriesPage';
 
 import api from './services/api';
 
@@ -30,11 +31,42 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
-  // Data from API
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [allOrders, setAllOrders] = useState([]);
-  const [usersList, setUsersList] = useState([]);
+  // Performance: Stale-While-Revalidate initial state from localStorage for 0ms Instant Load
+  const [products, setProducts] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_admin_products');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) { return []; }
+  });
+
+  const [categories, setCategories] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_admin_categories');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) { return []; }
+  });
+
+  const [allOrders, setAllOrders] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_admin_orders');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) { return []; }
+  });
+
+  const [usersList, setUsersList] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_admin_users');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) { return []; }
+  });
+
+  const [inquiries, setInquiries] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_admin_inquiries');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) { return []; }
+  });
+
   const [blogs, setBlogs] = useState(() => {
     try {
       const local = localStorage.getItem('missnous_published_blogs');
@@ -110,28 +142,75 @@ export default function App() {
     }
   }, [playNewOrderChime]);
 
-  // Fetch all data from API
+  // Fetch all data from API - non-blocking progressive hydration for instant loading
   const fetchAllData = useCallback(async () => {
     if (!currentUser) return;
     try {
       setLoading(true);
-      const [prods, cats, orders, users, blgs] = await Promise.all([
-        api.get('/products').catch(err => { console.error('Products fetch failed:', err); return []; }),
-        api.get('/categories').catch(err => { console.error('Categories fetch failed:', err); return []; }),
-        api.get('/orders').catch(err => { console.error('Orders fetch failed:', err); return []; }),
-        api.get('/users').catch(err => { console.error('Users fetch failed:', err); return []; }),
-        api.get('/blogs?all=true').catch(err => { console.warn('Blogs fetch failed, using local:', err.message); return null; })
+
+      const fetchProducts = api.get('/products')
+        .then(prods => {
+          if (Array.isArray(prods)) {
+            setProducts(prods);
+            try { localStorage.setItem('missnous_admin_products', JSON.stringify(prods)); } catch (e) {}
+          }
+        })
+        .catch(err => console.error('Products fetch failed:', err.message));
+
+      const fetchCategories = api.get('/categories')
+        .then(cats => {
+          if (Array.isArray(cats)) {
+            setCategories(cats);
+            try { localStorage.setItem('missnous_admin_categories', JSON.stringify(cats)); } catch (e) {}
+          }
+        })
+        .catch(err => console.error('Categories fetch failed:', err.message));
+
+      const fetchOrders = api.get('/orders')
+        .then(orders => {
+          if (Array.isArray(orders)) {
+            setAllOrders(orders);
+            checkForNewOrders(orders);
+            try { localStorage.setItem('missnous_admin_orders', JSON.stringify(orders)); } catch (e) {}
+          }
+        })
+        .catch(err => console.error('Orders fetch failed:', err.message));
+
+      const fetchUsers = api.get('/users')
+        .then(users => {
+          if (Array.isArray(users)) {
+            setUsersList(users);
+            try { localStorage.setItem('missnous_admin_users', JSON.stringify(users)); } catch (e) {}
+          }
+        })
+        .catch(err => console.error('Users fetch failed:', err.message));
+
+      const fetchInquiries = api.get('/inquiries')
+        .then(inqs => {
+          if (Array.isArray(inqs)) {
+            setInquiries(inqs);
+            try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(inqs)); } catch (e) {}
+          }
+        })
+        .catch(err => console.error('Inquiries fetch failed:', err.message));
+
+      const fetchBlogs = api.get('/blogs?all=true')
+        .then(blgs => {
+          if (Array.isArray(blgs) && blgs.length > 0) {
+            setBlogs(blgs);
+            try { localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs)); } catch (e) {}
+          }
+        })
+        .catch(err => console.warn('Blogs fetch failed, using local/cached:', err.message));
+
+      await Promise.allSettled([
+        fetchProducts,
+        fetchCategories,
+        fetchOrders,
+        fetchUsers,
+        fetchInquiries,
+        fetchBlogs
       ]);
-      setProducts(prods || []);
-      setCategories(cats || []);
-      const fetchedOrders = orders || [];
-      setAllOrders(fetchedOrders);
-      checkForNewOrders(fetchedOrders);
-      setUsersList(users || []);
-      if (Array.isArray(blgs) && blgs.length > 0) {
-        setBlogs(blgs);
-        localStorage.setItem('missnous_published_blogs', JSON.stringify(blgs));
-      }
     } catch (err) {
       console.error('Failed to load admin data:', err.message);
     } finally {
@@ -143,26 +222,33 @@ export default function App() {
     fetchAllData();
   }, [fetchAllData]);
 
-  // Real-time order & user auto-polling (every 5 seconds)
+  // Real-time order, user, & inquiry auto-polling (every 10 seconds)
   useEffect(() => {
     if (!currentUser) return;
 
     const pollInterval = setInterval(async () => {
       try {
-        const [latestOrders, latestUsers] = await Promise.all([
+        const [latestOrders, latestUsers, latestInquiries] = await Promise.all([
           api.get('/orders').catch(() => null),
-          api.get('/users').catch(() => null)
+          api.get('/users').catch(() => null),
+          api.get('/inquiries').catch(() => null)
         ]);
 
         if (Array.isArray(latestOrders)) {
           setAllOrders(latestOrders);
           checkForNewOrders(latestOrders);
+          try { localStorage.setItem('missnous_admin_orders', JSON.stringify(latestOrders)); } catch (e) {}
         }
         if (Array.isArray(latestUsers)) {
           setUsersList(latestUsers);
+          try { localStorage.setItem('missnous_admin_users', JSON.stringify(latestUsers)); } catch (e) {}
+        }
+        if (Array.isArray(latestInquiries)) {
+          setInquiries(latestInquiries);
+          try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(latestInquiries)); } catch (e) {}
         }
       } catch (err) {}
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(pollInterval);
   }, [currentUser, checkForNewOrders]);
@@ -172,16 +258,23 @@ export default function App() {
     const handleStorageEvent = async (e) => {
       if ((e.key === 'missnous_new_order_event' || e.key === 'missnous_new_user_event') && currentUser) {
         try {
-          const [latestOrders, latestUsers] = await Promise.all([
+          const [latestOrders, latestUsers, latestInquiries] = await Promise.all([
             api.get('/orders').catch(() => null),
-            api.get('/users').catch(() => null)
+            api.get('/users').catch(() => null),
+            api.get('/inquiries').catch(() => null)
           ]);
           if (Array.isArray(latestOrders)) {
             setAllOrders(latestOrders);
             checkForNewOrders(latestOrders);
+            try { localStorage.setItem('missnous_admin_orders', JSON.stringify(latestOrders)); } catch (e) {}
           }
           if (Array.isArray(latestUsers)) {
             setUsersList(latestUsers);
+            try { localStorage.setItem('missnous_admin_users', JSON.stringify(latestUsers)); } catch (e) {}
+          }
+          if (Array.isArray(latestInquiries)) {
+            setInquiries(latestInquiries);
+            try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(latestInquiries)); } catch (e) {}
           }
         } catch (err) {}
       }
@@ -199,6 +292,7 @@ export default function App() {
       setCategories([]);
       setAllOrders([]);
       setUsersList([]);
+      setInquiries([]);
       showToast('Session expired. Please log in again.');
     };
     window.addEventListener('auth_unauthorized', handleUnauthorized);
@@ -226,7 +320,15 @@ export default function App() {
     setCategories([]);
     setAllOrders([]);
     setUsersList([]);
-    try { localStorage.removeItem('missnous_current_user'); } catch (e) {}
+    setInquiries([]);
+    try { 
+      localStorage.removeItem('missnous_current_user'); 
+      localStorage.removeItem('missnous_admin_products');
+      localStorage.removeItem('missnous_admin_categories');
+      localStorage.removeItem('missnous_admin_orders');
+      localStorage.removeItem('missnous_admin_users');
+      localStorage.removeItem('missnous_admin_inquiries');
+    } catch (e) {}
   };
 
   // ─── Product CRUD ───────────────────────────────────────
@@ -403,12 +505,42 @@ export default function App() {
     }
   };
 
+  // ─── Contact Queries (Inquiries) ────────────────────────
+  const handleUpdateInquiryStatus = async (inquiryId, newStatus) => {
+    try {
+      const updated = await api.put(`/inquiries/${inquiryId}/status`, { status: newStatus });
+      setInquiries(prev => {
+        const next = prev.map(item => item._id === inquiryId ? updated : item);
+        try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast(`Query marked as ${newStatus}`);
+    } catch (err) {
+      showToast(err.message || 'Failed to update query status.');
+    }
+  };
+
+  const handleDeleteInquiry = async (inquiryId) => {
+    try {
+      await api.delete(`/inquiries/${inquiryId}`);
+      setInquiries(prev => {
+        const next = prev.filter(item => item._id !== inquiryId);
+        try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast('Query deleted successfully.');
+    } catch (err) {
+      showToast(err.message || 'Failed to delete query.');
+    }
+  };
+
   if (!currentUser || currentUser.role !== 'admin') {
     return <AdminLoginPage onLoginSuccess={handleLoginSuccess} />;
   }
 
   const pendingOrdersCount = allOrders.filter(o => o.status === 'Pending').length;
   const registeredCustomersCount = usersList.filter(u => u.role !== 'admin').length;
+  const unreadInquiriesCount = inquiries.filter(i => i.status === 'Unread').length;
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-[#FDF2F5] text-[#2B2225] flex font-sans relative">
@@ -429,6 +561,8 @@ export default function App() {
         customersCount={registeredCustomersCount}
         paymentsCount={allOrders.length}
         blogsCount={blogs.length}
+        inquiriesCount={inquiries.length}
+        unreadInquiriesCount={unreadInquiriesCount}
         onLogout={handleLogout}
         mobileOpen={mobileMenuOpen}
         setMobileOpen={setMobileMenuOpen}
@@ -504,6 +638,15 @@ export default function App() {
             <CustomersPage
               users={usersList}
               allOrders={allOrders}
+            />
+          )}
+
+          {activeTab === 'inquiries' && (
+            <InquiriesPage
+              inquiries={inquiries}
+              onUpdateInquiryStatus={handleUpdateInquiryStatus}
+              onDeleteInquiry={handleDeleteInquiry}
+              showToast={showToast}
             />
           )}
 

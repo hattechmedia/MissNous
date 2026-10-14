@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Mail, MapPin, Clock, Send, CheckCircle2, HelpCircle, RotateCcw, ArrowRight } from 'lucide-react';
+import { Sparkles, Mail, MapPin, Clock, Send, CheckCircle2, HelpCircle, RotateCcw, ArrowRight, Loader2, Phone } from 'lucide-react';
+import { BASE_URL } from '../services/api';
 
 export default function ContactPage({ onNavigate }) {
   // Page Meta Description for SEO without changing browser tab title
@@ -29,9 +30,12 @@ export default function ContactPage({ onNavigate }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -41,11 +45,41 @@ export default function ContactPage({ onNavigate }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
+    setError(null);
+
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setError('Please provide your name, email, and message.');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const res = await fetch(`${BASE_URL}/inquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone ? formData.phone.trim() : '',
+          subject: formData.subject && formData.subject.trim() ? formData.subject.trim() : 'Customer Inquiry',
+          message: formData.message.trim()
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to submit inquiry.');
+      }
+
       setSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      setError(err.message || 'Unable to connect to server. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -179,11 +213,11 @@ export default function ContactPage({ onNavigate }) {
                 </div>
                 <span className="block font-sans text-lg font-medium text-[#2B2225]">Message Received</span>
                 <p className="font-sans text-xs sm:text-sm text-[#5A4B50]">
-                  Thank you for reaching out! Our team will respond to your inquiry within 24 hours.
+                  Thank you for reaching out! Our concierge team will review your inquiry and respond to your email shortly.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="pt-2 text-xs font-semibold text-[#9E3F5C] underline hover:text-[#7C2F47]"
+                  className="pt-2 text-xs font-semibold text-[#9E3F5C] underline hover:text-[#7C2F47] cursor-pointer"
                 >
                   Send another message
                 </button>
@@ -191,11 +225,17 @@ export default function ContactPage({ onNavigate }) {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
 
+                {error && (
+                  <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-2xl text-left animate-fade-in">
+                    {error}
+                  </div>
+                )}
+
                 {/* Name & Email Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5 text-left">
                     <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
-                      Name
+                      Name *
                     </label>
                     <input
                       type="text"
@@ -204,13 +244,13 @@ export default function ContactPage({ onNavigate }) {
                       placeholder="e.g. Sophia Lauren"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all"
+                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all font-medium"
                     />
                   </div>
 
                   <div className="space-y-1.5 text-left">
                     <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
-                      Email
+                      Email *
                     </label>
                     <input
                       type="email"
@@ -219,30 +259,46 @@ export default function ContactPage({ onNavigate }) {
                       placeholder="sophia@example.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all"
+                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all font-medium"
                     />
                   </div>
                 </div>
 
-                {/* Subject (optional) */}
-                <div className="space-y-1.5 text-left">
-                  <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
-                    Subject (optional)
-                  </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Product Inquiry / Order Assistance"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all"
-                  />
+                {/* Phone & Subject Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5 text-left">
+                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                      Phone Number (optional)
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="+1 (555) 000-0000"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all font-medium"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 text-left">
+                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                      Subject (optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="subject"
+                      placeholder="Product Inquiry / Order Assistance"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all font-medium"
+                    />
+                  </div>
                 </div>
 
                 {/* Message Textarea */}
                 <div className="space-y-1.5 text-left">
                   <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
-                    Message
+                    Message *
                   </label>
                   <textarea
                     name="message"
@@ -251,7 +307,7 @@ export default function ContactPage({ onNavigate }) {
                     placeholder="Write your message or inquiry here..."
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all resize-none"
+                    className="w-full bg-[#FFF9F5] border border-[#F7D6DF] rounded-2xl px-4 py-3 text-sm text-[#2B2225] placeholder-[#A09095] focus:outline-none focus:border-[#D4AF6A] focus:ring-2 focus:ring-[#D4AF6A]/30 transition-all resize-none font-medium"
                   ></textarea>
                 </div>
 
@@ -259,10 +315,20 @@ export default function ContactPage({ onNavigate }) {
                 <div className="pt-2 text-left">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-md transition-all duration-300 transform hover:-translate-y-0.5 gap-2 cursor-pointer"
+                    disabled={submitting}
+                    className="inline-flex items-center justify-center px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] disabled:opacity-60 text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-md transition-all duration-300 transform hover:-translate-y-0.5 gap-2 cursor-pointer"
                   >
-                    <span>Send message</span>
-                    <Send className="w-4 h-4" />
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Sending inquiry...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send message</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
                   </button>
                 </div>
 

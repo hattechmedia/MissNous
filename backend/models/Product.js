@@ -22,4 +22,8 @@ const productSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Performance Indexes
+productSchema.index({ createdAt: -1 });
+productSchema.index({ categoryKey: 1 });
+
 module.exports = mongoose.model('Product', productSchema);

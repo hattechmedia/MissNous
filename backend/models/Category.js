@@ -21,4 +21,8 @@ const categorySchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Performance Indexes
+categorySchema.index({ createdAt: 1 });
+categorySchema.index({ key: 1 });
+
 module.exports = mongoose.model('Category', categorySchema);

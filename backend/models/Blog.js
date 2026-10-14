@@ -73,4 +73,8 @@ const blogSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Performance Indexes
+blogSchema.index({ createdAt: -1 });
+blogSchema.index({ status: 1 });
+
 module.exports = mongoose.model('Blog', blogSchema);

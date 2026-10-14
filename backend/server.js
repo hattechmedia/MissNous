@@ -5,11 +5,14 @@ const dotenv = require('dotenv');
 const path = require('path');
 const dns = require('dns');
 
-// Force DNS resolution to use Google Public DNS (fixes Windows querySrv ECONNREFUSED issues on mongodb+srv)
-try {
-  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-} catch (e) {
-  console.warn('Could not set custom DNS servers:', e.message);
+// Force DNS resolution on local dev (fixes Windows querySrv ECONNREFUSED issues on mongodb+srv)
+// On Vercel (cloud production), skip so AWS internal ultra-low latency DNS is used directly
+if (!process.env.VERCEL) {
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+  } catch (e) {
+    console.warn('Could not set custom DNS servers:', e.message);
+  }
 }
 
 dotenv.config();
@@ -106,6 +109,7 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/payments', require('./routes/payment'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/blogs', require('./routes/blogs'));
+app.use('/api/inquiries', require('./routes/inquiries'));
 
 // Health check
 app.get('/api/health', (req, res) => {
