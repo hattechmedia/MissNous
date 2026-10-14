@@ -41,8 +41,19 @@ router.put('/me', protect, async (req, res) => {
   }
 });
 
+const rateLimit = require('express-rate-limit');
+
+// Rate limiter for password change attempts (prevents brute-force current password guessing)
+const passwordChangeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many password update attempts. Please try again after 15 minutes.' }
+});
+
 // PUT /api/users/me/password - Change own password
-router.put('/me/password', protect, async (req, res) => {
+router.put('/me/password', protect, passwordChangeLimiter, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -65,10 +76,16 @@ router.put('/me/password', protect, async (req, res) => {
   }
 });
 
-// PUT /api/users/:id - Admin: update user safely (prevents mass assignment)
+// PUT /api/users/:id - Admin: update user safely (prevents mass assignment & self-lockout)
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
     const { name, phone, address, city, country, avatar, role } = req.body;
+
+    // Security: Prevent admin from accidentally demoting themselves
+    if (req.params.id === req.user._id.toString() && role && role !== 'admin') {
+      return res.status(400).json({ message: 'You cannot remove admin privileges from your own account.' });
+    }
+
     const updateData = {};
 
     if (name !== undefined) updateData.name = name.trim();
@@ -94,9 +111,14 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
   }
 });
 
-// DELETE /api/users/:id - Admin: delete user
+// DELETE /api/users/:id - Admin: delete user safely
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
+    // Security: Prevent admin from accidentally deleting their own account
+    if (req.params.id === req.user._id.toString()) {
+      return res.status(400).json({ message: 'You cannot delete your own account while logged in.' });
+    }
+
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found.' });
     res.json({ message: 'User deleted successfully.' });

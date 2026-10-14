@@ -112,6 +112,25 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'MissNous API is running' });
 });
 
+// 404 handler for undefined API endpoints (returns clean JSON instead of HTML)
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ message: 'API endpoint not found.' });
+});
+
+// Global error handler: sanitizes errors and suppresses internal stack trace leakage
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({ message: 'Request payload too large.' });
+  }
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ message: 'Invalid JSON payload provided.' });
+  }
+  const statusCode = err.statusCode || err.status || 500;
+  res.status(statusCode).json({
+    message: statusCode === 500 ? 'An unexpected server error occurred.' : err.message
+  });
+});
+
 // Start Server with graceful EADDRINUSE handling
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 5000;
 

@@ -2,12 +2,22 @@ const express = require('express');
 const { protect } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// Rate limiter for checkout session creation (prevents Stripe API quota exhaustion)
+const checkoutLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many checkout attempts. Please try again after a few minutes.' }
+});
+
 // POST /api/payments/create-checkout-session (Stripe Hosted Checkout Redirect)
-router.post('/create-checkout-session', protect, async (req, res) => {
+router.post('/create-checkout-session', protect, checkoutLimiter, async (req, res) => {
   try {
     const { items, shippingAddress, subtotal, tax = 0, total, origin } = req.body;
 

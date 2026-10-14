@@ -33,6 +33,11 @@ const request = async (endpoint, options = {}) => {
   const data = await response.json();
 
   if (!response.ok) {
+    if (response.status === 401) {
+      try {
+        localStorage.removeItem('missnous_current_user');
+      } catch (e) {}
+    }
     throw new Error(data.message || 'Something went wrong');
   }
 

@@ -119,23 +119,55 @@ router.post('/', protect, adminOnly, async (req, res) => {
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = { ...req.body };
+    const {
+      title,
+      slug,
+      excerpt,
+      content,
+      coverImage,
+      category,
+      tags,
+      author,
+      readTime,
+      date,
+      status,
+      featured,
+      metaTitle,
+      metaDescription,
+      keywords
+    } = req.body;
 
-    if (updateData.title && !updateData.slug) {
-      updateData.slug = slugify(updateData.title);
-    } else if (updateData.slug) {
-      updateData.slug = slugify(updateData.slug);
+    const updateData = {};
+    if (title !== undefined) updateData.title = title.trim();
+    if (excerpt !== undefined) updateData.excerpt = excerpt.trim();
+    if (content !== undefined) updateData.content = content.trim();
+    if (coverImage !== undefined) updateData.coverImage = coverImage;
+    if (category !== undefined) updateData.category = category;
+    if (tags !== undefined) updateData.tags = Array.isArray(tags) ? tags : [];
+    if (author !== undefined) updateData.author = author.trim();
+    if (readTime !== undefined) updateData.readTime = readTime;
+    if (date !== undefined) updateData.date = date;
+    if (status !== undefined) updateData.status = status;
+    if (featured !== undefined) updateData.featured = !!featured;
+    if (metaTitle !== undefined) updateData.metaTitle = metaTitle;
+    if (metaDescription !== undefined) updateData.metaDescription = metaDescription;
+    if (keywords !== undefined) updateData.keywords = keywords;
+
+    if (slug) {
+      updateData.slug = slugify(slug);
+    } else if (title) {
+      updateData.slug = slugify(title);
     }
 
-    const blog = await Blog.findByIdAndUpdate(id, updateData, { new: true });
+    const blog = await Blog.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
     if (!blog) {
       return res.status(404).json({ message: 'Blog article not found.' });
     }
 
     res.json(blog);
   } catch (err) {
-    console.error('Update blog error:', err);
-    res.status(500).json({ message: err.message || 'Failed to update blog.' });
+    console.error('Update blog error:', err.message);
+    res.status(500).json({ message: 'Failed to update blog.' });
   }
 });
 
