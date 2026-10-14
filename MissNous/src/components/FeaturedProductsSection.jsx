@@ -80,7 +80,10 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
           <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
             Our Two Best-Selling Organic Intimate Lubricants
           </h2>
+        </div>
 
+        {/* Paragraph aligned to product grid width */}
+        <div className="max-w-5xl mx-auto text-center reveal-up">
           <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed">
             Both formulas are water-based and built on a gentle glycerin base, with the full ingredient list on every product page so you always know what you are putting on your body. Each one carries a fruit-inspired flavor, so comfort and a little enjoyment come from the same bottle. Pick the flavor that fits your mood.
           </p>
@@ -93,15 +96,16 @@ export default function FeaturedProductsSection({ onAddToCart, onToggleWishlist,
               key={product.id || product._id}
               className={`w-full bg-white rounded-3xl sm:rounded-[2rem] border border-[#F7D6DF] shadow-luxury overflow-hidden flex flex-col justify-between group hover:shadow-pink-glow transition-all duration-500 transform hover:-translate-y-1 p-5 sm:p-7 relative text-left reveal-up`}
             >
-              {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card */}
+              {/* 3D Wrapped Diagonal Ribbon Badge on Outer Card — wider & taller so text fits */}
               {getProductDisplayDiscount(product) && (
-                <div className="absolute top-0 left-0 w-36 sm:w-40 h-36 sm:h-40 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-6 sm:top-7 -left-11 sm:-left-12 w-48 sm:w-52 h-6 sm:h-7 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-5 sm:pr-6 gap-1 leading-none">
-                    <Sparkles className="w-3 h-3 text-[#E8D3A5] flex-shrink-0" />
+                <div className="absolute top-0 left-0 w-44 sm:w-48 h-44 sm:h-48 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-8 sm:top-9 -left-14 sm:-left-16 w-56 sm:w-60 h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[12px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_12px_rgba(0,0,0,0.4)] border-y border-[#E8D3A5]/40 flex items-center justify-center pr-6 sm:pr-8 gap-1.5 leading-none">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
                     <span className="whitespace-nowrap drop-shadow-xs leading-none">Discounted Offer</span>
                   </div>
                 </div>
               )}
+
 
               {/* Product Image Stage */}
               <div 
