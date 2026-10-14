@@ -30,9 +30,24 @@ export default function App() {
     }
   });
 
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      const savedTab = sessionStorage.getItem('missnous_admin_active_tab');
+      if (savedTab) return savedTab;
+    } catch (e) {}
+    return 'dashboard';
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+
+  // Preserve active tab across page reloads
+  useEffect(() => {
+    try {
+      if (activeTab) {
+        sessionStorage.setItem('missnous_admin_active_tab', activeTab);
+      }
+    } catch (e) {}
+  }, [activeTab]);
 
   // Performance: Stale-While-Revalidate initial state from localStorage for 0ms Instant Load
   const [products, setProducts] = useState(() => {
@@ -350,6 +365,7 @@ export default function App() {
     try { 
       sessionStorage.removeItem('missnous_admin_token');
       sessionStorage.removeItem('missnous_admin_user');
+      sessionStorage.removeItem('missnous_admin_active_tab');
       localStorage.removeItem('missnous_current_user'); 
       localStorage.removeItem('missnous_admin_products');
       localStorage.removeItem('missnous_admin_categories');
@@ -357,6 +373,7 @@ export default function App() {
       localStorage.removeItem('missnous_admin_users');
       localStorage.removeItem('missnous_admin_inquiries');
     } catch (e) {}
+    setActiveTab('dashboard');
   };
 
   // ─── Product CRUD ───────────────────────────────────────
