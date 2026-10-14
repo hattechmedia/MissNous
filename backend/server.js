@@ -5,14 +5,11 @@ const dotenv = require('dotenv');
 const path = require('path');
 const dns = require('dns');
 
-// Force DNS resolution on local dev (fixes Windows querySrv ECONNREFUSED issues on mongodb+srv)
-// On Vercel (cloud production), skip so AWS internal ultra-low latency DNS is used directly
-if (!process.env.VERCEL) {
-  try {
-    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-  } catch (e) {
-    console.warn('Could not set custom DNS servers:', e.message);
-  }
+// Force DNS resolution to use Google & Cloudflare Public DNS (fixes querySrv ECONNREFUSED on mongodb+srv in cloud & local)
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch (e) {
+  console.warn('Could not set custom DNS servers:', e.message);
 }
 
 dotenv.config();
@@ -49,8 +46,9 @@ app.use(cors({
     const isAllowed = 
       allowedOrigins.includes(origin) ||
       (process.env.VERCEL_URL && origin === `https://${process.env.VERCEL_URL}`) ||
-      /^https:\/\/([a-zA-Z0-9-]+\.)*missnous\.com$/.test(origin) ||
-      /^https:\/\/missnous[a-zA-Z0-9-]*\.vercel\.app$/.test(origin);
+      /^https:\/\/([a-zA-Z0-9-]+\.)*miss-?nous\.com$/i.test(origin) ||
+      /^https:\/\/([a-zA-Z0-9-]+\.)*miss-?nous.*\.vercel\.app$/i.test(origin) ||
+      /^https:\/\/.*miss-?nous.*\.vercel\.app$/i.test(origin);
 
     if (isAllowed) {
       return callback(null, true);
@@ -62,9 +60,38 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-// Body parsing with safe limits (2MB max to prevent payload exhaustion attacks)
-app.use(express.json({ limit: '2mb' }));
-app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+// Ensure database connection is ready before handling incoming API requests
+app.use(async (req, res, next) => {
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      if (mongoose.connection.readyState === 2) {
+        let waited = 0;
+        while (mongoose.connection.readyState === 2 && waited < 5000) {
+          await new Promise(r => setTimeout(r, 100));
+          waited += 100;
+        }
+      }
+      if (mongoose.connection.readyState !== 1) {
+        await mongoose.connect(process.env.MONGODB_URI, {
+          serverSelectionTimeoutMS: 8000,
+          socketTimeoutMS: 45000,
+          connectTimeoutMS: 8000,
+          family: 4,
+          retryWrites: true,
+          w: 'majority'
+        });
+      }
+    }
+    next();
+  } catch (err) {
+    console.error('Database connection middleware warning:', err.message);
+    next();
+  }
+});
+
+// Body parsing with safe limits (10MB max to allow product updates with images and prevent 413)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Global API rate limiter: 300 requests per 15 minutes per IP
 const globalApiLimiter = rateLimit({

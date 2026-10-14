@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, Mail, Sparkles, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://miss-nous-backend.vercel.app/api';
+  }
+  return 'http://localhost:5000/api';
+};
+
+const RAW_URL = getApiBase();
 const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
 export default function AdminLoginPage({ onLoginSuccess }) {

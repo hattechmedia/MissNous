@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Lock, CreditCard, CheckCircle2, ArrowLeft, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
 
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://miss-nous-backend.vercel.app/api';
+  }
+  return 'http://localhost:5000/api';
+};
+
+const RAW_URL = getApiBase();
 const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
 export default function CheckoutPage({
@@ -181,7 +189,8 @@ export default function CheckoutPage({
             subtitle: item.subtitle || '',
             price: item.price,
             quantity: item.quantity,
-            image: item.image
+            // Only send image if it's an HTTP URL - omit heavy base64 strings to prevent 413 Payload Too Large
+            image: (item.image && typeof item.image === 'string' && item.image.startsWith('http')) ? item.image : ''
           })),
           shippingAddress,
           subtotal: Math.round(subtotal),

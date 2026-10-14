@@ -1,7 +1,15 @@
 // Central API client for MissNous Frontend
 // All requests go through this file
 
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://miss-nous-backend.vercel.app/api';
+  }
+  return 'http://localhost:5000/api';
+};
+
+const RAW_URL = getApiBase();
 export const BASE_URL = RAW_URL.endsWith('/api') ? RAW_URL : `${RAW_URL.replace(/\/$/, '')}/api`;
 
 // Get JWT token from localStorage

@@ -35,14 +35,28 @@ export default function App() {
   const [products, setProducts] = useState(() => {
     try {
       const cached = localStorage.getItem('missnous_admin_products');
-      return cached ? JSON.parse(cached) : [];
+      const parsed = cached ? JSON.parse(cached) : [];
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      const clientCached = localStorage.getItem('missnous_cached_products');
+      if (clientCached) {
+        const cp = JSON.parse(clientCached);
+        if (Array.isArray(cp) && cp.length > 0) return cp;
+      }
+      return [];
     } catch (e) { return []; }
   });
 
   const [categories, setCategories] = useState(() => {
     try {
       const cached = localStorage.getItem('missnous_admin_categories');
-      return cached ? JSON.parse(cached) : [];
+      const parsed = cached ? JSON.parse(cached) : [];
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      const clientCached = localStorage.getItem('missnous_cached_categories');
+      if (clientCached) {
+        const cc = JSON.parse(clientCached);
+        if (Array.isArray(cc) && cc.length > 0) return cc;
+      }
+      return [];
     } catch (e) { return []; }
   });
 
@@ -150,18 +164,20 @@ export default function App() {
 
       const fetchProducts = api.get('/products')
         .then(prods => {
-          if (Array.isArray(prods)) {
-            setProducts(prods);
-            try { localStorage.setItem('missnous_admin_products', JSON.stringify(prods)); } catch (e) {}
+          const list = Array.isArray(prods) ? prods : (prods?.products || prods?.data || []);
+          if (Array.isArray(list)) {
+            setProducts(list);
+            try { localStorage.setItem('missnous_admin_products', JSON.stringify(list)); } catch (e) {}
           }
         })
         .catch(err => console.error('Products fetch failed:', err.message));
 
       const fetchCategories = api.get('/categories')
         .then(cats => {
-          if (Array.isArray(cats)) {
-            setCategories(cats);
-            try { localStorage.setItem('missnous_admin_categories', JSON.stringify(cats)); } catch (e) {}
+          const list = Array.isArray(cats) ? cats : (cats?.categories || cats?.data || []);
+          if (Array.isArray(list)) {
+            setCategories(list);
+            try { localStorage.setItem('missnous_admin_categories', JSON.stringify(list)); } catch (e) {}
           }
         })
         .catch(err => console.error('Categories fetch failed:', err.message));
