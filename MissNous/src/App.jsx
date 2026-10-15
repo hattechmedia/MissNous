@@ -28,7 +28,14 @@ const getPageFromPath = () => {
   if (path === '/contact' || path === '/contact-us') return 'contact';
   if (path === '/shop' || path === '/products') return 'shop';
   if (path === '/blog' || path === '/blogs' || path.startsWith('/blog/') || path.startsWith('/blogs/')) return 'blog';
-  if (path === '/product-detail' || path.startsWith('/product/') || path.startsWith('/product-detail')) return 'product-detail';
+  if (
+    path === '/product-detail' ||
+    path.startsWith('/product/') ||
+    path.startsWith('/product-detail') ||
+    path.includes('strawberry') ||
+    path.includes('pineapple') ||
+    path.includes('lubricant')
+  ) return 'product-detail';
   if (path === '/checkout') return 'checkout';
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
   if (path === '/terms' || path === '/terms-of-use' || path === '/terms-of-service') return 'terms-of-use';
@@ -40,11 +47,11 @@ const getPageFromPath = () => {
 
 // Helper to get slug for products
 export const getProductSlug = (prod) => {
-  if (!prod) return '';
+  if (!prod) return 'miss-nous-strawberry-intimate-lubricant';
   const name = (prod.name || '').toLowerCase();
   if (name.includes('pineapple')) return 'miss-nous-pineapple-intimate-lubricant';
   if (name.includes('strawberry')) return 'miss-nous-strawberry-intimate-lubricant';
-  return (prod.slug || prod.id || '').toLowerCase();
+  return (prod.slug || prod.id || 'miss-nous-strawberry-intimate-lubricant').toLowerCase();
 };
 
 // Map app page state to browser URL path
@@ -56,7 +63,7 @@ const getPathForPage = (page, prod = null) => {
     case 'blog': return '/blog';
     case 'product-detail': {
       const slug = getProductSlug(prod);
-      return slug ? `/product-detail?product=${slug}` : '/product-detail';
+      return `/${slug}`;
     }
     case 'checkout': return '/checkout';
     case 'account': return '/account';
@@ -146,10 +153,22 @@ export default function App() {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(() => {
     try {
+      if (typeof window !== 'undefined') {
+        const path = window.location.pathname.toLowerCase();
+        const search = window.location.search.toLowerCase();
+        const combined = path + ' ' + search;
+        if (combined.includes('pineapple')) {
+          const match = PRODUCTS.find(p => (p.name || '').toLowerCase().includes('pineapple'));
+          if (match) return match;
+        } else if (combined.includes('strawberry')) {
+          const match = PRODUCTS.find(p => (p.name || '').toLowerCase().includes('strawberry'));
+          if (match) return match;
+        }
+      }
       const stored = localStorage.getItem('missnous_selected_product');
-      return stored ? JSON.parse(stored) : null;
+      return stored ? JSON.parse(stored) : PRODUCTS[0] || null;
     } catch (e) {
-      return null;
+      return PRODUCTS[0] || null;
     }
   });
 
@@ -251,22 +270,29 @@ export default function App() {
     const initialPage = getPageFromPath();
     if (initialPage === 'product-detail') {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const prodParam = (params.get('product') || '').toLowerCase();
-        if (prodParam) {
-          const match = products.find(p => {
-            const pName = (p.name || '').toLowerCase();
-            return (
-              (prodParam.includes('pineapple') && pName.includes('pineapple')) ||
-              (prodParam.includes('strawberry') && pName.includes('strawberry'))
-            );
-          });
-          if (match) {
-            setSelectedProduct(match);
-            syncBrowserUrl(initialPage, true, match);
-          } else {
-            syncBrowserUrl(initialPage, true);
+        const path = window.location.pathname.toLowerCase();
+        const search = window.location.search.toLowerCase();
+        const combined = path + ' ' + search;
+        let match = null;
+        if (combined.includes('pineapple')) {
+          match = products.find(p => (p.name || '').toLowerCase().includes('pineapple'));
+        } else if (combined.includes('strawberry')) {
+          match = products.find(p => (p.name || '').toLowerCase().includes('strawberry'));
+        }
+        if (!match) {
+          const stored = localStorage.getItem('missnous_selected_product');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && (parsed.id || parsed._id)) match = parsed;
           }
+        }
+        if (!match && products && products.length > 0) {
+          match = products[0];
+        }
+        if (match) {
+          setSelectedProduct(match);
+          try { localStorage.setItem('missnous_selected_product', JSON.stringify(match)); } catch (e) {}
+          syncBrowserUrl(initialPage, true, match);
         } else {
           syncBrowserUrl(initialPage, true);
         }
@@ -284,27 +310,24 @@ export default function App() {
       const pageFromUrl = (e.state && e.state.page) || getPageFromPath();
       if (pageFromUrl === 'product-detail') {
         try {
-          const params = new URLSearchParams(window.location.search);
-          const prodParam = (params.get('product') || '').toLowerCase();
-          if (prodParam) {
-            const match = products.find(p => {
-              const pName = (p.name || '').toLowerCase();
-              return (
-                (prodParam.includes('pineapple') && pName.includes('pineapple')) ||
-                (prodParam.includes('strawberry') && pName.includes('strawberry'))
-              );
-            });
-            if (match) {
-              setSelectedProduct(match);
-            }
-          } else {
+          const path = window.location.pathname.toLowerCase();
+          const search = window.location.search.toLowerCase();
+          const combined = path + ' ' + search;
+          let match = null;
+          if (combined.includes('pineapple')) {
+            match = products.find(p => (p.name || '').toLowerCase().includes('pineapple'));
+          } else if (combined.includes('strawberry')) {
+            match = products.find(p => (p.name || '').toLowerCase().includes('strawberry'));
+          }
+          if (!match) {
             const stored = localStorage.getItem('missnous_selected_product');
             if (stored) {
               const parsed = JSON.parse(stored);
-              if (parsed && (parsed.id || parsed._id)) {
-                setSelectedProduct(parsed);
-              }
+              if (parsed && (parsed.id || parsed._id)) match = parsed;
             }
+          }
+          if (match) {
+            setSelectedProduct(match);
           }
         } catch (err) {}
       }
@@ -363,15 +386,15 @@ export default function App() {
         case 'product-detail': {
           const prodName = (selectedProduct?.name || '').toLowerCase();
           if (prodName.includes('pineapple')) {
-            path = '/product-detail?product=miss-nous-pineapple-intimate-lubricant';
+            path = '/miss-nous-pineapple-intimate-lubricant';
             pageTitle = 'Miss Nous Pineapple Intimate Lubricant | Organic & Water-Based';
             pageDesc = 'Buy Miss Nous Pineapple Flavored Intimate Lubricant (100ml). Water-based, pH 4.5 calibrated, gentle glycerin base for sensitive skin.';
           } else if (prodName.includes('strawberry')) {
-            path = '/product-detail?product=miss-nous-strawberry-intimate-lubricant';
+            path = '/miss-nous-strawberry-intimate-lubricant';
             pageTitle = 'Miss Nous Strawberry Intimate Lubricant | Organic & Water-Based';
             pageDesc = 'Buy Miss Nous Strawberry Flavored Intimate Lubricant (100ml). 100% organic water-based formula, non-sticky, body-safe intimacy.';
           } else {
-            path = '/product-detail';
+            path = '/miss-nous-strawberry-intimate-lubricant';
             pageTitle = `${selectedProduct?.name || 'Organic Intimate Lubricant'} | Miss Nous`;
           }
           break;
@@ -467,18 +490,23 @@ export default function App() {
       return;
     } else {
       if (page === 'product-detail') {
+        let prodToSync = selectedProduct;
         try {
           const stored = localStorage.getItem('missnous_selected_product');
           if (stored) {
             const parsed = JSON.parse(stored);
             if (parsed && (parsed.id || parsed._id)) {
+              prodToSync = parsed;
               setSelectedProduct(parsed);
             }
           }
         } catch (e) {}
+        setCurrentPage(page);
+        syncBrowserUrl(page, false, prodToSync);
+      } else {
+        setCurrentPage(page);
+        syncBrowserUrl(page);
       }
-      setCurrentPage(page);
-      syncBrowserUrl(page);
     }
     if (scrollTarget) {
       setTimeout(() => {

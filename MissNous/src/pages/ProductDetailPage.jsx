@@ -493,21 +493,29 @@ export default function ProductDetailPage({
   currentUser,
   onOpenAuthModal
 }) {
-  // Fallback to stored product or first available product if none selected
+  // Resolve active product: prioritize passed product prop, then URL pathname, then localStorage, then first product
   let activeProduct = product;
-  try {
-    const stored = localStorage.getItem('missnous_selected_product');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (parsed && (parsed.id || parsed._id)) {
-        if (!product || isPineappleLubricantProduct(parsed) || (product.id === parsed.id || product._id === parsed._id)) {
-          activeProduct = parsed;
-        } else if (isPineappleLubricantProduct(parsed) && !isPineappleLubricantProduct(product)) {
+  if (!activeProduct && typeof window !== 'undefined') {
+    const path = window.location.pathname.toLowerCase();
+    const search = window.location.search.toLowerCase();
+    const combined = path + ' ' + search;
+    if (combined.includes('pineapple')) {
+      activeProduct = products.find(p => (p.name || '').toLowerCase().includes('pineapple'));
+    } else if (combined.includes('strawberry')) {
+      activeProduct = products.find(p => (p.name || '').toLowerCase().includes('strawberry'));
+    }
+  }
+  if (!activeProduct) {
+    try {
+      const stored = localStorage.getItem('missnous_selected_product');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && (parsed.id || parsed._id)) {
           activeProduct = parsed;
         }
       }
-    }
-  } catch (e) { }
+    } catch (e) { }
+  }
   if (!activeProduct) activeProduct = products[0] || {};
 
   const isPineappleProduct = isPineappleLubricantProduct(activeProduct);
