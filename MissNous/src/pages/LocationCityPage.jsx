@@ -777,11 +777,11 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 9 — FAQs (Exact same design and component as Home page) */}
-      <FaqSection id="faq" />
-
-      {/* 10 — Customer Reviews (Exact same design and component as Home page) */}
+      {/* 9 — Customer Reviews */}
       <TestimonialsSection />
+
+      {/* 10 — FAQs */}
+      <FaqSection id="faq" />
 
       {/* 11 — Helpful guides */}
       <section className="py-14 border-t border-[#F7D6DF] bg-white">
