@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { Sparkles, ChevronDown, HelpCircle } from 'lucide-react';
 import image6 from '../assets/image-6.jpeg';
 
-export default function FaqSection() {
-  // State to track which FAQ item is currently expanded (defaulting to the first item)
-  const [openIndex, setOpenIndex] = useState(0);
-
-  const toggleFaq = (index) => {
-    setOpenIndex(openIndex === index ? -1 : index);
-  };
-
-  const faqs = [
+const DEFAULT_FAQS = [
     {
       question: "What skin types is Miss Nous Hydrating Serum suitable for?",
       answer: "Miss Nous Hydrating Serum is dermatologically formulated to be gentle and effective across all skin types—including dry, oily, combination, sensitive, and mature skin."
@@ -39,10 +31,21 @@ export default function FaqSection() {
       question: "What is your return or satisfaction policy?",
       answer: "We stand by our skincare quality with a 30-day hassle-free satisfaction guarantee. If you are not delighted with your results, contact our support team for a swift refund or replacement."
     }
-  ];
+];
+
+const DEFAULT_SUBTITLE =
+  'Everything you need to know about our organic skincare formulations, application tips, and daily routines.';
+
+export default function FaqSection({ faqs: faqsProp, subtitle = DEFAULT_SUBTITLE, id = 'faq' }) {
+  const [openIndex, setOpenIndex] = useState(0);
+  const faqs = faqsProp?.length ? faqsProp : DEFAULT_FAQS;
+
+  const toggleFaq = (index) => {
+    setOpenIndex(openIndex === index ? -1 : index);
+  };
 
   return (
-    <section id="faq" className="relative bg-[#FDF2F5] py-16 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden border-t border-[#F7D6DF] scroll-mt-24">
+    <section id={id} className="relative bg-[#FDF2F5] py-16 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden border-t border-[#F7D6DF] scroll-mt-24">
       
       {/* Background Decorative Accent Shapes */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-[#F7D6DF]/40 rounded-full blur-[100px] pointer-events-none z-0"></div>
@@ -63,7 +66,7 @@ export default function FaqSection() {
             Frequently Asked Questions
           </h2>
           <p className="font-sans text-[18px] text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
-            Everything you need to know about our organic skincare formulations, application tips, and daily routines.
+            {subtitle}
           </p>
         </div>
 

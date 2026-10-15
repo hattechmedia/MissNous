@@ -128,6 +128,15 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
+                  href="/locations"
+                  onClick={(e) => handleNavClick(e, 'locations')}
+                  className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
+                >
+                  Locations
+                </a>
+              </li>
+              <li>
+                <a
                   href="/blog"
                   onClick={(e) => handleNavClick(e, 'blog')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"

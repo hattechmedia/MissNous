@@ -75,7 +75,7 @@ export default function Navbar({
   };
 
   // Determine if navbar should display dark text / solid background (e.g., when scrolled or on Light background pages)
-  const isDarkTheme = isScrolled || currentPage === 'product-detail' || currentPage === 'checkout' || currentPage === 'account' || currentPage === 'contact';
+  const isDarkTheme = isScrolled || currentPage === 'product-detail' || currentPage === 'checkout' || currentPage === 'account' || currentPage === 'contact' || currentPage === 'locations' || currentPage === 'location-city';
 
   return (
     <>
@@ -118,10 +118,11 @@ export default function Navbar({
                 { id: 'home', label: 'Home', path: '/' },
                 { id: 'about', label: 'About Us', path: '/about' },
                 { id: 'shop', label: 'Shop', path: '/shop' },
+                { id: 'locations', label: 'Locations', path: '/locations' },
                 { id: 'blog', label: 'Blog', path: '/blog/' },
                 { id: 'contact', label: 'Contact Us', path: '/contact' }
               ].map((item) => {
-                const isActive = currentPage === item.id;
+                const isActive = currentPage === item.id || (item.id === 'locations' && currentPage === 'location-city');
                 return (
                   <a 
                     key={item.id}
@@ -280,10 +281,11 @@ export default function Navbar({
                   { id: 'home', label: 'Home', path: '/' },
                   { id: 'about', label: 'About Us', path: '/about' },
                   { id: 'shop', label: 'Shop', path: '/shop' },
+                  { id: 'locations', label: 'Locations', path: '/locations' },
                   { id: 'blog', label: 'Blog', path: '/blog/' },
                   { id: 'contact', label: 'Contact Us', path: '/contact' }
                 ].map((item) => {
-                  const isActive = currentPage === item.id;
+                  const isActive = currentPage === item.id || (item.id === 'locations' && currentPage === 'location-city');
                   return (
                     <a 
                       key={item.id}

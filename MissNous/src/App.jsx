@@ -9,6 +9,9 @@ import CheckoutPage from './pages/CheckoutPage';
 import BlogPage from './pages/BlogPage';
 import TermsOfUsePage from './pages/TermsOfUsePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import LocationsPage from './pages/LocationsPage';
+import LocationCityPage from './pages/LocationCityPage';
+import { getLocationSlugFromPath, getLocationBySlug } from './data/locations';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
 import AuthPage from './pages/AuthPage';
@@ -28,6 +31,8 @@ const getPageFromPath = () => {
   if (path === '/contact' || path === '/contact-us') return 'contact';
   if (path === '/shop' || path === '/products') return 'shop';
   if (path === '/blog' || path === '/blogs' || path.startsWith('/blog/') || path.startsWith('/blogs/')) return 'blog';
+  if (path === '/locations') return 'locations';
+  if (path.startsWith('/locations/')) return 'location-city';
   if (
     path === '/product-detail' ||
     path.startsWith('/product/') ||
@@ -55,12 +60,15 @@ export const getProductSlug = (prod) => {
 };
 
 // Map app page state to browser URL path
-const getPathForPage = (page, prod = null) => {
+const getPathForPage = (page, prod = null, locationSlug = null) => {
   switch (page) {
     case 'about': return '/about';
     case 'contact': return '/contact';
     case 'shop': return '/shop';
     case 'blog': return '/blog';
+    case 'locations': return '/locations';
+    case 'location-city':
+      return locationSlug ? `/locations/${locationSlug}` : '/locations';
     case 'product-detail': {
       const slug = getProductSlug(prod);
       return `/${slug}`;
@@ -76,9 +84,9 @@ const getPathForPage = (page, prod = null) => {
   }
 };
 
-const syncBrowserUrl = (page, replace = false, prod = null) => {
+const syncBrowserUrl = (page, replace = false, prod = null, locationSlug = null) => {
   if (typeof window === 'undefined') return;
-  const targetPath = getPathForPage(page, prod);
+  const targetPath = getPathForPage(page, prod, locationSlug);
   const currentPath = window.location.pathname.toLowerCase().replace(/\/+$/, '') + window.location.search;
   if (currentPath !== targetPath) {
     if (replace) {
@@ -383,6 +391,24 @@ export default function App() {
           pageTitle = 'Intimate Wellness Blog & Botanical Care Guides | Miss Nous';
           pageDesc = 'Read expert tips, ingredient deep dives, and wellness advice on water-based lubricants, pH balance, and organic intimate care.';
           break;
+        case 'locations':
+          path = '/locations';
+          pageTitle = 'Locations & Service Areas | Miss Nous Newark, NJ';
+          pageDesc =
+            'Miss Nous serves Newark and nearby cities including East Newark, Kearny, Elizabeth, Bayonne, East Orange, Hillside, and North Arlington.';
+          break;
+        case 'location-city': {
+          const locSlug = getLocationSlugFromPath(window.location.pathname);
+          const loc = getLocationBySlug(locSlug);
+          path = locSlug ? `/locations/${locSlug}` : '/locations';
+          pageTitle = loc
+            ? `Order Intimate Lubricants in ${loc.name}, NJ | Miss Nous`
+            : 'Local Delivery | Miss Nous';
+          pageDesc = loc
+            ? `Shop Miss Nous Strawberry & Pineapple lubricants with discreet delivery in ${loc.name}, New Jersey.`
+            : pageDesc;
+          break;
+        }
         case 'product-detail': {
           const prodName = (selectedProduct?.name || '').toLowerCase();
           if (prodName.includes('pineapple')) {
@@ -488,6 +514,15 @@ export default function App() {
         }
       }, 100);
       return;
+    } else if (page === 'location-city') {
+      const locationSlug = tab && tab !== 'dashboard' ? tab : null;
+      if (!locationSlug) {
+        setCurrentPage('locations');
+        syncBrowserUrl('locations');
+      } else {
+        setCurrentPage('location-city');
+        syncBrowserUrl('location-city', false, null, locationSlug);
+      }
     } else {
       if (page === 'product-detail') {
         let prodToSync = selectedProduct;
@@ -719,6 +754,22 @@ export default function App() {
 
       {currentPage === 'contact' && (
         <main><ContactPage onNavigate={handleNavigate} /></main>
+      )}
+
+      {currentPage === 'locations' && (
+        <main><LocationsPage onNavigate={handleNavigate} /></main>
+      )}
+
+      {currentPage === 'location-city' && (
+        <main>
+          <LocationCityPage
+            slug={getLocationSlugFromPath(window.location.pathname)}
+            products={products}
+            onNavigate={handleNavigate}
+            onViewProduct={handleViewProduct}
+            onAddToCart={handleAddToCart}
+          />
+        </main>
       )}
 
       {currentPage === 'terms-of-use' && (

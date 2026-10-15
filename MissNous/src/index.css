@@ -232,6 +232,26 @@
   }
 }
 
+@keyframes locIconGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgba(43, 34, 37, 1),
+      0 0 18px rgba(158, 63, 92, 0.45),
+      0 0 32px rgba(212, 175, 106, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(43, 34, 37, 1),
+      0 0 28px rgba(158, 63, 92, 0.75),
+      0 0 48px rgba(212, 175, 106, 0.45);
+  }
+}
+
+.loc-step-icon-glow {
+  animation: locIconGlow 2.8s ease-in-out infinite;
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
