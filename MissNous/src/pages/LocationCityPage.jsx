@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FaqSection from '../components/FaqSection';
-import ProductBenefitsSection from '../components/ProductBenefitsSection';
 import { getLocationBySlug } from '../data/locations';
 import {
   FLAVOUR_COMPARE,
@@ -409,8 +408,168 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 3 — Why Miss Nous (same as home) */}
-      <ProductBenefitsSection onNavigate={onNavigate} />
+      {/* 3 — Why Choose Miss Nous? */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60 relative overflow-hidden">
+        {/* Subtle decorative glow accents */}
+        <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-[#F7D6DF]/40 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full bg-[#E8D3A5]/30 blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+          {/* Section Header */}
+          <div className="text-center space-y-3 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+              <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                Why Choose Miss Nous
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+              Why Choose Miss Nous in {location.name}?
+            </h2>
+            <p className="font-sans text-base sm:text-lg text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
+              Choosing an intimate lubricant is personal. We designed every part of ours so you can feel completely comfortable, confident, and cared for in {location.name}.
+            </p>
+          </div>
+
+          {/* 3-Column Luxury Stage: Left Benefits (3) | Center Duo Bottles Showcase | Right Benefits (3) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+            {/* Left Benefits Column (4 cols) */}
+            <div className="lg:col-span-4 space-y-4 sm:space-y-5 order-2 lg:order-1">
+              {[
+                {
+                  icon: Truck,
+                  title: 'Discreet Delivery to ' + location.name,
+                  desc: 'Shipped from Newark in plain, unbranded boxes with zero product names on the outside for total privacy.',
+                },
+                {
+                  icon: ShieldCheck,
+                  title: 'pH 4.5 Balanced Comfort',
+                  desc: 'Calibrated to match natural intimate physiology (pH 4.0–4.5), preventing irritation, dryness, or stinging.',
+                },
+                {
+                  icon: Droplets,
+                  title: 'Silky, Non-Sticky Glide',
+                  desc: 'Lightweight water base that glides smoothly without tackiness and rinses off effortlessly with warm water.',
+                },
+              ].map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-11 h-11 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-1 text-left">
+                        <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Center Duo Showcase Stage (4 cols) */}
+            <div className="lg:col-span-4 order-1 lg:order-2">
+              <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-[#2B2225] via-[#3d1824] to-[#1c1316] border border-[#E8D3A5]/40 p-6 sm:p-8 text-center text-white shadow-2xl flex flex-col items-center justify-between min-h-[460px] sm:min-h-[500px]">
+                {/* Ambient Radial Spotlight */}
+                <div
+                  className="absolute inset-0 opacity-40 pointer-events-none"
+                  style={{
+                    backgroundImage:
+                      'radial-gradient(circle at 50% 45%, rgba(212,175,106,0.45) 0%, rgba(158,63,92,0.3) 50%, transparent 75%)',
+                  }}
+                />
+
+                {/* Top Badge */}
+                <div className="relative z-10 space-y-1">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#E8D3A5]/40 text-[#E8D3A5] text-[11px] font-bold uppercase tracking-widest">
+                    <Sparkles className="w-3 h-3" />
+                    Signature Duo Formula
+                  </span>
+                  <p className="text-xs text-[#F7D6DF]/80 pt-1">Strawberry &amp; Pineapple (100ml)</p>
+                </div>
+
+                {/* Duo Bottle Visual */}
+                <div className="relative z-10 my-4 w-full flex items-center justify-center">
+                  <div className="relative w-56 sm:w-64 aspect-square flex items-center justify-center">
+                    <div className="absolute inset-2 rounded-full bg-[#9E3F5C]/25 blur-2xl pointer-events-none animate-pulse" />
+                    <img
+                      src={DUO_PRODUCTS_IMAGE}
+                      alt="Miss Nous Strawberry and Pineapple Intimate Lubricants"
+                      className="relative z-10 w-full h-full object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Bottom Reassurance + CTA */}
+                <div className="relative z-10 w-full space-y-3 pt-2 border-t border-white/15">
+                  <p className="text-[11px] text-[#E8D3A5] font-semibold tracking-wide">
+                    100% Water-Based · Condom &amp; Toy Safe
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('loc-shop')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#9E3F5C] to-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow hover:opacity-95 transition-opacity cursor-pointer"
+                  >
+                    Shop Both Flavours
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Benefits Column (4 cols) */}
+            <div className="lg:col-span-4 space-y-4 sm:space-y-5 order-3">
+              {[
+                {
+                  icon: Sparkles,
+                  title: 'Fruit-Inspired, Not Overpowering',
+                  desc: 'Delicate strawberry and pineapple essences without artificial syrups—kissable, light, and natural.',
+                },
+                {
+                  icon: Heart,
+                  title: 'Condom & Silicone Toy Safe',
+                  desc: '100% compatible with natural rubber latex, polyisoprene condoms, and all medical-grade silicone accessories.',
+                },
+                {
+                  icon: Leaf,
+                  title: 'Zero Harsh Chemicals',
+                  desc: '0% parabens, 0% petrochemicals, 0% artificial dyes. Gentle care for sensitive skin in every drop.',
+                },
+              ].map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-11 h-11 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-1 text-left">
+                        <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 4 — Which flavour */}
       <section className="py-16 sm:py-20 bg-[#FDF2F5] border-y border-[#F7D6DF]">
