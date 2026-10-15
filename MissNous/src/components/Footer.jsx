@@ -184,17 +184,6 @@ export default function Footer({ onNavigate }) {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a
-              href="https://www.instagram.com/missnousllc/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 rounded-md bg-white/10 hover:bg-[#D4AF6A] text-[#E8D3A5] hover:text-[#2B2225] transition-all"
-              aria-label="Instagram"
-              title="Miss Nous Instagram (@missnousllc)"
-            >
-              <InstagramIcon className="w-3.5 h-3.5" />
-            </a>
-            <span>·</span>
             <a href="/privacy-policy" onClick={(e) => handleNavClick(e, 'privacy-policy')} className="hover:text-white transition-colors">
               Privacy Policy
             </a>
