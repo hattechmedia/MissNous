@@ -32,8 +32,7 @@ export const LOCATIONS = [
     distanceLabel: '~2.5 miles',
     description:
       'Historic Kearny sits minutes from Newark—part of the close-knit community we serve across Hudson and Essex counties.',
-    image:
-      'https://images.unsplash.com/photo-1570125909232-e1bc144fb6c3?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/locations/kearny.jpg',
     imageAlt: 'Kearny, New Jersey street and community',
   },
   {
