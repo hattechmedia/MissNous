@@ -266,21 +266,17 @@ export default function LocationsPage({
       {/* ─────────────────────────────────────────────────────────────
           1. HERO SECTION – Heading, short description, CTA
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[75vh] lg:min-h-[84vh] flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
-        {/* Master High-Res Background Image (location hero.png) - Zoomed Out */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img
-            src="/location%20hero.png"
-            alt="Miss Nous Intimate Lubricants in Location Setting"
-            className="w-full h-full object-cover object-[80%_center] lg:object-[84%_center] scale-[0.80] sm:scale-[0.82] lg:scale-[0.85] origin-right select-none"
-          />
-        </div>
+      <section className="relative min-h-[72vh] lg:min-h-[80vh] flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
+        {/* Master High-Res Background Image (location hero.png) - Full Cover without blank space */}
+        <img
+          src="/location%20hero.png"
+          alt="Miss Nous Intimate Lubricants in Location Setting"
+          className="absolute inset-0 w-full h-full object-cover object-[80%_top] lg:object-[84%_top] select-none pointer-events-none"
+        />
 
-        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability & Edge Blending */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#240c15] via-[#240c15]/90 sm:via-[#240c15]/75 lg:via-[#240c15]/50 to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#240c15] to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#240c15] to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#240c15] via-transparent to-[#240c15]/40 lg:hidden pointer-events-none" />
+        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#240c15] via-[#240c15]/90 sm:via-[#240c15]/75 lg:via-[#240c15]/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#240c15]/70 via-transparent to-transparent lg:hidden pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="max-w-2xl space-y-6 sm:space-y-7 text-left">
