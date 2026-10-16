@@ -266,12 +266,12 @@ export default function LocationsPage({
       {/* ─────────────────────────────────────────────────────────────
           1. HERO SECTION – Heading, short description, CTA
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[72vh] lg:min-h-[80vh] flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
+      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
         {/* Master High-Res Background Image (location hero.png) - Full Cover without blank space */}
         <img
           src="/location%20hero.png"
           alt="Miss Nous Intimate Lubricants in Location Setting"
-          className="absolute inset-0 w-full h-full object-cover object-[80%_top] lg:object-[84%_top] select-none pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
         />
 
         {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability */}
@@ -638,23 +638,34 @@ export default function LocationsPage({
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Strawberry Product Card */}
-            <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1">
+            <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               <div
                 onClick={() => handleGoProduct(strawberryProduct)}
-                className="relative h-88 sm:h-[440px] lg:h-[480px] w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
               >
                 <img
                   src={strawberryProduct?.image || '/jpt-6.jpeg'}
                   alt={strawberryProduct?.name || 'Miss Nous Strawberry Intimate Lubricant'}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#361A23] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
-                  Strawberry Edition
-                </span>
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
-                  100ml
-                </span>
+
+                {/* Diagonal Corner Ribbon (Discounted Offer) */}
+                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap">Discounted Offer</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                  <span className="px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                    Strawberry Edition
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                    100ml
+                  </span>
+                </div>
               </div>
 
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
@@ -712,23 +723,34 @@ export default function LocationsPage({
             </article>
 
             {/* Pineapple Product Card */}
-            <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1">
+            <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               <div
                 onClick={() => handleGoProduct(pineappleProduct)}
-                className="relative h-88 sm:h-[440px] lg:h-[480px] w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
               >
                 <img
                   src={pineappleProduct?.image || '/gpt-5.png'}
                   alt={pineappleProduct?.name || 'Miss Nous Pineapple Intimate Lubricant'}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#302616] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
-                  Pineapple Edition
-                </span>
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
-                  100ml
-                </span>
+
+                {/* Diagonal Corner Ribbon (Discounted Offer) */}
+                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap">Discounted Offer</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                  <span className="px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                    Pineapple Edition
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                    100ml
+                  </span>
+                </div>
               </div>
 
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">

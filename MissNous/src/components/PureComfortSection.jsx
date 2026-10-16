@@ -54,7 +54,7 @@ export default function PureComfortSection({ onNavigate, showLocationBtn = false
           <img 
             src="/gpt-10.png" 
             alt="Shop Touch of Love, Our Water-Based Organic Lubricant" 
-            className="w-full h-full object-cover rounded-none shadow-none"
+            className="w-full h-full object-contain rounded-none shadow-none"
           />
         </div>
 

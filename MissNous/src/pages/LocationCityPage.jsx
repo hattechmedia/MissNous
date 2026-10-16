@@ -254,24 +254,35 @@ export default function LocationCityPage({
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
             {/* Strawberry Card */}
-            <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1">
+            <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               {/* Product Image Stage: Image covers the ENTIRE top box edge-to-edge */}
               <div
                 onClick={() => goProduct(strawberry)}
-                className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
               >
                 <img
                   src={strawberry?.image || '/jpt-6.jpeg'}
                   alt={strawberry?.name || 'Miss Nous Strawberry Intimate Lubricant'}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#361A23] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
-                  Strawberry Edition
-                </span>
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
-                  100ml
-                </span>
+
+                {/* Diagonal Corner Ribbon (Discounted Offer) */}
+                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap">Discounted Offer</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                  <span className="px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                    Strawberry Edition
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                    100ml
+                  </span>
+                </div>
               </div>
 
               {/* Card Body */}
@@ -330,24 +341,35 @@ export default function LocationCityPage({
             </article>
 
             {/* Pineapple Card */}
-            <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1">
+            <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               {/* Product Image Stage: Image covers the ENTIRE top box edge-to-edge */}
               <div
                 onClick={() => goProduct(pineapple)}
-                className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
               >
                 <img
                   src={pineapple?.image || '/gpt-5.png'}
                   alt={pineapple?.name || 'Miss Nous Pineapple Intimate Lubricant'}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#302616] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
-                  Pineapple Edition
-                </span>
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
-                  100ml
-                </span>
+
+                {/* Diagonal Corner Ribbon (Discounted Offer) */}
+                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                    <span className="whitespace-nowrap">Discounted Offer</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                  <span className="px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                    Pineapple Edition
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                    100ml
+                  </span>
+                </div>
               </div>
 
               {/* Card Body */}
