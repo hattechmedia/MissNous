@@ -37,6 +37,7 @@ const STEP_ICONS = {
 };
 
 const DUO_PRODUCTS_IMAGE = '/gpt-11-rem.png';
+const WHY_CHOOSE_DUO_IMAGE = '/images/why-choose-duo.png';
 
 function pickFlavourProducts(products) {
   const list = products?.length ? products : PRODUCTS;
@@ -539,10 +540,10 @@ export default function LocationCityPage({
 
                 {/* Duo Bottle Visual */}
                 <div className="relative z-10 my-4 w-full flex items-center justify-center">
-                  <div className="relative w-56 sm:w-64 aspect-square flex items-center justify-center">
-                    <div className="absolute inset-2 rounded-full bg-[#9E3F5C]/25 blur-2xl pointer-events-none animate-pulse" />
+                  <div className="relative w-full max-w-[320px] aspect-[1024/935] flex items-center justify-center">
+                    <div className="absolute inset-4 rounded-full bg-[#9E3F5C]/25 blur-2xl pointer-events-none animate-pulse" />
                     <img
-                      src={DUO_PRODUCTS_IMAGE}
+                      src={WHY_CHOOSE_DUO_IMAGE}
                       alt="Miss Nous Strawberry and Pineapple Intimate Lubricants"
                       className="relative z-10 w-full h-full object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
                     />
