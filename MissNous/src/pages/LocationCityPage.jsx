@@ -38,6 +38,7 @@ const STEP_ICONS = {
 
 const DUO_PRODUCTS_IMAGE = '/gpt-11-rem.png';
 const WHY_CHOOSE_DUO_IMAGE = '/images/why-choose-duo.png';
+const PURITY_TRANSPARENCY_IMAGE = '/images/purity-transparency.png';
 
 function pickFlavourProducts(products) {
   const list = products?.length ? products : PRODUCTS;
@@ -868,13 +869,13 @@ export default function LocationCityPage({
                   </p>
                 </div>
 
-                {/* Duo Bottle Showcase Image */}
+                {/* Purity & Transparency Image Showcase */}
                 <div className="relative z-10 my-6 sm:my-8 flex items-center justify-center">
-                  <div className="relative w-full max-w-[280px] aspect-square rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-6 shadow-inner">
+                  <div className="relative w-full max-w-[320px] aspect-[1024/935] rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center p-3 sm:p-4 shadow-inner overflow-hidden">
                     <div className="absolute inset-4 rounded-full bg-[#9E3F5C]/20 blur-xl pointer-events-none" />
                     <img
-                      src={DUO_PRODUCTS_IMAGE}
-                      alt="Miss Nous Strawberry and Pineapple intimate lubricants"
+                      src={PURITY_TRANSPARENCY_IMAGE}
+                      alt="Miss Nous Purity & Quality Transparency Ingredients Information"
                       className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-500"
                     />
                   </div>
