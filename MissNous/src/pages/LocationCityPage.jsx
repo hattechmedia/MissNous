@@ -7,6 +7,7 @@ import {
   Heart,
   Leaf,
   MapPin,
+  Package,
   Repeat,
   ShieldCheck,
   ShoppingBag,
@@ -924,37 +925,95 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 7 — Order in [City] */}
-      <section className="py-16 sm:py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-7xl mx-auto rounded-[2.5rem] overflow-hidden grid lg:grid-cols-2 bg-white border border-[#F7D6DF] shadow-luxury">
-          <div className="relative min-h-[260px] lg:min-h-full">
-            <img src={cityImage} alt={location.name} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-[#9E3F5C]/30 mix-blend-multiply" />
-            <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur rounded-2xl p-4 border border-[#F7D6DF]">
-              <p className="text-xs font-bold text-[#9E3F5C] uppercase">From our Newark studio</p>
-              <p className="text-sm font-semibold">18 Garibaldi Avenue, Newark, NJ 07114</p>
+      {/* 7 — We Deliver To [City] – Neighborhoods & Postal Coverage */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60">
+        <div className="max-w-7xl mx-auto space-y-10">
+          {/* Header */}
+          <div className="text-center space-y-3 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
+              <MapPin className="w-3.5 h-3.5 text-[#9E3F5C]" />
+              <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                Neighborhood Coverage
+              </span>
             </div>
-          </div>
-          <div className="p-8 sm:p-10 space-y-4">
-            <h2 className="font-serif text-3xl font-bold">Order intimate lubricants in {location.name}</h2>
-            <p className="text-[#5A4B50] text-sm leading-relaxed">{location.description}</p>
-            {location.distanceLabel && (
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#9E3F5C]">
-                <Truck className="w-4 h-4" />
-                Approximately {location.distanceLabel} from Miss Nous Newark
-              </p>
-            )}
-            <p className="text-sm text-[#5A4B50]">
-              Whether you are in {location.name} or passing through North Jersey, we pack every order with care and
-              ship in plain outer packaging—no flavour names on the box.
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+              We Deliver to {location.name}
+            </h2>
+            <p className="font-sans text-base sm:text-lg text-[#5A4B50] font-normal leading-relaxed">
+              Discreet, fast doorstep delivery across all residential communities, postal routes, and neighborhoods in {location.name}.
             </p>
+          </div>
+
+          {/* Area Boxes Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {(location.neighborhoods || [
+              'Downtown & Central District',
+              'Residential East Quarter',
+              'West End Community',
+              'North Boundary Route',
+              'South Corridor',
+              'Waterfront Crossing',
+            ]).map((area, idx) => (
+              <div
+                key={idx}
+                onClick={goShop}
+                className="group p-5 sm:p-6 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury hover:shadow-pink-glow hover:border-[#9E3F5C]/50 transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 cursor-pointer"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center font-bold text-sm border border-[#F7D6DF] group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#9E3F5C] bg-[#FDF2F5] px-2.5 py-1 rounded-full border border-[#F7D6DF]">
+                    <Truck className="w-3 h-3" />
+                    1 – 2 Days
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-serif text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
+                    {area}
+                  </h3>
+                  <p className="text-xs text-[#5A4B50]">
+                    {location.name}, {location.state || 'NJ'}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#F7D6DF]/60 flex items-center justify-between text-xs font-semibold text-[#9E3F5C]">
+                  <span className="text-[11px] text-[#A09095]">100% Discreet Mailer</span>
+                  <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Order <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Bar: Zip Codes & Dispatch Details */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Package className="w-4 h-4 text-[#9E3F5C]" />
+                <h4 className="font-serif font-bold text-[#2B2225] text-base">
+                  Serving Every Zip Code in {location.name}
+                </h4>
+              </div>
+              <p className="text-xs sm:text-sm text-[#5A4B50]">
+                Covered Postal Codes:{' '}
+                <span className="font-bold text-[#2B2225]">
+                  {location.zipCodes?.join(', ') || 'All local routes'}
+                </span>
+                {location.county ? ` · ${location.county}` : ''}
+                {location.distanceLabel ? ` · ${location.distanceLabel} from dispatch hub` : ''}
+              </p>
+            </div>
+
             <button
               type="button"
               onClick={goShop}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#9E3F5C] text-white text-sm font-bold"
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 flex-shrink-0 cursor-pointer"
             >
               <ShoppingBag className="w-4 h-4" />
-              Start your order
+              <span>Order to {location.name}</span>
             </button>
           </div>
         </div>

@@ -10,7 +10,7 @@ export const LOCATIONS = [
     distanceLabel: 'Home base',
     featured: true,
     tagline: 'Core city & neighborhood guides',
-    neighborhoods: ['Ironbound', 'Downtown', 'Forest Hill', 'University Heights', 'Weequahic'],
+    neighborhoods: ['Ironbound', 'Downtown Newark', 'Forest Hill', 'University Heights', 'Weequahic', 'North Ward', 'Roseville', 'Central Ward'],
     description:
       'Our home city and the heart of Miss Nous. Dedicated pages for Ironbound, Downtown, and other neighborhoods are on the way.',
     image:
@@ -25,6 +25,7 @@ export const LOCATIONS = [
     zipCodes: ['07029'],
     distanceMiles: 2.0,
     distanceLabel: '~2.0 miles',
+    neighborhoods: ['Passaic Riverfront', 'John Street District', 'Central Borough', 'Sylvan Park Area', 'Harrison Border', 'Bridge Plaza'],
     description:
       'A compact borough just across the Passaic—easy reach from our Garibaldi Avenue studio for local pickup and delivery.',
     image:
@@ -39,6 +40,7 @@ export const LOCATIONS = [
     zipCodes: ['07032', '07099'],
     distanceMiles: 2.5,
     distanceLabel: '~2.5 miles',
+    neighborhoods: ['Arlington Section', 'South Kearny', 'Manor Section', 'Kearny Avenue Corridor', 'West Hudson', 'Belgrove Drive', 'Meadowlands Edge'],
     description:
       'Historic Kearny sits minutes from Newark—part of the close-knit community we serve across Hudson and Essex counties.',
     image: '/images/locations/kearny.jpg',
@@ -52,6 +54,7 @@ export const LOCATIONS = [
     zipCodes: ['07201', '07202', '07206', '07207', '07208'],
     distanceMiles: 3.7,
     distanceLabel: '~3.7 miles',
+    neighborhoods: ['Elmora', 'Midtown / Downtown', 'Peterstown', 'Bayway', 'Elizabethport', 'Westminster', 'Frog Hollow'],
     description:
       'New Jersey’s fourth-largest city—diverse neighborhoods and waterfront views within a short drive of Miss Nous.',
     image:
@@ -66,6 +69,7 @@ export const LOCATIONS = [
     zipCodes: ['07002'],
     distanceMiles: 4.1,
     distanceLabel: '~4.1 miles',
+    neighborhoods: ['Bergen Point', 'Constable Hook', 'Centreville', 'Midtown Bayonne', 'Uptown / 45th St', 'Pamrapo', 'Broadway Corridor'],
     description:
       'Peninsula city with bridge views and a strong local spirit—we’re proud to extend discreet wellness delivery to Bayonne.',
     image:
@@ -80,6 +84,7 @@ export const LOCATIONS = [
     zipCodes: ['07017', '07018', '07019'],
     distanceMiles: 4.5,
     distanceLabel: '~4.5 miles',
+    neighborhoods: ['Ampere', 'Greenwood', 'Doddtown', 'Presidential Heights', 'City Center', 'Brick Church Area', 'Central Avenue District'],
     description:
       'Tree-lined blocks and vibrant culture in Essex County—one of our nearest neighbors beyond Newark’s borders.',
     image:
@@ -94,6 +99,7 @@ export const LOCATIONS = [
     zipCodes: ['07205'],
     distanceMiles: 4.7,
     distanceLabel: '~4.7 miles',
+    neighborhoods: ['Lyons Farms', 'Westminster Border', 'Hillside Center', 'Conant Town', 'Saybrook', 'Liberty Avenue Corridor'],
     description:
       'Quiet suburban charm with quick access to Newark—ideal for customers who value privacy and fast local shipping.',
     image:
@@ -108,6 +114,7 @@ export const LOCATIONS = [
     zipCodes: ['07031'],
     distanceMiles: 4.8,
     distanceLabel: '~4.8 miles',
+    neighborhoods: ['Ridge Road District', 'Schuyler Avenue Corridor', 'Meadowlands Overlook', 'River Road', 'Porete Avenue Area', 'Centennial Park Area'],
     description:
       'Bergen County community overlooking the Meadowlands—within our extended local service radius from Newark.',
     image:
