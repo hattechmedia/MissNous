@@ -757,7 +757,14 @@ export default function App() {
       )}
 
       {currentPage === 'locations' && (
-        <main><LocationsPage onNavigate={handleNavigate} /></main>
+        <main>
+          <LocationsPage
+            onNavigate={handleNavigate}
+            products={products}
+            onAddToCart={handleAddToCart}
+            onViewProduct={handleViewProduct}
+          />
+        </main>
       )}
 
       {currentPage === 'location-city' && (
