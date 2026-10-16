@@ -24,7 +24,6 @@ import {
 import { LOCATIONS, FEATURED_LOCATION, NEARBY_LOCATIONS } from '../data/locations';
 import { PRODUCTS } from '../data/products';
 import TestimonialsSection from '../components/TestimonialsSection';
-import NewsletterSection from '../components/NewsletterSection';
 
 const CITY_IMAGE_FALLBACK =
   'https://images.unsplash.com/photo-1477959858607-67ae27e44f93?auto=format&fit=crop&w=1200&q=80';
@@ -1016,11 +1015,6 @@ export default function LocationsPage({
           </div>
         </div>
       </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          11. NEWSLETTER INNER CIRCLE (Exact match to Home Page End)
-      ───────────────────────────────────────────────────────────── */}
-      <NewsletterSection />
     </div>
   );
 }
