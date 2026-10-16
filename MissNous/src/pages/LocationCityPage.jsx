@@ -1006,34 +1006,57 @@ export default function LocationCityPage({
       </section>
 
       {/* 12 — Final CTA */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-gradient-to-br from-[#2B2225] via-[#9E3F5C] to-[#2B2225] text-white text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold">Ready for {location.name}? Pick a flavour.</h2>
-          <p className="text-[#F7D6DF] text-sm sm:text-base">
-            Strawberry or Pineapple—same organic water-based comfort. Add to bag or explore full product details.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => addProduct(strawberry)}
-              className="px-6 py-3 rounded-full bg-[#FFF9F5] text-[#9E3F5C] font-bold text-sm"
-            >
-              Buy Strawberry
-            </button>
-            <button
-              type="button"
-              onClick={() => addProduct(pineapple)}
-              className="px-6 py-3 rounded-full bg-[#E8D3A5] text-[#2B2225] font-bold text-sm"
-            >
-              Buy Pineapple
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate && onNavigate('locations')}
-              className="px-6 py-3 rounded-full border border-white/40 font-semibold text-sm"
-            >
-              All service areas
-            </button>
+      <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#361A23] via-[#2B2225] to-[#1E1217] text-white p-8 sm:p-12 lg:p-16 shadow-2xl border border-[#9E3F5C]/30">
+            {/* Ambient luxury glow effects */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 max-w-3xl space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
+                <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
+                <span>Fast &amp; Discreet Delivery to {location.name} &amp; All 50 States</span>
+              </div>
+
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+                Ready for {location.name}? <br />
+                <span className="text-[#E8D3A5]">Pick Your Signature Flavour</span>
+              </h2>
+
+              <p className="text-base sm:text-lg text-[#F7D6DF]/85 font-normal leading-relaxed max-w-2xl">
+                Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub to {location.name} in plain, unbranded packaging with complete discretion.
+              </p>
+
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => addProduct(strawberry)}
+                  className="px-8 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-sm font-bold uppercase tracking-wider shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Buy Strawberry</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => addProduct(pineapple)}
+                  className="px-8 py-3.5 rounded-full bg-[#D4AF6A] hover:bg-[#c49f5a] text-[#2B2225] font-sans text-sm font-bold uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Buy Pineapple</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('locations')}
+                  className="px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-sm font-bold uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4 text-[#E8D3A5]" />
+                  <span>All Service Areas</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
