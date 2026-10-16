@@ -8,7 +8,7 @@ export default function PureComfortSection({ onNavigate, showLocationBtn = false
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-center">
         
         {/* LEFT SIDE: Text Content */}
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-4 sm:space-y-5 text-left py-8 sm:py-10 lg:py-12 px-6 sm:px-10 lg:px-14 xl:px-16 order-2 lg:order-1 reveal-left">
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-4 sm:space-y-5 text-left py-8 sm:py-10 lg:py-12 px-6 sm:px-10 lg:px-14 xl:px-16 order-2 lg:order-1 reveal-left">
           
           {/* Eyebrow / Subheading Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#F7D6DF] shadow-xs w-fit">
@@ -49,22 +49,12 @@ export default function PureComfortSection({ onNavigate, showLocationBtn = false
 
         </div>
 
-        {/* RIGHT SIDE: gpt-10.png banner */}
-        <div className="lg:col-span-6 relative order-1 lg:order-2 w-full h-[320px] sm:h-[380px] lg:h-[420px] xl:h-[450px] flex items-center justify-center overflow-hidden bg-[#240c15] reveal-right">
-          {/* Ambient blurred backdrop to softly fill extra wide width */}
-          <img 
-            src="/gpt-10.png" 
-            alt="" 
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-45 scale-110 pointer-events-none"
-          />
-          <div className="absolute inset-0 bg-[#240c15]/25 pointer-events-none" />
-
-          {/* Full Sharp Image - 100% complete, nothing cropped, spray caps & tray fully visible */}
+        {/* RIGHT SIDE: gpt-10.png banner - Full bleed with zero blank space on left/right */}
+        <div className="lg:col-span-5 relative order-1 lg:order-2 w-full h-[380px] sm:h-[440px] lg:h-[490px] xl:h-[510px] overflow-hidden reveal-right">
           <img 
             src="/gpt-10.png" 
             alt="Shop Touch of Love, Our Water-Based Organic Lubricant" 
-            className="relative z-10 w-full h-full object-contain object-center"
+            className="w-full h-full object-cover object-[center_top] select-none"
           />
         </div>
 

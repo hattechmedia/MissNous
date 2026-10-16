@@ -638,17 +638,27 @@ export default function LocationsPage({
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Strawberry Product Card */}
+            {/* Strawberry Product Card */}
             <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               <div
                 onClick={() => handleGoProduct(strawberryProduct)}
-                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 flex items-center justify-center cursor-pointer"
               >
+                {/* Subtle ambient blur behind */}
+                <img
+                  src={strawberryProduct?.image || '/jpt-6.jpeg'}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-[#361A23]/40 pointer-events-none" />
+
+                {/* Master Product Image - 100% Complete ("Poori Image") */}
                 <img
                   src={strawberryProduct?.image || '/jpt-6.jpeg'}
                   alt={strawberryProduct?.name || 'Miss Nous Strawberry Intimate Lubricant'}
-                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#361A23] via-transparent to-transparent opacity-60 pointer-events-none" />
 
                 {/* Diagonal Corner Ribbon (Discounted Offer) */}
                 <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
@@ -658,7 +668,7 @@ export default function LocationsPage({
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
                   <span className="px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Strawberry Edition
                   </span>
@@ -726,14 +736,23 @@ export default function LocationsPage({
             <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               <div
                 onClick={() => handleGoProduct(pineappleProduct)}
-                className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-black/40 cursor-pointer"
+                className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 flex items-center justify-center cursor-pointer"
               >
+                {/* Subtle ambient blur behind */}
+                <img
+                  src={pineappleProduct?.image || '/gpt-5.png'}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-[#302616]/40 pointer-events-none" />
+
+                {/* Master Product Image - 100% Complete ("Poori Image") */}
                 <img
                   src={pineappleProduct?.image || '/gpt-5.png'}
                   alt={pineappleProduct?.name || 'Miss Nous Pineapple Intimate Lubricant'}
-                  className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#302616] via-transparent to-transparent opacity-60 pointer-events-none" />
 
                 {/* Diagonal Corner Ribbon (Discounted Offer) */}
                 <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
@@ -743,7 +762,7 @@ export default function LocationsPage({
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
                   <span className="px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Pineapple Edition
                   </span>
