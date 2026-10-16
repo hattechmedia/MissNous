@@ -23,6 +23,8 @@ import {
 } from 'lucide-react';
 import { LOCATIONS, FEATURED_LOCATION, NEARBY_LOCATIONS } from '../data/locations';
 import { PRODUCTS } from '../data/products';
+import TestimonialsSection from '../components/TestimonialsSection';
+import PureComfortSection from '../components/PureComfortSection';
 
 const CITY_IMAGE_FALLBACK =
   'https://images.unsplash.com/photo-1477959858607-67ae27e44f93?auto=format&fit=crop&w=1200&q=80';
@@ -136,40 +138,6 @@ const SHIPPING_TIMELINES = [
   },
 ];
 
-const REVIEWS_DATA = [
-  {
-    name: 'Sophia L.',
-    city: 'Newark (Ironbound), NJ',
-    product: 'Miss Nous Strawberry Lubricant',
-    rating: 5,
-    quote:
-      'Living right here in Newark, delivery took barely 24 hours in a totally plain box. The strawberry scent is delicious and the pH-balanced water base feels completely natural.',
-  },
-  {
-    name: 'Marcus T.',
-    city: 'Jersey City / Hudson County, NJ',
-    product: 'Miss Nous Pineapple Lubricant',
-    rating: 5,
-    quote:
-      'The pineapple formula is silky, lightweight, and rinses off with zero sticky residue. Plain brown shipping box with neutral sender name—10/10 discreet service.',
-  },
-  {
-    name: 'Elena R.',
-    city: 'Kearny, NJ',
-    product: 'Strawberry & Pineapple Duo',
-    rating: 5,
-    quote:
-      'So proud to support a brand right next door in North Jersey! Both flavours smell incredible without any harsh artificial chemicals. My go-to personal care product.',
-  },
-  {
-    name: 'Chloe D.',
-    city: 'Brooklyn, New York',
-    product: 'Miss Nous Strawberry Lubricant',
-    rating: 5,
-    quote:
-      'Shipped across the river into NYC in two days. The formula is ultra-luxe, non-irritating on sensitive skin, and doesn’t dry down sticky. Beautiful packaging as well.',
-  },
-];
 
 const LOCATION_FAQS = [
   {
@@ -931,55 +899,9 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          8. CUSTOMER REVIEWS
+          8. CUSTOMER REVIEWS (Same as Home Page)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
-              <Star className="w-3.5 h-3.5 text-[#D4AF6A] fill-[#D4AF6A]" />
-              <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                Verified Buyers
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
-              Customer Reviews from Nearby &amp; Beyond
-            </h2>
-            <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
-              Read how customers in Newark, Kearny, and across the US experience Miss Nous.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {REVIEWS_DATA.map((rev, idx) => (
-              <div
-                key={idx}
-                className="p-6 sm:p-7 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury flex flex-col justify-between space-y-4 hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center gap-1">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-[#D4AF6A] fill-[#D4AF6A]" />
-                    ))}
-                  </div>
-                  <p className="text-xs sm:text-sm text-[#2B2225] leading-relaxed italic">
-                    "{rev.quote}"
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-[#F7D6DF]/60 space-y-0.5">
-                  <p className="font-serif font-bold text-sm text-[#2B2225]">{rev.name}</p>
-                  <p className="text-[11px] font-semibold text-[#9E3F5C] flex items-center gap-1">
-                    <MapPin className="w-3 h-3" />
-                    {rev.city}
-                  </p>
-                  <p className="text-[10px] text-[#A09095]">{rev.product}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection />
 
       {/* ─────────────────────────────────────────────────────────────
           9. FREQUENTLY ASKED QUESTIONS
@@ -1049,47 +971,13 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          10. FINAL CTA – Find Your Location / Shop Now
+          10. FINAL CTA – Find Your Location / Shop Now (Same as Home Page)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28 px-4 sm:px-8 lg:px-16 bg-gradient-to-br from-[#2B2225] via-[#4a1c2d] to-[#1c1214] text-white text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,106,0.3)_0%,rgba(158,63,92,0.25)_45%,transparent_70%)] pointer-events-none" />
-
-        <div className="relative max-w-3xl mx-auto space-y-7 z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md">
-            <Compass className="w-3.5 h-3.5" />
-            <span>Ready for Clean Intimacy?</span>
-          </div>
-
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-            Find Your Feel-Good in Any City
-          </h2>
-
-          <p className="text-[#F7D6DF]/90 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
-            Whether you are in Newark, Kearny, or anywhere across the United States, Miss Nous delivers silky, pH-balanced intimate luxury directly to your door in complete privacy.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <button
-              type="button"
-              onClick={() => onNavigate && onNavigate('shop')}
-              className="px-8 py-4 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer border border-[#E8D3A5]/30"
-            >
-              Shop Strawberry &amp; Pineapple
-            </button>
-            <button
-              type="button"
-              onClick={scrollToSearch}
-              className="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/30 font-sans text-xs uppercase tracking-wider font-semibold backdrop-blur-sm transition-all duration-300 cursor-pointer"
-            >
-              Find Your Location
-            </button>
-          </div>
-
-          <p className="text-[11px] text-[#E8D3A5] font-medium tracking-wide pt-4">
-            Discreet outer packaging on all orders · Free shipping on qualifying orders.
-          </p>
-        </div>
-      </section>
+      <PureComfortSection
+        onNavigate={onNavigate}
+        showLocationBtn
+        onLocationClick={scrollToSearch}
+      />
     </div>
   );
 }

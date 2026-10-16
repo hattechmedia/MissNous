@@ -1,7 +1,7 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 
-export default function PureComfortSection({ onNavigate }) {
+export default function PureComfortSection({ onNavigate, showLocationBtn = false, onLocationClick }) {
   return (
     <section className="relative bg-[#FDF2F5] py-0 border-t border-[#F7D6DF]/60 overflow-hidden">
       
@@ -28,14 +28,23 @@ export default function PureComfortSection({ onNavigate }) {
             Touch of Love was made for the moments when comfort matters most. This water-based lubricant feels silky on contact, glides easily, and is set to a gentle pH so it never feels harsh. Whether you reach for it daily or only now and then, it is made to support real intimacy, not get in the way of it. Available in 100ml, in pineapple and strawberry.
           </p>
 
-          {/* Shop Now CTA Button */}
-          <div className="pt-2">
+          {/* Shop Now & Location CTA Buttons */}
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <button 
               onClick={() => onNavigate && onNavigate('shop')}
               className="inline-flex items-center justify-center px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-md transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
             >
               Shop Now
             </button>
+            {showLocationBtn && (
+              <button 
+                type="button"
+                onClick={onLocationClick}
+                className="inline-flex items-center justify-center px-8 py-3.5 bg-white hover:bg-[#FFF9F5] text-[#2B2225] border border-[#F7D6DF] font-sans text-sm font-semibold rounded-full shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                Find Your Location
+              </button>
+            )}
           </div>
 
         </div>
