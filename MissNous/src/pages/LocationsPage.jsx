@@ -220,12 +220,16 @@ export default function LocationsPage({
       const q = searchQuery.toLowerCase().trim();
       list = list.filter((l) => {
         const nameMatch = l.name.toLowerCase().includes(q);
-        const descMatch = l.description.toLowerCase().includes(q);
+        const descMatch = (l.description || '').toLowerCase().includes(q);
+        const countyMatch = (l.county || '').toLowerCase().includes(q);
+        const zipMatch = (l.zipCodes || []).some((z) => z.includes(q));
         const neighMatch = (l.neighborhoods || []).some((n) =>
           n.toLowerCase().includes(q)
         );
-        const stateMatch = 'new jersey nj united states usa'.includes(q);
-        return nameMatch || descMatch || neighMatch || stateMatch;
+        const stateMatch =
+          'new jersey nj united states usa'.includes(q) ||
+          (l.state || '').toLowerCase().includes(q);
+        return nameMatch || descMatch || countyMatch || zipMatch || neighMatch || stateMatch;
       });
     }
 
@@ -256,6 +260,15 @@ export default function LocationsPage({
 
   const scrollToSearch = () => {
     document.getElementById('find-location')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleFilterClick = (filterId) => {
+    setSelectedRegionFilter(filterId);
+    if (filterId !== 'all') {
+      setTimeout(() => {
+        document.getElementById('cities-directory')?.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
   };
 
   return (
@@ -386,7 +399,7 @@ export default function LocationsPage({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search city, neighborhood, or state (e.g. Newark, Kearny, Hudson, New Jersey)..."
+                placeholder="Search city, county, or zip code (e.g. Kearny, Newark, 07032, Hudson)..."
                 className="w-full pl-13 pr-12 py-4 rounded-full bg-[#FFF9F5] border-2 border-[#F7D6DF] text-[#2B2225] placeholder:text-[#A09095] text-sm sm:text-base focus:outline-none focus:border-[#9E3F5C] transition-all shadow-inner"
               />
               {searchQuery && (
@@ -401,6 +414,80 @@ export default function LocationsPage({
               )}
             </div>
 
+            {/* Live Instant Search Results */}
+            {searchQuery.trim() && (
+              <div className="max-w-3xl mx-auto mt-3 rounded-2xl bg-white border border-[#F7D6DF] shadow-xl overflow-hidden">
+                {filteredCities.length > 0 ? (
+                  <div className="divide-y divide-[#F7D6DF]/60">
+                    {filteredCities.slice(0, 5).map((city) => (
+                      <button
+                        key={city.slug}
+                        type="button"
+                        onClick={() => handleCityClick(city.slug)}
+                        className="w-full flex items-center gap-4 p-4 hover:bg-[#FDF2F5] transition-colors text-left cursor-pointer group"
+                      >
+                        <img
+                          src={city.image || CITY_IMAGE_FALLBACK}
+                          alt={city.imageAlt || city.name}
+                          className="w-14 h-14 rounded-xl object-cover flex-shrink-0 border border-[#F7D6DF]"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-serif font-bold text-[#2B2225] text-sm truncate">{city.name}</h4>
+                            <span className="px-2 py-0.5 rounded-full bg-[#FDF2F5] text-[10px] font-bold text-[#9E3F5C] flex-shrink-0">
+                              {city.distanceLabel || 'Local'}
+                            </span>
+                          </div>
+                          <p className="text-xs text-[#5A4B50] mt-0.5">
+                            {city.county}{city.state ? `, ${city.state}` : ''}
+                          </p>
+                          {city.zipCodes && city.zipCodes.length > 0 && (
+                            <p className="text-[10px] text-[#A09095] mt-0.5">
+                              ZIP: {city.zipCodes.slice(0, 4).join(', ')}{city.zipCodes.length > 4 ? '…' : ''}
+                            </p>
+                          )}
+                        </div>
+                        <span className="flex items-center gap-1 text-xs font-bold text-[#9E3F5C] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                          Open Guide <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+                    ))}
+                    {filteredCities.length > 5 && (
+                      <div className="p-3 text-center">
+                        <button
+                          type="button"
+                          onClick={() => document.getElementById('cities-directory')?.scrollIntoView({ behavior: 'smooth' })}
+                          className="text-xs font-bold text-[#9E3F5C] hover:underline cursor-pointer"
+                        >
+                          View all {filteredCities.length} results in directory ↓
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-6 text-center space-y-3">
+                    <div className="w-12 h-12 rounded-full bg-[#FDF2F5] flex items-center justify-center mx-auto">
+                      <MapPin className="w-5 h-5 text-[#9E3F5C]" />
+                    </div>
+                    <div>
+                      <p className="font-serif font-bold text-[#2B2225] text-sm">No local hub found for "{searchQuery}"</p>
+                      <p className="text-xs text-[#5A4B50] mt-1">
+                        Don't worry — we ship discreetly to all 50 states nationwide!
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onNavigate && onNavigate('shop')}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#9E3F5C] hover:bg-[#852f49] text-white text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      Shop Now — We Ship Everywhere
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Quick Filter Pills */}
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
               <span className="text-xs font-bold text-[#5A4B50] mr-2">Quick filters:</span>
@@ -413,7 +500,7 @@ export default function LocationsPage({
                 <button
                   key={btn.id}
                   type="button"
-                  onClick={() => setSelectedRegionFilter(btn.id)}
+                  onClick={() => handleFilterClick(btn.id)}
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedRegionFilter === btn.id
                       ? 'bg-[#9E3F5C] text-white shadow-xs'
@@ -501,7 +588,7 @@ export default function LocationsPage({
       {/* ─────────────────────────────────────────────────────────────
           4. EXPLORE CITIES – City Directory
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-y border-[#F7D6DF]">
+      <section id="cities-directory" className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-y border-[#F7D6DF] scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2 max-w-2xl">

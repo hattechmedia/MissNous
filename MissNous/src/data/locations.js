@@ -3,6 +3,9 @@ export const LOCATIONS = [
   {
     slug: 'newark',
     name: 'Newark',
+    county: 'Essex County',
+    state: 'New Jersey',
+    zipCodes: ['07101', '07102', '07103', '07104', '07105', '07107', '07108', '07112', '07114'],
     distanceMiles: null,
     distanceLabel: 'Home base',
     featured: true,
@@ -17,6 +20,9 @@ export const LOCATIONS = [
   {
     slug: 'east-newark',
     name: 'East Newark',
+    county: 'Hudson County',
+    state: 'New Jersey',
+    zipCodes: ['07029'],
     distanceMiles: 2.0,
     distanceLabel: '~2.0 miles',
     description:
@@ -28,16 +34,22 @@ export const LOCATIONS = [
   {
     slug: 'kearny',
     name: 'Kearny',
+    county: 'Hudson County',
+    state: 'New Jersey',
+    zipCodes: ['07032', '07099'],
     distanceMiles: 2.5,
     distanceLabel: '~2.5 miles',
     description:
       'Historic Kearny sits minutes from Newark—part of the close-knit community we serve across Hudson and Essex counties.',
     image: '/images/locations/kearny.jpg',
-    imageAlt: 'Kearny, New Jersey street and community',
+    imageAlt: 'Kearny, New Jersey aerial cityscape and waterfront',
   },
   {
     slug: 'elizabeth',
     name: 'Elizabeth',
+    county: 'Union County',
+    state: 'New Jersey',
+    zipCodes: ['07201', '07202', '07206', '07207', '07208'],
     distanceMiles: 3.7,
     distanceLabel: '~3.7 miles',
     description:
@@ -49,6 +61,9 @@ export const LOCATIONS = [
   {
     slug: 'bayonne',
     name: 'Bayonne',
+    county: 'Hudson County',
+    state: 'New Jersey',
+    zipCodes: ['07002'],
     distanceMiles: 4.1,
     distanceLabel: '~4.1 miles',
     description:
@@ -60,6 +75,9 @@ export const LOCATIONS = [
   {
     slug: 'east-orange',
     name: 'East Orange',
+    county: 'Essex County',
+    state: 'New Jersey',
+    zipCodes: ['07017', '07018', '07019'],
     distanceMiles: 4.5,
     distanceLabel: '~4.5 miles',
     description:
@@ -71,6 +89,9 @@ export const LOCATIONS = [
   {
     slug: 'hillside',
     name: 'Hillside',
+    county: 'Union County',
+    state: 'New Jersey',
+    zipCodes: ['07205'],
     distanceMiles: 4.7,
     distanceLabel: '~4.7 miles',
     description:
@@ -82,6 +103,9 @@ export const LOCATIONS = [
   {
     slug: 'north-arlington',
     name: 'North Arlington',
+    county: 'Bergen County',
+    state: 'New Jersey',
+    zipCodes: ['07031'],
     distanceMiles: 4.8,
     distanceLabel: '~4.8 miles',
     description:
