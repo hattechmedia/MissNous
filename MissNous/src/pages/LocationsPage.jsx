@@ -264,100 +264,94 @@ export default function LocationsPage({
       {/* ─────────────────────────────────────────────────────────────
           1. HERO SECTION – Heading, short description, CTA
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-8 lg:px-16 overflow-hidden bg-gradient-to-b from-[#2B2225] via-[#3d1825] to-[#2B2225] text-white">
-        {/* Ambient Glows */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#9E3F5C]/25 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute -bottom-20 right-10 w-96 h-96 bg-[#D4AF6A]/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      {/* ─────────────────────────────────────────────────────────────
+          1. HERO SECTION – Heading, short description, CTA
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
+        {/* Master High-Res Background Image (location hero.png) */}
+        <img
+          src="/location%20hero.png"
+          alt="Miss Nous Intimate Lubricants in Location Setting"
+          className="absolute inset-0 w-full h-full object-cover object-[70%_center] lg:object-center select-none pointer-events-none"
+        />
 
-        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md">
-              <Compass className="w-3.5 h-3.5" />
-              <span>Nationwide &amp; Local Service Network</span>
+        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#240c15] via-[#240c15]/90 sm:via-[#240c15]/75 lg:via-[#240c15]/55 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#240c15] via-transparent to-[#240c15]/40 lg:hidden pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto w-full">
+          <div className="max-w-2xl space-y-6 sm:space-y-7 text-left">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
+              <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#E8D3A5]">
+                MISS NOUS · LOCATION FINDER
+              </span>
+              <span className="hidden sm:inline-block w-12 h-px bg-[#E8D3A5]/40" />
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08]">
-              Find Miss Nous <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#E8D3A5] via-[#FFF9F5] to-[#F7D6DF] bg-clip-text text-transparent">
+            {/* Headline */}
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem] font-bold tracking-tight text-white leading-[1.08]">
+              Find Miss Nous <br />
+              <span className="bg-gradient-to-r from-[#E8D3A5] via-[#FFF3D6] to-[#E8D3A5] bg-clip-text text-transparent">
                 Near Your City
               </span>
             </h1>
 
-            <p className="font-sans text-base sm:text-lg text-[#F7D6DF]/90 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              From our flagship studio at{' '}
-              <strong className="text-white font-semibold">18 Garibaldi Avenue, Newark, NJ</strong>, we ship body-safe, pH-balanced lubricants to North Jersey doorsteps and across all 50 US states in plain, unbranded boxes.
+            {/* Description */}
+            <p className="font-sans text-base sm:text-lg text-[#F7D6DF]/90 font-normal leading-relaxed max-w-xl">
+              Discover nearby stockists, discreet delivery, and your favorite flavours — now closer to you.
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
+            {/* 2 CTAs */}
+            <div className="flex flex-wrap items-center gap-3.5 pt-1">
               <button
                 type="button"
                 onClick={scrollToSearch}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#852f49] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer border border-[#E8D3A5]/25"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#9E3F5C] hover:bg-[#852f49] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer border border-[#E8D3A5]/30"
               >
-                <Search className="w-4 h-4" />
                 <span>Find Your Location</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={() => onNavigate && onNavigate('shop')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/25 font-sans text-xs uppercase tracking-wider font-semibold backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/30 font-sans text-xs uppercase tracking-wider font-semibold backdrop-blur-md transition-all duration-300 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4 text-[#E8D3A5]" />
-                <span>Shop Lubricants</span>
+                <span>Shop Flavours</span>
               </button>
             </div>
 
-            {/* Fast Highlights Bar */}
-            <div className="pt-6 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-medium text-[#F7D6DF]/85">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
-                <span>100% Discreet Outer Box</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
-                <span>Same-Day NJ Dispatch</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
-                <span>50-State US Delivery</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
-                <span>pH 4.5 Tested Balance</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Visual Showcase Card */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md aspect-square sm:aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-[#3a1824] via-[#23171b] to-[#150f11] border border-[#E8D3A5]/40 shadow-2xl p-6 sm:p-8 flex flex-col items-center justify-between text-center">
-              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,106,0.45)_0%,rgba(158,63,92,0.3)_50%,transparent_75%)]" />
-
-              {/* Pin Pill */}
-              <div className="relative z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/20 text-[#E8D3A5] text-[11px] font-bold backdrop-blur-md">
-                <MapPin className="w-3.5 h-3.5 text-[#E8D3A5]" />
-                <span>Newark, NJ Studio Hub</span>
-              </div>
-
-              {/* Duo Bottle Visual */}
-              <div className="relative z-10 w-full flex-1 flex items-center justify-center py-4">
-                <div className="relative w-64 h-64 flex items-center justify-center">
-                  <div className="absolute inset-2 rounded-full bg-[#9E3F5C]/30 blur-2xl pointer-events-none" />
-                  <img
-                    src={DUO_PRODUCTS_IMAGE}
-                    alt="Miss Nous Strawberry and Pineapple Intimate Lubricants"
-                    className="relative z-10 w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)] hover:scale-105 transition-transform duration-500"
-                  />
+            {/* Bottom 4 Badges */}
+            <div className="pt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+              <div className="flex items-center gap-3">
+                <Package className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                <div className="leading-tight">
+                  <p className="text-xs sm:text-sm font-bold text-white">Discreet</p>
+                  <p className="text-[11px] text-[#F7D6DF]/80">Outer Box</p>
                 </div>
               </div>
-
-              {/* Studio Info Footnote */}
-              <div className="relative z-10 w-full pt-3 border-t border-white/15 space-y-1">
-                <p className="font-serif text-base font-bold text-white">Miss Nous Intimate Care</p>
-                <p className="text-xs text-[#F7D6DF]/80">Strawberry &amp; Pineapple Flavours · 100ml Water-Based</p>
+              <div className="flex items-center gap-3">
+                <Truck className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                <div className="leading-tight">
+                  <p className="text-xs sm:text-sm font-bold text-white">Fast Local</p>
+                  <p className="text-[11px] text-[#F7D6DF]/80">Delivery</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                <div className="leading-tight">
+                  <p className="text-xs sm:text-sm font-bold text-white">Nationwide</p>
+                  <p className="text-[11px] text-[#F7D6DF]/80">Coverage</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                <div className="leading-tight">
+                  <p className="text-xs sm:text-sm font-bold text-white">Trusted &amp;</p>
+                  <p className="text-[11px] text-[#F7D6DF]/80">pH Balanced</p>
+                </div>
               </div>
             </div>
           </div>
