@@ -342,7 +342,7 @@ export default function LocationsPage({
                 { icon: Package, title: 'Discreet', sub: 'Outer Box' },
                 { icon: Truck, title: 'Fast Local', sub: 'Delivery' },
                 { icon: MapPin, title: 'Nationwide', sub: 'Coverage' },
-                { icon: ShieldCheck, title: 'Trusted &', sub: 'pH Balanced' },
+                { icon: ShieldCheck, title: 'Trusted', sub: 'pH Balanced' },
               ].map((b, idx) => {
                 const Icon = b.icon;
                 return (
