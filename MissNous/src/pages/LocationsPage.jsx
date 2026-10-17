@@ -1066,7 +1066,7 @@ export default function LocationsPage({
 
               {/* Right Column: Custom Designed Delivery Network Map Box */}
               <div className="lg:col-span-6 w-full">
-                <UsaDeliveryMap />
+                <UsaDeliveryMap onCityClick={handleCityClick} />
               </div>
             </div>
           </div>
