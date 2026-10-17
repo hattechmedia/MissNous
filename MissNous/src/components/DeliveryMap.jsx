@@ -1,184 +1,124 @@
 import React, { useState } from 'react';
-import { Globe, MapPin, Navigation, Sparkles, Truck } from 'lucide-react';
-import { LOCATIONS } from '../data/locations';
+import { Truck } from 'lucide-react';
 
 /**
- * Main Locations Page Delivery Network Map
- * Styled strictly in Miss Nous website theme (Deep Velvet Maroon, Warm Gold, Rose Glow).
- * Features all 8 service cities (Newark Hub + 7 surrounding cities + Nationwide routing).
+ * Real USA Delivery Network Map Component
+ * Displays the real geographic USA map (Albers projection) in Miss Nous brand luxury theme.
+ * All header/footer text removed as requested — pure map with Newark dispatch hub & routes.
  */
 export function UsaDeliveryMap() {
   const [activeCity, setActiveCity] = useState(null);
 
-  // Newark is the primary home base / dispatch center
-  const hub = { name: 'Newark Hub (Dispatch Base)', x: 240, y: 175, isHub: true, distance: 'Home base' };
+  // Exact coordinates matching the 959x593 real USA SVG map
+  // Newark / North Jersey is located at (840, 198)
+  const hub = { name: 'Newark Hub (Dispatch)', x: 840, y: 198 };
 
-  // All 7 surrounding service cities from the directory
-  const serviceCities = [
-    { id: 'east-newark', name: 'East Newark', x: 295, y: 155, distance: '~2.0 mi', eta: 'Same-Day' },
-    { id: 'kearny', name: 'Kearny', x: 315, y: 110, distance: '~2.5 mi', eta: 'Same-Day' },
-    { id: 'north-arlington', name: 'North Arlington', x: 310, y: 62, distance: '~4.8 mi', eta: 'Same-Day' },
-    { id: 'east-orange', name: 'East Orange', x: 155, y: 115, distance: '~4.5 mi', eta: 'Same-Day' },
-    { id: 'hillside', name: 'Hillside', x: 165, y: 235, distance: '~4.7 mi', eta: 'Same-Day' },
-    { id: 'elizabeth', name: 'Elizabeth', x: 215, y: 285, distance: '~3.7 mi', eta: 'Same-Day' },
-    { id: 'bayonne', name: 'Bayonne', x: 345, y: 265, distance: '~4.1 mi', eta: 'Same-Day' },
+  const destinations = [
+    { id: 'nyc', name: 'NYC Metro', x: 862, y: 182, eta: 'Same-Day' },
+    { id: 'bos', name: 'Boston', x: 890, y: 138, eta: '1-Day' },
+    { id: 'phl', name: 'Philadelphia', x: 818, y: 220, eta: '1-Day' },
+    { id: 'chi', name: 'Chicago', x: 618, y: 202, eta: '1-2 Days' },
+    { id: 'atl', name: 'Atlanta', x: 685, y: 390, eta: '1-2 Days' },
+    { id: 'mia', name: 'Miami', x: 780, y: 520, eta: '2 Days' },
+    { id: 'dfw', name: 'Dallas', x: 495, y: 425, eta: '2 Days' },
+    { id: 'den', name: 'Denver', x: 370, y: 258, eta: '2 Days' },
+    { id: 'lax', name: 'Los Angeles', x: 125, y: 360, eta: '2-3 Days' },
+    { id: 'sea', name: 'Seattle', x: 130, y: 80, eta: '2-3 Days' },
   ];
 
   return (
-    <div className="w-full bg-gradient-to-br from-[#260E18]/95 via-[#1E0A12]/95 to-[#16070D]/95 rounded-3xl border border-[#E8D3A5]/30 p-5 sm:p-7 shadow-[0_12px_45px_rgba(0,0,0,0.65)] backdrop-blur-xl relative overflow-hidden flex flex-col justify-between">
+    <div className="w-full h-full min-h-[300px] sm:min-h-[360px] bg-gradient-to-br from-[#240C16] via-[#1A0710] to-[#14050D] rounded-3xl border border-[#E8D3A5]/35 p-3 sm:p-5 shadow-[0_16px_50px_rgba(0,0,0,0.7)] relative overflow-hidden flex items-center justify-center">
       {/* Brand luxury ambient glows */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Header */}
-      <div className="space-y-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9E3F5C]/20 border border-[#E8D3A5]/40 text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-inner">
-          <Globe className="w-3.5 h-3.5 text-[#E8D3A5] animate-pulse" />
-          <span>8 Core Cities &amp; Nationwide Network</span>
-        </div>
-
-        <h3 className="font-serif text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
-          Delivering Across Newark Metro <br className="hidden sm:inline" />
-          <span className="text-[#E8D3A5]">&amp; All 50 States</span>
-        </h3>
-        <p className="text-xs text-[#F7D6DF]/80 leading-relaxed font-normal">
-          Direct dispatch from our Newark hub to all 8 local New Jersey cities and nationwide via discreet, 100% plain packaging.
-        </p>
-      </div>
-
-      {/* Interactive Vector Regional & City Network Map */}
-      <div className="relative my-4 sm:my-6 w-full aspect-[500/340] select-none">
+      {/* Real USA SVG Map with Precision Routing Overlay */}
+      <div className="relative w-full aspect-[959/593] select-none">
         <svg
-          viewBox="0 0 500 340"
-          className="w-full h-full drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
+          viewBox="0 0 959 593"
+          className="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
-            {/* Miss Nous Luxury Grid */}
-            <pattern id="theme-grid" width="22" height="22" patternUnits="userSpaceOnUse">
-              <path d="M 22 0 L 0 0 0 22" fill="none" stroke="#E8D3A5" strokeWidth="0.5" strokeOpacity="0.12" />
-            </pattern>
-
-            {/* Central Hub Beacon Radial Glow */}
-            <radialGradient id="theme-hub-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#E8D3A5" stopOpacity="1" />
-              <stop offset="50%" stopColor="#9E3F5C" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#1E0A12" stopOpacity="0" />
+            {/* Miss Nous Hub Glow Gradient */}
+            <radialGradient id="usa-hub-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FFF3D6" stopOpacity="1" />
+              <stop offset="45%" stopColor="#E8D3A5" stopOpacity="0.8" />
+              <stop offset="75%" stopColor="#9E3F5C" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#1A0710" stopOpacity="0" />
             </radialGradient>
           </defs>
 
-          {/* Grid Background */}
-          <rect width="500" height="340" fill="url(#theme-grid)" rx="16" />
-
-          {/* Stylized Regional Metro Perimeter (Northern New Jersey Dispatch Territory) */}
-          <path
-            d="M 240 35 
-               Q 335 45, 360 85 
-               L 380 150 
-               Q 395 210, 365 290 
-               L 320 315 
-               Q 230 325, 175 305 
-               L 125 245 
-               Q 105 175, 120 115 
-               L 170 55 
-               Z"
-            fill="#2B121D"
-            stroke="#E8D3A5"
-            strokeWidth="1.6"
-            strokeOpacity="0.75"
-            strokeLinejoin="round"
-            className="transition-colors duration-500 hover:fill-[#331624]"
+          {/* Real Geographic USA Map Silhouette */}
+          <image
+            href="/usa-map.svg"
+            x="0"
+            y="0"
+            width="959"
+            height="593"
+            preserveAspectRatio="xMidYMid meet"
+            className="opacity-95"
           />
 
-          {/* Passaic River & Newark Bay Stylized Geographic Waterline */}
-          <path
-            d="M 305 45 Q 315 110, 290 160 Q 275 195, 295 240 L 330 280"
-            fill="none"
-            stroke="#9E3F5C"
-            strokeWidth="2"
-            strokeOpacity="0.45"
-            strokeDasharray="3 3"
-          />
-
-          {/* Outbound Nationwide Indicator Line (Connecting all 50 states) */}
-          <g className="opacity-75 hover:opacity-100 transition-opacity">
-            <line
-              x1={hub.x}
-              y1={hub.y}
-              x2="465"
-              y2="45"
-              stroke="#E8D3A5"
-              strokeWidth="1.5"
-              strokeDasharray="3 3"
-            />
-            <circle cx="465" cy="45" r="4" fill="#D4AF6A" stroke="#FFFFFF" strokeWidth="1" />
-            <foreignObject x="375" y="22" width="120" height="24" className="pointer-events-none">
-              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#9E3F5C] text-[#FFF9F5] text-[8px] font-bold uppercase tracking-wider border border-[#E8D3A5]/50 shadow-md">
-                <Truck className="w-2.5 h-2.5" />
-                <span>All 50 States</span>
-              </div>
-            </foreignObject>
-          </g>
-
-          {/* Dashed Dispatch Lines from Newark Hub to All 7 Cities */}
-          {serviceCities.map((city) => (
-            <line
-              key={`route-${city.id}`}
-              x1={hub.x}
-              y1={hub.y}
-              x2={city.x}
-              y2={city.y}
-              stroke={activeCity === city.id ? '#FFF3D6' : '#E8D3A5'}
-              strokeWidth={activeCity === city.id ? 2 : 1.3}
-              strokeDasharray="4 4"
-              strokeOpacity={activeCity === city.id ? 0.95 : 0.65}
-              className="transition-all duration-300"
-            />
+          {/* Dashed Gold Route Lines from Newark Hub across USA */}
+          {destinations.map((city) => (
+            <g key={`route-${city.id}`}>
+              <line
+                x1={hub.x}
+                y1={hub.y}
+                x2={city.x}
+                y2={city.y}
+                stroke={activeCity === city.id ? '#FFF3D6' : '#E8D3A5'}
+                strokeWidth={activeCity === city.id ? 2.5 : 1.5}
+                strokeDasharray="5 5"
+                strokeOpacity={activeCity === city.id ? 1 : 0.65}
+                className="transition-all duration-300"
+              />
+            </g>
           ))}
 
-          {/* The 7 Surrounding Service City Nodes */}
-          {serviceCities.map((city) => {
+          {/* Destination Nodes across USA */}
+          {destinations.map((city) => {
             const isHovered = activeCity === city.id;
             return (
               <g
-                key={`city-${city.id}`}
+                key={`node-${city.id}`}
                 className="cursor-pointer group"
                 onMouseEnter={() => setActiveCity(city.id)}
                 onMouseLeave={() => setActiveCity(null)}
               >
                 {/* Ping ring on hover */}
                 {isHovered && (
-                  <circle cx={city.x} cy={city.y} r="10" fill="none" stroke="#E8D3A5" strokeWidth="1.5" className="animate-ping" />
+                  <circle cx={city.x} cy={city.y} r="16" fill="none" stroke="#E8D3A5" strokeWidth="2" className="animate-ping" />
                 )}
 
-                {/* City point */}
+                {/* Node point */}
                 <circle
                   cx={city.x}
                   cy={city.y}
-                  r={isHovered ? 5.5 : 4}
+                  r={isHovered ? 8 : 6}
                   fill={isHovered ? '#FFF3D6' : '#E8D3A5'}
                   stroke="#361A23"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   className="transition-all duration-200 shadow-md"
                 />
 
                 {/* City Tag Label */}
                 <foreignObject
-                  x={city.x > 270 ? city.x + 8 : city.x - 110}
-                  y={city.y - 12}
-                  width="115"
-                  height="26"
+                  x={city.x > 750 ? city.x - 110 : city.x < 200 ? city.x + 8 : city.x - 50}
+                  y={city.y > 450 ? city.y - 30 : city.y + 8}
+                  width="130"
+                  height="30"
                   className="pointer-events-none"
                 >
                   <div
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-bold tracking-tight transition-all duration-200 whitespace-nowrap shadow-md ${
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold tracking-tight transition-all duration-200 whitespace-nowrap shadow-lg ${
                       isHovered
                         ? 'bg-[#E8D3A5] text-[#2B2225] scale-105 border border-white'
-                        : 'bg-[#1E0A12]/95 text-white/95 border border-[#E8D3A5]/35'
+                        : 'bg-[#1F0A14]/95 text-white/95 border border-[#E8D3A5]/40 backdrop-blur-md'
                     }`}
                   >
                     <span>{city.name}</span>
-                    <span className="text-[8px] text-[#F7D6DF]/70 font-normal">({city.distance})</span>
                   </div>
                 </foreignObject>
               </g>
@@ -187,137 +127,95 @@ export function UsaDeliveryMap() {
 
           {/* Central Newark Hub Beacon */}
           <g className="cursor-pointer">
-            <circle cx={hub.x} cy={hub.y} r="20" fill="url(#theme-hub-glow)" />
-            <circle cx={hub.x} cy={hub.y} r="13" fill="none" stroke="#E8D3A5" strokeWidth="1.6" className="animate-ping opacity-85" />
-            <circle cx={hub.x} cy={hub.y} r="6.5" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2" className="shadow-lg" />
+            <circle cx={hub.x} cy={hub.y} r="30" fill="url(#usa-hub-glow)" />
+            <circle cx={hub.x} cy={hub.y} r="18" fill="none" stroke="#E8D3A5" strokeWidth="2.5" className="animate-ping opacity-90" />
+            <circle cx={hub.x} cy={hub.y} r="9" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2.5" className="shadow-2xl" />
 
             {/* Hub Tag Label */}
-            <foreignObject x={hub.x - 70} y={hub.y - 32} width="140" height="28" className="pointer-events-none">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-[#9E3F5C] via-[#A84260] to-[#9E3F5C] text-white font-black text-[10px] tracking-wide uppercase shadow-[0_0_15px_rgba(232,211,165,0.7)] border border-[#E8D3A5]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8D3A5] animate-pulse" />
+            <foreignObject x={hub.x - 135} y={hub.y - 40} width="160" height="34" className="pointer-events-none">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#9E3F5C] via-[#A84260] to-[#9E3F5C] text-white font-black text-[11px] tracking-wide uppercase shadow-[0_0_20px_rgba(232,211,165,0.8)] border-2 border-[#E8D3A5]">
+                <span className="w-2 h-2 rounded-full bg-[#E8D3A5] animate-pulse" />
                 <span>Newark Hub</span>
               </div>
             </foreignObject>
           </g>
         </svg>
       </div>
-
-      {/* Footer Metrics in Website Theme */}
-      <div className="pt-3 border-t border-[#E8D3A5]/20 grid grid-cols-3 gap-2 text-center relative z-10">
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Local Dispatch</p>
-          <p className="text-xs sm:text-sm font-bold text-white">8 NJ Cities</p>
-        </div>
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Packaging</p>
-          <p className="text-xs sm:text-sm font-bold text-white">100% Discreet</p>
-        </div>
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Coverage</p>
-          <p className="text-xs sm:text-sm font-bold text-white">All 50 States</p>
-        </div>
-      </div>
     </div>
   );
 }
 
 /**
- * City Specific Delivery Network Map Component
- * Styled in Miss Nous website theme (Deep Velvet Maroon, Warm Gold, Rose Glow).
- * Accurately plots the exact delivery areas / neighborhoods of that specific city.
+ * Real City Delivery Network Map Component
+ * Displays the real New Jersey state geographic map with local city hub and neighborhood routes.
+ * All header/footer text removed as requested — pure map with central hub and local areas.
  */
 export function CityDeliveryMap({ location }) {
   const [activeZone, setActiveZone] = useState(null);
 
   const cityName = location?.name || 'Local City';
-  const county = location?.county || 'New Jersey';
   const neighborhoods = (location?.neighborhoods && location.neighborhoods.length > 0)
     ? location.neighborhoods
     : ['Central District', 'North Residential', 'Waterfront Plaza', 'Main Avenue', 'South Boundary', 'Meadowlands Edge'];
 
-  // Geographic distribution coordinates for neighborhoods around city center
-  const nodeSlots = [
-    { x: 250, y: 65 },
-    { x: 375, y: 100 },
-    { x: 410, y: 185 },
-    { x: 360, y: 275 },
-    { x: 250, y: 305 },
-    { x: 135, y: 270 },
-    { x: 90, y: 185 },
-    { x: 125, y: 100 },
+  // Geographic distribution coordinates in New Jersey SVG space (viewBox -8038 -13966 14262 26999)
+  // Northern NJ / Newark Metro hub coordinates: (2200, -6800)
+  const depot = { name: `${cityName} Hub`, x: 2200, y: -6800 };
+
+  // Radial offsets around the northern NJ city hub
+  const nodeOffsets = [
+    { dx: -200, dy: -3200 },
+    { dx: 2600, dy: -2400 },
+    { dx: 3800, dy: 600 },
+    { dx: 2400, dy: 3400 },
+    { dx: -400, dy: 4600 },
+    { dx: -2600, dy: 2800 },
+    { dx: -3800, dy: -400 },
+    { dx: -2400, dy: -2400 },
   ];
 
   const zones = neighborhoods.slice(0, 8).map((name, idx) => ({
     id: `zone-${idx}`,
     name,
-    x: nodeSlots[idx % nodeSlots.length].x,
-    y: nodeSlots[idx % nodeSlots.length].y,
+    x: depot.x + nodeOffsets[idx % nodeOffsets.length].dx,
+    y: depot.y + nodeOffsets[idx % nodeOffsets.length].dy,
   }));
 
-  const depot = { name: `${cityName} Hub`, x: 250, y: 180 };
-
   return (
-    <div className="w-full bg-gradient-to-br from-[#260E18]/95 via-[#1E0A12]/95 to-[#16070D]/95 rounded-3xl border border-[#E8D3A5]/30 p-5 sm:p-7 shadow-[0_12px_45px_rgba(0,0,0,0.65)] backdrop-blur-xl relative overflow-hidden flex flex-col justify-between">
+    <div className="w-full h-full min-h-[300px] sm:min-h-[360px] bg-gradient-to-br from-[#240C16] via-[#1A0710] to-[#14050D] rounded-3xl border border-[#E8D3A5]/35 p-3 sm:p-5 shadow-[0_16px_50px_rgba(0,0,0,0.7)] relative overflow-hidden flex items-center justify-center">
       {/* Brand luxury ambient glows */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Header */}
-      <div className="space-y-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9E3F5C]/20 border border-[#E8D3A5]/40 text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-inner">
-          <Navigation className="w-3.5 h-3.5 text-[#E8D3A5] animate-pulse" />
-          <span>Local Doorstep Delivery Areas</span>
-        </div>
-
-        <h3 className="font-serif text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
-          Delivering Across {cityName} <br className="hidden sm:inline" />
-          <span className="text-[#E8D3A5]">All Neighborhood Routes</span>
-        </h3>
-        <p className="text-xs text-[#F7D6DF]/80 leading-relaxed font-normal">
-          Direct courier dispatch to all postal codes and residential neighborhoods across {cityName}, {county}.
-        </p>
-      </div>
-
-      {/* Interactive City Territory Vector Map Stage */}
-      <div className="relative my-4 sm:my-6 w-full aspect-[500/350] select-none">
+      {/* Real New Jersey SVG Map with Neighborhood Routing Overlay */}
+      <div className="relative w-full aspect-[14262/26999] max-h-[380px] select-none flex items-center justify-center">
         <svg
-          viewBox="0 0 500 350"
-          className="w-full h-full drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
+          viewBox="-8038 -13966 14262 26999"
+          className="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
-            {/* Grid Pattern */}
-            <pattern id="theme-city-grid" width="22" height="22" patternUnits="userSpaceOnUse">
-              <path d="M 22 0 L 0 0 0 22" fill="none" stroke="#E8D3A5" strokeWidth="0.5" strokeOpacity="0.12" />
-            </pattern>
-
-            {/* Central Depot Glow */}
-            <radialGradient id="theme-depot-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#E8D3A5" stopOpacity="1" />
-              <stop offset="50%" stopColor="#9E3F5C" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#1E0A12" stopOpacity="0" />
+            {/* Central Depot Hub Glow */}
+            <radialGradient id="nj-depot-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FFF3D6" stopOpacity="1" />
+              <stop offset="45%" stopColor="#E8D3A5" stopOpacity="0.8" />
+              <stop offset="75%" stopColor="#9E3F5C" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#1A0710" stopOpacity="0" />
             </radialGradient>
           </defs>
 
-          {/* Grid Background */}
-          <rect width="500" height="350" fill="url(#theme-city-grid)" rx="16" />
-
-          {/* Stylized Municipal Territory Polygon */}
-          <polygon
-            points="250,28 360,52 440,125 460,225 390,315 250,338 120,320 50,225 65,115 160,48"
-            fill="#2B121D"
-            stroke="#E8D3A5"
-            strokeWidth="1.6"
-            strokeOpacity="0.75"
-            strokeLinejoin="round"
-            className="transition-colors duration-500 hover:fill-[#331624]"
+          {/* Real New Jersey Geographic Map Silhouette */}
+          <image
+            href="/nj-map.svg"
+            x="-8038"
+            y="-13966"
+            width="14262"
+            height="26999"
+            preserveAspectRatio="xMidYMid meet"
+            className="opacity-95"
           />
 
-          {/* Concentric Zone Rings */}
-          <circle cx="250" cy="180" r="95" fill="none" stroke="#9E3F5C" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.4" />
-          <circle cx="250" cy="180" r="140" fill="none" stroke="#E8D3A5" strokeWidth="0.8" strokeDasharray="2 4" strokeOpacity="0.25" />
-
-          {/* Radial Dispatch Route Lines from City Hub to All Neighborhoods */}
+          {/* Dashed Gold Route Lines from City Hub to Local Neighborhoods */}
           {zones.map((zone) => (
             <line
               key={`line-${zone.id}`}
@@ -326,14 +224,14 @@ export function CityDeliveryMap({ location }) {
               x2={zone.x}
               y2={zone.y}
               stroke={activeZone === zone.id ? '#FFF3D6' : '#E8D3A5'}
-              strokeWidth={activeZone === zone.id ? 2 : 1.3}
-              strokeDasharray="4 4"
-              strokeOpacity={activeZone === zone.id ? 0.95 : 0.65}
+              strokeWidth={activeZone === zone.id ? 70 : 45}
+              strokeDasharray="140 140"
+              strokeOpacity={activeZone === zone.id ? 1 : 0.7}
               className="transition-all duration-300"
             />
           ))}
 
-          {/* Neighborhood Area Nodes */}
+          {/* Neighborhood Area Destination Nodes */}
           {zones.map((zone) => {
             const isHovered = activeZone === zone.id;
             return (
@@ -343,35 +241,30 @@ export function CityDeliveryMap({ location }) {
                 onMouseEnter={() => setActiveZone(zone.id)}
                 onMouseLeave={() => setActiveZone(null)}
               >
-                {/* Ping ring on hover */}
-                {isHovered && (
-                  <circle cx={zone.x} cy={zone.y} r="10" fill="none" stroke="#E8D3A5" strokeWidth="1.5" className="animate-ping" />
-                )}
-
                 {/* Node point */}
                 <circle
                   cx={zone.x}
                   cy={zone.y}
-                  r={isHovered ? 5.5 : 4}
+                  r={isHovered ? 240 : 180}
                   fill={isHovered ? '#FFF3D6' : '#E8D3A5'}
                   stroke="#361A23"
-                  strokeWidth="1.5"
-                  className="transition-all duration-200 shadow-md"
+                  strokeWidth="50"
+                  className="transition-all duration-200"
                 />
 
                 {/* Neighborhood Tag Label */}
                 <foreignObject
-                  x={zone.x > 260 ? zone.x + 8 : zone.x - 128}
-                  y={zone.y - 12}
-                  width="125"
-                  height="26"
+                  x={zone.x > depot.x ? zone.x + 250 : zone.x - 3600}
+                  y={zone.y - 450}
+                  width="3500"
+                  height="900"
                   className="pointer-events-none"
                 >
                   <div
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-bold tracking-tight transition-all duration-200 whitespace-nowrap shadow-md ${
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs sm:text-sm font-bold tracking-tight transition-all duration-200 whitespace-nowrap shadow-lg ${
                       isHovered
                         ? 'bg-[#E8D3A5] text-[#2B2225] scale-105 border border-white'
-                        : 'bg-[#1E0A12]/95 text-white/95 border border-[#E8D3A5]/35'
+                        : 'bg-[#1F0A14]/95 text-white/95 border border-[#E8D3A5]/40 backdrop-blur-md'
                     }`}
                   >
                     <span>{zone.name}</span>
@@ -381,37 +274,21 @@ export function CityDeliveryMap({ location }) {
             );
           })}
 
-          {/* Central Depot Hub Beacon */}
+          {/* Central City Hub Depot Beacon */}
           <g className="cursor-pointer">
-            <circle cx={depot.x} cy={depot.y} r="20" fill="url(#theme-depot-glow)" />
-            <circle cx={depot.x} cy={depot.y} r="13" fill="none" stroke="#E8D3A5" strokeWidth="1.6" className="animate-ping opacity-85" />
-            <circle cx={depot.x} cy={depot.y} r="6.5" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2" className="shadow-lg" />
+            <circle cx={depot.x} cy={depot.y} r="900" fill="url(#nj-depot-glow)" />
+            <circle cx={depot.x} cy={depot.y} r="550" fill="none" stroke="#E8D3A5" strokeWidth="80" className="animate-ping opacity-90" />
+            <circle cx={depot.x} cy={depot.y} r="300" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="70" className="shadow-2xl" />
 
-            {/* Depot Tag Label */}
-            <foreignObject x={depot.x - 70} y={depot.y - 32} width="140" height="28" className="pointer-events-none">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-[#9E3F5C] via-[#A84260] to-[#9E3F5C] text-white font-black text-[10px] tracking-wide uppercase shadow-[0_0_15px_rgba(232,211,165,0.7)] border border-[#E8D3A5]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8D3A5] animate-pulse" />
+            {/* City Hub Tag Label */}
+            <foreignObject x={depot.x - 2000} y={depot.y - 1500} width="4000" height="1100" className="pointer-events-none">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#9E3F5C] via-[#A84260] to-[#9E3F5C] text-white font-black text-xs sm:text-sm tracking-wide uppercase shadow-[0_0_25px_rgba(232,211,165,0.85)] border-2 border-[#E8D3A5]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E8D3A5] animate-pulse" />
                 <span>{cityName} Hub</span>
               </div>
             </foreignObject>
           </g>
         </svg>
-      </div>
-
-      {/* Footer Metrics in Website Theme */}
-      <div className="pt-3 border-t border-[#E8D3A5]/20 grid grid-cols-3 gap-2 text-center relative z-10">
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Courier</p>
-          <p className="text-xs sm:text-sm font-bold text-white">Local Doorstep</p>
-        </div>
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Privacy</p>
-          <p className="text-xs sm:text-sm font-bold text-white">100% Plain Box</p>
-        </div>
-        <div className="p-2 rounded-xl bg-[#361A23]/60 border border-[#E8D3A5]/20">
-          <p className="text-[10px] uppercase font-bold text-[#E8D3A5]">Delivery</p>
-          <p className="text-xs sm:text-sm font-bold text-white">Fast &amp; Direct</p>
-        </div>
       </div>
     </div>
   );
