@@ -280,16 +280,16 @@ export default function LocationsPage({
           1. HERO SECTION – Heading, short description, CTA
       ───────────────────────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] lg:min-h-screen flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
-        {/* Master High-Res Background Image (location hero.png) - Full Cover without blank space */}
+        {/* Master High-Res Background Image (location hero.png) - Optimized position to show product bottle on mobile */}
         <img
           src="/location%20hero.png"
           alt="Miss Nous Intimate Lubricants in Location Setting"
-          className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-[78%_center] sm:object-center select-none pointer-events-none"
         />
 
-        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#240c15] via-[#240c15]/90 sm:via-[#240c15]/75 lg:via-[#240c15]/40 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#240c15]/70 via-transparent to-transparent lg:hidden pointer-events-none" />
+        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability while revealing product on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#240c15]/90 via-[#240c15]/60 sm:via-[#240c15]/75 lg:via-[#240c15]/40 to-[#240c15]/20 sm:to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#240c15] via-transparent to-transparent lg:hidden pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="max-w-2xl space-y-6 sm:space-y-7 text-left">
@@ -335,36 +335,28 @@ export default function LocationsPage({
               </button>
             </div>
 
-            {/* Bottom 4 Badges */}
-            <div className="pt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-              <div className="flex items-center gap-3">
-                <Package className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
-                <div className="leading-tight">
-                  <p className="text-xs sm:text-sm font-bold text-white">Discreet</p>
-                  <p className="text-[11px] text-[#F7D6DF]/80">Outer Box</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Truck className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
-                <div className="leading-tight">
-                  <p className="text-xs sm:text-sm font-bold text-white">Fast Local</p>
-                  <p className="text-[11px] text-[#F7D6DF]/80">Delivery</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
-                <div className="leading-tight">
-                  <p className="text-xs sm:text-sm font-bold text-white">Nationwide</p>
-                  <p className="text-[11px] text-[#F7D6DF]/80">Coverage</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="w-7 h-7 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
-                <div className="leading-tight">
-                  <p className="text-xs sm:text-sm font-bold text-white">Trusted &amp;</p>
-                  <p className="text-[11px] text-[#F7D6DF]/80">pH Balanced</p>
-                </div>
-              </div>
+            {/* Bottom 4 Badges in Simple Clean Boxes */}
+            <div className="pt-6 sm:pt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+              {[
+                { icon: Package, title: 'Discreet', sub: 'Outer Box' },
+                { icon: Truck, title: 'Fast Local', sub: 'Delivery' },
+                { icon: MapPin, title: 'Nationwide', sub: 'Coverage' },
+                { icon: ShieldCheck, title: 'Trusted &', sub: 'pH Balanced' },
+              ].map((b, idx) => {
+                const Icon = b.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-3 sm:p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center gap-2.5 sm:gap-3 transition-all hover:bg-white/15"
+                  >
+                    <Icon className="w-6 h-6 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                    <div className="leading-tight text-left">
+                      <p className="text-xs sm:text-sm font-bold text-white">{b.title}</p>
+                      <p className="text-[10px] sm:text-[11px] text-[#F7D6DF]/80">{b.sub}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -683,27 +675,27 @@ export default function LocationsPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) */}
-                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
-                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Scaled on mobile to avoid overlap */}
+                <div className="absolute top-0 left-0 w-32 sm:w-52 h-32 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[24px] sm:top-[48px] -left-[45px] sm:-left-[52px] w-[180px] sm:w-[280px] h-7 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[9px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1 sm:gap-1.5 leading-none">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
                     <span className="whitespace-nowrap">Discounted Offer</span>
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                  <span className="px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
+                  <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Strawberry Edition
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold border border-white/10">
                     100ml
                   </span>
                 </div>
               </div>
 
-              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
                     FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
                   </span>
                   <h3
@@ -719,7 +711,7 @@ export default function LocationsPage({
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
-                  <div className="flex items-baseline gap-3">
+                  <div className="flex items-baseline justify-center sm:justify-start gap-3">
                     <span className="text-3xl font-bold text-white">
                       ${Number(strawberryProduct?.price || 31.99).toFixed(2)}
                     </span>
@@ -777,27 +769,27 @@ export default function LocationsPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) */}
-                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Scaled on mobile to avoid overlap */}
+                <div className="absolute top-0 left-0 w-32 sm:w-52 h-32 sm:h-52 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-[24px] sm:top-[48px] -left-[45px] sm:-left-[52px] w-[180px] sm:w-[280px] h-7 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[9px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1 sm:gap-1.5 leading-none">
                     <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
                     <span className="whitespace-nowrap">Discounted Offer</span>
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                  <span className="px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
+                  <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Pineapple Edition
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold border border-white/10">
                     100ml
                   </span>
                 </div>
               </div>
 
-              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
                     FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
                   </span>
                   <h3
@@ -813,7 +805,7 @@ export default function LocationsPage({
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
-                  <div className="flex items-baseline gap-3">
+                  <div className="flex items-baseline justify-center sm:justify-start gap-3">
                     <span className="text-3xl font-bold text-white">
                       ${Number(pineappleProduct?.price || 31.99).toFixed(2)}
                     </span>
@@ -878,9 +870,9 @@ export default function LocationsPage({
               return (
                 <div
                   key={idx}
-                  className="p-6 sm:p-8 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 space-y-4 group"
+                  className="p-6 sm:p-8 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 space-y-4 group flex flex-col items-center sm:items-start text-center sm:text-left"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300 shadow-xs">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300 shadow-xs mx-auto sm:mx-0">
                     <Icon className="w-6 h-6" />
                   </div>
                   <h3 className="font-serif text-lg sm:text-xl font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
@@ -995,28 +987,28 @@ export default function LocationsPage({
                   <button
                     type="button"
                     onClick={() => setOpenFaqIndex(isOpen ? -1 : idx)}
-                    className="w-full px-6 py-4.5 flex items-center justify-between gap-4 text-left font-sans focus:outline-none cursor-pointer"
+                    className="w-full px-5 sm:px-6 py-4.5 sm:py-5 flex items-center justify-between gap-4 text-left font-sans focus:outline-none cursor-pointer"
                     aria-expanded={isOpen}
                   >
                     <span
-                      className={`text-sm sm:text-base font-semibold transition-colors duration-200 ${
+                      className={`text-base sm:text-lg font-bold sm:font-semibold transition-colors duration-200 leading-snug ${
                         isOpen ? 'text-[#9E3F5C]' : 'text-[#2B2225]'
                       }`}
                     >
                       {faq.q}
                     </span>
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${
                         isOpen
                           ? 'bg-[#FDF2F5] text-[#9E3F5C] rotate-180'
                           : 'bg-[#FFF9F5] text-[#5A4B50] border border-[#F7D6DF]'
                       }`}
                     >
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-[#5A4B50] leading-relaxed border-t border-[#F7D6DF]/40">
+                    <div className="px-5 sm:px-6 pb-6 pt-2 text-sm sm:text-base text-[#5A4B50] leading-relaxed border-t border-[#F7D6DF]/40">
                       {faq.a}
                     </div>
                   )}
@@ -1037,10 +1029,10 @@ export default function LocationsPage({
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-3xl space-y-6 text-left">
+            <div className="relative z-10 max-w-3xl space-y-6 text-center sm:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
                 <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
-                <span>Fast &amp; Discreet Delivery Across New Jersey &amp; All 50 States</span>
+                <span>Fast &amp; Discreet Delivery</span>
               </div>
 
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
@@ -1052,7 +1044,7 @@ export default function LocationsPage({
                 Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub in plain, unbranded packaging with complete discretion.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-4">
                 <button
                   type="button"
                   onClick={() => onNavigate && onNavigate('shop')}

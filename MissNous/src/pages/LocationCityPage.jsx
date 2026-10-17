@@ -1072,10 +1072,10 @@ export default function LocationCityPage({
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-3xl space-y-6 text-left">
+            <div className="relative z-10 max-w-3xl space-y-6 text-center sm:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
                 <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
-                <span>Fast &amp; Discreet Delivery to {location.name} &amp; All 50 States</span>
+                <span>Fast &amp; Discreet Delivery</span>
               </div>
 
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
@@ -1087,7 +1087,7 @@ export default function LocationCityPage({
                 Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub to {location.name} in plain, unbranded packaging with complete discretion.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-4">
                 <button
                   type="button"
                   onClick={() => addProduct(strawberry)}
