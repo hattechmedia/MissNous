@@ -279,9 +279,9 @@ export default function LocationCityPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Seamless edge-to-edge corner banner, no chopped inner ends */}
-                <div className="absolute top-[46px] sm:top-[50px] left-[46px] sm:left-[50px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[250px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
-                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Prominent, larger, seamless edge-to-edge corner banner */}
+                <div className="absolute top-[52px] sm:top-[58px] left-[52px] sm:left-[58px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[260px] sm:w-[300px] py-1.5 sm:py-2 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-[0_4px_16px_rgba(0,0,0,0.6)] border-y border-[#E8D3A5]/50 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
+                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
                 </div>
 
@@ -373,9 +373,9 @@ export default function LocationCityPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Seamless edge-to-edge corner banner, no chopped inner ends */}
-                <div className="absolute top-[46px] sm:top-[50px] left-[46px] sm:left-[50px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[250px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
-                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Prominent, larger, seamless edge-to-edge corner banner */}
+                <div className="absolute top-[52px] sm:top-[58px] left-[52px] sm:left-[58px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[260px] sm:w-[300px] py-1.5 sm:py-2 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-[0_4px_16px_rgba(0,0,0,0.6)] border-y border-[#E8D3A5]/50 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
+                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
                 </div>
 
