@@ -334,30 +334,30 @@ export default function LocationsPage({
                 <span>Shop Flavours</span>
               </button>
             </div>
-          </div>
 
-          {/* Bottom 4 Badges in Simple Clean Boxes - Ample room so text stays completely inside */}
-          <div className="pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/15 max-w-4xl lg:max-w-5xl grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {[
-              { icon: Package, title: 'Discreet', sub: 'Outer Box' },
-              { icon: Truck, title: 'Fast Local', sub: 'Delivery' },
-              { icon: MapPin, title: 'Nationwide', sub: 'Coverage' },
-              { icon: ShieldCheck, title: 'Trusted &', sub: 'pH Balanced' },
-            ].map((b, idx) => {
-              const Icon = b.icon;
-              return (
-                <div
-                  key={idx}
-                  className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center gap-2.5 sm:gap-3 transition-all hover:bg-white/15 min-w-0 overflow-hidden"
-                >
-                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
-                  <div className="leading-tight text-left min-w-0 flex-1 overflow-hidden">
-                    <p className="text-xs sm:text-sm font-bold text-white truncate">{b.title}</p>
-                    <p className="text-[10px] sm:text-[11px] text-[#F7D6DF]/85 truncate">{b.sub}</p>
+            {/* Bottom 4 Badges in Compact Clean Boxes - Restricted width so they never overlap the product bottles on the right */}
+            <div className="pt-4 sm:pt-5 border-t border-white/15 max-w-xl grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
+              {[
+                { icon: Package, title: 'Discreet', sub: 'Outer Box' },
+                { icon: Truck, title: 'Fast Local', sub: 'Delivery' },
+                { icon: MapPin, title: 'Nationwide', sub: 'Coverage' },
+                { icon: ShieldCheck, title: 'Trusted &', sub: 'pH Balanced' },
+              ].map((b, idx) => {
+                const Icon = b.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="py-2 px-2.5 sm:py-2.5 sm:px-3 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center gap-2 transition-all hover:bg-white/15 min-w-0 overflow-hidden"
+                  >
+                    <Icon className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
+                    <div className="leading-tight text-left min-w-0 flex-1 overflow-hidden">
+                      <p className="text-[11px] sm:text-xs font-bold text-white truncate">{b.title}</p>
+                      <p className="text-[9px] sm:text-[10px] text-[#F7D6DF]/85 truncate">{b.sub}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -675,12 +675,10 @@ export default function LocationsPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Precision Centered so full text is visible */}
-                <div className="absolute top-0 left-0 w-36 h-36 sm:w-44 sm:h-44 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[230px] sm:w-[260px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
-                    <span className="whitespace-nowrap">Discounted Offer</span>
-                  </div>
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Seamless edge-to-edge corner banner, no chopped inner ends */}
+                <div className="absolute top-[46px] sm:top-[50px] left-[46px] sm:left-[50px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[250px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                  <span className="whitespace-nowrap">Discounted Offer</span>
                 </div>
 
                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
@@ -769,12 +767,10 @@ export default function LocationsPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Precision Centered so full text is visible */}
-                <div className="absolute top-0 left-0 w-36 h-36 sm:w-44 sm:h-44 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[230px] sm:w-[260px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
-                    <span className="whitespace-nowrap">Discounted Offer</span>
-                  </div>
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Seamless edge-to-edge corner banner, no chopped inner ends */}
+                <div className="absolute top-[46px] sm:top-[50px] left-[46px] sm:left-[50px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[250px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none pointer-events-none z-20">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                  <span className="whitespace-nowrap">Discounted Offer</span>
                 </div>
 
                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
