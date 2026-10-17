@@ -279,19 +279,19 @@ export default function LocationCityPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) */}
-                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
-                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Precision Centered so full text is visible */}
+                <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[260px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
                     <span className="whitespace-nowrap">Discounted Offer</span>
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                  <span className="px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
+                  <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#9E3F5C] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Strawberry Edition
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold border border-white/10">
                     100ml
                   </span>
                 </div>
@@ -375,19 +375,19 @@ export default function LocationCityPage({
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) */}
-                <div className="absolute top-0 left-0 w-48 sm:w-52 h-48 sm:h-52 overflow-hidden pointer-events-none z-20">
-                  <div className="absolute top-[42px] sm:top-[48px] -left-[54px] sm:-left-[52px] w-[260px] sm:w-[280px] h-8 sm:h-9 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider -rotate-45 shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
-                    <Sparkles className="w-3.5 h-3.5 text-[#E8D3A5] flex-shrink-0" />
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Precision Centered so full text is visible */}
+                <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 overflow-hidden pointer-events-none z-20">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[220px] sm:w-[260px] py-1 sm:py-1.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-[0_4px_14px_rgba(0,0,0,0.5)] border-y border-[#E8D3A5]/40 flex items-center justify-center gap-1.5 leading-none">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E8D3A5] flex-shrink-0" />
                     <span className="whitespace-nowrap">Discounted Offer</span>
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                  <span className="px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-2 z-20">
+                  <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#D4AF6A] text-[#2B2225] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg border border-white/20">
                     Pineapple Edition
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[11px] font-bold border border-white/10">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[10px] sm:text-[11px] font-bold border border-white/10">
                     100ml
                   </span>
                 </div>
