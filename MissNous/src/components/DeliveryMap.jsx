@@ -99,11 +99,6 @@ export function UsaDeliveryMap({ onCityClick }) {
                 onMouseEnter={() => setActiveCity(city.id)}
                 onMouseLeave={() => setActiveCity(null)}
               >
-                {/* Ping ring on hover */}
-                {isHovered && (
-                  <circle cx={city.x} cy={city.y} r="16" fill="none" stroke="#E8D3A5" strokeWidth="2" className="animate-ping" />
-                )}
-
                 {/* Node point */}
                 <circle
                   cx={city.x}
@@ -140,11 +135,11 @@ export function UsaDeliveryMap({ onCityClick }) {
             );
           })}
 
-          {/* Central Newark Hub Beacon */}
+          {/* Central Newark Hub Beacon (Clean static glow, no moving circles) */}
           <g className="cursor-pointer">
-            <circle cx={hub.x} cy={hub.y} r="30" fill="url(#usa-hub-glow)" />
-            <circle cx={hub.x} cy={hub.y} r="18" fill="none" stroke="#E8D3A5" strokeWidth="2.5" className="animate-ping opacity-90" />
-            <circle cx={hub.x} cy={hub.y} r="9" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2.5" className="shadow-2xl" />
+            <circle cx={hub.x} cy={hub.y} r="28" fill="url(#usa-hub-glow)" />
+            <circle cx={hub.x} cy={hub.y} r="16" fill="none" stroke="#E8D3A5" strokeWidth="1.5" strokeOpacity="0.4" />
+            <circle cx={hub.x} cy={hub.y} r="8" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2" className="shadow-2xl" />
 
             {/* Hub Tag Label */}
             <foreignObject x={hub.x - 135} y={hub.y - 40} width="160" height="34" className="pointer-events-none">
@@ -488,11 +483,6 @@ export function CityDeliveryMap({ location }) {
                 onMouseEnter={() => setActiveZone(zone.id)}
                 onMouseLeave={() => setActiveZone(null)}
               >
-                {/* Ping ring on hover */}
-                {isHovered && (
-                  <circle cx={zone.x} cy={zone.y} r="14" fill="none" stroke="#E8D3A5" strokeWidth="1.8" className="animate-ping" />
-                )}
-
                 {/* Node point */}
                 <circle
                   cx={zone.x}
@@ -528,11 +518,11 @@ export function CityDeliveryMap({ location }) {
             );
           })}
 
-          {/* Central City Hub Depot Beacon */}
+          {/* Central City Hub Depot Beacon (Clean static glow, no moving circles) */}
           <g className="cursor-pointer">
-            <circle cx={depot.x} cy={depot.y} r="26" fill={`url(#city-depot-glow-${citySlug})`} />
-            <circle cx={depot.x} cy={depot.y} r="16" fill="none" stroke="#E8D3A5" strokeWidth="2" className="animate-ping opacity-90" />
-            <circle cx={depot.x} cy={depot.y} r="7.5" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2" className="shadow-2xl" />
+            <circle cx={depot.x} cy={depot.y} r="24" fill={`url(#city-depot-glow-${citySlug})`} />
+            <circle cx={depot.x} cy={depot.y} r="14" fill="none" stroke="#E8D3A5" strokeWidth="1.5" strokeOpacity="0.4" />
+            <circle cx={depot.x} cy={depot.y} r="7" fill="#E8D3A5" stroke="#FFFFFF" strokeWidth="2" className="shadow-2xl" />
 
             {/* City Hub Tag Label */}
             <foreignObject x={depot.x - 80} y={depot.y - 38} width="160" height="34" className="pointer-events-none">
