@@ -24,6 +24,7 @@ import {
 import { LOCATIONS, FEATURED_LOCATION, NEARBY_LOCATIONS } from '../data/locations';
 import { PRODUCTS } from '../data/products';
 import TestimonialsSection from '../components/TestimonialsSection';
+import { UsaDeliveryMap } from '../components/DeliveryMap';
 
 const CITY_IMAGE_FALLBACK =
   'https://images.unsplash.com/photo-1477959858607-67ae27e44f93?auto=format&fit=crop&w=1200&q=80';
@@ -1020,44 +1021,52 @@ export default function LocationsPage({
       ───────────────────────────────────────────────────────────── */}
       <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
         <div className="max-w-7xl mx-auto">
-          <div className="relative rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#361A23] via-[#2B2225] to-[#1E1217] text-white p-8 sm:p-12 lg:p-16 shadow-2xl border border-[#9E3F5C]/30">
+          <div className="relative rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#361A23] via-[#2B2225] to-[#1E1217] text-white p-6 sm:p-10 lg:p-14 shadow-2xl border border-[#9E3F5C]/30">
             {/* Ambient luxury glow effects */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-3xl space-y-6 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
-                <span>Fast &amp; Discreet Delivery</span>
+            <div className="relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+              {/* Left Column: Headline, Copy & CTAs */}
+              <div className="lg:col-span-6 space-y-6 text-center sm:text-left">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
+                  <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
+                  <span>Fast &amp; Discreet Delivery</span>
+                </div>
+
+                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+                  Ready for Pure Comfort? <br />
+                  <span className="text-[#E8D3A5]">Find Miss Nous in Your City</span>
+                </h2>
+
+                <p className="text-base sm:text-lg text-[#F7D6DF]/85 font-normal leading-relaxed">
+                  Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub in plain, unbranded packaging with complete discretion.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-3.5">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate && onNavigate('shop')}
+                    className="px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-sm font-bold uppercase tracking-wider shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>Shop Flavours Now</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={scrollToSearch}
+                    className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-sm font-bold uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                  >
+                    <MapPin className="w-4 h-4 text-[#E8D3A5]" />
+                    <span>Find Your Nearest City</span>
+                  </button>
+                </div>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-                Ready for Pure Comfort? <br />
-                <span className="text-[#E8D3A5]">Find Miss Nous in Your City</span>
-              </h2>
-
-              <p className="text-base sm:text-lg text-[#F7D6DF]/85 font-normal leading-relaxed max-w-2xl">
-                Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub in plain, unbranded packaging with complete discretion.
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-4">
-                <button
-                  type="button"
-                  onClick={() => onNavigate && onNavigate('shop')}
-                  className="px-8 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-sm font-bold uppercase tracking-wider shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>Shop Flavours Now</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={scrollToSearch}
-                  className="px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-sm font-bold uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-                >
-                  <MapPin className="w-4 h-4 text-[#E8D3A5]" />
-                  <span>Find Your Nearest City</span>
-                </button>
+              {/* Right Column: Custom Designed Delivery Network Map Box */}
+              <div className="lg:col-span-6 w-full">
+                <UsaDeliveryMap />
               </div>
             </div>
           </div>
