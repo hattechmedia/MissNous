@@ -162,181 +162,174 @@ export function UsaDeliveryMap({ onCityClick }) {
  */
 export const CITY_MAP_CONFIGS = {
   newark: {
-    boundaryPath: 'M 190,35 C 270,30 330,50 350,85 C 370,120 420,160 410,240 C 400,285 360,335 250,340 C 160,345 100,290 85,230 C 70,170 95,100 135,55 Z',
-    waterFeatures: [
-      { path: 'M 345,15 Q 375,90 415,165 Q 430,225 405,280 Q 380,325 390,355', width: 14, name: 'Passaic River' },
-    ],
+    boundaryPath: 'M 126.3,165.6 L 130.4,172.5 L 139,175.5 L 141.9,181.9 L 156.8,169.8 L 161.8,171.7 L 171,164.4 L 175.4,164.7 L 200.1,151.9 L 187.2,202.7 L 168.6,227.8 L 170.9,229.4 L 167.4,234.6 L 178.4,237.5 L 194.4,252.5 L 201.3,276.6 L 215.4,286.2 L 273.6,281.9 L 283.7,278.3 L 292.8,286.6 L 297.7,285.3 L 334,314 L 373,252.2 L 373.1,239 L 362.3,214.2 L 361.4,201 L 368.3,167.3 L 365,158.1 L 356.4,153.9 L 330.5,156.5 L 310.2,173.9 L 293.7,174.1 L 286.7,167.3 L 280.2,145.4 L 283.7,116 L 312.1,66.7 L 281.5,49.1 L 267.4,45.2 L 259.2,59.4 L 259,70.4 L 243.8,77.3 L 228.5,113.8 L 211.8,138.6 L 182.5,138.5 L 179.7,147.3 L 166.8,144.1 L 171.2,133 L 159.1,132 L 145.6,158.2 L 139.7,155.4 L 126.3,165.6 Z',
+    waterPath: 'M 312.1,66.7 Q 355,110 368.3,167.3 Q 362,214 373,252.2 L 475,252 L 475,45 L 312.1,45 Z',
+    waterName: 'Passaic River & Newark Bay',
+    waterPos: { x: 405, y: 120 },
     arteries: [
-      { d: 'M 120,140 Q 250,175 390,210', name: 'Market St' },
-      { d: 'M 250,45 L 250,330', name: 'Broad St / Rt 21' },
-      { d: 'M 140,70 Q 250,175 350,320', name: 'McCarter Hwy' },
+      { d: 'M 130,170 Q 250,175 365,160', name: 'I-280' },
+      { d: 'M 170,230 Q 250,235 370,245', name: 'I-78' },
+      { d: 'M 275,48 L 285,165 L 330,310', name: 'Rt 21 / McCarter Hwy' },
+      { d: 'M 290,285 L 370,250', name: 'NJ Turnpike (I-95)' },
     ],
     zones: [
-      { name: 'Forest Hill', x: 250, y: 55 },
-      { name: 'North Ward', x: 165, y: 75 },
-      { name: 'Roseville', x: 120, y: 130 },
-      { name: 'Downtown Newark', x: 250, y: 115 },
-      { name: 'University Heights', x: 155, y: 195 },
-      { name: 'Central Ward', x: 230, y: 245 },
-      { name: 'Ironbound', x: 375, y: 205 },
-      { name: 'Weequahic', x: 195, y: 305 },
-    ],
-  },
-
-  bayonne: {
-    boundaryPath: 'M 180,35 C 230,30 280,30 320,40 C 330,90 325,160 335,210 C 355,225 385,235 375,255 C 345,265 315,275 290,320 C 270,345 230,345 210,325 C 185,280 175,210 175,150 C 175,90 170,55 180,35 Z',
-    waterFeatures: [
-      { path: 'M 70,20 Q 130,170 120,350', width: 28, name: 'Newark Bay' },
-      { path: 'M 430,20 Q 380,180 430,350', width: 28, name: 'Upper NY Bay' },
-      { path: 'M 110,350 Q 250,360 430,350', width: 18, name: 'Kill Van Kull' },
-    ],
-    arteries: [
-      { d: 'M 250,35 L 250,335', name: 'Broadway Corridor' },
-      { d: 'M 205,60 L 205,310', name: 'Avenue C' },
-      { d: 'M 295,60 L 295,270', name: 'Kennedy Blvd' },
-    ],
-    zones: [
-      { name: 'Uptown / 45th St', x: 250, y: 65 },
-      { name: 'Pamrapo', x: 165, y: 100 },
-      { name: 'Broadway Corridor', x: 250, y: 120 },
-      { name: 'Midtown Bayonne', x: 250, y: 165 },
-      { name: 'Constable Hook', x: 365, y: 225 },
-      { name: 'Centreville', x: 235, y: 235 },
-      { name: 'Bergen Point', x: 240, y: 300 },
-    ],
-  },
-
-  kearny: {
-    boundaryPath: 'M 180,35 C 250,30 320,40 350,75 C 375,130 380,180 340,230 C 310,270 290,325 270,340 C 250,345 235,315 220,265 C 190,220 150,170 145,115 C 140,65 155,40 180,35 Z',
-    waterFeatures: [
-      { path: 'M 110,25 Q 125,140 195,280 Q 235,350 250,360', width: 14, name: 'Passaic River' },
-      { path: 'M 390,25 Q 395,160 330,260 Q 275,340 260,360', width: 14, name: 'Hackensack River' },
-    ],
-    arteries: [
-      { d: 'M 250,35 L 250,335', name: 'Kearny Avenue' },
-      { d: 'M 160,80 L 330,220', name: 'Belgrove / Belleville Tpk' },
-      { d: 'M 170,250 L 330,270', name: 'Rt 7 / Truck Rt' },
-    ],
-    zones: [
-      { name: 'Arlington Section', x: 250, y: 65 },
-      { name: 'Manor Section', x: 165, y: 105 },
-      { name: 'Kearny Avenue Corridor', x: 250, y: 145 },
-      { name: 'Belgrove Drive', x: 155, y: 175 },
-      { name: 'West Hudson', x: 160, y: 235 },
-      { name: 'Meadowlands Edge', x: 360, y: 175 },
-      { name: 'South Kearny', x: 265, y: 305 },
-    ],
-  },
-
-  elizabeth: {
-    boundaryPath: 'M 140,45 C 230,35 310,40 355,80 C 385,120 415,180 405,245 C 395,295 345,335 240,340 C 160,340 100,295 85,230 C 75,160 95,95 140,45 Z',
-    waterFeatures: [
-      { path: 'M 395,20 Q 425,150 405,260 Q 385,320 375,360', width: 18, name: 'Arthur Kill / Newark Bay' },
-      { path: 'M 100,190 Q 240,185 390,230', width: 6, name: 'Elizabeth River' },
-    ],
-    arteries: [
-      { d: 'M 140,75 L 365,285', name: 'Broad St / Elizabeth Ave' },
-      { d: 'M 250,40 L 250,335', name: 'Spring St / Rt 1-9' },
-      { d: 'M 95,230 L 385,230', name: 'Elmora Ave' },
-    ],
-    zones: [
-      { name: 'Westminster', x: 160, y: 75 },
-      { name: 'Midtown / Downtown', x: 250, y: 130 },
-      { name: 'Elmora', x: 140, y: 175 },
-      { name: 'Elizabethport', x: 365, y: 195 },
-      { name: 'Frog Hollow', x: 215, y: 235 },
-      { name: 'Peterstown', x: 195, y: 295 },
-      { name: 'Bayway', x: 320, y: 295 },
-    ],
-  },
-
-  'east-orange': {
-    boundaryPath: 'M 125,45 C 230,40 310,40 375,45 C 385,120 390,210 380,310 C 290,320 190,325 120,315 C 110,225 115,120 125,45 Z',
-    waterFeatures: [],
-    arteries: [
-      { d: 'M 115,175 L 385,175', name: 'I-280 Expressway' },
-      { d: 'M 250,45 L 250,315', name: 'Garden State Pkwy' },
-      { d: 'M 120,265 L 380,265', name: 'Central Ave' },
-      { d: 'M 125,100 L 375,100', name: 'Park Ave' },
-    ],
-    zones: [
-      { name: 'Doddtown', x: 250, y: 65 },
-      { name: 'Presidential Heights', x: 150, y: 110 },
-      { name: 'Ampere', x: 350, y: 105 },
-      { name: 'City Center', x: 250, y: 135 },
-      { name: 'Brick Church Area', x: 160, y: 220 },
-      { name: 'Greenwood', x: 345, y: 220 },
-      { name: 'Central Avenue District', x: 250, y: 290 },
+      { name: 'Forest Hill', x: 270, y: 75 },
+      { name: 'North Ward', x: 235, y: 110 },
+      { name: 'Roseville', x: 165, y: 145 },
+      { name: 'Downtown Newark', x: 250, y: 160 },
+      { name: 'University Heights', x: 195, y: 175 },
+      { name: 'Central Ward', x: 230, y: 215 },
+      { name: 'Ironbound', x: 320, y: 195 },
+      { name: 'Weequahic', x: 195, y: 255 },
     ],
   },
 
   'east-newark': {
-    boundaryPath: 'M 140,50 C 230,40 310,45 365,65 C 385,130 380,220 360,295 C 285,320 200,325 140,300 C 115,225 110,130 140,50 Z',
-    waterFeatures: [
-      { path: 'M 90,30 Q 110,175 110,340', width: 16, name: 'Passaic River' },
-    ],
+    boundaryPath: 'M 134.6,315 L 171.8,314.2 L 170.5,265.1 L 217.7,276.8 L 225.5,221.8 L 313.4,244.2 L 350.2,246.4 L 365.4,134.8 L 240.3,91.1 L 186.7,61.7 L 165.6,45 L 136.7,266.8 L 134.6,315 Z',
+    waterPath: 'M 165.6,45 L 136.7,266.8 L 134.6,315 L 60,315 L 60,45 Z',
+    waterName: 'Passaic River',
+    waterPos: { x: 95, y: 175 },
     arteries: [
-      { d: 'M 110,175 L 365,175', name: 'Central Ave' },
-      { d: 'M 125,95 L 350,95', name: 'John St' },
-      { d: 'M 250,50 L 250,310', name: 'Passaic Ave Corridor' },
+      { d: 'M 134,315 L 350,246', name: 'I-280 Route' },
+      { d: 'M 140,175 L 360,175', name: 'Central Ave' },
+      { d: 'M 186,62 L 170,265', name: 'Passaic Ave' },
     ],
     zones: [
-      { name: 'Bridge Plaza', x: 160, y: 80 },
-      { name: 'John Street District', x: 280, y: 80 },
-      { name: 'Passaic Riverfront', x: 140, y: 175 },
-      { name: 'Central Borough', x: 250, y: 135 },
-      { name: 'Sylvan Park Area', x: 355, y: 165 },
-      { name: 'Harrison Border', x: 260, y: 285 },
+      { name: 'Bridge Plaza', x: 180, y: 85 },
+      { name: 'John Street District', x: 265, y: 105 },
+      { name: 'Passaic Riverfront', x: 155, y: 220 },
+      { name: 'Central Borough', x: 250, y: 165 },
+      { name: 'Sylvan Park Area', x: 310, y: 195 },
+      { name: 'Harrison Border', x: 210, y: 280 },
+    ],
+  },
+
+  kearny: {
+    boundaryPath: 'M 128.7,158.5 L 152.8,169.2 L 157.3,159.7 L 180.4,167.8 L 182,181.3 L 179.6,181.8 L 191.8,198.9 L 196.5,196.9 L 204.4,205.1 L 239.2,201.9 L 252,208.2 L 256.1,213.3 L 256.9,221.9 L 246.7,272.3 L 248,292.1 L 258.3,315 L 299,279.3 L 312.9,235.2 L 322.3,222.7 L 327.3,217.9 L 356.3,206 L 367.2,196.8 L 371.3,183.2 L 366.9,175.8 L 360.7,172.7 L 330,178.2 L 318.6,171.2 L 316.8,154.4 L 329,132 L 321.4,128.1 L 317.9,130.8 L 314,129.5 L 306,112.3 L 308.9,103.8 L 302,86.4 L 290.6,79.8 L 276.6,77.9 L 267.5,84.9 L 266.1,91.9 L 259.7,96.2 L 260.7,99.8 L 254.2,103.3 L 238.9,96.7 L 229.9,98.1 L 223.6,91 L 221.2,76.5 L 176.2,45.6 L 171.1,75.8 L 156.8,94.5 L 147.6,117.8 L 133.1,138.9 L 128.7,158.5 Z',
+    waterPath: 'M 356.3,206 Q 371,183 360.7,172 L 475,172 L 475,345 L 258.3,345 L 258.3,315 L 299,279.3 Z',
+    waterName: 'Hackensack River & Meadowlands',
+    waterPos: { x: 390, y: 245 },
+    arteries: [
+      { d: 'M 176,46 L 258,315', name: 'Kearny Ave' },
+      { d: 'M 140,165 L 360,180', name: 'Belleville Tpk / I-280' },
+      { d: 'M 190,198 L 330,220', name: 'Truck Rt 1-9' },
+    ],
+    zones: [
+      { name: 'Arlington Section', x: 235, y: 80 },
+      { name: 'Manor Section', x: 175, y: 110 },
+      { name: 'Kearny Avenue Corridor', x: 220, y: 155 },
+      { name: 'Belgrove Drive', x: 150, y: 165 },
+      { name: 'West Hudson', x: 185, y: 195 },
+      { name: 'Meadowlands Edge', x: 325, y: 160 },
+      { name: 'South Kearny', x: 255, y: 280 },
+    ],
+  },
+
+  elizabeth: {
+    boundaryPath: 'M 45,141.4 L 65.6,156.2 L 71.3,173.5 L 79.4,172 L 108.9,199.5 L 117.8,213.5 L 123.1,213.7 L 232.6,311.6 L 263.7,270.7 L 283.9,252.2 L 297.8,250 L 368.1,260.9 L 455,120.7 L 386.1,63.4 L 376.6,65.8 L 369.8,55 L 362.1,50.7 L 345,50.8 L 339.5,56.8 L 296.3,58.2 L 229.1,65.8 L 202.4,48.4 L 189.6,50.4 L 182,55.8 L 182.7,66 L 156.4,119 L 146.3,118.2 L 142.8,114.5 L 139.5,123.4 L 129.4,124.9 L 126,132.6 L 106.6,114.7 L 97.3,130.6 L 73,127.4 L 45,141.4 Z',
+    waterPath: 'M 455,120.7 L 368.1,260.9 L 297.8,250 L 263.7,270.7 L 232.6,311.6 L 270,350 L 485,350 L 485,120 Z',
+    waterName: 'Arthur Kill & Newark Bay',
+    waterPos: { x: 385, y: 295 },
+    arteries: [
+      { d: 'M 182,56 L 263,270', name: 'US Route 1-9' },
+      { d: 'M 362,51 L 232,311', name: 'NJ Turnpike (I-95)' },
+      { d: 'M 71,173 L 368,260', name: 'Broad St / I-278' },
+    ],
+    zones: [
+      { name: 'Westminster', x: 185, y: 80 },
+      { name: 'Midtown / Downtown', x: 235, y: 145 },
+      { name: 'Elmora', x: 115, y: 165 },
+      { name: 'Elizabethport', x: 345, y: 190 },
+      { name: 'Frog Hollow', x: 195, y: 215 },
+      { name: 'Peterstown', x: 180, y: 265 },
+      { name: 'Bayway', x: 275, y: 265 },
+    ],
+  },
+
+  bayonne: {
+    boundaryPath: 'M 56.1,305.1 L 67.6,306.9 L 119.7,315 L 155.1,307.3 L 179,314.3 L 235,287.2 L 291.9,287.2 L 314.3,271.5 L 422.5,271.7 L 443.9,225.3 L 387.8,200.4 L 276.1,138.1 L 271.5,123.4 L 269.7,114.3 L 268.6,111.1 L 265.7,103.1 L 262.8,95.5 L 262.6,91.6 L 265,88.3 L 265.2,85.9 L 264.7,83.4 L 259.5,72 L 259.3,70.8 L 218.7,45 L 209.3,59.9 L 202.6,70.1 L 197.2,78.5 L 189.8,90.1 L 189.8,90.2 L 169.9,121.9 L 167.9,125 L 160.3,137.2 L 160,137.6 L 158.6,139.9 L 156,144.2 L 153.3,148.5 L 152.5,149.7 L 143.8,163.8 L 142.6,165.6 L 137.8,172.8 L 136.7,174.7 L 130.2,185.1 L 121.8,198.4 L 114.5,209.9 L 111.4,214.9 L 103.6,227.4 L 99,234.6 L 96.4,238.7 L 87.7,252.6 L 87.6,252.8 L 85.3,256.5 L 61.5,295 L 60.2,297.1 L 58.8,299.8 L 58.7,300.1 L 58.6,300.2 L 57.7,302.1 L 57.3,302.8 L 56.9,303.5 L 56.1,305.1 Z',
+    waterPath: 'M 218.7,45 L 160.3,137.2 L 87.7,252.6 L 56.1,305.1 L 15,305 L 15,45 Z',
+    waterName: 'Newark Bay',
+    waterPos: { x: 75, y: 150 },
+    arteries: [
+      { d: 'M 218,45 L 60,300', name: 'Kennedy Blvd / Rt 440' },
+      { d: 'M 240,65 L 120,315', name: 'Broadway Corridor' },
+      { d: 'M 180,180 L 430,225', name: 'Military Ocean Terminal Pier' },
+    ],
+    zones: [
+      { name: 'Uptown / 45th St', x: 230, y: 70 },
+      { name: 'Pamrapo', x: 195, y: 105 },
+      { name: 'Broadway Corridor', x: 220, y: 140 },
+      { name: 'Midtown Bayonne', x: 190, y: 180 },
+      { name: 'Constable Hook', x: 330, y: 250 },
+      { name: 'Centreville', x: 160, y: 225 },
+      { name: 'Bergen Point', x: 100, y: 285 },
+    ],
+  },
+
+  'east-orange': {
+    boundaryPath: 'M 134.7,270.9 L 151.8,281.1 L 159.1,274.5 L 191,277.3 L 179.4,306.5 L 213.4,315 L 220.8,291.8 L 284.2,288.6 L 298,291.9 L 307.3,277.9 L 311.8,279.6 L 319.9,258.3 L 323.8,259.6 L 332,239.2 L 334.5,240.1 L 340.2,225.7 L 342.1,226.4 L 365.3,167.3 L 309.1,85 L 229.2,45 L 204.9,132 L 221.5,158.1 L 219.1,171.6 L 134.7,270.9 Z',
+    waterPath: null,
+    waterName: null,
+    arteries: [
+      { d: 'M 135,271 L 365,167', name: 'I-280 Expressway' },
+      { d: 'M 229,45 L 220,292', name: 'Garden State Pkwy' },
+      { d: 'M 160,180 L 330,240', name: 'Central Ave' },
+    ],
+    zones: [
+      { name: 'Doddtown', x: 250, y: 80 },
+      { name: 'Presidential Heights', x: 180, y: 115 },
+      { name: 'Ampere', x: 310, y: 115 },
+      { name: 'City Center', x: 250, y: 175 },
+      { name: 'Brick Church Area', x: 180, y: 220 },
+      { name: 'Greenwood', x: 315, y: 225 },
+      { name: 'Central Avenue District', x: 230, y: 280 },
     ],
   },
 
   hillside: {
-    boundaryPath: 'M 130,55 C 230,40 320,45 375,70 C 390,140 385,230 355,305 C 275,330 190,335 125,305 C 95,225 95,135 130,55 Z',
-    waterFeatures: [
-      { path: 'M 100,240 Q 240,230 380,270', width: 6, name: 'Elizabeth River' },
-    ],
+    boundaryPath: 'M 135.9,120 L 141.9,138.3 L 152.2,145.4 L 154.9,151.5 L 164.8,151.2 L 174.2,159.9 L 189,160.2 L 200.5,183.7 L 196.4,190.9 L 200.9,197.7 L 204.1,229.6 L 213.7,227.7 L 222.1,233.3 L 230.6,228.2 L 232.4,234.6 L 247.3,242.2 L 249.3,252.9 L 270.2,281.5 L 264.8,294.1 L 266.3,299.4 L 275.9,303 L 289.3,315 L 332.2,228.7 L 331.1,213.7 L 342.9,203.4 L 364.1,200.1 L 359.9,197.3 L 345.7,135.3 L 338.4,121.5 L 288.2,74.4 L 165.5,45.2 L 155.5,54.3 L 147.9,76.7 L 148.4,96.2 L 135.9,120 Z',
+    waterPath: null,
+    waterName: null,
     arteries: [
-      { d: 'M 100,175 L 380,175', name: 'US Route 22' },
-      { d: 'M 250,50 L 250,320', name: 'North Broad / Liberty Ave' },
-      { d: 'M 120,105 L 360,250', name: 'Hillside Ave' },
+      { d: 'M 136,120 L 364,200', name: 'US Route 22' },
+      { d: 'M 165,45 L 289,315', name: 'North Broad / Liberty Ave' },
     ],
     zones: [
-      { name: 'Conant Town', x: 235, y: 70 },
-      { name: 'Westminster Border', x: 150, y: 120 },
-      { name: 'Liberty Avenue Corridor', x: 345, y: 135 },
-      { name: 'Hillside Center', x: 250, y: 140 },
-      { name: 'Saybrook', x: 350, y: 235 },
-      { name: 'Lyons Farms', x: 250, y: 290 },
+      { name: 'Conant Town', x: 210, y: 80 },
+      { name: 'Westminster Border', x: 165, y: 120 },
+      { name: 'Liberty Avenue Corridor', x: 310, y: 130 },
+      { name: 'Hillside Center', x: 250, y: 180 },
+      { name: 'Saybrook', x: 320, y: 215 },
+      { name: 'Lyons Farms', x: 250, y: 275 },
     ],
   },
 
   'north-arlington': {
-    boundaryPath: 'M 155,40 C 235,35 305,40 345,65 C 375,135 370,225 345,305 C 280,335 200,340 145,310 C 115,225 120,130 155,40 Z',
-    waterFeatures: [
-      { path: 'M 95,20 Q 110,175 125,350', width: 14, name: 'Passaic River' },
-      { path: 'M 395,20 Q 380,180 375,350', width: 16, name: 'Meadowlands Edge' },
-    ],
+    boundaryPath: 'M 119.2,189.2 L 219.3,258 L 224.4,276.4 L 222.7,286.3 L 235.5,297.8 L 237.4,303.7 L 254.7,300 L 273.4,306.6 L 278.6,313.5 L 289.7,315 L 303.6,307.3 L 301.4,299.8 L 308.3,298.1 L 307.9,290.4 L 315.3,290.4 L 314.8,282.6 L 318.4,275.3 L 332.1,263.6 L 298.4,225.2 L 315.3,189.9 L 313.5,173.8 L 338.1,167.5 L 346.2,168.5 L 379.6,194.5 L 362.3,167.2 L 359.6,152.6 L 318.9,122.9 L 291.6,112.4 L 293.6,107.5 L 288.5,105.6 L 238.3,91.5 L 235.6,96.4 L 163.6,45 L 163.4,58.2 L 171.7,95.5 L 119.2,189.2 Z',
+    waterPath: 'M 163.6,45 L 171.7,95.5 L 119.2,189.2 L 65,189 L 65,45 Z',
+    waterName: 'Passaic River',
+    waterPos: { x: 100, y: 120 },
     arteries: [
-      { d: 'M 250,35 L 250,330', name: 'Ridge Road (Rt 17)' },
-      { d: 'M 130,175 L 365,175', name: 'Belleville Tpk' },
-      { d: 'M 120,100 L 360,100', name: 'Jauncey Ave' },
+      { d: 'M 163,45 L 289,315', name: 'Ridge Road (Rt 17)' },
+      { d: 'M 119,189 L 379,194', name: 'Belleville Tpk' },
     ],
     zones: [
-      { name: 'Ridge Road District', x: 250, y: 65 },
-      { name: 'River Road', x: 145, y: 150 },
-      { name: 'Schuyler Avenue Corridor', x: 350, y: 140 },
-      { name: 'Centennial Park Area', x: 250, y: 140 },
-      { name: 'Meadowlands Overlook', x: 350, y: 240 },
-      { name: 'Porete Avenue Area', x: 230, y: 295 },
+      { name: 'Ridge Road District', x: 240, y: 85 },
+      { name: 'River Road', x: 175, y: 130 },
+      { name: 'Schuyler Avenue Corridor', x: 310, y: 140 },
+      { name: 'Centennial Park Area', x: 260, y: 180 },
+      { name: 'Meadowlands Overlook', x: 320, y: 235 },
+      { name: 'Porete Avenue Area', x: 255, y: 285 },
     ],
   },
 };
 
 /**
  * Real City Delivery Network Map Component
- * Displays the specific city's unique municipal map with local depot and neighborhood routes.
- * Each of the 8 cities has its own tailored geographic silhouette and real neighborhood nodes.
- * All header/footer text removed as requested — pure map with central hub & neighborhood routes.
+ * Displays the specific city's official municipal boundary with Google Maps red dotted border,
+ * authentic waterways, transit lines, and local neighborhood delivery routes.
+ * Clean, pure map display with static glowing hub and no moving circles.
  */
 export function CityDeliveryMap({ location }) {
   const [activeZone, setActiveZone] = useState(null);
@@ -359,8 +352,8 @@ export function CityDeliveryMap({ location }) {
           return {
             id: `zone-${idx}`,
             name,
-            x: Math.round(depot.x + Math.cos(rad) * 110),
-            y: Math.round(depot.y + Math.sin(rad) * 90),
+            x: Math.round(depot.x + Math.cos(rad) * 105),
+            y: Math.round(depot.y + Math.sin(rad) * 85),
           };
         });
 
@@ -369,6 +362,16 @@ export function CityDeliveryMap({ location }) {
       {/* Brand luxury ambient glows */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-[#9E3F5C]/25 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D4AF6A]/20 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Top Left: Red Dotted Official Boundary Pill Badge matching Google Maps */}
+      <div className="absolute top-3 left-4 z-20 pointer-events-none">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2B0E1B]/90 border border-[#EF4444]/70 shadow-[0_4px_14px_rgba(239,68,68,0.35)] backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-[#EF4444] shadow-[0_0_8px_#EF4444]" />
+          <span className="text-[10px] sm:text-[11px] font-bold text-white tracking-wider uppercase">
+            {cityName} Boundary
+          </span>
+        </div>
+      </div>
 
       {/* SVG Map Container */}
       <div className="relative w-full aspect-[500/360] select-none flex items-center justify-center">
@@ -388,7 +391,7 @@ export function CityDeliveryMap({ location }) {
 
             {/* Subtle Brand Grid Pattern */}
             <pattern id={`city-grid-${citySlug}`} width="25" height="25" patternUnits="userSpaceOnUse">
-              <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#E8D3A5" strokeWidth="0.5" strokeOpacity="0.08" />
+              <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#E8D3A5" strokeWidth="0.5" strokeOpacity="0.07" />
             </pattern>
           </defs>
 
@@ -396,38 +399,34 @@ export function CityDeliveryMap({ location }) {
           <rect width="500" height="360" fill={`url(#city-grid-${citySlug})`} rx="20" />
 
           {/* Natural Water Features (Rivers, Harbors & Bays) */}
-          {cityConfig.waterFeatures?.map((water, idx) => (
-            <g key={`water-${idx}`}>
+          {cityConfig.waterPath && (
+            <g>
               <path
-                d={water.path}
-                fill="none"
-                stroke="#12040B"
-                strokeWidth={water.width}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="opacity-90"
-              />
-              <path
-                d={water.path}
-                fill="none"
+                d={cityConfig.waterPath}
+                fill="#120610"
                 stroke="#9E3F5C"
-                strokeWidth={2}
-                strokeOpacity={0.35}
-                strokeDasharray="4 4"
+                strokeWidth="1.2"
+                strokeOpacity="0.4"
+                className="opacity-95"
               />
+              {cityConfig.waterName && cityConfig.waterPos && (
+                <text
+                  x={cityConfig.waterPos.x}
+                  y={cityConfig.waterPos.y}
+                  textAnchor="middle"
+                  fill="#E8D3A5"
+                  fillOpacity="0.35"
+                  fontSize="8.5"
+                  fontStyle="italic"
+                  fontWeight="600"
+                  letterSpacing="1"
+                  className="select-none pointer-events-none"
+                >
+                  {cityConfig.waterName}
+                </text>
+              )}
             </g>
-          ))}
-
-          {/* Unique Municipal Territory Silhouette for This City */}
-          <path
-            d={cityConfig.boundaryPath}
-            fill="#2B121D"
-            stroke="#E8D3A5"
-            strokeWidth="2.2"
-            strokeOpacity="0.85"
-            strokeLinejoin="round"
-            className="transition-colors duration-500 hover:fill-[#331624] drop-shadow-[0_4px_25px_rgba(232,211,165,0.18)]"
-          />
+          )}
 
           {/* Main Transit Arteries & Grid Lines */}
           {cityConfig.arteries?.map((art, idx) => (
@@ -437,25 +436,39 @@ export function CityDeliveryMap({ location }) {
               fill="none"
               stroke="#E8D3A5"
               strokeWidth={1.3}
-              strokeOpacity={0.22}
+              strokeOpacity={0.25}
               strokeDasharray="4 4"
             />
           ))}
 
-          {/* City Municipal Watermark */}
-          <text
-            x="250"
-            y="345"
-            textAnchor="middle"
-            fill="#E8D3A5"
-            fillOpacity="0.3"
-            fontSize="10"
-            fontWeight="bold"
-            letterSpacing="3"
-            className="uppercase select-none"
-          >
-            {cityName} · Local Delivery Network
-          </text>
+          {/* Official Municipal Territory Polygon (Filled with Brand Maroon) */}
+          <path
+            d={cityConfig.boundaryPath}
+            fill="#2D121F"
+            className="transition-colors duration-500 hover:fill-[#381627] drop-shadow-[0_4px_25px_rgba(0,0,0,0.6)]"
+          />
+
+          {/* Inner Accent Line for Territory Definition */}
+          <path
+            d={cityConfig.boundaryPath}
+            fill="none"
+            stroke="#E8D3A5"
+            strokeWidth="1"
+            strokeOpacity="0.3"
+            strokeLinejoin="round"
+          />
+
+          {/* The Exact Red Dotted Municipal Boundary Line (Google Maps Style) */}
+          <path
+            d={cityConfig.boundaryPath}
+            fill="none"
+            stroke="#EF4444"
+            strokeWidth="2.8"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="drop-shadow-[0_0_10px_rgba(239,68,68,0.7)]"
+          />
 
           {/* Dashed Gold Route Lines from City Hub to Local Neighborhoods */}
           {zones.map((zone) => (
@@ -466,7 +479,7 @@ export function CityDeliveryMap({ location }) {
               x2={zone.x}
               y2={zone.y}
               stroke={activeZone === zone.id ? '#FFF3D6' : '#E8D3A5'}
-              strokeWidth={activeZone === zone.id ? 2.5 : 1.4}
+              strokeWidth={activeZone === zone.id ? 2.5 : 1.3}
               strokeDasharray="4 4"
               strokeOpacity={activeZone === zone.id ? 1 : 0.65}
               className="transition-all duration-300"
