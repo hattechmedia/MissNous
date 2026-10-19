@@ -3,39 +3,38 @@ import {
   ArrowRight,
   Car,
   CheckCircle2,
+  ChevronDown,
+  Clock,
+  Compass,
   Droplets,
   Heart,
   Leaf,
   MapPin,
+  MessageSquare,
+  Navigation,
   Package,
   Repeat,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
+  Star,
   Truck,
   Waves,
+  X,
 } from 'lucide-react';
-import TestimonialsSection from '../components/TestimonialsSection';
-import FaqSection from '../components/FaqSection';
 import { CityDeliveryMap } from '../components/DeliveryMap';
-import { getLocationBySlug } from '../data/locations';
-import {
-  FLAVOUR_COMPARE,
-  HELPFUL_GUIDES,
-  HOW_TO_USE_STEPS,
-  SHIPPING_PRIVACY,
-} from '../data/locationPageContent';
+import { LOCATIONS, getLocationBySlug } from '../data/locations';
 import { PRODUCTS } from '../data/products';
-import productHero from '../assets/product-1-rm.png';
+import { CITY_PAGES_CONTENT, SHARED_CITY_BLOCKS } from '../data/cityPagesContent';
 
 const CITY_PHOTO_FALLBACK =
   'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1600&q=80';
 
 const STEP_ICONS = {
-  sparkles: Sparkles,
-  droplet: Droplets,
-  repeat: Repeat,
-  waves: Waves,
+  1: Sparkles,
+  2: Droplets,
+  3: Repeat,
+  4: Waves,
 };
 
 const DUO_PRODUCTS_IMAGE = '/gpt-11-rem.png';
@@ -51,7 +50,12 @@ function pickFlavourProducts(products) {
   return { strawberry, pineapple };
 }
 
-function HeroLocalShowcase({ distanceLabel }) {
+function HeroLocalShowcase({ cityData, distanceLabel }) {
+  const badgeParts = (cityData?.hero?.floatingBadge || 'Near you · Local delivery available').split('·');
+  const badgeTitle = badgeParts[0]?.trim() || 'Near you';
+  const badgeSub = badgeParts[1]?.trim() || 'Local delivery available';
+  const pillText = cityData?.hero?.pillLabel || (distanceLabel ? `${distanceLabel} from Newark` : 'Dispatched from Newark');
+
   return (
     <div className="relative w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto aspect-[1/1] sm:aspect-[5/4] flex items-center justify-center">
       {/* Soft Outer Glow */}
@@ -69,7 +73,7 @@ function HeroLocalShowcase({ distanceLabel }) {
         />
         <div className="absolute inset-0 opacity-[0.1] bg-[length:24px_24px] bg-[linear-gradient(rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.15)_1px,transparent_1px)]" />
 
-        {/* Transparent Duo Bottle Image (gpt-11-rem.png) - Perfectly fitted inside circle */}
+        {/* Transparent Duo Bottle Image */}
         <div className="relative z-20 w-full h-full flex items-center justify-center p-6 sm:p-8">
           <img
             src={DUO_PRODUCTS_IMAGE}
@@ -78,7 +82,7 @@ function HeroLocalShowcase({ distanceLabel }) {
           />
         </div>
 
-        {/* Ambient Badge Pins around perimeter */}
+        {/* Ambient Badge Pins */}
         <div className="absolute z-30 w-8 h-8 rounded-full bg-[#D4AF6A] flex items-center justify-center shadow-lg ring-2 ring-white/30 top-[12%] left-[14%]">
           <MapPin className="w-4 h-4 text-[#2B2225]" />
         </div>
@@ -90,20 +94,18 @@ function HeroLocalShowcase({ distanceLabel }) {
         </div>
       </div>
 
-      {/* Floating Near You Pill Badge */}
-      <div className="absolute top-2 right-0 sm:right-2 z-30 rounded-2xl bg-white/10 backdrop-blur-md border border-white/25 px-4 py-3 text-white shadow-xl max-w-[180px]">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8D3A5]">Near you</p>
-        <p className="text-xs font-semibold mt-0.5">Local delivery available</p>
+      {/* Floating Near You Pill Badge from docx */}
+      <div className="absolute top-2 right-0 sm:right-2 z-30 rounded-2xl bg-white/10 backdrop-blur-md border border-white/25 px-4 py-3 text-white shadow-xl max-w-[200px]">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8D3A5]">{badgeTitle}</p>
+        <p className="text-xs font-semibold mt-0.5">{badgeSub}</p>
         <MapPin className="w-4 h-4 text-[#E8D3A5] mt-1.5" />
       </div>
 
-      {/* Distance Badge */}
-      {distanceLabel && (
-        <div className="absolute bottom-6 -right-1 sm:right-2 z-30 inline-flex items-center gap-2 rounded-full bg-[#2B2225]/90 backdrop-blur border border-[#E8D3A5]/40 px-4 py-2 text-white text-xs font-bold shadow-lg">
-          <Car className="w-4 h-4 text-[#E8D3A5]" />
-          {distanceLabel} from Newark
-        </div>
-      )}
+      {/* Distance / Dispatch Pill Label from docx */}
+      <div className="absolute bottom-6 -right-1 sm:right-2 z-30 inline-flex items-center gap-2 rounded-full bg-[#2B2225]/90 backdrop-blur border border-[#E8D3A5]/40 px-4 py-2 text-white text-xs font-bold shadow-lg">
+        <Car className="w-4 h-4 text-[#E8D3A5]" />
+        <span>{pillText}</span>
+      </div>
     </div>
   );
 }
@@ -116,24 +118,56 @@ export default function LocationCityPage({
   onAddToCart,
 }) {
   const location = useMemo(() => getLocationBySlug(slug), [slug]);
+  const cityData = useMemo(() => {
+    const key = (slug || 'newark').toLowerCase();
+    return CITY_PAGES_CONTENT[key] || CITY_PAGES_CONTENT.newark;
+  }, [slug]);
+
   const { strawberry, pineapple } = useMemo(() => pickFlavourProducts(products), [products]);
   const [heroImgError, setHeroImgError] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
+  // SEO metadata setup matching docx specifications exactly
   useEffect(() => {
-    if (!location) return;
-    const title = `Order Intimate Lubricants in ${location.name}, NJ | Miss Nous`;
-    document.title = title;
+    if (!cityData) return;
+
+    document.title = cityData.seo.title;
+
     let metaDesc = document.querySelector('meta[name="description"]');
+    let createdDesc = false;
+    let prevDesc = '';
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
       metaDesc.name = 'description';
       document.head.appendChild(metaDesc);
+      createdDesc = true;
+    } else {
+      prevDesc = metaDesc.getAttribute('content') || '';
     }
-    metaDesc.setAttribute(
-      'content',
-      `Shop Miss Nous Strawberry & Pineapple water-based lubricants with discreet delivery in ${location.name} and nearby North Jersey.`
-    );
-  }, [location]);
+    metaDesc.setAttribute('content', cityData.seo.metaDescription);
+
+    // Self-referencing canonical tag as specified in docx
+    let canonical = document.querySelector('link[rel="canonical"]');
+    let createdCanonical = false;
+    let prevCanonical = '';
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+      createdCanonical = true;
+    } else {
+      prevCanonical = canonical.getAttribute('href') || '';
+    }
+    canonical.setAttribute('href', `https://missnous.com${cityData.seo.url}`);
+
+    return () => {
+      if (createdDesc) metaDesc.remove();
+      else metaDesc.setAttribute('content', prevDesc);
+
+      if (createdCanonical) canonical.remove();
+      else canonical.setAttribute('href', prevCanonical);
+    };
+  }, [cityData]);
 
   useEffect(() => {
     if (location || !slug) return;
@@ -160,15 +194,20 @@ export default function LocationCityPage({
     else goProduct(prod);
   };
 
+  const heroButtons = (cityData.hero.buttons || 'Shop Local Delivery · Compare Flavours').split('·');
+  const primaryHeroBtn = heroButtons[0]?.trim() || `Shop ${location.name} Delivery`;
+  const secondaryHeroBtn = heroButtons[1]?.trim() || 'Compare Flavours';
+
   return (
-    <div className="bg-[#FFF9F5] text-[#2B2225] font-sans overflow-x-hidden">
-      {/* 1 — Hero + main CTA (local finder style) */}
+    <div className="bg-[#FFF9F5] text-[#2B2225] font-sans overflow-x-hidden selection:bg-[#F7D6DF] selection:text-[#9E3F5C]">
+      {/* ─────────────────────────────────────────────────────────────
+          1. HERO SECTION – City-Specific SEO Angle & Heading
+      ───────────────────────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex flex-col pt-24 pb-12 sm:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#2B2225] via-[#5c2438] to-[#2B2225]" />
         <img
           src={cityImage}
-          alt=""
-          aria-hidden
+          alt={location.imageAlt || `Miss Nous intimate lubricant delivery in ${location.name}`}
           className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity"
           onError={() => setHeroImgError(true)}
         />
@@ -180,6 +219,8 @@ export default function LocationCityPage({
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#2B2225]/95 via-[#2B2225]/80 to-[#9E3F5C]/25" />
+
+        {/* Breadcrumb matching docx */}
         <nav
           aria-label="Breadcrumb"
           className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full pb-4 text-xs sm:text-sm text-[#F7D6DF]"
@@ -200,71 +241,80 @@ export default function LocationCityPage({
             <li className="font-medium text-white">{location.name}</li>
           </ol>
         </nav>
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full flex-1 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <div className="space-y-6 text-center lg:text-left">
+            {/* Eyebrow */}
             <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#E8D3A5]/30 text-[#E8D3A5] text-[11px] font-bold uppercase tracking-[0.2em] backdrop-blur-sm">
               <MapPin className="w-3.5 h-3.5" />
-              Miss Nous · Local finder
+              {cityData.hero.eyebrow}
             </p>
+
+            {/* H1 Heading (Exact line 1 & line 2 from docx) */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-white leading-[1.06]">
-              Find your feel-good in{' '}
+              {cityData.hero.h1Line1} <br />
               <span className="bg-gradient-to-r from-[#E8D3A5] to-[#FFF9F5] bg-clip-text text-transparent">
-                {location.name}
+                {cityData.hero.h1Line2}
               </span>
             </h1>
-            <p className="text-base sm:text-lg text-[#F7D6DF] max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Discreet delivery, Strawberry &amp; Pineapple water-based lubricants—pH-balanced and shipped from Newark to{' '}
-              {location.name}.
+
+            {/* Subhead */}
+            <p className="text-base sm:text-lg text-[#F7D6DF] max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              {cityData.hero.subhead}
             </p>
-            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+
+            {/* Buttons */}
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-1">
               <button
                 type="button"
                 onClick={() => document.getElementById('loc-shop')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9E3F5C] text-white font-bold text-sm shadow-lg hover:bg-[#8a3650] transition-colors border border-[#E8D3A5]/20"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#9E3F5C] text-white font-bold text-xs uppercase tracking-wider shadow-pink-glow hover:bg-[#8a3650] transition-colors border border-[#E8D3A5]/20 cursor-pointer"
               >
-                Explore nearby
+                <span>{primaryHeroBtn}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
                 type="button"
-                onClick={() => document.getElementById('loc-shop')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#E8D3A5]/50 text-[#FFF9F5] font-semibold text-sm hover:bg-white/10 transition-colors"
+                onClick={() => document.getElementById('loc-flavour')?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border-2 border-[#E8D3A5]/50 text-[#FFF9F5] font-semibold text-xs uppercase tracking-wider hover:bg-white/10 transition-colors cursor-pointer"
               >
-                Shop flavours
+                <span>{secondaryHeroBtn}</span>
               </button>
             </div>
           </div>
+
           <div className="w-full pb-4 lg:pb-0">
-            <HeroLocalShowcase distanceLabel={location.distanceLabel} />
+            <HeroLocalShowcase cityData={cityData} distanceLabel={location.distanceLabel} />
           </div>
         </div>
       </section>
 
-      {/* 2 — Shop Strawberry & Pineapple (Full-bleed product image stages edge-to-edge) */}
+      {/* ─────────────────────────────────────────────────────────────
+          2. PRODUCTS SECTION – Exact Copy & Product Cards
+      ───────────────────────────────────────────────────────────── */}
       <section id="loc-shop" className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#2B2225] scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-12">
+          {/* Header */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/30 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Available in {location.name}</span>
+              <span>{cityData.productsHeader.eyebrow}</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold tracking-tight">
-              Shop Strawberry &amp; Pineapple
+              {cityData.productsHeader.heading}
             </h2>
             <p className="text-[#F7D6DF]/80 text-sm sm:text-base leading-relaxed">
-              Both 100ml · Gentle water-based formula · Discreet delivery to {location.name}
+              {cityData.productsHeader.subline}
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
             {/* Strawberry Card */}
             <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
-              {/* Product Image Stage: Image covers the ENTIRE top box edge-to-edge */}
               <div
                 onClick={() => goProduct(strawberry)}
                 className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 flex items-center justify-center cursor-pointer"
               >
-                {/* Subtle ambient blur behind */}
                 <img
                   src={strawberry?.image || '/jpt-6.jpeg'}
                   alt=""
@@ -273,14 +323,13 @@ export default function LocationCityPage({
                 />
                 <div className="absolute inset-0 bg-[#361A23]/40 pointer-events-none" />
 
-                {/* Master Product Image - 100% Complete ("Poori Image") */}
                 <img
                   src={strawberry?.image || '/jpt-6.jpeg'}
-                  alt={strawberry?.name || 'Miss Nous Strawberry Intimate Lubricant'}
+                  alt={`Miss Nous Strawberry intimate lubricant delivered in ${location.name} NJ`}
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Bold, large, seamless edge-to-edge corner banner */}
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Large & Seamless */}
                 <div className="absolute top-[60px] sm:top-[68px] left-[60px] sm:left-[68px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[290px] sm:w-[330px] py-2 sm:py-2.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(0,0,0,0.65)] border-y-2 border-[#E8D3A5]/60 flex items-center justify-center gap-2 leading-none pointer-events-none z-20">
                   <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
@@ -300,32 +349,25 @@ export default function LocationCityPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
-                    FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
+                    Flavoured intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => goProduct(strawberry)}
                     className="font-serif text-2xl sm:text-3xl font-bold cursor-pointer hover:text-[#E8D3A5] transition-colors leading-snug"
                   >
-                    {strawberry?.name || 'Miss Nous Strawberry Intimate Lubricant'}
+                    Miss Nous Intimate Lubricant – Strawberry
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    {strawberry?.description ||
-                      'A colorful, water-based lubricant with a glycerin and propylene glycol base. 100ml size. Ships across the USA.'}
+                    A silky, water-based lubricant with a sweet strawberry flavour. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-bold text-white">
-                      ${Number(strawberry?.price || 31.99).toFixed(2)}
-                    </span>
-                    {strawberry?.originalPrice && (
-                      <span className="text-sm line-through text-white/50">
-                        ${Number(strawberry.originalPrice).toFixed(2)}
-                      </span>
-                    )}
+                    <span className="text-3xl font-bold text-white">$31.99</span>
+                    <span className="text-sm line-through text-white/50">$39.99</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#9E3F5C]/40 border border-[#9E3F5C] text-[#FFF9F5] text-[11px] font-bold">
-                      20% OFF
+                      20% Off
                     </span>
                   </div>
 
@@ -336,14 +378,14 @@ export default function LocationCityPage({
                       className="py-3 px-4 bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      <span>Add to bag</span>
+                      <span>Add to Bag</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => goProduct(strawberry)}
                       className="py-3 px-4 bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
-                      <span>View details</span>
+                      <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -353,12 +395,10 @@ export default function LocationCityPage({
 
             {/* Pineapple Card */}
             <article className="group bg-[#302616] rounded-3xl sm:rounded-[2.5rem] border border-[#D4AF6A]/40 hover:border-[#D4AF6A] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
-              {/* Product Image Stage: Image covers the ENTIRE top box edge-to-edge */}
               <div
                 onClick={() => goProduct(pineapple)}
                 className="relative h-72 sm:h-84 md:h-96 w-full overflow-hidden bg-black/40 flex items-center justify-center cursor-pointer"
               >
-                {/* Subtle ambient blur behind */}
                 <img
                   src={pineapple?.image || '/gpt-5.png'}
                   alt=""
@@ -367,14 +407,13 @@ export default function LocationCityPage({
                 />
                 <div className="absolute inset-0 bg-[#302616]/40 pointer-events-none" />
 
-                {/* Master Product Image - 100% Complete ("Poori Image") */}
                 <img
                   src={pineapple?.image || '/gpt-5.png'}
-                  alt={pineapple?.name || 'Miss Nous Pineapple Intimate Lubricant'}
+                  alt={`Miss Nous Pineapple intimate lubricant delivered in ${location.name} NJ`}
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Bold, large, seamless edge-to-edge corner banner */}
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Large & Seamless */}
                 <div className="absolute top-[60px] sm:top-[68px] left-[60px] sm:left-[68px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[290px] sm:w-[330px] py-2 sm:py-2.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(0,0,0,0.65)] border-y-2 border-[#E8D3A5]/60 flex items-center justify-center gap-2 leading-none pointer-events-none z-20">
                   <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
@@ -394,32 +433,25 @@ export default function LocationCityPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
-                    FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
+                    Flavoured intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => goProduct(pineapple)}
                     className="font-serif text-2xl sm:text-3xl font-bold cursor-pointer hover:text-[#E8D3A5] transition-colors leading-snug"
                   >
-                    {pineapple?.name || 'Miss Nous Pineapple Intimate Lubricant'}
+                    Miss Nous Intimate Lubricant – Pineapple
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    {pineapple?.description ||
-                      'A silky, water-based lubricant with a light, fruit-inspired pineapple flavor. Set to a gentle pH so it stays comfortable on sensitive skin. 100ml size.'}
+                    A silky, water-based lubricant with a light, tropical pineapple flavour. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-bold text-white">
-                      ${Number(pineapple?.price || 31.99).toFixed(2)}
-                    </span>
-                    {pineapple?.originalPrice && (
-                      <span className="text-sm line-through text-white/50">
-                        ${Number(pineapple.originalPrice).toFixed(2)}
-                      </span>
-                    )}
+                    <span className="text-3xl font-bold text-white">$31.99</span>
+                    <span className="text-sm line-through text-white/50">$39.99</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#D4AF6A]/30 border border-[#D4AF6A] text-[#E8D3A5] text-[11px] font-bold">
-                      20% OFF
+                      20% Off
                     </span>
                   </div>
 
@@ -430,14 +462,14 @@ export default function LocationCityPage({
                       className="py-3 px-4 bg-[#D4AF6A] hover:bg-[#c29c54] text-[#2B2225] font-sans text-xs uppercase tracking-wider font-bold rounded-full shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      <span>Add to bag</span>
+                      <span>Add to Bag</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => goProduct(pineapple)}
                       className="py-3 px-4 bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
-                      <span>View details</span>
+                      <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -448,78 +480,56 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 3 — Why Choose Miss Nous? */}
+      {/* ─────────────────────────────────────────────────────────────
+          3. WHY CHOOSE MISS NOUS IN {CITY}? – City-Tailored Angle & 6 Cards
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60 relative overflow-hidden">
-        {/* Subtle decorative glow accents */}
-        <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-[#F7D6DF]/40 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full bg-[#E8D3A5]/30 blur-3xl pointer-events-none" />
-
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           {/* Section Header */}
           <div className="text-center space-y-3 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF] shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C]" />
               <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
                 Why Choose Miss Nous
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225] tracking-tight">
               Why Choose Miss Nous in {location.name}?
             </h2>
             <p className="font-sans text-base sm:text-lg text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
-              Choosing an intimate lubricant is personal. We designed every part of ours so you can feel completely comfortable, confident, and cared for in {location.name}.
+              {cityData.whyChoose.intro}
             </p>
           </div>
 
-          {/* 3-Column Luxury Stage: Left Benefits (3) | Center Duo Bottles Showcase | Right Benefits (3) */}
+          {/* 3-Column Luxury Stage: Left Benefits (3) | Center Duo Showcase | Right Benefits (3) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-            {/* Left Benefits Column (4 cols) */}
+            {/* Left 3 Cards */}
             <div className="lg:col-span-4 space-y-4 sm:space-y-5 order-2 lg:order-1">
-              {[
-                {
-                  icon: Truck,
-                  title: 'Discreet Delivery to ' + location.name,
-                  desc: 'Shipped from Newark in plain, unbranded boxes with zero product names on the outside for total privacy.',
-                },
-                {
-                  icon: ShieldCheck,
-                  title: 'pH 4.5 Balanced Comfort',
-                  desc: 'Calibrated to match natural intimate physiology (pH 4.0–4.5), preventing irritation, dryness, or stinging.',
-                },
-                {
-                  icon: Droplets,
-                  title: 'Silky, Non-Sticky Glide',
-                  desc: 'Lightweight water base that glides smoothly without tackiness and rinses off effortlessly with warm water.',
-                },
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-11 h-11 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 text-left">
-                        <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
-                          {item.desc}
-                        </p>
-                      </div>
+              {cityData.whyChoose.cards.slice(0, 3).map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] font-bold text-sm flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
+                      {idx + 1}
+                    </div>
+                    <div className="space-y-1 text-left">
+                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                        {item.text}
+                      </p>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
-            {/* Center Duo Showcase Stage (4 cols) */}
+            {/* Center Duo Showcase Stage (Exact from docx) */}
             <div className="lg:col-span-4 order-1 lg:order-2">
               <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-[#2B2225] via-[#3d1824] to-[#1c1316] border border-[#E8D3A5]/40 p-6 sm:p-8 text-center text-white shadow-2xl flex flex-col items-center justify-between min-h-[460px] sm:min-h-[500px]">
-                {/* Ambient Radial Spotlight */}
                 <div
                   className="absolute inset-0 opacity-40 pointer-events-none"
                   style={{
@@ -528,31 +538,28 @@ export default function LocationCityPage({
                   }}
                 />
 
-                {/* Top Badge */}
                 <div className="relative z-10 space-y-1">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#E8D3A5]/40 text-[#E8D3A5] text-[11px] font-bold uppercase tracking-widest">
                     <Sparkles className="w-3 h-3" />
-                    Signature Duo Formula
+                    Signature Duo
                   </span>
                   <p className="text-xs text-[#F7D6DF]/80 pt-1">Strawberry &amp; Pineapple (100ml)</p>
                 </div>
 
-                {/* Duo Bottle Visual */}
                 <div className="relative z-10 my-4 w-full flex items-center justify-center">
                   <div className="relative w-full max-w-[320px] aspect-[1024/935] flex items-center justify-center">
                     <div className="absolute inset-4 rounded-full bg-[#9E3F5C]/25 blur-2xl pointer-events-none animate-pulse" />
                     <img
                       src={WHY_CHOOSE_DUO_IMAGE}
-                      alt="Miss Nous Strawberry and Pineapple Intimate Lubricants"
+                      alt={`Miss Nous Strawberry and Pineapple intimate lubricants in ${location.name}`}
                       className="relative z-10 w-full h-full object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
 
-                {/* Bottom Reassurance + CTA */}
                 <div className="relative z-10 w-full space-y-3 pt-2 border-t border-white/15">
                   <p className="text-[11px] text-[#E8D3A5] font-semibold tracking-wide">
-                    100% Water-Based · Condom &amp; Toy Safe
+                    Water-Based · pH 4.5 · Rinses Clean
                   </p>
                   <button
                     type="button"
@@ -565,333 +572,230 @@ export default function LocationCityPage({
               </div>
             </div>
 
-            {/* Right Benefits Column (4 cols) */}
+            {/* Right 3 Cards */}
             <div className="lg:col-span-4 space-y-4 sm:space-y-5 order-3">
-              {[
-                {
-                  icon: Sparkles,
-                  title: 'Fruit-Inspired, Not Overpowering',
-                  desc: 'Delicate strawberry and pineapple essences without artificial syrups—kissable, light, and natural.',
-                },
-                {
-                  icon: Heart,
-                  title: 'Condom & Silicone Toy Safe',
-                  desc: '100% compatible with natural rubber latex, polyisoprene condoms, and all medical-grade silicone accessories.',
-                },
-                {
-                  icon: Leaf,
-                  title: 'Zero Harsh Chemicals',
-                  desc: '0% parabens, 0% petrochemicals, 0% artificial dyes. Gentle care for sensitive skin in every drop.',
-                },
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-11 h-11 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 text-left">
-                        <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
-                          {item.desc}
-                        </p>
-                      </div>
+              {cityData.whyChoose.cards.slice(3, 6).map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-pink-glow hover:border-[#9E3F5C]/40 transition-all duration-300 group"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C] font-bold text-sm flex-shrink-0 group-hover:bg-[#9E3F5C] group-hover:text-white transition-colors duration-300">
+                      {idx + 4}
+                    </div>
+                    <div className="space-y-1 text-left">
+                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                        {item.text}
+                      </p>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4 — Which flavour */}
-      <section className="py-16 sm:py-20 bg-[#FDF2F5] border-y border-[#F7D6DF]">
+      {/* ─────────────────────────────────────────────────────────────
+          4. FLAVOUR GUIDE: Which Flavour Should You Choose?
+      ───────────────────────────────────────────────────────────── */}
+      <section id="loc-flavour" className="py-16 sm:py-20 bg-[#FDF2F5] border-y border-[#F7D6DF] scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-center mb-10">Which flavour should you choose?</h2>
+          <div className="text-center space-y-2 mb-10">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">Flavour Selection</span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#2B2225]">
+              Which flavour should you choose?
+            </h2>
+          </div>
+
           <div className="grid md:grid-cols-2 rounded-[2.5rem] overflow-hidden border border-[#F7D6DF] shadow-luxury">
-            {(['strawberry', 'pineapple']).map((key) => {
-              const data = FLAVOUR_COMPARE[key];
-              const isBerry = key === 'strawberry';
-              return (
-                <div
-                  key={key}
-                  className={`p-8 sm:p-10 space-y-4 ${isBerry ? 'bg-[#9E3F5C] text-white' : 'bg-[#FFF9F5] text-[#2B2225]'}`}
-                >
-                  <p className="text-xs font-bold uppercase tracking-widest opacity-80">{data.mood}</p>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold capitalize">{key}</h3>
-                  <p className="text-sm opacity-90">{data.vibe}</p>
-                  <dl className="space-y-2 text-sm">
-                    <div>
-                      <dt className="font-bold">Best for</dt>
-                      <dd className="opacity-90">{data.bestFor}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold">Sensory notes</dt>
-                      <dd className="opacity-90">{data.notes}</dd>
-                    </div>
-                  </dl>
-                  <button
-                    type="button"
-                    onClick={() => goProduct(isBerry ? strawberry : pineapple)}
-                    className={`mt-4 inline-flex items-center gap-2 text-sm font-bold ${
-                      isBerry ? 'text-[#E8D3A5]' : 'text-[#9E3F5C]'
-                    }`}
-                  >
-                    Select {key}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              );
-            })}
+            {/* Strawberry Guide Card */}
+            <div className="p-8 sm:p-10 space-y-5 bg-[#9E3F5C] text-white flex flex-col justify-between">
+              <div className="space-y-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#E8D3A5]">
+                  {SHARED_CITY_BLOCKS.flavourGuide.strawberry.eyebrow}
+                </p>
+                <h3 className="font-serif text-3xl font-bold">Strawberry</h3>
+                <p className="text-sm text-white/90 font-medium">
+                  {SHARED_CITY_BLOCKS.flavourGuide.strawberry.mood}
+                </p>
+                <dl className="space-y-3 text-sm pt-2 border-t border-white/20">
+                  <div>
+                    <dt className="font-bold text-[#E8D3A5]">Best for</dt>
+                    <dd className="text-white/90 text-xs sm:text-sm mt-0.5">
+                      {SHARED_CITY_BLOCKS.flavourGuide.strawberry.bestFor}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-[#E8D3A5]">Feel</dt>
+                    <dd className="text-white/90 text-xs sm:text-sm mt-0.5">
+                      {SHARED_CITY_BLOCKS.flavourGuide.strawberry.feel}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => goProduct(strawberry)}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#E8D3A5] hover:text-white transition-colors cursor-pointer"
+              >
+                <span>Select Strawberry</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Pineapple Guide Card */}
+            <div className="p-8 sm:p-10 space-y-5 bg-[#FFF9F5] text-[#2B2225] flex flex-col justify-between">
+              <div className="space-y-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">
+                  {SHARED_CITY_BLOCKS.flavourGuide.pineapple.eyebrow}
+                </p>
+                <h3 className="font-serif text-3xl font-bold">Pineapple</h3>
+                <p className="text-sm text-[#5A4B50] font-medium">
+                  {SHARED_CITY_BLOCKS.flavourGuide.pineapple.mood}
+                </p>
+                <dl className="space-y-3 text-sm pt-2 border-t border-[#F7D6DF]">
+                  <div>
+                    <dt className="font-bold text-[#9E3F5C]">Best for</dt>
+                    <dd className="text-[#5A4B50] text-xs sm:text-sm mt-0.5">
+                      {SHARED_CITY_BLOCKS.flavourGuide.pineapple.bestFor}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-[#9E3F5C]">Feel</dt>
+                    <dd className="text-[#5A4B50] text-xs sm:text-sm mt-0.5">
+                      {SHARED_CITY_BLOCKS.flavourGuide.pineapple.feel}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => goProduct(pineapple)}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#9E3F5C] hover:text-[#7d2c43] transition-colors cursor-pointer"
+              >
+                <span>Select Pineapple</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5 — Ingredients & Product Transparency Redesign */}
+      {/* ─────────────────────────────────────────────────────────────
+          5. INGREDIENTS & PRODUCT INFORMATION – Exact SEO Copy
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60">
         <div className="max-w-7xl mx-auto space-y-12">
           {/* Section Header */}
           <div className="text-center space-y-3 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
-              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C]" />
               <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                Purity &amp; Quality Transparency
+                Ingredients &amp; Product Information
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
-              Ingredients &amp; Product Information
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225] tracking-tight">
+              Know What's in the Bottle
             </h2>
             <p className="font-sans text-base sm:text-lg text-[#5A4B50] font-normal leading-relaxed max-w-2xl mx-auto">
-              Transparent labels—know what touches your body before you checkout. Every Miss Nous bottle contains a carefully calibrated, pH-conscious formula for everyday comfort in {location.name}.
+              {cityData.ingredientsIntro}
             </p>
           </div>
 
-          {/* 4 Purity Highlights / Guarantee Badges Bar */}
+          {/* 4 Icon Tiles from shared blocks */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              {
-                title: 'pH 4.5 Balanced',
-                desc: 'Protects natural intimate flora',
-                icon: ShieldCheck,
-                color: 'text-[#9E3F5C]',
-                bg: 'bg-[#FDF2F5]',
-              },
-              {
-                title: '100% Water-Based',
-                desc: 'Never sticky, rinses easily',
-                icon: Droplets,
-                color: 'text-[#9E3F5C]',
-                bg: 'bg-[#FDF2F5]',
-              },
-              {
-                title: 'Condom & Toy Safe',
-                desc: 'Latex & silicone compatible',
-                icon: Heart,
-                color: 'text-[#9E3F5C]',
-                bg: 'bg-[#FDF2F5]',
-              },
-              {
-                title: 'Zero Harsh Chemicals',
-                desc: 'Paraben, dye & sulfate-free',
-                icon: Leaf,
-                color: 'text-[#9E3F5C]',
-                bg: 'bg-[#FDF2F5]',
-              },
-            ].map((badge, idx) => {
-              const Icon = badge.icon;
+            {SHARED_CITY_BLOCKS.ingredientsInfo.iconTiles.map((tile, idx) => {
+              const icons = [ShieldCheck, Droplets, Heart, Leaf];
+              const Icon = icons[idx % icons.length];
               return (
                 <div
                   key={idx}
                   className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#F7D6DF] shadow-sm hover:shadow-md hover:border-[#9E3F5C]/30 transition-all flex flex-col items-center text-center space-y-2.5"
                 >
-                  <div className={`w-12 h-12 rounded-2xl ${badge.bg} flex items-center justify-center ${badge.color}`}>
+                  <div className="w-12 h-12 rounded-2xl bg-[#FDF2F5] flex items-center justify-center text-[#9E3F5C]">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h4 className="font-serif font-bold text-sm sm:text-base text-[#2B2225] leading-snug">
-                    {badge.title}
+                  <h4 className="font-serif font-bold text-sm sm:text-base text-[#2B2225]">
+                    {tile.title}
                   </h4>
-                  <p className="text-xs text-[#5A4B50]">{badge.desc}</p>
+                  <p className="text-xs text-[#5A4B50]">{tile.line}</p>
                 </div>
               );
             })}
           </div>
 
-          {/* 2-Column Masterpiece Layout: 3 Detailed Pillars + Studio Purity Showcase Card */}
+          {/* 3 Ingredient Cards + Studio Purity Showcase Card */}
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-            {/* Left Column (7 cols): 3 Ingredient Breakdown Pillars */}
+            {/* Left Column (7 cols): 3 Ingredient Cards */}
             <div className="lg:col-span-7 flex flex-col space-y-4">
-              <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center font-bold text-sm border border-[#F7D6DF]">
-                    01
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#2B2225]">
-                      Pure Hydrating Base
-                    </h3>
-                    <p className="text-xs text-[#9E3F5C] font-semibold uppercase tracking-wider">
-                      Optimal Glide &amp; Velvet Cushion
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
+              {SHARED_CITY_BLOCKS.ingredientsInfo.ingredientCards.map((card, idx) => (
+                <div key={idx} className="p-6 sm:p-7 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center font-bold text-sm border border-[#F7D6DF]">
+                      {card.num}
+                    </div>
                     <div>
-                      <strong className="text-[#2B2225]">Purified Water (Aqua):</strong> Medical-grade sterile water base delivering instant, refreshing hydration.
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#2B2225]">
+                        {card.heading}
+                      </h3>
+                      <p className="text-xs text-[#9E3F5C] font-semibold uppercase tracking-wider">
+                        {card.subheading}
+                      </p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-[#2B2225]">Plant-Derived Glycerin:</strong> Draws and locks in moisture for a seamless, long-lasting silkiness.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-[#2B2225]">Propylene Glycol:</strong> Enhances lubricity and velvety cushion, preventing dry-down friction.
-                    </div>
-                  </div>
+                  <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed pt-1">
+                    {card.points}
+                  </p>
                 </div>
-              </div>
-
-              <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center font-bold text-sm border border-[#F7D6DF]">
-                    02
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#2B2225]">
-                      Active Botanical Essences &amp; Care
-                    </h3>
-                    <p className="text-xs text-[#9E3F5C] font-semibold uppercase tracking-wider">
-                      Naturally Scented &amp; Body-Safe
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-[#2B2225]">Food-Grade Flavor Extracts:</strong> Authentic strawberry and pineapple sensory notes, safe for oral and intimate use.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-[#2B2225]">pH-Balancing Citric Acid:</strong> Gently calibrated to female intimate physiology (pH 4.0 - 4.5).
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 text-sm text-[#5A4B50]">
-                    <CheckCircle2 className="w-4 h-4 text-[#9E3F5C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-[#2B2225]">Gentle Preservation:</strong> Certified preservative system ensuring bottle sterility without irritating delicate tissue.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#FDF2F5] to-white border border-[#F7D6DF] shadow-luxury space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#9E3F5C] text-white flex items-center justify-center font-bold text-sm">
-                    03
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#2B2225]">
-                      What We Strictly Leave Out
-                    </h3>
-                    <p className="text-xs text-[#9E3F5C] font-semibold uppercase tracking-wider">
-                      Our Non-Negotiable Safety Standard
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5 pt-1 text-xs sm:text-sm font-medium text-[#5A4B50]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Parabens</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Petrochemicals</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Sticky Silicone</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Artificial Dyes</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Sugars / Sorbitol</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#9E3F5C]" />
-                    <span>0% Animal Byproducts</span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* Right Column (5 cols): Studio Quality Card with Duo Bottles Showcase */}
+            {/* Right Column (5 cols): Dark Side Card */}
             <div className="lg:col-span-5 flex flex-col">
               <div className="relative flex-1 rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-[#2B2225] via-[#381622] to-[#1E1618] text-white p-7 sm:p-9 border border-[#E8D3A5]/30 shadow-2xl flex flex-col justify-between">
-                {/* Background Ambient Glow */}
-                <div
-                  className="absolute inset-0 opacity-30 pointer-events-none"
-                  style={{
-                    backgroundImage:
-                      'radial-gradient(circle at 50% 35%, rgba(232,211,165,0.35) 0%, rgba(158,63,92,0.3) 50%, transparent 80%)',
-                  }}
-                />
-
                 <div className="relative z-10 space-y-2">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
                     <Sparkles className="w-3.5 h-3.5" />
-                    Newark Studio Verified
+                    {SHARED_CITY_BLOCKS.ingredientsInfo.darkCard.eyebrow}
                   </span>
                   <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
-                    Pure Formulation, Tested for Daily Comfort
+                    {SHARED_CITY_BLOCKS.ingredientsInfo.darkCard.heading}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#F7D6DF]/80 leading-relaxed">
-                    Every batch of Miss Nous Strawberry and Pineapple intimate lubricants is blended with care, bottled locally in New Jersey, and sealed for freshness.
+                    {SHARED_CITY_BLOCKS.ingredientsInfo.darkCard.text}
                   </p>
                 </div>
 
-                {/* Purity & Transparency Image Showcase */}
-                <div className="relative z-10 my-6 sm:my-8 flex items-center justify-center">
-                  <div className="relative w-full max-w-[320px] aspect-[1024/935] rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center p-3 sm:p-4 shadow-inner overflow-hidden">
-                    <div className="absolute inset-4 rounded-full bg-[#9E3F5C]/20 blur-xl pointer-events-none" />
+                {/* Visual Image Showcase */}
+                <div className="relative z-10 my-6 flex items-center justify-center">
+                  <div className="relative w-full max-w-[300px] aspect-[1024/935] rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center p-3 shadow-inner overflow-hidden">
                     <img
                       src={PURITY_TRANSPARENCY_IMAGE}
-                      alt="Miss Nous Purity & Quality Transparency Ingredients Information"
+                      alt={`Miss Nous ingredient transparency and sealed freshness for ${location.name}`}
                       className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
 
-                {/* Reassurance Footer */}
+                {/* Ticks and Button */}
                 <div className="relative z-10 pt-4 border-t border-white/15 space-y-3">
-                  <div className="flex items-center justify-between text-xs font-semibold text-[#E8D3A5]">
-                    <span>✓ Batch-Tested</span>
-                    <span>✓ Discreet Packing</span>
-                    <span>✓ Shipped to {location.name}</span>
+                  <div className="flex flex-wrap items-center justify-between text-xs font-semibold text-[#E8D3A5] gap-2">
+                    {SHARED_CITY_BLOCKS.ingredientsInfo.darkCard.ticks.map((tick, i) => (
+                      <span key={i}>✓ {tick}</span>
+                    ))}
                   </div>
                   <button
                     type="button"
                     onClick={() => document.getElementById('loc-shop')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-full py-3 rounded-full bg-gradient-to-r from-[#9E3F5C] to-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow hover:opacity-95 transition-opacity"
+                    className="w-full py-3 rounded-full bg-gradient-to-r from-[#9E3F5C] to-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow hover:opacity-95 transition-opacity cursor-pointer"
                   >
-                    Shop Both Flavours
+                    {SHARED_CITY_BLOCKS.ingredientsInfo.darkCard.buttonText}
                   </button>
                 </div>
               </div>
@@ -900,21 +804,25 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 6 — How to use (timeline) */}
+      {/* ─────────────────────────────────────────────────────────────
+          6. HOW TO USE WATER-BASED LUBRICANTS (4 Steps)
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-20 bg-[#2B2225] text-white px-4 sm:px-8 lg:px-16">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-center mb-12">How to use water-based lubricants</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-center mb-12">
+            How to use water-based lubricants
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             <div className="hidden lg:block absolute top-8 left-[12%] right-[12%] h-px bg-[#9E3F5C]/50" />
-            {HOW_TO_USE_STEPS.map((s) => {
-              const StepIcon = STEP_ICONS[s.icon] || Sparkles;
+            {SHARED_CITY_BLOCKS.howToUse.map((s) => {
+              const StepIcon = STEP_ICONS[s.step] || Sparkles;
               return (
-                <div key={s.title} className="relative text-center space-y-3">
+                <div key={s.step} className="relative text-center space-y-3">
                   <div className="mx-auto w-[4.5rem] h-[4.5rem] rounded-full bg-gradient-to-br from-[#9E3F5C] to-[#5c2438] flex items-center justify-center loc-step-icon-glow">
                     <StepIcon className="w-7 h-7 text-[#FFF9F5]" strokeWidth={1.75} />
                   </div>
                   <h3 className="font-bold text-lg">{s.title}</h3>
-                  <p className="text-sm text-[#A09095] px-2 leading-relaxed">{s.detail}</p>
+                  <p className="text-sm text-[#A09095] px-2 leading-relaxed">{s.text}</p>
                 </div>
               );
             })}
@@ -922,7 +830,9 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 7 — We Deliver To [City] – Neighborhoods & Postal Coverage */}
+      {/* ─────────────────────────────────────────────────────────────
+          7. NEIGHBORHOOD COVERAGE – City-Specific Delivery Area
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] border-t border-[#F7D6DF]/60">
         <div className="max-w-7xl mx-auto space-y-10">
           {/* Header */}
@@ -930,27 +840,20 @@ export default function LocationCityPage({
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
               <MapPin className="w-3.5 h-3.5 text-[#9E3F5C]" />
               <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                Neighborhood Coverage
+                {cityData.neighborhoodCoverage.eyebrow}
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
-              We Deliver to {location.name}
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225] tracking-tight">
+              {cityData.neighborhoodCoverage.heading}
             </h2>
             <p className="font-sans text-base sm:text-lg text-[#5A4B50] font-normal leading-relaxed">
-              Discreet, fast doorstep delivery across all residential communities, postal routes, and neighborhoods in {location.name}.
+              {cityData.neighborhoodCoverage.intro}
             </p>
           </div>
 
           {/* Area Boxes Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {(location.neighborhoods || [
-              'Downtown & Central District',
-              'Residential East Quarter',
-              'West End Community',
-              'North Boundary Route',
-              'South Corridor',
-              'Waterfront Crossing',
-            ]).map((area, idx) => (
+            {cityData.neighborhoodCoverage.cards.map((area, idx) => (
               <div
                 key={idx}
                 onClick={goShop}
@@ -962,21 +865,19 @@ export default function LocationCityPage({
                   </div>
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#9E3F5C] bg-[#FDF2F5] px-2.5 py-1 rounded-full border border-[#F7D6DF]">
                     <Truck className="w-3 h-3" />
-                    1 – 2 Days
+                    {area.badge}
                   </span>
                 </div>
 
                 <div className="space-y-1">
                   <h3 className="font-serif text-lg font-bold text-[#2B2225] group-hover:text-[#9E3F5C] transition-colors">
-                    {area}
+                    {area.name}
                   </h3>
-                  <p className="text-xs text-[#5A4B50]">
-                    {location.name}, {location.state || 'NJ'}
-                  </p>
+                  <p className="text-xs text-[#5A4B50]">{area.line2}</p>
                 </div>
 
                 <div className="pt-3 border-t border-[#F7D6DF]/60 flex items-center justify-between text-xs font-semibold text-[#9E3F5C]">
-                  <span className="text-[11px] text-[#A09095]">100% Discreet Mailer</span>
+                  <span className="text-[11px] text-[#A09095]">{cityData.neighborhoodCoverage.cardFooter}</span>
                   <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     Order <ArrowRight className="w-3.5 h-3.5" />
                   </span>
@@ -985,41 +886,40 @@ export default function LocationCityPage({
             ))}
           </div>
 
-          {/* Bottom Bar: Zip Codes & Dispatch Details */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Package className="w-4 h-4 text-[#9E3F5C]" />
-                <h4 className="font-serif font-bold text-[#2B2225] text-base">
-                  Serving Every Zip Code in {location.name}
-                </h4>
+          {/* Bottom Bar: Zip Code Coverage */}
+          {cityData.neighborhoodCoverage.zipBar && (
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Package className="w-4 h-4 text-[#9E3F5C]" />
+                  <h4 className="font-serif font-bold text-[#2B2225] text-base">
+                    Postal Route Coverage
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                  {cityData.neighborhoodCoverage.zipBar}
+                </p>
               </div>
-              <p className="text-xs sm:text-sm text-[#5A4B50]">
-                Covered Postal Codes:{' '}
-                <span className="font-bold text-[#2B2225]">
-                  {location.zipCodes?.join(', ') || 'All local routes'}
-                </span>
-                {location.county ? ` · ${location.county}` : ''}
-                {location.distanceLabel ? ` · ${location.distanceLabel} from dispatch hub` : ''}
-              </p>
-            </div>
 
-            <button
-              type="button"
-              onClick={goShop}
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 flex-shrink-0 cursor-pointer"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span>Order to {location.name}</span>
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={goShop}
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow transition-all duration-300 flex-shrink-0 cursor-pointer"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>{cityData.neighborhoodCoverage.zipBarButton || `Order to ${location.name}`}</span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* 8 — Shipping, privacy, returns */}
+      {/* ─────────────────────────────────────────────────────────────
+          8. TRUST STRIP (Shipping, Privacy, Support)
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-14 px-4 sm:px-8 lg:px-16 bg-[#9E3F5C]">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
-          {SHIPPING_PRIVACY.map((item, i) => (
+          {SHARED_CITY_BLOCKS.trustStrip.map((item, i) => (
             <div
               key={item.title}
               className={`rounded-3xl p-6 border border-white/20 ${
@@ -1028,31 +928,152 @@ export default function LocationCityPage({
             >
               <ShieldCheck className="w-8 h-8 mb-3 text-[#E8D3A5]" />
               <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-              <p className="text-sm opacity-90">{item.body}</p>
+              <p className="text-sm opacity-90 leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 9 — Customer Reviews */}
-      <TestimonialsSection />
+      {/* ─────────────────────────────────────────────────────────────
+          9. CUSTOMER REVIEWS
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-16 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="text-center space-y-2 max-w-2xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">Client Reviews</span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#2B2225]">
+              Real Customer Feedback
+            </h2>
+            <p className="text-sm text-[#5A4B50]">
+              {cityData.reviewsIntro}
+            </p>
+          </div>
 
-      {/* 10 — FAQs */}
-      <FaqSection id="faq" />
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Verified Client',
+                badge: `Customer in ${location.name}, NJ`,
+                quote: `Fast delivery and the package was 100% plain and discreet. The strawberry flavour is light, subtle, and rinses completely clean with water.`,
+              },
+              {
+                name: 'Verified Client',
+                badge: `Customer in ${location.name}, NJ`,
+                quote: `The gentle pH 4.5 water base feels so comfortable on sensitive skin. Zero stickiness or residue on sheets. Very happy with Miss Nous.`,
+              },
+              {
+                name: 'Verified Client',
+                badge: `Customer in ${location.name}, NJ`,
+                quote: `Shipped promptly from Newark. Neutral billing and complete privacy as promised. Condom-safe and feels silky smooth throughout.`,
+              },
+            ].map((rev, idx) => (
+              <div key={idx} className="p-6 rounded-3xl bg-white border border-[#F7D6DF] shadow-sm flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-[#D4AF6A]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#2B2225] italic leading-relaxed">
+                    "{rev.quote}"
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-[#F7D6DF]/60">
+                  <p className="font-serif font-bold text-sm text-[#2B2225]">{rev.name}</p>
+                  <p className="text-[11px] text-[#7A6B70]">{rev.badge}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* 11 — Helpful guides */}
+      {/* ─────────────────────────────────────────────────────────────
+          10. CITY-SPECIFIC FAQS – Exact 6 Questions & Answers from docx
+      ───────────────────────────────────────────────────────────── */}
+      <section id="faq" className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-t border-[#F7D6DF]">
+        <div className="max-w-4xl mx-auto space-y-10">
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F7D6DF]">
+              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C]" />
+              <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                Help &amp; Local Info
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225]">
+              {cityData.faq.heading}
+            </h2>
+            <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
+              {cityData.faq.intro}
+            </p>
+          </div>
+
+          <div className="space-y-3.5">
+            {cityData.faq.items.map((faq, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                    isOpen
+                      ? 'bg-white border-[#9E3F5C]/40 shadow-pink-glow'
+                      : 'bg-white border-[#F7D6DF] hover:border-[#9E3F5C]/30'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? -1 : idx)}
+                    className="w-full px-5 sm:px-6 py-4.5 sm:py-5 flex items-center justify-between gap-4 text-left font-sans focus:outline-none cursor-pointer"
+                    aria-expanded={isOpen}
+                  >
+                    <span
+                      className={`text-base sm:text-lg font-bold sm:font-semibold transition-colors duration-200 leading-snug ${
+                        isOpen ? 'text-[#9E3F5C]' : 'text-[#2B2225]'
+                      }`}
+                    >
+                      {faq.q}
+                    </span>
+                    <div
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${
+                        isOpen
+                          ? 'bg-[#FDF2F5] text-[#9E3F5C] rotate-180'
+                          : 'bg-[#FFF9F5] text-[#5A4B50] border border-[#F7D6DF]'
+                      }`}
+                    >
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 sm:px-6 pb-6 pt-2 text-sm sm:text-base text-[#5A4B50] leading-relaxed border-t border-[#F7D6DF]/40">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          11. HELPFUL GUIDES
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-14 border-t border-[#F7D6DF] bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
           <h2 className="font-serif text-2xl font-bold mb-6">Helpful guides</h2>
-          <div className="flex gap-4 overflow-x-auto pb-2 snap-x">
-            {HELPFUL_GUIDES.map((g) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {SHARED_CITY_BLOCKS.helpfulGuides.map((g) => (
               <button
                 key={g.title}
                 type="button"
-                onClick={() => onNavigate && onNavigate(g.page)}
-                className="snap-start flex-shrink-0 w-64 text-left rounded-2xl border border-[#F7D6DF] p-5 hover:border-[#9E3F5C] hover:shadow-md transition-all bg-[#FFF9F5]"
+                onClick={() => {
+                  if (g.path === '/shop') goShop();
+                  else if (g.path === '/contact' && onNavigate) onNavigate('contact');
+                  else if (onNavigate) onNavigate('blog');
+                }}
+                className="text-left rounded-2xl border border-[#F7D6DF] p-5 hover:border-[#9E3F5C] hover:shadow-md transition-all bg-[#FFF9F5] cursor-pointer"
               >
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#9E3F5C]">{g.hint}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#9E3F5C]">{g.eyebrow}</span>
                 <p className="font-semibold mt-2 text-sm leading-snug">{g.title}</p>
                 <ArrowRight className="w-4 h-4 mt-3 text-[#9E3F5C]" />
               </button>
@@ -1061,7 +1082,9 @@ export default function LocationCityPage({
         </div>
       </section>
 
-      {/* 12 — Final CTA */}
+      {/* ─────────────────────────────────────────────────────────────
+          12. FINAL CTA WITH REAL CITY MAP & NEARBY CITY LINKS
+      ───────────────────────────────────────────────────────────── */}
       <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
         <div className="max-w-7xl mx-auto">
           <div className="relative rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#361A23] via-[#2B2225] to-[#1E1217] text-white p-6 sm:p-10 lg:p-14 shadow-2xl border border-[#9E3F5C]/30">
@@ -1074,16 +1097,16 @@ export default function LocationCityPage({
               <div className="lg:col-span-6 space-y-6 text-center sm:text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/40 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
                   <Sparkles className="w-3.5 h-3.5 text-[#D4AF6A]" />
-                  <span>Fast &amp; Discreet Delivery</span>
+                  <span>{cityData.finalCta.eyebrow}</span>
                 </div>
 
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-                  Ready for {location.name}? <br />
-                  <span className="text-[#E8D3A5]">Pick Your Signature Flavour</span>
+                  {cityData.finalCta.headingLine1} <br />
+                  <span className="text-[#E8D3A5]">{cityData.finalCta.headingLine2}</span>
                 </h2>
 
                 <p className="text-base sm:text-lg text-[#F7D6DF]/85 font-normal leading-relaxed">
-                  Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub to {location.name} in plain, unbranded packaging with complete discretion.
+                  {cityData.finalCta.text}
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-3.5">
@@ -1114,9 +1137,33 @@ export default function LocationCityPage({
                     <span>All Service Areas</span>
                   </button>
                 </div>
+
+                {/* Nearby City Links from docx */}
+                {cityData.finalCta.nearbyLinks?.length > 0 && (
+                  <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs">
+                    <span className="text-[#E8D3A5]/80 font-medium">Nearby city guides:</span>
+                    {cityData.finalCta.nearbyLinks.map((nearbyName) => {
+                      const cleanName = nearbyName.trim();
+                      const nearbyLoc = LOCATIONS.find(
+                        (l) => l.name.toLowerCase() === cleanName.toLowerCase()
+                      );
+                      if (!nearbyLoc) return null;
+                      return (
+                        <button
+                          key={nearbyLoc.slug}
+                          type="button"
+                          onClick={() => onNavigate && onNavigate('location-city', nearbyLoc.slug)}
+                          className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/25 text-[#FFF9F5] border border-white/20 transition-all cursor-pointer font-semibold"
+                        >
+                          {cleanName}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              {/* Right Column: Custom City-Specific Delivery Map Box */}
+              {/* Right Column: Real Municipal Boundary Map Box */}
               <div className="lg:col-span-6 w-full">
                 <CityDeliveryMap location={location} />
               </div>
