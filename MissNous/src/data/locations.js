@@ -10,9 +10,9 @@ export const LOCATIONS = [
     distanceLabel: 'Home base',
     featured: true,
     tagline: 'Core city & neighborhood guides',
-    neighborhoods: ['Ironbound', 'Downtown Newark', 'Forest Hill', 'University Heights', 'Weequahic', 'North Ward', 'Roseville', 'Central Ward'],
+    neighborhoods: ['Ironbound', 'Downtown', 'Forest Hill', 'North Ward', 'University Heights', 'Weequahic', 'Vailsburg'],
     description:
-      'Our home city and the heart of Miss Nous. Dedicated pages for Ironbound, Downtown, and other neighborhoods are on the way.',
+      'Our home city, where every order is packed and dispatched. Most Newark orders arrive within one to two days.',
     image:
       'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'Newark, New Jersey cityscape',
@@ -25,9 +25,9 @@ export const LOCATIONS = [
     zipCodes: ['07029'],
     distanceMiles: 2.0,
     distanceLabel: '~2.0 miles',
-    neighborhoods: ['Passaic Riverfront', 'John Street District', 'Central Borough', 'Sylvan Park Area', 'Harrison Border', 'Bridge Plaza'],
+    neighborhoods: ['Passaic Riverfront', 'John Street', 'Central Borough', 'Sherman Avenue'],
     description:
-      'A compact borough just across the Passaic—easy reach from our Garibaldi Avenue studio for local pickup and delivery.',
+      'A small borough just across the Passaic from our Newark base, so your order makes one of our shortest trips.',
     image:
       'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'East Newark area streetscape',
@@ -40,9 +40,9 @@ export const LOCATIONS = [
     zipCodes: ['07032', '07099'],
     distanceMiles: 2.5,
     distanceLabel: '~2.5 miles',
-    neighborhoods: ['Arlington Section', 'South Kearny', 'Manor Section', 'Kearny Avenue Corridor', 'West Hudson', 'Belgrove Drive', 'Meadowlands Edge'],
+    neighborhoods: ['Arlington Section', 'South Kearny', 'The Manor', 'Kearny Avenue', 'Schuyler Avenue', 'Kearny Point'],
     description:
-      'Historic Kearny sits minutes from Newark—part of the close-knit community we serve across Hudson and Essex counties.',
+      'A close-knit town minutes from Newark. Discreet delivery to every corner, from the Arlington section to South Kearny.',
     image: '/images/locations/kearny.jpg',
     imageAlt: 'Kearny, New Jersey aerial cityscape and waterfront',
   },
@@ -54,9 +54,9 @@ export const LOCATIONS = [
     zipCodes: ['07201', '07202', '07206', '07207', '07208'],
     distanceMiles: 3.7,
     distanceLabel: '~3.7 miles',
-    neighborhoods: ['Elmora', 'Midtown / Downtown', 'Peterstown', 'Bayway', 'Elizabethport', 'Westminster', 'Frog Hollow'],
+    neighborhoods: ['Elmora', 'Midtown', 'Peterstown', 'Elizabethport', 'North End', 'Bayway', 'Westminster'],
     description:
-      'New Jersey’s fourth-largest city—diverse neighborhoods and waterfront views within a short drive of Miss Nous.',
+      "New Jersey's fourth-largest city, with fast local delivery to every neighborhood from Elmora to Elizabethport.",
     image:
       'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'Elizabeth area city view',
@@ -69,9 +69,9 @@ export const LOCATIONS = [
     zipCodes: ['07002'],
     distanceMiles: 4.1,
     distanceLabel: '~4.1 miles',
-    neighborhoods: ['Bergen Point', 'Constable Hook', 'Centreville', 'Midtown Bayonne', 'Uptown / 45th St', 'Pamrapo', 'Broadway Corridor'],
+    neighborhoods: ['Bergen Point', 'Constable Hook', 'Centerville', 'Port Johnson', 'Uptown'],
     description:
-      'Peninsula city with bridge views and a strong local spirit—we’re proud to extend discreet wellness delivery to Bayonne.',
+      'A peninsula city with bridge views and strong local pride. Plain-box delivery from Bergen Point to the north end.',
     image:
       'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'Bayonne and Hudson County waterfront',
@@ -84,9 +84,9 @@ export const LOCATIONS = [
     zipCodes: ['07017', '07018', '07019'],
     distanceMiles: 4.5,
     distanceLabel: '~4.5 miles',
-    neighborhoods: ['Ampere', 'Greenwood', 'Doddtown', 'Presidential Heights', 'City Center', 'Brick Church Area', 'Central Avenue District'],
+    neighborhoods: ['Ampere', 'Doddtown', 'Elmwood', 'Brick Church', 'Presidential Estates'],
     description:
-      'Tree-lined blocks and vibrant culture in Essex County—one of our nearest neighbors beyond Newark’s borders.',
+      'Tree-lined blocks and a lively community in Essex County, one of our nearest neighbors for quick delivery.',
     image:
       'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'East Orange residential streets',
@@ -99,9 +99,9 @@ export const LOCATIONS = [
     zipCodes: ['07205'],
     distanceMiles: 4.7,
     distanceLabel: '~4.7 miles',
-    neighborhoods: ['Lyons Farms', 'Westminster Border', 'Hillside Center', 'Conant Town', 'Saybrook', 'Liberty Avenue Corridor'],
+    neighborhoods: ['Lyons Farms', 'Westminster Border', 'Hillside Center', 'Salem Section'],
     description:
-      'Quiet suburban charm with quick access to Newark—ideal for customers who value privacy and fast local shipping.',
+      'A quiet suburban township right on the Newark border, with quick and discreet delivery to your door.',
     image:
       'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'Hillside township neighborhood',
@@ -114,9 +114,9 @@ export const LOCATIONS = [
     zipCodes: ['07031'],
     distanceMiles: 4.8,
     distanceLabel: '~4.8 miles',
-    neighborhoods: ['Ridge Road District', 'Schuyler Avenue Corridor', 'Meadowlands Overlook', 'River Road', 'Porete Avenue Area', 'Centennial Park Area'],
+    neighborhoods: ['Ridge Road', 'Schuyler Avenue Corridor', 'Meadowlands Overlook', 'Belleville Turnpike'],
     description:
-      'Bergen County community overlooking the Meadowlands—within our extended local service radius from Newark.',
+      'A Bergen County community overlooking the Meadowlands, within our fast local delivery area.',
     image:
       'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=900&q=80',
     imageAlt: 'North Arlington and Meadowlands views',

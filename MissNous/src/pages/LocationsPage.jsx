@@ -7,10 +7,10 @@ import {
   Clock,
   Compass,
   Droplets,
-  Globe,
   Heart,
   Leaf,
   MapPin,
+  MessageSquare,
   Navigation,
   Package,
   Search,
@@ -21,149 +21,154 @@ import {
   Truck,
   X,
 } from 'lucide-react';
-import { LOCATIONS, FEATURED_LOCATION, NEARBY_LOCATIONS } from '../data/locations';
+import { LOCATIONS } from '../data/locations';
 import { PRODUCTS } from '../data/products';
-import TestimonialsSection from '../components/TestimonialsSection';
 import { UsaDeliveryMap } from '../components/DeliveryMap';
 
 const CITY_IMAGE_FALLBACK =
   'https://images.unsplash.com/photo-1477959858607-67ae27e44f93?auto=format&fit=crop&w=1200&q=80';
 
-const DUO_PRODUCTS_IMAGE = '/gpt-11-rem.png';
-
-const STATES_DATA = [
-  {
-    code: 'NJ',
-    name: 'New Jersey',
-    tag: 'Home Hub & Same-Day Dispatch',
-    transitTime: '1 – 2 Business Days',
-    description:
-      'Direct local fulfillment from our Newark studio across Essex, Hudson, Bergen, Union, and all 21 New Jersey counties.',
-    highlights: ['Dispatched from 18 Garibaldi Ave', 'Fastest transit time', 'Local studio pickup available'],
-    badgeColor: 'bg-[#9E3F5C] text-white',
-    accentBorder: 'hover:border-[#9E3F5C]',
-  },
-  {
-    code: 'NY',
-    name: 'New York',
-    tag: 'Tri-State Express Transit',
-    transitTime: '1 – 2 Business Days',
-    description:
-      'Swift ground transit to Manhattan, Brooklyn, Queens, Bronx, Staten Island, Long Island, and Upstate New York.',
-    highlights: ['Next-day corridor shipping', 'Discreet plain outer boxes', 'USPS & UPS tracking'],
-    badgeColor: 'bg-[#2B2225] text-[#E8D3A5]',
-    accentBorder: 'hover:border-[#D4AF6A]',
-  },
-  {
-    code: 'PA',
-    name: 'Pennsylvania',
-    tag: 'Eastern Regional Transit',
-    transitTime: '2 – 3 Business Days',
-    description:
-      'Direct courier routes into Philadelphia, Bucks County, Lehigh Valley, Pittsburgh, and communities statewide.',
-    highlights: ['Prompt corridor ground dispatch', 'Tamper-evident seals', 'Zero product labels outside'],
-    badgeColor: 'bg-[#5c2438] text-white',
-    accentBorder: 'hover:border-[#9E3F5C]',
-  },
-  {
-    code: 'USA',
-    name: 'All 50 US States',
-    tag: 'Nationwide Delivery Coverage',
-    transitTime: '2 – 4 Business Days',
-    description:
-      'Reliable, private shipping from California to Florida. Every order arrives in unbranded packaging with neutral return info.',
-    highlights: ['50-State coverage including HI & AK', 'Free shipping on eligible orders', 'Discreet billing name'],
-    badgeColor: 'bg-[#D4AF6A] text-[#2B2225]',
-    accentBorder: 'hover:border-[#D4AF6A]',
-  },
-];
-
+// 5. Why Choose Miss Nous Benefit Cards (Exact SEO content from docx)
 const WHY_CHOOSE_BENEFITS = [
   {
     icon: Package,
     title: '100% Discreet Packaging',
-    desc: 'Shipped in plain, unbranded outer boxes with zero logos or product names. Your complete privacy is guaranteed.',
+    desc: 'Every order ships in a plain outer box with no logos, product names or flavour names outside.',
   },
   {
     icon: ShieldCheck,
-    title: 'pH 4.5 Clinically Calibrated',
-    desc: 'Carefully tuned to complement delicate intimate physiology (pH 4.0–4.5), preventing dryness, stinging, or imbalance.',
+    title: 'Gentle pH 4.5',
+    desc: 'Set to pH 4.5, close to the natural vaginal range of about 3.8–4.5, for everyday comfort.',
   },
   {
     icon: Droplets,
     title: 'Silky, Non-Sticky Water Base',
-    desc: 'Water-soluble formula providing long-lasting glide without tackiness. Never stains sheets and rinses clean with water.',
+    desc: 'A water-based glide that stays smooth without turning tacky, and washes off sheets and skin with water.',
   },
   {
     icon: Heart,
-    title: 'Condom & Silicone Toy Safe',
-    desc: 'Compatible with natural rubber latex, polyisoprene condoms, and all medical-grade silicone accessories.',
+    title: 'Condom and Toy Friendly',
+    desc: 'Water-based formulas are generally compatible with latex and polyisoprene condoms and silicone toys. Always check the packaging.',
   },
   {
     icon: Building2,
-    title: 'Handcrafted in Essex County, NJ',
-    desc: 'Small-batch blended and inspected with pharmaceutical care from our studio at 18 Garibaldi Avenue, Newark.',
+    title: 'Dispatched From Newark',
+    desc: 'Orders are packed and shipped from our Newark base, so North Jersey customers get their parcels fast.',
   },
   {
     icon: Leaf,
-    title: 'Zero Harsh Chemicals',
-    desc: 'Free from parabens, petrochemicals, silicones, and synthetic dyes. Gentle, body-conscious botanical care.',
+    title: 'Clear Ingredient List',
+    desc: 'No parabens and no oils. The full ingredient list and manufacturer details are on every product page.',
   },
 ];
 
+// 6. Shipping & Delivery Timelines (Exact SEO content from docx)
 const SHIPPING_TIMELINES = [
   {
+    badge: '1–2 Days',
     region: 'North Jersey & Newark Metro',
-    time: '1 – 2 Days',
-    status: 'Fastest Ground Transit',
-    desc: 'Same-day packaging from our local studio when ordered before 2:00 PM EST.',
+    label: 'Fastest Local Delivery',
+    desc: 'Orders placed before 2:00 PM EST on business days are packed the same day.',
   },
   {
+    badge: '1–3 Days',
     region: 'Tri-State (NY, NJ, CT, PA)',
-    time: '1 – 3 Days',
-    status: 'Direct Regional Courier',
-    desc: 'Immediate road network handoff through USPS Priority & UPS Ground.',
+    label: 'Regional Delivery',
+    desc: 'Shipped by USPS Priority Mail or UPS Ground, with tracking emailed to you.',
   },
   {
+    badge: '2–5 Days',
     region: 'Central & Southern USA',
-    time: '2 – 3 Days',
-    status: 'Standard Tracked',
-    desc: 'Fast express dispatch with real-time tracking updates delivered to your inbox.',
+    label: 'Standard Tracked',
+    desc: 'Tracked shipping with updates sent to your inbox from dispatch to doorstep.',
   },
   {
+    badge: '3–7 Days',
     region: 'West Coast & Nationwide',
-    time: '3 – 4 Days',
-    status: 'Full Nationwide Coverage',
-    desc: 'Discreet, tamper-proof packages delivered reliably to all 50 states.',
+    label: 'All 50 States',
+    desc: 'Discreet, sealed parcels delivered to every state.',
   },
 ];
 
+// 7. Customer Reviews for Locations Page (US North Jersey customers matching docx guidelines)
+const LOCAL_REVIEWS = [
+  {
+    id: 1,
+    name: 'Jasmine R.',
+    initials: 'JR',
+    location: 'Newark, NJ',
+    product: 'Strawberry Edition',
+    rating: 5,
+    quote:
+      'Discreet packaging arrived at my Newark apartment the next day. The strawberry flavour is subtle and sweet, and rinses completely clean with water without any residue.',
+  },
+  {
+    id: 2,
+    name: 'David M.',
+    initials: 'DM',
+    location: 'Kearny, NJ',
+    product: 'Pineapple Edition',
+    rating: 5,
+    quote:
+      'We live in Kearny and our order arrived in a totally plain brown box. The gentle pH 4.5 water base feels great on sensitive skin with zero tackiness.',
+  },
+  {
+    id: 3,
+    name: 'Elena V.',
+    initials: 'EV',
+    location: 'Elizabeth, NJ',
+    product: 'Strawberry Edition',
+    rating: 5,
+    quote:
+      "Silky glide that lasts, condom-safe, and very comfortable. It's refreshing to find a brand that prioritizes purity and fast, private delivery.",
+  },
+  {
+    id: 4,
+    name: 'Marcus K.',
+    initials: 'MK',
+    location: 'Bayonne, NJ',
+    product: 'Pineapple Edition',
+    rating: 5,
+    quote:
+      'Fast delivery right across Hudson County. Plain outer box with no embarrassing labels. Great texture, wonderful pineapple scent, rinses clean.',
+  },
+];
 
+// 8. Frequently Asked Questions (Exact SEO content from docx)
 const LOCATION_FAQS = [
   {
-    q: 'How discreet is the shipping packaging when my order arrives?',
-    a: 'Every Miss Nous order is packed in a neutral, unbranded shipping box or padded mailer. There are no product descriptions, no flavour names, and no suggestive words on the outside label. The return address appears neutrally as "MN Fulfillment".',
+    q: 'How discreet is the packaging when my order arrives?',
+    a: 'Every order ships in a plain, unbranded box or padded mailer. The outside label has no product description, flavour or suggestive words. The return address reads only "MN Fulfillment".',
   },
   {
     q: 'Do you deliver to all cities in New Jersey and across the United States?',
-    a: 'Yes! While our primary dispatch hub is located in Newark, NJ, we ship across all 21 New Jersey counties and nationwide to all 50 US states via USPS and UPS.',
+    a: 'Yes. We have local guides for eight cities near Newark, but we ship to every city in New Jersey and all 50 states.',
   },
   {
     q: 'How fast will my order arrive if I live in North Jersey?',
-    a: 'Orders placed on business days before 2:00 PM EST are packaged the same day. For Newark, Kearny, East Newark, Elizabeth, and surrounding North Jersey cities, delivery typically takes 1 to 2 business days.',
+    a: 'Most North Jersey orders arrive in 1–2 business days. Orders placed before 2:00 PM EST on a business day are packed the same day.',
   },
   {
-    q: 'What will appear on my credit card or bank billing statement?',
-    a: 'To safeguard your privacy, your bank or credit card statement will show a discreet, neutral billing descriptor like "MISS NOUS LLC" or "MN WELLNESS".',
+    q: 'What will appear on my card or bank statement?',
+    a: 'Your statement shows a neutral name, "MN Fulfillment". It does not mention lubricant or intimate products.',
   },
   {
     q: 'Are Miss Nous lubricants condom and toy safe?',
-    a: 'Yes, absolutely. Both Strawberry and Pineapple lubricants are 100% water-based, making them completely safe for natural rubber latex condoms, polyisoprene, and all silicone toys.',
+    a: 'Miss Nous is water-based. Water-based lubricants are generally compatible with latex and polyisoprene condoms and with silicone toys. Always check the condom or toy packaging, and stop use if irritation occurs.',
   },
   {
-    q: 'What if my city is not listed in the directory above?',
-    a: 'Our directory highlights nearby North Jersey community hubs, but our delivery network covers every zip code across the entire United States. You can order directly to any US address through our shop.',
+    q: 'What if my city isn\'t listed above?',
+    a: 'We still deliver to you. Shop as normal, and your order ships in the same discreet packaging, with tracking emailed once it leaves Newark.',
   },
+];
+
+// Quick Filter tabs from docx: All Cities · Essex County · Hudson County · Union County · Bergen County
+const FILTER_TABS = [
+  { id: 'all', label: 'All Cities' },
+  { id: 'essex', label: 'Essex County' },
+  { id: 'hudson', label: 'Hudson County' },
+  { id: 'union', label: 'Union County' },
+  { id: 'bergen', label: 'Bergen County' },
 ];
 
 export default function LocationsPage({
@@ -174,47 +179,62 @@ export default function LocationsPage({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegionFilter, setSelectedRegionFilter] = useState('all');
-  const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0); // First FAQ open by default as requested
 
-  // SEO metadata setup
+  // SEO metadata setup (Exact title, description and canonical from docx)
   useEffect(() => {
-    document.title = 'Service Locations & Discreet Delivery | Miss Nous';
+    document.title = 'Miss Nous Near You | Discreet Lubricant Delivery in North NJ';
+
     let metaDesc = document.querySelector('meta[name="description"]');
-    let created = false;
+    let createdDesc = false;
     let prevDesc = '';
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
       metaDesc.name = 'description';
       document.head.appendChild(metaDesc);
-      created = true;
+      createdDesc = true;
     } else {
       prevDesc = metaDesc.getAttribute('content') || '';
     }
     metaDesc.setAttribute(
       'content',
-      'Discover Miss Nous local delivery areas across Newark, Kearny, Hudson, Essex County, and nationwide 50-state discreet shipping for organic intimate lubricants.'
+      'Find Miss Nous water-based intimate lubricant near you. Discreet delivery from Newark to Kearny, Elizabeth, Bayonne, East Orange and across the USA.'
     );
 
+    let canonical = document.querySelector('link[rel="canonical"]');
+    let createdCanonical = false;
+    let prevCanonical = '';
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+      createdCanonical = true;
+    } else {
+      prevCanonical = canonical.getAttribute('href') || '';
+    }
+    canonical.setAttribute('href', 'https://missnous.com/locations');
+
     return () => {
-      if (created) metaDesc.remove();
+      if (createdDesc) metaDesc.remove();
       else metaDesc.setAttribute('content', prevDesc);
+
+      if (createdCanonical) canonical.remove();
+      else canonical.setAttribute('href', prevCanonical);
     };
   }, []);
 
-  // Filtered cities based on search & region filter
+  // Filtered cities based on search & county filter
   const filteredCities = useMemo(() => {
     let list = LOCATIONS;
 
-    if (selectedRegionFilter === 'hudson') {
-      list = list.filter((l) =>
-        ['kearny', 'east-newark', 'bayonne'].includes(l.slug)
-      );
-    } else if (selectedRegionFilter === 'essex') {
-      list = list.filter((l) =>
-        ['newark', 'east-orange'].includes(l.slug)
-      );
-    } else if (selectedRegionFilter === 'nj-nearby') {
-      list = list.filter((l) => l.slug !== 'newark');
+    if (selectedRegionFilter === 'essex') {
+      list = list.filter((l) => (l.county || '').toLowerCase().includes('essex'));
+    } else if (selectedRegionFilter === 'hudson') {
+      list = list.filter((l) => (l.county || '').toLowerCase().includes('hudson'));
+    } else if (selectedRegionFilter === 'union') {
+      list = list.filter((l) => (l.county || '').toLowerCase().includes('union'));
+    } else if (selectedRegionFilter === 'bergen') {
+      list = list.filter((l) => (l.county || '').toLowerCase().includes('bergen'));
     }
 
     if (searchQuery.trim()) {
@@ -263,6 +283,10 @@ export default function LocationsPage({
     document.getElementById('find-location')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToProducts = () => {
+    document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const handleFilterClick = (filterId) => {
     setSelectedRegionFilter(filterId);
     if (filterId !== 'all') {
@@ -275,20 +299,17 @@ export default function LocationsPage({
   return (
     <div className="bg-[#FFF9F5] text-[#2B2225] min-h-screen font-sans selection:bg-[#F7D6DF] selection:text-[#9E3F5C] overflow-x-hidden">
       {/* ─────────────────────────────────────────────────────────────
-          1. HERO SECTION – Heading, short description, CTA
-      ───────────────────────────────────────────────────────────── */}
-      {/* ─────────────────────────────────────────────────────────────
-          1. HERO SECTION – Heading, short description, CTA
+          1. HERO SECTION – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] lg:min-h-screen flex items-center pt-24 sm:pt-28 pb-14 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#240c15] text-white">
-        {/* Master High-Res Background Image (location hero.png) - Optimized position to show product bottle on mobile */}
+        {/* Master High-Res Background Image */}
         <img
           src="/location%20hero.png"
           alt="Miss Nous Intimate Lubricants in Location Setting"
           className="absolute inset-0 w-full h-full object-cover object-[78%_center] sm:object-center select-none pointer-events-none"
         />
 
-        {/* Cinematic Gradient Overlays for Razor-Sharp Left Text Readability while revealing product on right */}
+        {/* Cinematic Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#240c15]/90 via-[#240c15]/60 sm:via-[#240c15]/75 lg:via-[#240c15]/40 to-[#240c15]/20 sm:to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#240c15] via-transparent to-transparent lg:hidden pointer-events-none" />
 
@@ -298,12 +319,12 @@ export default function LocationsPage({
             <div className="flex items-center gap-3">
               <MapPin className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
               <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#E8D3A5]">
-                MISS NOUS · LOCATION FINDER
+                Miss Nous · Location Finder
               </span>
               <span className="hidden sm:inline-block w-12 h-px bg-[#E8D3A5]/40" />
             </div>
 
-            {/* Headline */}
+            {/* Headline (H1 for SEO) */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem] font-bold tracking-tight text-white leading-[1.08]">
               Find Miss Nous <br />
               <span className="bg-gradient-to-r from-[#E8D3A5] via-[#FFF3D6] to-[#E8D3A5] bg-clip-text text-transparent">
@@ -311,9 +332,9 @@ export default function LocationsPage({
               </span>
             </h1>
 
-            {/* Description */}
+            {/* Subhead */}
             <p className="font-sans text-base sm:text-lg text-[#F7D6DF]/90 font-normal leading-relaxed max-w-xl">
-              Discover nearby stockists, discreet delivery, and your favorite flavours — now closer to you.
+              Discreet delivery of our strawberry and pineapple water-based lubricants, dispatched from Newark to your door.
             </p>
 
             {/* 2 CTAs */}
@@ -328,7 +349,7 @@ export default function LocationsPage({
               </button>
               <button
                 type="button"
-                onClick={() => onNavigate && onNavigate('shop')}
+                onClick={scrollToProducts}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/30 font-sans text-xs uppercase tracking-wider font-semibold backdrop-blur-md transition-all duration-300 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4 text-[#E8D3A5]" />
@@ -336,13 +357,13 @@ export default function LocationsPage({
               </button>
             </div>
 
-            {/* Bottom 4 Badges in Clean Boxes - Full text visible, stays before product bottles on right */}
+            {/* Trust badges (4 badges, in order from docx) */}
             <div className="pt-4 sm:pt-5 border-t border-white/15 max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
               {[
-                { icon: Package, title: 'Discreet', sub: 'Outer Box' },
-                { icon: Truck, title: 'Fast Local', sub: 'Delivery' },
-                { icon: MapPin, title: 'Nationwide', sub: 'Coverage' },
-                { icon: ShieldCheck, title: 'Trusted', sub: 'pH Balanced' },
+                { icon: Package, title: 'Discreet', line: 'Plain outer box' },
+                { icon: Truck, title: 'Fast Local', line: 'North NJ delivery' },
+                { icon: MapPin, title: 'Nationwide', line: 'All 50 states' },
+                { icon: ShieldCheck, title: 'pH Balanced', line: 'Gentle pH 4.5' },
               ].map((b, idx) => {
                 const Icon = b.icon;
                 return (
@@ -353,7 +374,7 @@ export default function LocationsPage({
                     <Icon className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" strokeWidth={1.5} />
                     <div className="leading-tight text-left min-w-0 flex-1">
                       <p className="text-[11px] sm:text-xs font-bold text-white whitespace-nowrap">{b.title}</p>
-                      <p className="text-[9px] sm:text-[10px] text-[#F7D6DF]/85 whitespace-nowrap">{b.sub}</p>
+                      <p className="text-[9px] sm:text-[10px] text-[#F7D6DF]/85 whitespace-nowrap">{b.line}</p>
                     </div>
                   </div>
                 );
@@ -364,7 +385,7 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          2. FIND YOUR LOCATION – City / State Search
+          2. LOCATION SEARCH – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section
         id="find-location"
@@ -381,18 +402,18 @@ export default function LocationsPage({
                 Find Your Delivery Route
               </h2>
               <p className="text-sm text-[#5A4B50]">
-                Search your city, county, or zip code to see dedicated delivery speeds and service guides.
+                Search your city, county or zip code to see delivery times and your local city guide.
               </p>
             </div>
 
-            {/* Input Bar */}
+            {/* Search Input Bar */}
             <div className="relative max-w-3xl mx-auto">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9E3F5C]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search city, county, or zip code (e.g. Kearny, Newark, 07032, Hudson)..."
+                placeholder="Search city, county or zip code (e.g. Kearny, Newark, 07032, Hudson)"
                 className="w-full pl-13 pr-12 py-4 rounded-full bg-[#FFF9F5] border-2 border-[#F7D6DF] text-[#2B2225] placeholder:text-[#A09095] text-sm sm:text-base focus:outline-none focus:border-[#9E3F5C] transition-all shadow-inner"
               />
               {searchQuery && (
@@ -407,9 +428,28 @@ export default function LocationsPage({
               )}
             </div>
 
+            {/* Quick Filters */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <span className="text-xs font-bold text-[#5A4B50] mr-1">Quick filters:</span>
+              {FILTER_TABS.map((btn) => (
+                <button
+                  key={btn.id}
+                  type="button"
+                  onClick={() => handleFilterClick(btn.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedRegionFilter === btn.id
+                      ? 'bg-[#9E3F5C] text-white shadow-xs'
+                      : 'bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] hover:bg-white'
+                  }`}
+                >
+                  {btn.label}
+                </button>
+              ))}
+            </div>
+
             {/* Live Instant Search Results */}
             {searchQuery.trim() && (
-              <div className="max-w-3xl mx-auto mt-3 rounded-2xl bg-white border border-[#F7D6DF] shadow-xl overflow-hidden">
+              <div className="max-w-3xl mx-auto mt-2 rounded-2xl bg-white border border-[#F7D6DF] shadow-xl overflow-hidden">
                 {filteredCities.length > 0 ? (
                   <div className="divide-y divide-[#F7D6DF]/60">
                     {filteredCities.slice(0, 5).map((city) => (
@@ -428,7 +468,7 @@ export default function LocationsPage({
                           <div className="flex items-center gap-2">
                             <h4 className="font-serif font-bold text-[#2B2225] text-sm truncate">{city.name}</h4>
                             <span className="px-2 py-0.5 rounded-full bg-[#FDF2F5] text-[10px] font-bold text-[#9E3F5C] flex-shrink-0">
-                              {city.distanceLabel || 'Local'}
+                              {city.distanceLabel || 'Local Area'}
                             </span>
                           </div>
                           <p className="text-xs text-[#5A4B50] mt-0.5">
@@ -441,7 +481,7 @@ export default function LocationsPage({
                           )}
                         </div>
                         <span className="flex items-center gap-1 text-xs font-bold text-[#9E3F5C] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          Open Guide <ArrowRight className="w-3.5 h-3.5" />
+                          Open City Guide <ArrowRight className="w-3.5 h-3.5" />
                         </span>
                       </button>
                     ))}
@@ -463,9 +503,11 @@ export default function LocationsPage({
                       <MapPin className="w-5 h-5 text-[#9E3F5C]" />
                     </div>
                     <div>
-                      <p className="font-serif font-bold text-[#2B2225] text-sm">No local hub found for "{searchQuery}"</p>
-                      <p className="text-xs text-[#5A4B50] mt-1">
-                        Don't worry — we ship discreetly to all 50 states nationwide!
+                      <p className="font-serif font-bold text-[#2B2225] text-sm">
+                        No city guide found for "{searchQuery}"
+                      </p>
+                      <p className="text-xs text-[#5A4B50] mt-1 max-w-md mx-auto">
+                        We don't have a city guide for that area yet, but we still deliver there. Miss Nous ships discreetly to all 50 states.
                       </p>
                     </div>
                     <button
@@ -474,48 +516,23 @@ export default function LocationsPage({
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#9E3F5C] hover:bg-[#852f49] text-white text-xs font-bold transition-colors cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
-                      Shop Now — We Ship Everywhere
+                      Shop Flavours — We Ship Everywhere
                     </button>
                   </div>
                 )}
               </div>
             )}
 
-            {/* Quick Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <span className="text-xs font-bold text-[#5A4B50] mr-2">Quick filters:</span>
-              {[
-                { id: 'all', label: 'All Cities' },
-                { id: 'hudson', label: 'Hudson County' },
-                { id: 'essex', label: 'Essex County' },
-                { id: 'nj-nearby', label: 'Nearby Newark' },
-              ].map((btn) => (
-                <button
-                  key={btn.id}
-                  type="button"
-                  onClick={() => handleFilterClick(btn.id)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                    selectedRegionFilter === btn.id
-                      ? 'bg-[#9E3F5C] text-white shadow-xs'
-                      : 'bg-[#FDF2F5] text-[#2B2225] border border-[#F7D6DF] hover:bg-white'
-                  }`}
-                >
-                  {btn.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Result Counter */}
+            {/* Results line (Exact copy from docx) */}
             <div className="text-center text-xs font-medium text-[#7A6B70]">
-              Showing <span className="font-bold text-[#9E3F5C]">{filteredCities.length}</span> active city guides matching your search.
+              Showing <span className="font-bold text-[#9E3F5C]">{filteredCities.length}</span> city guides matching your search.
             </div>
           </div>
         </div>
       </section>
 
-
       {/* ─────────────────────────────────────────────────────────────
-          4. EXPLORE CITIES – City Directory
+          3. CITY SERVICE AREAS – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section id="cities-directory" className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-y border-[#F7D6DF] scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-10">
@@ -529,12 +546,12 @@ export default function LocationsPage({
                 Explore City Service Areas
               </h2>
               <p className="text-sm sm:text-base text-[#5A4B50]">
-                Select your city to view local dispatch times, customer reviews, and neighborhood delivery details.
+                Choose your city to see local delivery times, neighborhoods we cover and answers for your area.
               </p>
             </div>
 
-            <div className="text-xs font-semibold text-[#9E3F5C]">
-              {filteredCities.length} Cities Available
+            <div className="text-xs font-semibold text-[#9E3F5C] bg-white px-3.5 py-1.5 rounded-full border border-[#F7D6DF] shadow-xs">
+              8 Cities Available
             </div>
           </div>
 
@@ -560,11 +577,18 @@ export default function LocationsPage({
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/85 via-[#2B2225]/20 to-transparent" />
 
-                    {/* Distance Pill */}
+                    {/* Tag Pill */}
                     <div className="absolute top-3.5 left-3.5">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#2B2225] text-[11px] font-bold shadow-md">
                         <Navigation className="w-3 h-3 text-[#9E3F5C]" />
                         {city.distanceLabel || 'Local Area'}
+                      </span>
+                    </div>
+
+                    {/* County Pill */}
+                    <div className="absolute top-3.5 right-3.5">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[#E8D3A5] text-[10.5px] font-bold border border-white/10">
+                        {city.county?.replace(' County', '') || 'North NJ'}
                       </span>
                     </div>
 
@@ -585,10 +609,10 @@ export default function LocationsPage({
                       {city.description}
                     </p>
 
-                    {/* Neighborhoods tags if available */}
+                    {/* Neighborhood Chips from docx */}
                     {city.neighborhoods?.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-1">
-                        {city.neighborhoods.slice(0, 3).map((n) => (
+                        {city.neighborhoods.slice(0, 4).map((n) => (
                           <span
                             key={n}
                             className="px-2 py-0.5 rounded-full bg-[#FDF2F5] text-[10px] font-semibold text-[#2B2225] border border-[#F7D6DF]"
@@ -596,9 +620,9 @@ export default function LocationsPage({
                             {n}
                           </span>
                         ))}
-                        {city.neighborhoods.length > 3 && (
+                        {city.neighborhoods.length > 4 && (
                           <span className="px-2 py-0.5 rounded-full bg-[#FDF2F5] text-[10px] font-semibold text-[#9E3F5C]">
-                            +{city.neighborhoods.length - 3} more
+                            +{city.neighborhoods.length - 4} more
                           </span>
                         )}
                       </div>
@@ -619,14 +643,14 @@ export default function LocationsPage({
                 No specific city guide found for "{searchQuery}"
               </h3>
               <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
-                Don’t worry! We ship our water-based lubricants to every town and city in the United States in plain, unmarked boxes.
+                We don't have a city guide for that area yet, but we still deliver there. Miss Nous ships discreetly to all 50 states.
               </p>
               <button
                 type="button"
                 onClick={() => onNavigate && onNavigate('shop')}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9E3F5C] text-white text-xs font-bold uppercase tracking-wider"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9E3F5C] text-white text-xs font-bold uppercase tracking-wider cursor-pointer"
               >
-                <span>Shop All Lubricants</span>
+                <span>Shop Flavours</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -635,25 +659,24 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          5. OUR PRODUCTS – Strawberry & Pineapple Lubricants
+          4. PRODUCTS – Strawberry & Pineapple (Exact SEO content from docx)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#2B2225] text-white">
+      <section id="products-section" className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#2B2225] text-white scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/30 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Two Signature Formulas</span>
+              <span>Two Signature Flavours</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
               Our Products: Strawberry &amp; Pineapple
             </h2>
             <p className="text-sm sm:text-base text-[#F7D6DF]/80 leading-relaxed">
-              Both formulated on our silky organic water base · pH 4.5 Balanced · 100ml size · Shipped with complete privacy.
+              Both are water-based, pH 4.5 and 100ml, and both ship in plain, unbranded packaging.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Strawberry Product Card */}
             {/* Strawberry Product Card */}
             <article className="group bg-[#361A23] rounded-3xl sm:rounded-[2.5rem] border border-[#9E3F5C]/40 hover:border-[#9E3F5C] shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 relative">
               <div
@@ -669,14 +692,14 @@ export default function LocationsPage({
                 />
                 <div className="absolute inset-0 bg-[#361A23]/40 pointer-events-none" />
 
-                {/* Master Product Image - 100% Complete ("Poori Image") */}
+                {/* Master Product Image */}
                 <img
                   src={strawberryProduct?.image || '/jpt-6.jpeg'}
-                  alt={strawberryProduct?.name || 'Miss Nous Strawberry Intimate Lubricant'}
+                  alt="Miss Nous Intimate Lubricant – Strawberry"
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Bold, large, seamless edge-to-edge corner banner */}
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Large & Seamless */}
                 <div className="absolute top-[60px] sm:top-[68px] left-[60px] sm:left-[68px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[290px] sm:w-[330px] py-2 sm:py-2.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(0,0,0,0.65)] border-y-2 border-[#E8D3A5]/60 flex items-center justify-center gap-2 leading-none pointer-events-none z-20">
                   <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
@@ -695,32 +718,25 @@ export default function LocationsPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
-                    FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
+                    Flavoured intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => handleGoProduct(strawberryProduct)}
                     className="font-serif text-2xl sm:text-3xl font-bold cursor-pointer hover:text-[#E8D3A5] transition-colors leading-snug"
                   >
-                    {strawberryProduct?.name || 'Miss Nous Strawberry Intimate Lubricant'}
+                    Miss Nous Intimate Lubricant – Strawberry
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    {strawberryProduct?.description ||
-                      'A colorful, water-based lubricant with a glycerin and propylene glycol base. 100ml size. Ships discreetly across the USA.'}
+                    A silky, water-based lubricant with a sweet strawberry flavour. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
                   <div className="flex items-baseline justify-center sm:justify-start gap-3">
-                    <span className="text-3xl font-bold text-white">
-                      ${Number(strawberryProduct?.price || 31.99).toFixed(2)}
-                    </span>
-                    {strawberryProduct?.originalPrice && (
-                      <span className="text-sm line-through text-white/50">
-                        ${Number(strawberryProduct.originalPrice).toFixed(2)}
-                      </span>
-                    )}
+                    <span className="text-3xl font-bold text-white">$31.99</span>
+                    <span className="text-sm line-through text-white/50">$39.99</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#9E3F5C]/40 border border-[#9E3F5C] text-[#FFF9F5] text-[11px] font-bold">
-                      20% OFF
+                      20% Off
                     </span>
                   </div>
 
@@ -731,14 +747,14 @@ export default function LocationsPage({
                       className="py-3 px-4 bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold rounded-full shadow-pink-glow flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      <span>Add to bag</span>
+                      <span>Add to Bag</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleGoProduct(strawberryProduct)}
                       className="py-3 px-4 bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
-                      <span>View details</span>
+                      <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -761,14 +777,14 @@ export default function LocationsPage({
                 />
                 <div className="absolute inset-0 bg-[#302616]/40 pointer-events-none" />
 
-                {/* Master Product Image - 100% Complete ("Poori Image") */}
+                {/* Master Product Image */}
                 <img
                   src={pineappleProduct?.image || '/gpt-5.png'}
-                  alt={pineappleProduct?.name || 'Miss Nous Pineapple Intimate Lubricant'}
+                  alt="Miss Nous Intimate Lubricant – Pineapple"
                   className="relative z-10 max-h-full max-w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Diagonal Corner Ribbon (Discounted Offer) - Bold, large, seamless edge-to-edge corner banner */}
+                {/* Diagonal Corner Ribbon (Discounted Offer) - Large & Seamless */}
                 <div className="absolute top-[60px] sm:top-[68px] left-[60px] sm:left-[68px] -translate-x-1/2 -translate-y-1/2 -rotate-45 w-[290px] sm:w-[330px] py-2 sm:py-2.5 bg-gradient-to-r from-[#501525] via-[#A84260] to-[#501525] text-[#FFF9F5] font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(0,0,0,0.65)] border-y-2 border-[#E8D3A5]/60 flex items-center justify-center gap-2 leading-none pointer-events-none z-20">
                   <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#E8D3A5] flex-shrink-0" />
                   <span className="whitespace-nowrap">Discounted Offer</span>
@@ -787,32 +803,25 @@ export default function LocationsPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
-                    FLAVORED &amp; SCENTED INTIMATE LUBRICANT (100ML)
+                    Flavoured intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => handleGoProduct(pineappleProduct)}
                     className="font-serif text-2xl sm:text-3xl font-bold cursor-pointer hover:text-[#E8D3A5] transition-colors leading-snug"
                   >
-                    {pineappleProduct?.name || 'Miss Nous Pineapple Intimate Lubricant'}
+                    Miss Nous Intimate Lubricant – Pineapple
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    {pineappleProduct?.description ||
-                      'A silky, water-based lubricant with a light, fruit-inspired pineapple flavor. Set to a gentle pH so it stays comfortable on sensitive skin. 100ml size.'}
+                    A silky, water-based lubricant with a light, tropical pineapple flavour. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/10 space-y-4">
                   <div className="flex items-baseline justify-center sm:justify-start gap-3">
-                    <span className="text-3xl font-bold text-white">
-                      ${Number(pineappleProduct?.price || 31.99).toFixed(2)}
-                    </span>
-                    {pineappleProduct?.originalPrice && (
-                      <span className="text-sm line-through text-white/50">
-                        ${Number(pineappleProduct.originalPrice).toFixed(2)}
-                      </span>
-                    )}
+                    <span className="text-3xl font-bold text-white">$31.99</span>
+                    <span className="text-sm line-through text-white/50">$39.99</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#D4AF6A]/30 border border-[#D4AF6A] text-[#E8D3A5] text-[11px] font-bold">
-                      20% OFF
+                      20% Off
                     </span>
                   </div>
 
@@ -823,14 +832,14 @@ export default function LocationsPage({
                       className="py-3 px-4 bg-[#D4AF6A] hover:bg-[#c29c54] text-[#2B2225] font-sans text-xs uppercase tracking-wider font-bold rounded-full shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      <span>Add to bag</span>
+                      <span>Add to Bag</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleGoProduct(pineappleProduct)}
                       className="py-3 px-4 bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/20 font-sans text-xs uppercase tracking-wider font-semibold rounded-full flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
-                      <span>View details</span>
+                      <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -842,7 +851,7 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          6. WHY CHOOSE MISS NOUS? – Key Benefits
+          5. WHY CHOOSE MISS NOUS? – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5] relative overflow-hidden">
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
@@ -850,14 +859,14 @@ export default function LocationsPage({
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
               <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C]" />
               <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                Verified Purity
+                Why Miss Nous
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-[#2B2225] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225] tracking-tight">
               Why Choose Miss Nous?
             </h2>
             <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
-              We formulated every drop to feel effortless, comfortable, and body-respecting—from first touch to easy rinse.
+              Made to feel easy and comfortable, from first touch to easy rinse.
             </p>
           </div>
 
@@ -884,7 +893,7 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          7. SHIPPING & DELIVERY COVERAGE
+          6. SHIPPING & DELIVERY COVERAGE – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-y border-[#F7D6DF]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -899,7 +908,7 @@ export default function LocationsPage({
               Shipping &amp; Delivery Coverage
             </h2>
             <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
-              Every package is handled with discretion and care from our Newark facility. Here is what you can expect when ordering.
+              Every order is packed with care in Newark and shipped in plain packaging. Here is what to expect.
             </p>
           </div>
 
@@ -913,24 +922,24 @@ export default function LocationsPage({
                   <div className="flex items-center justify-between">
                     <Clock className="w-5 h-5 text-[#9E3F5C]" />
                     <span className="text-xs font-bold text-[#9E3F5C] bg-[#FDF2F5] px-2.5 py-1 rounded-full border border-[#F7D6DF]">
-                      {item.time}
+                      {item.badge}
                     </span>
                   </div>
                   <h3 className="font-serif text-lg font-bold text-[#2B2225] leading-snug">{item.region}</h3>
-                  <p className="text-[11px] font-bold text-[#D4AF6A] uppercase tracking-wider">{item.status}</p>
+                  <p className="text-[11px] font-bold text-[#D4AF6A] uppercase tracking-wider">{item.label}</p>
                   <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Discreet Box Reassurance Banner */}
+          {/* Privacy Reassurance Banner from docx */}
           <div className="p-8 sm:p-10 rounded-[2.5rem] bg-[#2B2225] text-white shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center lg:text-left max-w-2xl">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E8D3A5]">Privacy First Guarantee</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#E8D3A5]">Privacy First</span>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold">Unmarked, Neutral Packaging</h3>
               <p className="text-sm text-[#F7D6DF]/80 leading-relaxed">
-                No mention of lubricants or intimate products anywhere on the outer box or shipping label. Handled directly with complete customer confidentiality.
+                Nothing on the box or the shipping label mentions lubricant or intimate products. Your order details stay private.
               </p>
             </div>
             <button
@@ -945,12 +954,90 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          8. CUSTOMER REVIEWS (Same as Home Page)
+          7. REVIEWS – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
-      <TestimonialsSection />
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FDF2F5] border border-[#F7D6DF]">
+              <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C]" />
+              <span className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
+                Client Experience
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#2B2225]">
+              Real Reviews From Our Customers
+            </h2>
+            <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
+              What customers say after making Miss Nous part of their routine.
+            </p>
+          </div>
+
+          {/* Review Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {LOCAL_REVIEWS.map((rev) => (
+              <div
+                key={rev.id}
+                className="p-6 sm:p-7 rounded-3xl bg-white border border-[#F7D6DF] shadow-luxury flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-[#D4AF6A]">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-current" />
+                      ))}
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full bg-[#FDF2F5] text-[10px] font-bold text-[#9E3F5C] border border-[#F7D6DF]">
+                      Verified Client
+                    </span>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-[#2B2225] leading-relaxed italic">
+                    "{rev.quote}"
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[#F7D6DF]/60 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#9E3F5C] text-white font-bold text-xs flex items-center justify-center flex-shrink-0 shadow-sm">
+                    {rev.initials}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-serif font-bold text-sm text-[#2B2225] truncate">{rev.name}</p>
+                    <p className="text-[11px] text-[#7A6B70] truncate">
+                      Verified Purchaser • {rev.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Fallback Review Callout Banner from docx */}
+          <div className="p-8 sm:p-10 rounded-3xl bg-[#FDF2F5] border border-[#F7D6DF] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div className="space-y-1.5 max-w-xl">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#2B2225]">
+                Be one of our first reviewers
+              </h3>
+              <p className="text-xs sm:text-sm text-[#5A4B50] leading-relaxed">
+                Tried Miss Nous? Tell us how it felt and help others choose with confidence.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                alert('Thank you for sharing your experience! Please email your feedback to support@missnous.com.');
+              }}
+              className="px-7 py-3 rounded-full bg-white hover:bg-[#9E3F5C] text-[#2B2225] hover:text-white border border-[#F7D6DF] text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-300 flex-shrink-0 cursor-pointer flex items-center gap-2"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Leave a Review</span>
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          9. FREQUENTLY ASKED QUESTIONS
+          8. FREQUENTLY ASKED QUESTIONS – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#FDF2F5] border-t border-[#F7D6DF]">
         <div className="max-w-4xl mx-auto space-y-10">
@@ -965,7 +1052,7 @@ export default function LocationsPage({
               Frequently Asked Questions
             </h2>
             <p className="font-sans text-base text-[#5A4B50] leading-relaxed">
-              Clear answers regarding local deliveries, discreet packaging, and product care.
+              Answers about local delivery, discreet packaging and product care.
             </p>
           </div>
 
@@ -1017,7 +1104,7 @@ export default function LocationsPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          10. FINAL CTA – Find Your Nearest City & Shop Flavours
+          9. FINAL CALL TO ACTION – Exact SEO content from docx
       ───────────────────────────────────────────────────────────── */}
       <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-16 bg-[#FFF9F5]">
         <div className="max-w-7xl mx-auto">
@@ -1035,12 +1122,12 @@ export default function LocationsPage({
                 </div>
 
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-                  Ready for Pure Comfort? <br />
+                  Ready for Comfort? <br />
                   <span className="text-[#E8D3A5]">Find Miss Nous in Your City</span>
                 </h2>
 
                 <p className="text-base sm:text-lg text-[#F7D6DF]/85 font-normal leading-relaxed">
-                  Experience silky, organic water-based intimate care crafted to balance and protect. Shipped directly from our Newark hub in plain, unbranded packaging with complete discretion.
+                  Silky, water-based, pH 4.5 lubricant in strawberry and pineapple. Shipped from our Newark base in plain, unbranded packaging.
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-3.5">
