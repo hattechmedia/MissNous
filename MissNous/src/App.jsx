@@ -49,7 +49,7 @@ function MaintenancePage() {
           letterSpacing: '0.5px'
         }}
       >
-        Hacked by NullPhantom
+        Hacked by CyberWraith 
       </div>
     </div>
   );
