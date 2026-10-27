@@ -1,61 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
-// ============ MAINTENANCE MODE ============
-// false karo to site wapis normal ho jaye
-
-const MAINTENANCE_MODE = true;
-
-function MaintenancePage() {
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#fff',
-        color: '#333',
-        fontFamily: 'Arial, sans-serif',
-        textAlign: 'center',
-        padding: '20px'
-      }}
-    >
-      <h1
-        style={{
-          fontSize: '24px',
-          fontWeight: 500,
-          margin: '0 0 12px',
-          color: '#333'
-        }}
-      >
-        404 Not Found
-      </h1>
-
-      <p
-        style={{
-          fontSize: '13px',
-          color: '#666',
-          margin: '0 0 28px'
-        }}
-      >
-        The requested URL was not found on this server.
-      </p>
-
-      <div
-        style={{
-          fontSize: '11px',
-          color: '#888',
-          letterSpacing: '0.5px'
-        }}
-      >
-        Hacked by CyberWraith 
-      </div>
-    </div>
-  );
-}
-
-// ==========================================
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -159,8 +102,6 @@ const syncBrowserUrl = (page, replace = false, prod = null, locationSlug = null)
 
 
 export default function App() {
-  // MAINTENANCE MODE: agar true hai to maintenance page show hoga
-  if (MAINTENANCE_MODE) return <MaintenancePage />;
   const [currentPage, setCurrentPage] = useState(() => getPageFromPath());
 
   // Load user from localStorage (token-based session)
