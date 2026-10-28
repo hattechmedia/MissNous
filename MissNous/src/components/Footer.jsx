@@ -153,6 +153,15 @@ export default function Footer({ onNavigate }) {
                   Contact Us
                 </a>
               </li>
+              <li>
+                <a
+                  href="/sitemap"
+                  onClick={(e) => handleNavClick(e, 'sitemap')}
+                  className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
+                >
+                  Sitemap
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -199,6 +208,10 @@ export default function Footer({ onNavigate }) {
             <span>·</span>
             <a href="/terms-of-use" onClick={(e) => handleNavClick(e, 'terms-of-use')} className="hover:text-white transition-colors">
               Terms of Use
+            </a>
+            <span>·</span>
+            <a href="/sitemap" onClick={(e) => handleNavClick(e, 'sitemap')} className="hover:text-white transition-colors">
+              Sitemap
             </a>
           </div>
         </div>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" 
+  xmlns:html="http://www.w3.org/TR/REC-html40"
+  xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/">
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+      <head>
+        <title>XML Sitemap | Miss Nous</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style type="text/css">
+          * { box-sizing: border-box; }
+          body {
+            background-color: #f7f3f4;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            color: #2b2225;
+            margin: 0;
+            padding: 30px 16px;
+            -webkit-font-smoothing: antialiased;
+          }
+          .sitemap-card {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(158, 63, 92, 0.08);
+            border: 1px solid #f2dfe4;
+          }
+          .sitemap-header {
+            background: #9E3F5C;
+            color: #ffffff;
+            padding: 32px 36px;
+          }
+          .sitemap-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+          }
+          .sitemap-header p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #fff2f5;
+            max-width: 820px;
+          }
+          .sitemap-subbar {
+            background: #fdf6f8;
+            padding: 14px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #5a4b50;
+            border-bottom: 1px solid #f2dfe4;
+          }
+          .sitemap-subbar a {
+            color: #9E3F5C;
+            text-decoration: none;
+            font-weight: 700;
+          }
+          .sitemap-subbar a:hover {
+            text-decoration: underline;
+            color: #7C2F47;
+          }
+          .sitemap-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+          }
+          .sitemap-table th {
+            text-align: left;
+            padding: 14px 36px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #7a686e;
+            border-bottom: 1px solid #f2dfe4;
+            background: #ffffff;
+          }
+          .sitemap-table th.right, .sitemap-table td.right {
+            text-align: right;
+          }
+          .sitemap-table tr {
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+          }
+          .sitemap-table td {
+            padding: 15px 36px;
+            border-bottom: 1px solid #f7edf0;
+            color: #2b2225;
+            vertical-align: middle;
+          }
+          .sitemap-table tr:hover td {
+            background-color: #fff9f5;
+          }
+          .sitemap-table td a {
+            color: #9E3F5C;
+            text-decoration: none;
+            font-weight: 600;
+            word-break: break-all;
+            display: inline-block;
+          }
+          .sitemap-table td a:hover {
+            text-decoration: underline;
+            color: #7C2F47;
+          }
+          .sitemap-table td.date {
+            color: #7a686e;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            white-space: nowrap;
+          }
+          .sitemap-footer {
+            padding: 22px 36px;
+            text-align: center;
+            font-size: 12px;
+            color: #9e8e93;
+            border-top: 1px solid #f7edf0;
+            background: #ffffff;
+          }
+          @media (max-width: 640px) {
+            .sitemap-header { padding: 22px 20px; }
+            .sitemap-header h1 { font-size: 20px; }
+            .sitemap-subbar { padding: 12px 20px; flex-direction: column; align-items: flex-start; gap: 6px; }
+            .sitemap-table th, .sitemap-table td { padding: 12px 20px; }
+            .sitemap-table td.date { font-size: 11px; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="sitemap-card">
+          
+          <!-- SITEMAP INDEX VIEW -->
+          <xsl:if test="sitemap:sitemapindex">
+            <div class="sitemap-header">
+              <h1>XML Sitemap Index</h1>
+              <p>This XML Sitemap is generated by Miss Nous CMS. It is what search engines like Google and Bing use to crawl, index, and re-crawl posts, pages, products, categories, and images on Miss Nous.</p>
+            </div>
+            <div class="sitemap-subbar">
+              <div>This XML Sitemap Index file contains <strong><xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/></strong> sitemaps.</div>
+              <div>Generated For: <strong>Miss Nous</strong></div>
+            </div>
+            <table class="sitemap-table">
+              <thead>
+                <tr>
+                  <th>SITEMAP</th>
+                  <th class="right">LAST MODIFIED</th>
+                </tr>
+              </thead>
+              <tbody>
+                <xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
+                  <xsl:variable name="relPath">
+                    <xsl:choose>
+                      <xsl:when test="contains(sitemap:loc, 'missnous.com/')">
+                        <xsl:value-of select="concat('/', substring-after(sitemap:loc, 'missnous.com/'))"/>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="sitemap:loc"/>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:variable>
+                  <tr onclick="window.location.href='{$relPath}'">
+                    <td>
+                      <a href="{$relPath}">
+                        <xsl:value-of select="sitemap:loc"/>
+                      </a>
+                    </td>
+                    <td class="right date">
+                      <xsl:value-of select="sitemap:lastmod"/>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </xsl:if>
+
+          <!-- INDIVIDUAL SITEMAP / URLSET VIEW -->
+          <xsl:if test="sitemap:urlset">
+            <xsl:variable name="firstUrl" select="sitemap:urlset/sitemap:url[1]/sitemap:loc" />
+            <div class="sitemap-header">
+              <h1>
+                <xsl:choose>
+                  <xsl:when test="contains($firstUrl, 'location')">Location XML Sitemap</xsl:when>
+                  <xsl:when test="contains($firstUrl, 'lubricant')">Product XML Sitemap</xsl:when>
+                  <xsl:when test="contains($firstUrl, 'blog')">Blog XML Sitemap</xsl:when>
+                  <xsl:otherwise>Page XML Sitemap</xsl:otherwise>
+                </xsl:choose>
+              </h1>
+              <p>This XML Sitemap is generated by Miss Nous CMS. It is what search engines like Google and Bing use to crawl, index, and re-crawl posts, pages, products, categories, and images on Miss Nous.</p>
+            </div>
+            <div class="sitemap-subbar">
+              <div>This XML Sitemap contains <strong><xsl:value-of select="count(sitemap:urlset/sitemap:url)"/></strong> URLs.</div>
+              <div>
+                <a href="/sitemap.xml">&#8592; Back to Sitemap Index</a>
+              </div>
+            </div>
+            <table class="sitemap-table">
+              <thead>
+                <tr>
+                  <th>URL</th>
+                  <th class="right">LAST MODIFIED</th>
+                </tr>
+              </thead>
+              <tbody>
+                <xsl:for-each select="sitemap:urlset/sitemap:url">
+                  <xsl:variable name="relPath">
+                    <xsl:choose>
+                      <xsl:when test="contains(sitemap:loc, 'missnous.com/')">
+                        <xsl:value-of select="concat('/', substring-after(sitemap:loc, 'missnous.com/'))"/>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="sitemap:loc"/>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:variable>
+                  <tr onclick="window.location.href='{$relPath}'">
+                    <td>
+                      <a href="{$relPath}">
+                        <xsl:value-of select="sitemap:loc"/>
+                      </a>
+                    </td>
+                    <td class="right date">
+                      <xsl:value-of select="sitemap:lastmod"/>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </xsl:if>
+
+          <div class="sitemap-footer">
+            &#169; Miss Nous &#8212; Luxury Intimate Wellness &amp; Botanical Care. All rights reserved.
+          </div>
+
+        </div>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>

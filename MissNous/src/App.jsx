@@ -11,6 +11,7 @@ import TermsOfUsePage from './pages/TermsOfUsePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import LocationsPage from './pages/LocationsPage';
 import LocationCityPage from './pages/LocationCityPage';
+import SitemapPage from './pages/SitemapPage';
 import { getLocationSlugFromPath, getLocationBySlug } from './data/locations';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
@@ -45,6 +46,7 @@ const getPageFromPath = () => {
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
   if (path === '/terms' || path === '/terms-of-use' || path === '/terms-of-service') return 'terms-of-use';
   if (path === '/privacy' || path === '/privacy-policy') return 'privacy-policy';
+  if (path === '/sitemap' || path === '/sitemap/' || path === '/sitemap-html' || path === '/sitemap.html') return 'sitemap';
   if (path === '/login' || path === '/signin') return 'login';
   if (path === '/register' || path === '/signup') return 'register';
   return 'home';
@@ -77,6 +79,7 @@ const getPathForPage = (page, prod = null, locationSlug = null) => {
     case 'account': return '/account/';
     case 'terms-of-use': return '/terms-of-use/';
     case 'privacy-policy': return '/privacy-policy/';
+    case 'sitemap': return '/sitemap/';
     case 'login': return '/login/';
     case 'register': return '/register/';
     case 'home':
@@ -438,6 +441,11 @@ export default function App() {
           pageTitle = 'Privacy Policy | Miss Nous';
           pageDesc = 'Learn how Miss Nous collects, safeguards, and respects your personal privacy and customer data.';
           break;
+        case 'sitemap':
+          path = '/sitemap/';
+          pageTitle = 'HTML Sitemap & URL Directory | Miss Nous';
+          pageDesc = 'Comprehensive sitemap of Miss Nous featuring products, local delivery city guides, articles, and wellness resources.';
+          break;
         case 'home':
         default:
           path = '/';
@@ -788,6 +796,10 @@ export default function App() {
 
       {currentPage === 'privacy-policy' && (
         <main><PrivacyPolicyPage onNavigate={handleNavigate} /></main>
+      )}
+
+      {currentPage === 'sitemap' && (
+        <main><SitemapPage onNavigate={handleNavigate} onViewProduct={handleViewProduct} /></main>
       )}
 
       {(currentPage === 'login' || currentPage === 'register') && (
