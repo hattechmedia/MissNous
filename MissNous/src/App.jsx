@@ -23,59 +23,7 @@ import CartDrawer from './components/CartDrawer';
 import { PRODUCTS, CATEGORIES } from './data/products';
 import api from './services/api';
 
-// ============ MAINTENANCE MODE CONFIG ============
 
-const MAINTENANCE_MODE = true;
-
-function MaintenancePage() {
-  useEffect(() => {
-    document.title = 'Page Not Found';
-    const link = document.querySelector("link[rel*='icon']");
-    if (link) {
-      link.href = '/error.png';
-    }
-  }, []);
-
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#fff',
-        color: '#333',
-        fontFamily: 'Arial, sans-serif',
-        textAlign: 'center',
-        padding: '20px'
-      }}
-    >
-      <h1
-        style={{
-          fontSize: '32px',
-          fontWeight: 500,
-          margin: '0 0 12px',
-          color: '#333'
-        }}
-      >
-        404 Not Found
-      </h1>
-
-      <p
-        style={{
-          fontSize: '14px',
-          color: '#666',
-          margin: '0'
-        }}
-      >
-        The requested URL was not found on this server.
-      </p>
-    </div>
-  );
-}
-
-// =================================================
 
 // Map browser pathname to app page state
 const getPageFromPath = () => {
@@ -754,9 +702,6 @@ export default function App() {
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  if (MAINTENANCE_MODE) {
-    return <MaintenancePage />;
-  }
 
   return (
     <div className="min-h-screen bg-[#FDF2F5] text-[#2B2225] font-sans antialiased selection:bg-[#F7D6DF] selection:text-[#9E3F5C]">
