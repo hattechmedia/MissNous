@@ -21,7 +21,7 @@ const PROCESS_STEPS = [
     title: 'Formulation',
     description: 'Our specialists combine carefully selected ingredients into balanced formulas designed for quality, consistency, and everyday wellness.',
     imagePath: '/assets/images/process/formulation.webp',
-    alt: 'Precise apothecary formulation of active natural wellness serums and blends'
+    alt: 'Precise formulation of active botanical intimate lubricant blends'
   },
   {
     step: '04',

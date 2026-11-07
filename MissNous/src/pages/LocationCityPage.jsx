@@ -41,7 +41,7 @@ const DUO_PRODUCTS_IMAGE = '/gpt-11-rem.png';
 const WHY_CHOOSE_DUO_IMAGE = '/images/why-choose-duo.png';
 const PURITY_TRANSPARENCY_IMAGE = '/images/purity-transparency.png';
 
-function pickFlavourProducts(products) {
+function pickFlavorProducts(products) {
   const list = products?.length ? products : PRODUCTS;
   const strawberry =
     list.find((p) => (p.name || '').toLowerCase().includes('strawberry')) || list[0];
@@ -123,7 +123,7 @@ export default function LocationCityPage({
     return CITY_PAGES_CONTENT[key] || CITY_PAGES_CONTENT.newark;
   }, [slug]);
 
-  const { strawberry, pineapple } = useMemo(() => pickFlavourProducts(products), [products]);
+  const { strawberry, pineapple } = useMemo(() => pickFlavorProducts(products), [products]);
   const [heroImgError, setHeroImgError] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
@@ -194,9 +194,9 @@ export default function LocationCityPage({
     else goProduct(prod);
   };
 
-  const heroButtons = (cityData.hero.buttons || 'Shop Local Delivery · Compare Flavours').split('·');
+  const heroButtons = (cityData.hero.buttons || 'Shop Local Delivery · Compare Flavors').split('·');
   const primaryHeroBtn = heroButtons[0]?.trim() || `Shop ${location.name} Delivery`;
-  const secondaryHeroBtn = heroButtons[1]?.trim() || 'Compare Flavours';
+  const secondaryHeroBtn = heroButtons[1]?.trim() || 'Compare Flavors';
 
   return (
     <div className="bg-[#FFF9F5] text-[#2B2225] font-sans overflow-x-hidden selection:bg-[#F7D6DF] selection:text-[#9E3F5C]">
@@ -275,7 +275,7 @@ export default function LocationCityPage({
               </button>
               <button
                 type="button"
-                onClick={() => document.getElementById('loc-flavour')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('loc-flavor')?.scrollIntoView({ behavior: 'smooth' })}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border-2 border-[#E8D3A5]/50 text-[#FFF9F5] font-semibold text-xs uppercase tracking-wider hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <span>{secondaryHeroBtn}</span>
@@ -349,7 +349,7 @@ export default function LocationCityPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
-                    Flavoured intimate lubricant (100ml)
+                    Flavored intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => goProduct(strawberry)}
@@ -358,7 +358,7 @@ export default function LocationCityPage({
                     Miss Nous Intimate Lubricant – Strawberry
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    A silky, water-based lubricant with a sweet strawberry flavour. Non-sticky and rinses clean with water.
+                    A silky, water-based lubricant with a sweet strawberry flavor. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
@@ -433,7 +433,7 @@ export default function LocationCityPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5]">
-                    Flavoured intimate lubricant (100ml)
+                    Flavored intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => goProduct(pineapple)}
@@ -442,7 +442,7 @@ export default function LocationCityPage({
                     Miss Nous Intimate Lubricant – Pineapple
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    A silky, water-based lubricant with a light, tropical pineapple flavour. Non-sticky and rinses clean with water.
+                    A silky, water-based lubricant with a light, tropical pineapple flavor. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
@@ -566,7 +566,7 @@ export default function LocationCityPage({
                     onClick={() => document.getElementById('loc-shop')?.scrollIntoView({ behavior: 'smooth' })}
                     className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#9E3F5C] to-[#832e47] text-white font-sans text-xs uppercase tracking-wider font-bold shadow-pink-glow hover:opacity-95 transition-opacity cursor-pointer"
                   >
-                    Shop Both Flavours
+                    Shop Both Flavors
                   </button>
                 </div>
               </div>
@@ -600,14 +600,14 @@ export default function LocationCityPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          4. FLAVOUR GUIDE: Which Flavour Should You Choose?
+          4. FLAVOR GUIDE: Which Flavor Should You Choose?
       ───────────────────────────────────────────────────────────── */}
-      <section id="loc-flavour" className="py-16 sm:py-20 bg-[#FDF2F5] border-y border-[#F7D6DF] scroll-mt-24">
+      <section id="loc-flavor" className="py-16 sm:py-20 bg-[#FDF2F5] border-y border-[#F7D6DF] scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
           <div className="text-center space-y-2 mb-10">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">Flavour Selection</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">Flavor Selection</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#2B2225]">
-              Which flavour should you choose?
+              Which flavor should you choose?
             </h2>
           </div>
 
@@ -616,23 +616,23 @@ export default function LocationCityPage({
             <div className="p-8 sm:p-10 space-y-5 bg-[#9E3F5C] text-white flex flex-col justify-between">
               <div className="space-y-4">
                 <p className="text-xs font-bold uppercase tracking-widest text-[#E8D3A5]">
-                  {SHARED_CITY_BLOCKS.flavourGuide.strawberry.eyebrow}
+                  {SHARED_CITY_BLOCKS.flavorGuide.strawberry.eyebrow}
                 </p>
                 <h3 className="font-serif text-3xl font-bold">Strawberry</h3>
                 <p className="text-sm text-white/90 font-medium">
-                  {SHARED_CITY_BLOCKS.flavourGuide.strawberry.mood}
+                  {SHARED_CITY_BLOCKS.flavorGuide.strawberry.mood}
                 </p>
                 <dl className="space-y-3 text-sm pt-2 border-t border-white/20">
                   <div>
                     <dt className="font-bold text-[#E8D3A5]">Best for</dt>
                     <dd className="text-white/90 text-xs sm:text-sm mt-0.5">
-                      {SHARED_CITY_BLOCKS.flavourGuide.strawberry.bestFor}
+                      {SHARED_CITY_BLOCKS.flavorGuide.strawberry.bestFor}
                     </dd>
                   </div>
                   <div>
                     <dt className="font-bold text-[#E8D3A5]">Feel</dt>
                     <dd className="text-white/90 text-xs sm:text-sm mt-0.5">
-                      {SHARED_CITY_BLOCKS.flavourGuide.strawberry.feel}
+                      {SHARED_CITY_BLOCKS.flavorGuide.strawberry.feel}
                     </dd>
                   </div>
                 </dl>
@@ -652,23 +652,23 @@ export default function LocationCityPage({
             <div className="p-8 sm:p-10 space-y-5 bg-[#FFF9F5] text-[#2B2225] flex flex-col justify-between">
               <div className="space-y-4">
                 <p className="text-xs font-bold uppercase tracking-widest text-[#9E3F5C]">
-                  {SHARED_CITY_BLOCKS.flavourGuide.pineapple.eyebrow}
+                  {SHARED_CITY_BLOCKS.flavorGuide.pineapple.eyebrow}
                 </p>
                 <h3 className="font-serif text-3xl font-bold">Pineapple</h3>
                 <p className="text-sm text-[#5A4B50] font-medium">
-                  {SHARED_CITY_BLOCKS.flavourGuide.pineapple.mood}
+                  {SHARED_CITY_BLOCKS.flavorGuide.pineapple.mood}
                 </p>
                 <dl className="space-y-3 text-sm pt-2 border-t border-[#F7D6DF]">
                   <div>
                     <dt className="font-bold text-[#9E3F5C]">Best for</dt>
                     <dd className="text-[#5A4B50] text-xs sm:text-sm mt-0.5">
-                      {SHARED_CITY_BLOCKS.flavourGuide.pineapple.bestFor}
+                      {SHARED_CITY_BLOCKS.flavorGuide.pineapple.bestFor}
                     </dd>
                   </div>
                   <div>
                     <dt className="font-bold text-[#9E3F5C]">Feel</dt>
                     <dd className="text-[#5A4B50] text-xs sm:text-sm mt-0.5">
-                      {SHARED_CITY_BLOCKS.flavourGuide.pineapple.feel}
+                      {SHARED_CITY_BLOCKS.flavorGuide.pineapple.feel}
                     </dd>
                   </div>
                 </dl>
@@ -954,7 +954,7 @@ export default function LocationCityPage({
               {
                 name: 'Verified Client',
                 badge: `Customer in ${location.name}, NJ`,
-                quote: `Fast delivery and the package was 100% plain and discreet. The strawberry flavour is light, subtle, and rinses completely clean with water.`,
+                quote: `Fast delivery and the package was 100% plain and discreet. The strawberry flavor is light, subtle, and rinses completely clean with water.`,
               },
               {
                 name: 'Verified Client',

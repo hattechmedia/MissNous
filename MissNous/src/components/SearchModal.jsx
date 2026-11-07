@@ -75,7 +75,7 @@ export default function SearchModal({
             <input 
               type="text"
               autoFocus
-              placeholder="Search products (e.g. Strawberry, Serum, Lubricant)..."
+              placeholder="Search products (e.g. Strawberry, Pineapple, Water-based)..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 bg-transparent border-none text-base text-[#2B2225] placeholder-[#A09095] focus:outline-none font-sans"
@@ -120,7 +120,7 @@ export default function SearchModal({
           {filteredProducts.length === 0 ? (
             <div className="text-center py-12 text-[#5A4B50] space-y-2">
               <p className="text-base font-medium">No products found matching "{query}"</p>
-              <p className="text-xs text-[#A09095]">Try searching for "Serum", "Strawberry", or "Lubricant"</p>
+              <p className="text-xs text-[#5A4B50]">Try searching for "Strawberry", "Pineapple", or "Water-based"</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -128,7 +128,7 @@ export const PINEAPPLE_INGREDIENTS = [
   {
     number: '03',
     title: 'The texture builders',
-    description: 'Hydroxyethylcellulose, xanthan gum, and carbomer give the serum its body.',
+    description: 'Hydroxyethylcellulose, xanthan gum, and carbomer give the lubricant its silky body.',
     icon: Layers
   },
   {
@@ -169,7 +169,7 @@ export const PINEAPPLE_BENEFITS = [
   {
     number: '03',
     title: 'Light, soft feel',
-    description: 'The serum feels smooth and soft, not heavy.',
+    description: 'The formula feels smooth and soft, not heavy.',
     icon: Sparkles,
     badge: 'Soft Glide'
   },
@@ -957,7 +957,7 @@ export default function ProductDetailPage({
                           {isPineappleProduct ? 'Scent:' : 'Flavor / scent:'}
                         </td>
                         <td className="py-3 px-4 sm:px-5 font-medium text-[#2B2225] align-top text-left">
-                          {isPineappleProduct ? 'Pineapple Flavour' : flavorName}
+                          {isPineappleProduct ? 'Pineapple Flavor' : flavorName}
                         </td>
                       </tr>
 
@@ -1029,7 +1029,7 @@ export default function ProductDetailPage({
 
               <p className="font-sans text-xs sm:text-sm text-white font-normal leading-relaxed">
                 {isPineappleProduct
-                  ? 'Water leads the formula, backed by glycerin and propylene glycol for a smooth, moisture-rich feel. Three thickeners shape the light serum texture, and two preservatives help keep it fresh.'
+                  ? 'Water leads the formula, backed by glycerin and propylene glycol for a smooth, moisture-rich feel. Three thickeners shape the silky lubricant texture, and two preservatives help keep it fresh.'
                   : 'Listed from the highest amount to the lowest.'}
               </p>
             </div>

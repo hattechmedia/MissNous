@@ -214,28 +214,6 @@ export default function CheckoutPage({
     }
   };
 
-  if (!currentUser) {
-    return (
-      <div className="bg-[#FDF2F5] min-h-screen py-24 px-4 sm:px-8 flex items-center justify-center font-sans">
-        <div className="bg-white border border-[#F7D6DF] rounded-[2.5rem] shadow-luxury p-8 sm:p-12 max-w-xl text-center space-y-6 animate-fade-up">
-          <div className="w-16 h-16 rounded-full bg-[#FDF2F5] text-[#9E3F5C] flex items-center justify-center mx-auto shadow-inner border border-[#F7D6DF]">
-            <Lock className="w-8 h-8" />
-          </div>
-          <h2 className="font-sans text-2xl sm:text-3xl font-medium text-[#2B2225]">Please Log In to Place Your Order</h2>
-          <p className="font-sans text-sm text-[#5A4B50] leading-relaxed">
-            You must be logged in to your Miss Nous account to complete your checkout and track your order.
-          </p>
-          <button
-            onClick={() => onOpenAuthModal && onOpenAuthModal('login')}
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-sm font-semibold rounded-full shadow-pink-glow transition-all duration-300 transform hover:scale-105 cursor-pointer"
-          >
-            <span>Log In / Sign Up Now</span>
-            <ArrowLeft className="w-4 h-4 rotate-180" />
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   // Verifying Stripe session spinner
   if (verifyingSession) {
@@ -333,6 +311,20 @@ export default function CheckoutPage({
                   <p className="font-semibold">Notice</p>
                   <p className="text-xs text-red-600 mt-0.5 leading-relaxed">{error}</p>
                 </div>
+              </div>
+            )}
+
+            {/* Guest / Account Banner */}
+            {!currentUser && (
+              <div className="p-4 rounded-2xl bg-white border border-[#F7D6DF] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#5A4B50]">
+                <span>Checking out as <strong>Guest</strong>. Discreet & no account needed.</span>
+                <button
+                  type="button"
+                  onClick={() => onOpenAuthModal && onOpenAuthModal('login')}
+                  className="font-semibold text-[#9E3F5C] hover:underline self-start sm:self-auto cursor-pointer"
+                >
+                  Already have an account? Log in
+                </button>
               </div>
             )}
 

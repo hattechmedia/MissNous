@@ -16,7 +16,7 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Intimate Lubricant in",
       "h1Line2": "Newark, NJ",
       "subhead": "Every Miss Nous order is packed here in Newark, so yours has the shortest trip of all. Strawberry or pineapple, water-based and pH 4.5, at your door in a plain box.",
-      "buttons": "Shop Newark Delivery · Compare Flavours",
+      "buttons": "Shop Newark Delivery · Compare Flavors",
       "floatingBadge": "Near you · Ships from your city",
       "pillLabel": "Dispatched from Newark"
     },
@@ -124,7 +124,7 @@ export const CITY_PAGES_CONTENT = {
         },
         {
           "q": "What does the package look like in an apartment mailroom?",
-          "a": "A plain box or mailer with no brand, product or flavour names, so it looks like any other parcel."
+          "a": "A plain box or mailer with no brand, product or flavor names, so it looks like any other parcel."
         },
         {
           "q": "What is Miss Nous made of?",
@@ -163,13 +163,13 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Intimate Lubricant in",
       "h1Line2": "East Newark",
       "subhead": "In a borough where everyone knows everyone, your parcel shouldn't say a word. Miss Nous arrives in a plain box from our base just over the river in Newark.",
-      "buttons": "Order Discreetly · Compare Flavours",
+      "buttons": "Order Discreetly · Compare Flavors",
       "floatingBadge": "Near you · Across the Passaic",
       "pillLabel": "~2 miles from our Newark base"
     },
     "productsHeader": {
       "eyebrow": "Delivered to East Newark",
-      "heading": "Two Flavours, One Plain Box",
+      "heading": "Two Flavors, One Plain Box",
       "subline": "Strawberry or pineapple · 100ml · No brand names on the outside"
     },
     "whyChoose": {
@@ -177,7 +177,7 @@ export const CITY_PAGES_CONTENT = {
       "cards": [
         {
           "title": "Nothing on the Box",
-          "text": "No logo, no product name and no flavour on the outside. It looks like any other online order."
+          "text": "No logo, no product name and no flavor on the outside. It looks like any other online order."
         },
         {
           "title": "Neutral Return Address",
@@ -249,7 +249,7 @@ export const CITY_PAGES_CONTENT = {
       "items": [
         {
           "q": "Will my neighbours know what I ordered?",
-          "a": "No. The box has no brand, product or flavour names, and the return address is neutral. It looks like any other parcel."
+          "a": "No. The box has no brand, product or flavor names, and the return address is neutral. It looks like any other parcel."
         },
         {
           "q": "What name appears as the sender?",
@@ -300,13 +300,13 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Initmate lubricant in",
       "h1Line2": "Kearny. NJ",
       "subhead": "No searching the shelves, no awkward moment at the register. Order Miss Nous online and it comes to your Kearny door in a plain box, a few miles from our Newark base.",
-      "buttons": "Order to Kearny · Compare Flavours",
+      "buttons": "Order to Kearny · Compare Flavors",
       "floatingBadge": "Near you · Kearny delivery",
       "pillLabel": "~2.5 miles from our Newark base"
     },
     "productsHeader": {
       "eyebrow": "Order Online in Kearny",
-      "heading": "Pick Your Flavour From Home",
+      "heading": "Pick Your Flavor From Home",
       "subline": "Strawberry or pineapple · 100ml · Checkout in under two minutes"
     },
     "whyChoose": {
@@ -423,7 +423,7 @@ export const CITY_PAGES_CONTENT = {
     "finalCta": {
       "eyebrow": "Delivered to Kearny",
       "headingLine1": "Skip the store.",
-      "headingLine2": "Choose your flavour at home",
+      "headingLine2": "Choose your flavor at home",
       "text": "Strawberry or pineapple, water-based and pH 4.5. Ordered in minutes and delivered across Kearny in a plain box.",
       "buttons": "Buy Strawberry · Buy Pineapple · All Service Areas",
       "nearbyLinks": [
@@ -446,7 +446,7 @@ export const CITY_PAGES_CONTENT = {
       "eyebrow": "Miss Nous · Elizabeth",
       "h1Line1": "Buy Intimate lubricant online in",
       "h1Line2": "Elizabeth, NJ",
-      "subhead": "Not sure which to choose? Compare our two flavours side by side, check the full ingredient list, and get your pick delivered to any Elizabeth address in a plain box.",
+      "subhead": "Not sure which to choose? Compare our two flavors side by side, check the full ingredient list, and get your pick delivered to any Elizabeth address in a plain box.",
       "buttons": "Compare & Order · See Ingredients",
       "floatingBadge": "Near you · Union County delivery",
       "pillLabel": "~3.7 miles from our Newark base"
@@ -454,14 +454,14 @@ export const CITY_PAGES_CONTENT = {
     "productsHeader": {
       "eyebrow": "Side by Side for Elizabeth",
       "heading": "Compare Strawberry & Pineapple",
-      "subline": "Same formula and size, same price. The only difference is the flavour."
+      "subline": "Same formula and size, same price. The only difference is the flavor."
     },
     "whyChoose": {
       "intro": "With so many brands out there, here's what you get with ours, laid out plainly so you can decide.",
       "cards": [
         {
-          "title": "One Formula, Two Flavours",
-          "text": "Both bottles share the same water-based gel. You're only choosing the flavour, so there's no wrong pick."
+          "title": "One Formula, Two Flavors",
+          "text": "Both bottles share the same water-based gel. You're only choosing the flavor, so there's no wrong pick."
         },
         {
           "title": "Clear, Simple Pricing",
@@ -594,17 +594,17 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Flavored Intimate lubricant",
       "h1Line2": "in Bayonne, NJ",
       "subhead": "Sweet strawberry or bright pineapple: a light, fruity touch for date nights in, delivered anywhere on the peninsula in a plain box.",
-      "buttons": "Find Your Flavour · Shop Both",
+      "buttons": "Find Your Flavor · Shop Both",
       "floatingBadge": "Near you · Peninsula delivery",
       "pillLabel": "~4 miles from our Newark base"
     },
     "productsHeader": {
-      "eyebrow": "Bayonne's Flavour Pick",
+      "eyebrow": "Bayonne's Flavor Pick",
       "heading": "Strawberry or Pineapple?",
-      "subline": "Light, fruit-inspired flavour · Water-based · 100ml"
+      "subline": "Light, fruit-inspired flavor · Water-based · 100ml"
     },
     "whyChoose": {
-      "intro": "A flavoured lube should taste and smell pleasant without being overpowering. Here's how ours stays light.",
+      "intro": "A flavored lube should taste and smell pleasant without being overpowering. Here's how ours stays light.",
       "cards": [
         {
           "title": "Light, Not Syrupy",
@@ -628,11 +628,11 @@ export const CITY_PAGES_CONTENT = {
         },
         {
           "title": "pH 4.5",
-          "text": "Flavoured, and still set close to the body's natural range."
+          "text": "Flavored, and still set close to the body's natural range."
         }
       ]
     },
-    "ingredientsIntro": "Flavoured, but not mysterious. Every ingredient in the bottle, listed in full.",
+    "ingredientsIntro": "Flavored, but not mysterious. Every ingredient in the bottle, listed in full.",
     "neighborhoodCoverage": {
       "eyebrow": "Bayonne, End to End",
       "heading": "We Deliver Across Bayonne",
@@ -683,25 +683,25 @@ export const CITY_PAGES_CONTENT = {
       "zipBar": "Serving ZIP code 07002 · Hudson County · ~4 miles from our Newark base",
       "zipBarButton": "Order to Bayonne"
     },
-    "reviewsIntro": "Which flavour Bayonne customers keep coming back to.",
+    "reviewsIntro": "Which flavor Bayonne customers keep coming back to.",
     "faq": {
-      "heading": "Flavour Questions From Bayonne",
+      "heading": "Flavor Questions From Bayonne",
       "intro": "All about taste, scent and gifting.",
       "items": [
         {
-          "q": "What does each flavour taste and smell like?",
+          "q": "What does each flavor taste and smell like?",
           "a": "Strawberry is a sweet, familiar berry note. Pineapple is lighter and more tropical. Both are subtle rather than overpowering."
         },
         {
-          "q": "Is flavoured lube safe to put in your mouth?",
-          "a": "It's flavoured for a pleasant scent and taste on the skin, but it isn't meant to be swallowed. If any is swallowed by accident, contact a doctor."
+          "q": "Is flavored lube safe to put in your mouth?",
+          "a": "It's flavored for a pleasant scent and taste on the skin, but it isn't meant to be swallowed. If any is swallowed by accident, contact a doctor."
         },
         {
           "q": "Can I send it as a gift?",
           "a": "Yes. Enter the recipient's address at checkout. It arrives in a plain box with no product names outside."
         },
         {
-          "q": "Does the flavour change the feel?",
+          "q": "Does the flavor change the feel?",
           "a": "No. Both share the same water-based formula, so the glide is identical."
         },
         {
@@ -709,7 +709,7 @@ export const CITY_PAGES_CONTENT = {
           "a": "Usually 1–2 business days from our Newark base."
         },
         {
-          "q": "Can I get both flavours?",
+          "q": "Can I get both flavors?",
           "a": "Yes. Add one of each to your bag and they ship together in one parcel."
         }
       ]
@@ -717,7 +717,7 @@ export const CITY_PAGES_CONTENT = {
     "finalCta": {
       "eyebrow": "Delivered to Bayonne",
       "headingLine1": "Plan the night in.",
-      "headingLine2": "Pick your flavour",
+      "headingLine2": "Pick your flavor",
       "text": "Sweet strawberry or bright pineapple, delivered across Bayonne in a plain box in 1–2 days.",
       "buttons": "Buy Strawberry · Buy Pineapple · All Service Areas",
       "nearbyLinks": [
@@ -747,7 +747,7 @@ export const CITY_PAGES_CONTENT = {
     },
     "productsHeader": {
       "eyebrow": "Delivered to East Orange",
-      "heading": "Gentle pH 4.5, Two Flavours",
+      "heading": "Gentle pH 4.5, Two Flavors",
       "subline": "Water-based · No parabens · No oils · 100ml"
     },
     "whyChoose": {
@@ -864,7 +864,7 @@ export const CITY_PAGES_CONTENT = {
     "finalCta": {
       "eyebrow": "Delivered to East Orange",
       "headingLine1": "Read the label,",
-      "headingLine2": "then choose your flavour",
+      "headingLine2": "then choose your flavor",
       "text": "pH 4.5, water-based and paraben-free, delivered across East Orange in a plain box.",
       "buttons": "Buy Strawberry · Buy Pineapple · All Service Areas",
       "nearbyLinks": [
@@ -888,7 +888,7 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Intimate Lubricant in",
       "h1Line2": "Hillside, NJ",
       "subhead": "Sharing a home with family or roommates? Your order arrives in a plain box, bills under a neutral name, and comes with tracking so you know exactly when it lands.",
-      "buttons": "Order Privately · Compare Flavours",
+      "buttons": "Order Privately · Compare Flavors",
       "floatingBadge": "Near you · Hillside delivery",
       "pillLabel": "~4.7 miles from our Newark base"
     },
@@ -906,7 +906,7 @@ export const CITY_PAGES_CONTENT = {
         },
         {
           "title": "Unmarked Parcel",
-          "text": "No logo, product or flavour on the box, so whoever picks it up sees an ordinary package."
+          "text": "No logo, product or flavor on the box, so whoever picks it up sees an ordinary package."
         },
         {
           "title": "Track It Yourself",
@@ -1035,13 +1035,13 @@ export const CITY_PAGES_CONTENT = {
       "h1Line1": "Water-based Initmate Lubricant in",
       "h1Line2": "North Arlington, NJ",
       "subhead": "Works with latex condoms and silicone toys, and rinses away with water. Delivered across North Arlington in a plain box from our Newark base.",
-      "buttons": "Order to North Arlington · Compare Flavours",
+      "buttons": "Order to North Arlington · Compare Flavors",
       "floatingBadge": "Near you · Bergen County delivery",
       "pillLabel": "~4.8 miles from our Newark base"
     },
     "productsHeader": {
       "eyebrow": "Delivered to North Arlington",
-      "heading": "One Water-Based Formula, Two Flavours",
+      "heading": "One Water-Based Formula, Two Flavors",
       "subline": "Condom-friendly · Toy-friendly · Rinses with water · 100ml"
     },
     "whyChoose": {
@@ -1165,8 +1165,9 @@ export const CITY_PAGES_CONTENT = {
 };
 
 export const SHARED_CITY_BLOCKS = {
-  "flavourGuide": {
-    "heading": "Which flavour should you choose?",
+  get flavourGuide() { return this.flavorGuide; },
+  "flavorGuide": {
+    "heading": "Which flavor should you choose?",
     "strawberry": {
       "eyebrow": "Warm Rose Tones",
       "name": "Strawberry",
@@ -1232,7 +1233,7 @@ export const SHARED_CITY_BLOCKS = {
         "Sealed Bottle",
         "Discreet Packing"
       ],
-      "buttonText": "Shop Both Flavours"
+      "buttonText": "Shop Both Flavors"
     }
   },
   "howToUse": [

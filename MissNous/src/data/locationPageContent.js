@@ -33,7 +33,7 @@ export const LOCATION_BENEFITS = [
   },
 ];
 
-export const FLAVOUR_COMPARE = {
+export const FLAVOR_COMPARE = {
   strawberry: {
     vibe: 'Romantic & playful',
     bestFor: 'Date nights, gifting, classic fruit sweetness',
@@ -47,6 +47,8 @@ export const FLAVOUR_COMPARE = {
     mood: 'Golden citrus glow',
   },
 };
+
+export const FLAVOUR_COMPARE = FLAVOR_COMPARE;
 
 export const INGREDIENT_BLOCKS = [
   {

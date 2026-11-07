@@ -89,7 +89,7 @@ export default function Navbar({
             <div className="flex items-center md:hidden flex-shrink-0">
               <button 
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors"
+                className="p-1.5 sm:p-2 rounded-full text-[#2B2225] hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E3F5C]"
                 aria-label="Open Mobile Menu"
               >
                 <Menu className="w-5 h-5 stroke-[1.8]" />
@@ -116,11 +116,11 @@ export default function Navbar({
             <nav className="hidden md:flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-[#FDF2F5]/80 border border-[#F7D6DF]/60">
               {[
                 { id: 'home', label: 'Home', path: '/' },
-                { id: 'about', label: 'About Us', path: '/about' },
-                { id: 'shop', label: 'Shop', path: '/shop' },
-                { id: 'locations', label: 'Locations', path: '/locations' },
+                { id: 'about', label: 'About Us', path: '/about/' },
+                { id: 'shop', label: 'Shop', path: '/shop/' },
+                { id: 'locations', label: 'Locations', path: '/locations/' },
                 { id: 'blog', label: 'Blog', path: '/blog/' },
-                { id: 'contact', label: 'Contact Us', path: '/contact' }
+                { id: 'contact', label: 'Contact Us', path: '/contact/' }
               ].map((item) => {
                 const isActive = currentPage === item.id || (item.id === 'locations' && currentPage === 'location-city');
                 return (
@@ -271,7 +271,11 @@ export default function Navbar({
                 <div className="flex items-center px-3 py-1 rounded-full bg-white border border-[#F7D6DF] shadow-xs">
                   <img src={logoHorizontal} alt="Miss Nous" className="h-8 w-auto object-contain" />
                 </div>
-                <button onClick={() => setMobileMenuOpen(false)} className="p-1 text-[#2B2225]">
+                <button 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="p-1 text-[#2B2225] hover:text-[#9E3F5C] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E3F5C] rounded-lg"
+                  aria-label="Close mobile menu"
+                >
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -279,11 +283,11 @@ export default function Navbar({
               <nav className="flex flex-col gap-3 font-sans text-base font-medium text-[#2B2225]">
                 {[
                   { id: 'home', label: 'Home', path: '/' },
-                  { id: 'about', label: 'About Us', path: '/about' },
-                  { id: 'shop', label: 'Shop', path: '/shop' },
-                  { id: 'locations', label: 'Locations', path: '/locations' },
+                  { id: 'about', label: 'About Us', path: '/about/' },
+                  { id: 'shop', label: 'Shop', path: '/shop/' },
+                  { id: 'locations', label: 'Locations', path: '/locations/' },
                   { id: 'blog', label: 'Blog', path: '/blog/' },
-                  { id: 'contact', label: 'Contact Us', path: '/contact' }
+                  { id: 'contact', label: 'Contact Us', path: '/contact/' }
                 ].map((item) => {
                   const isActive = currentPage === item.id || (item.id === 'locations' && currentPage === 'location-city');
                   return (

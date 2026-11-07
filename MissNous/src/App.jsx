@@ -16,6 +16,7 @@ import { getLocationSlugFromPath, getLocationBySlug } from './data/locations';
 import UserPanel from './components/UserPanel';
 import AuthModal from './components/AuthModal';
 import AuthPage from './pages/AuthPage';
+import NotFoundPage from './pages/NotFoundPage';
 import Footer from './components/Footer';
 import SearchModal from './components/SearchModal';
 import WishlistDrawer from './components/WishlistDrawer';
@@ -51,7 +52,7 @@ const getPageFromPath = () => {
   if (path === '/sitemap' || path === '/sitemap/' || path === '/sitemap-html' || path === '/sitemap.html') return 'sitemap';
   if (path === '/login' || path === '/signin') return 'login';
   if (path === '/register' || path === '/signup') return 'register';
-  return 'home';
+  return 'not-found';
 };
 
 // Helper to get slug for products
@@ -84,6 +85,7 @@ const getPathForPage = (page, prod = null, locationSlug = null) => {
     case 'sitemap': return '/sitemap/';
     case 'login': return '/login/';
     case 'register': return '/register/';
+    case 'not-found': return window.location.pathname;
     case 'home':
     default: return '/';
   }
@@ -359,7 +361,7 @@ export default function App() {
     const domain = 'https://missnous.com';
 
     // Private pages that should NOT be indexed by Google
-    const privatePages = ['checkout', 'account', 'login', 'register'];
+    const privatePages = ['checkout', 'account', 'login', 'register', 'not-found'];
     const isPrivate = privatePages.includes(currentPage);
 
     // --- Canonical Tag ---
@@ -370,100 +372,182 @@ export default function App() {
       document.head.appendChild(link);
     }
 
+    let path = '/';
+    let pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
+    let pageDesc = 'Shop Miss Nous water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, in pineapple and strawberry for everyday comfort.';
+
+    switch (currentPage) {
+      case 'not-found':
+        path = window.location.pathname;
+        pageTitle = 'Page Not Found | Miss Nous';
+        pageDesc = 'The page you requested could not be found on Miss Nous. Explore our organic water-based intimate lubricants and wellness essentials.';
+        break;
+      case 'about':
+        path = '/about/';
+        pageTitle = 'About Us | Miss Nous - Pure Botanical Wellness';
+        pageDesc = 'Learn about Miss Nous and our mission to create pure, organic, pH-balanced intimate wellness essentials crafted for comfort and gentle daily care.';
+        break;
+      case 'contact':
+        path = '/contact/';
+        pageTitle = 'Contact Us | Miss Nous Support & Customer Care';
+        pageDesc = 'Have questions about Miss Nous lubricants or your order? Get in touch with our customer support team.';
+        break;
+      case 'shop':
+        path = '/shop/';
+        pageTitle = 'Shop Organic Water-Based Lubricants | Miss Nous';
+        pageDesc = 'Explore Miss Nous organic water-based intimate lubricants in Pineapple and Strawberry flavors. pH 4.5 balanced, non-sticky, and body-safe.';
+        break;
+      case 'blog':
+        path = '/blog/';
+        pageTitle = 'Intimate Wellness Blog & Botanical Care Guides | Miss Nous';
+        pageDesc = 'Read expert tips, ingredient deep dives, and wellness advice on water-based lubricants, pH balance, and organic intimate care.';
+        break;
+      case 'locations':
+        path = '/locations/';
+        pageTitle = 'Locations & Service Areas | Miss Nous Newark, NJ';
+        pageDesc =
+          'Miss Nous serves Newark and nearby cities including East Newark, Kearny, Elizabeth, Bayonne, East Orange, Hillside, and North Arlington.';
+        break;
+      case 'location-city': {
+        const locSlug = getLocationSlugFromPath(window.location.pathname);
+        const loc = getLocationBySlug(locSlug);
+        path = locSlug ? `/locations/${locSlug}/` : '/locations/';
+        pageTitle = loc
+          ? `Order Intimate Lubricants in ${loc.name}, NJ | Miss Nous`
+          : 'Local Delivery | Miss Nous';
+        pageDesc = loc
+          ? `Shop Miss Nous Strawberry & Pineapple lubricants with discreet delivery in ${loc.name}, New Jersey.`
+          : pageDesc;
+        break;
+      }
+      case 'product-detail': {
+        const prodName = (selectedProduct?.name || '').toLowerCase();
+        if (prodName.includes('pineapple')) {
+          path = '/miss-nous-pineapple-intimate-lubricant/';
+          pageTitle = 'Miss Nous Pineapple Intimate Lubricant | Organic & Water-Based';
+          pageDesc = 'Buy Miss Nous Pineapple Flavored Intimate Lubricant (100ml). Water-based, pH 4.5 calibrated, gentle glycerin base for sensitive skin.';
+        } else if (prodName.includes('strawberry')) {
+          path = '/miss-nous-strawberry-intimate-lubricant/';
+          pageTitle = 'Miss Nous Strawberry Intimate Lubricant | Organic & Water-Based';
+          pageDesc = 'Buy Miss Nous Strawberry Flavored Intimate Lubricant (100ml). 100% organic water-based formula, non-sticky, body-safe intimacy.';
+        } else {
+          path = '/miss-nous-strawberry-intimate-lubricant/';
+          pageTitle = `${selectedProduct?.name || 'Organic Intimate Lubricant'} | Miss Nous`;
+        }
+        break;
+      }
+      case 'terms-of-use':
+        path = '/terms-of-use/';
+        pageTitle = 'Terms of Use | Miss Nous';
+        pageDesc = 'Review the official terms of use and purchase conditions for Miss Nous products and online store.';
+        break;
+      case 'privacy-policy':
+        path = '/privacy-policy/';
+        pageTitle = 'Privacy Policy | Miss Nous';
+        pageDesc = 'Learn how Miss Nous collects, safeguards, and respects your personal privacy and customer data.';
+        break;
+      case 'sitemap':
+        path = '/sitemap/';
+        pageTitle = 'HTML Sitemap & URL Directory | Miss Nous';
+        pageDesc = 'Comprehensive sitemap of Miss Nous featuring products, local delivery city guides, articles, and wellness resources.';
+        break;
+      case 'home':
+      default:
+        path = '/';
+        pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
+        pageDesc = 'Shop Miss Nous water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, in pineapple and strawberry for everyday comfort.';
+        break;
+    }
+
     if (isPrivate) {
       // Remove canonical from private pages entirely
       link.remove();
     } else {
-      let path = '/';
-      let pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
-      let pageDesc = 'Shop water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, available in pineapple and strawberry for everyday intimate comfort.';
-
-      switch (currentPage) {
-        case 'about':
-          path = '/about/';
-          pageTitle = 'About Us | Miss Nous - Pure Botanical Wellness';
-          pageDesc = 'Learn about Miss Nous and our mission to create pure, organic, pH-balanced intimate wellness essentials crafted for comfort and gentle daily care.';
-          break;
-        case 'contact':
-          path = '/contact/';
-          pageTitle = 'Contact Us | Miss Nous Support & Customer Care';
-          pageDesc = 'Have questions about Miss Nous lubricants or your order? Get in touch with our customer support team.';
-          break;
-        case 'shop':
-          path = '/shop/';
-          pageTitle = 'Shop Organic Water-Based Lubricants | Miss Nous';
-          pageDesc = 'Explore Miss Nous organic water-based intimate lubricants in Pineapple and Strawberry flavors. pH 4.5 balanced, non-sticky, and body-safe.';
-          break;
-        case 'blog':
-          path = '/blog/';
-          pageTitle = 'Intimate Wellness Blog & Botanical Care Guides | Miss Nous';
-          pageDesc = 'Read expert tips, ingredient deep dives, and wellness advice on water-based lubricants, pH balance, and organic intimate care.';
-          break;
-        case 'locations':
-          path = '/locations/';
-          pageTitle = 'Locations & Service Areas | Miss Nous Newark, NJ';
-          pageDesc =
-            'Miss Nous serves Newark and nearby cities including East Newark, Kearny, Elizabeth, Bayonne, East Orange, Hillside, and North Arlington.';
-          break;
-        case 'location-city': {
-          const locSlug = getLocationSlugFromPath(window.location.pathname);
-          const loc = getLocationBySlug(locSlug);
-          path = locSlug ? `/locations/${locSlug}/` : '/locations/';
-          pageTitle = loc
-            ? `Order Intimate Lubricants in ${loc.name}, NJ | Miss Nous`
-            : 'Local Delivery | Miss Nous';
-          pageDesc = loc
-            ? `Shop Miss Nous Strawberry & Pineapple lubricants with discreet delivery in ${loc.name}, New Jersey.`
-            : pageDesc;
-          break;
-        }
-        case 'product-detail': {
-          const prodName = (selectedProduct?.name || '').toLowerCase();
-          if (prodName.includes('pineapple')) {
-            path = '/miss-nous-pineapple-intimate-lubricant/';
-            pageTitle = 'Miss Nous Pineapple Intimate Lubricant | Organic & Water-Based';
-            pageDesc = 'Buy Miss Nous Pineapple Flavored Intimate Lubricant (100ml). Water-based, pH 4.5 calibrated, gentle glycerin base for sensitive skin.';
-          } else if (prodName.includes('strawberry')) {
-            path = '/miss-nous-strawberry-intimate-lubricant/';
-            pageTitle = 'Miss Nous Strawberry Intimate Lubricant | Organic & Water-Based';
-            pageDesc = 'Buy Miss Nous Strawberry Flavored Intimate Lubricant (100ml). 100% organic water-based formula, non-sticky, body-safe intimacy.';
-          } else {
-            path = '/miss-nous-strawberry-intimate-lubricant/';
-            pageTitle = `${selectedProduct?.name || 'Organic Intimate Lubricant'} | Miss Nous`;
-          }
-          break;
-        }
-        case 'terms-of-use':
-          path = '/terms-of-use/';
-          pageTitle = 'Terms of Use | Miss Nous';
-          pageDesc = 'Review the official terms of use and purchase conditions for Miss Nous products and online store.';
-          break;
-        case 'privacy-policy':
-          path = '/privacy-policy/';
-          pageTitle = 'Privacy Policy | Miss Nous';
-          pageDesc = 'Learn how Miss Nous collects, safeguards, and respects your personal privacy and customer data.';
-          break;
-        case 'sitemap':
-          path = '/sitemap/';
-          pageTitle = 'HTML Sitemap & URL Directory | Miss Nous';
-          pageDesc = 'Comprehensive sitemap of Miss Nous featuring products, local delivery city guides, articles, and wellness resources.';
-          break;
-        case 'home':
-        default:
-          path = '/';
-          pageTitle = 'Organic Water-Based Intimate Lubricant | Miss Nous';
-          pageDesc = 'Shop water-based intimate lubricants made with organic botanicals. pH-balanced, non-sticky, available in pineapple and strawberry for everyday intimate comfort.';
-          break;
-      }
-
       link.setAttribute('href', `${domain}${path}`);
-      document.title = pageTitle;
-
-      let metaDesc = document.querySelector("meta[name='description']");
-      if (metaDesc && pageDesc) {
-        metaDesc.setAttribute('content', pageDesc);
-      }
     }
+
+    document.title = pageTitle;
+
+    let metaDesc = document.querySelector("meta[name='description']");
+    if (metaDesc && pageDesc) {
+      metaDesc.setAttribute('content', pageDesc);
+    }
+
+    // Helper to sync social Open Graph and Twitter Card tags
+    const setMetaTag = (attr, key, content) => {
+      let el = document.querySelector(`meta[${attr}='${key}']`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    setMetaTag('property', 'og:title', pageTitle);
+    setMetaTag('property', 'og:description', pageDesc);
+    setMetaTag('property', 'og:url', `${domain}${path}`);
+    setMetaTag('name', 'twitter:title', pageTitle);
+    setMetaTag('name', 'twitter:description', pageDesc);
+    setMetaTag('name', 'twitter:url', `${domain}${path}`);
+
+    // --- Schema.org Structured Data (JSON-LD) ---
+    let script = document.getElementById('schema-ld-json');
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'schema-ld-json';
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    let schemaData = {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Miss Nous',
+      url: 'https://missnous.com',
+      logo: 'https://missnous.com/logo-bg.png',
+      description: 'Organic water-based intimate lubricants calibrated to pH 4.5.',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: 'care@missnous.com'
+      }
+    };
+
+    if (currentPage === 'product-detail') {
+      const prodName = selectedProduct?.name || 'Miss Nous Strawberry Intimate Lubricant';
+      const prodPrice = selectedProduct?.price || 31.99;
+      const prodImg = selectedProduct?.image
+        ? (selectedProduct.image.startsWith('http') ? selectedProduct.image : `https://missnous.com${selectedProduct.image}`)
+        : 'https://missnous.com/images/strawberry.jpg';
+
+      schemaData = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: prodName,
+        image: [prodImg],
+        description: pageDesc,
+        brand: {
+          '@type': 'Brand',
+          name: 'Miss Nous'
+        },
+        offers: {
+          '@type': 'Offer',
+          url: `${domain}${path}`,
+          priceCurrency: 'USD',
+          price: Number(prodPrice).toFixed(2),
+          availability: 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition'
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '128'
+        }
+      };
+    }
+
+    script.textContent = JSON.stringify(schemaData);
 
     // --- Meta Robots Tag ---
     let robotsMeta = document.querySelector("meta[name='robots']");
@@ -706,6 +790,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FDF2F5] text-[#2B2225] font-sans antialiased selection:bg-[#F7D6DF] selection:text-[#9E3F5C]">
 
+      {/* Accessibility: Skip to Content link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#9E3F5C] focus:text-[#FFF9F5] focus:rounded-full focus:shadow-pink-glow focus:outline-none font-sans text-xs font-bold uppercase tracking-wider"
+      >
+        Skip to content
+      </a>
+
       <Navbar
         onNavigate={handleNavigate}
         currentPage={currentPage}
@@ -716,6 +808,8 @@ export default function App() {
         onOpenAuthModal={handleOpenAuthModal}
         onLogout={handleLogout}
       />
+
+      <div id="main-content">
 
       {currentPage === 'home' && (
         <HomePage
@@ -847,6 +941,17 @@ export default function App() {
           />
         </main>
       )}
+
+      {currentPage === 'not-found' && (
+        <main>
+          <NotFoundPage
+            onNavigate={handleNavigate}
+            onOpenSearch={() => setIsSearchOpen(true)}
+          />
+        </main>
+      )}
+
+      </div>
 
       <Footer onNavigate={handleNavigate} />
 

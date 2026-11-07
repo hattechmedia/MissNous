@@ -3,38 +3,38 @@ import { Sparkles, ChevronDown, HelpCircle } from 'lucide-react';
 import image6 from '../assets/image-6.jpeg';
 
 const DEFAULT_FAQS = [
-    {
-      question: "What skin types is Miss Nous Hydrating Serum suitable for?",
-      answer: "Miss Nous Hydrating Serum is dermatologically formulated to be gentle and effective across all skin types—including dry, oily, combination, sensitive, and mature skin."
-    },
-    {
-      question: "How and when should I apply the serum?",
-      answer: "Apply 3 to 4 drops to clean, slightly damp skin twice daily (morning and evening). Gently press and smooth across your face and neck until fully absorbed before applying moisturizer."
-    },
-    {
-      question: "Is the serum safe for sensitive or reactive skin?",
-      answer: "Yes, absolutely. Our formula is 100% organic, pH-calibrated, and dermatologically tested. It is free from harsh sulfates, parabens, and synthetic irritants."
-    },
-    {
-      question: "Can I use this serum alongside other skincare products?",
-      answer: "Yes. Miss Nous serum layers effortlessly beneath your favorite moisturizers, SPF, or makeup. For best absorption, apply after cleansing and before heavier creams."
-    },
-    {
-      question: "When can I expect to see visible skin improvements?",
-      answer: "You will feel instant hydration and skin softness after the very first application. Noticeable improvements in skin texture, radiance, and barrier softness typically appear within 7 to 14 days of consistent daily use."
-    },
-    {
-      question: "How should I store the serum to preserve botanical potency?",
-      answer: "Store your serum bottle in a cool, dry place away from direct sunlight. Ensure the cap is tightly closed after each daily routine."
-    },
-    {
-      question: "What is your return or satisfaction policy?",
-      answer: "We stand by our skincare quality with a 30-day hassle-free satisfaction guarantee. If you are not delighted with your results, contact our support team for a swift refund or replacement."
-    }
+  {
+    question: "What makes Miss Nous water-based intimate lubricants unique?",
+    answer: "Miss Nous intimate lubricants are crafted with organic botanicals and calibrated to an optimal pH of 4.5 to naturally mirror your body's chemistry. They provide a long-lasting, silky glide that never feels sticky or tacky, rinsing away effortlessly with warm water."
+  },
+  {
+    question: "Is Miss Nous safe for sensitive skin?",
+    answer: "Yes, absolutely. Our water-based formula is dermatologist-tested, hypoallergenic, and gentle on sensitive intimate tissue. It is free from parabens, harsh sulfates, and synthetic irritants."
+  },
+  {
+    question: "Are Miss Nous lubricants compatible with condoms and intimate toys?",
+    answer: "Yes. Being 100% water-based, Miss Nous is completely safe to use with latex, polyisoprene, and silicone intimate toys and condoms. Unlike oil-based lubricants, it will not degrade latex or silicone materials."
+  },
+  {
+    question: "What do the Strawberry and Pineapple flavors taste and smell like?",
+    answer: "Our Strawberry and Pineapple varieties feature light, natural fruit-inspired essences that are subtle and pleasant on the skin. They are non-sugary, never overpowering, and formulated without artificial dyes or harsh chemicals."
+  },
+  {
+    question: "How do I store my lubricant and what is its shelf life?",
+    answer: "Store your bottle in a cool, dry place away from direct sunlight, with the cap securely closed. Unopened, it remains fresh for 24 months; once opened, we recommend using within 12 months for optimal botanical freshness."
+  },
+  {
+    question: "How does discreet shipping and packaging work?",
+    answer: "Your privacy is our priority. All orders are dispatched in plain, unmarked packaging with no brand logos, product names, or intimate labels on the outside. It looks like any standard parcel."
+  },
+  {
+    question: "What is your return or satisfaction policy?",
+    answer: "We stand behind the quality and purity of Miss Nous with a 30-day satisfaction guarantee. If you have questions or are not delighted with your order, contact our concierge team at care@missnous.com."
+  }
 ];
 
 const DEFAULT_SUBTITLE =
-  'Everything you need to know about our organic skincare formulations, application tips, and daily routines.';
+  'Everything you need to know about our organic water-based lubricants, pH 4.5 calibration, natural flavors, and discreet shipping.';
 
 export default function FaqSection({ faqs: faqsProp, subtitle = DEFAULT_SUBTITLE, id = 'faq' }) {
   const [openIndex, setOpenIndex] = useState(0);

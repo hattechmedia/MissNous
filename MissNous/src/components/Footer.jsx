@@ -110,7 +110,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/about"
+                  href="/about/"
                   onClick={(e) => handleNavClick(e, 'about')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -119,7 +119,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/shop"
+                  href="/shop/"
                   onClick={(e) => handleNavClick(e, 'shop')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -128,7 +128,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/locations"
+                  href="/locations/"
                   onClick={(e) => handleNavClick(e, 'locations')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -137,7 +137,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/blog"
+                  href="/blog/"
                   onClick={(e) => handleNavClick(e, 'blog')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -146,7 +146,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/contact"
+                  href="/contact/"
                   onClick={(e) => handleNavClick(e, 'contact')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -155,7 +155,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="/sitemap"
+                  href="/sitemap/"
                   onClick={(e) => handleNavClick(e, 'sitemap')}
                   className="hover:text-[#E8D3A5] transition-colors font-medium inline-block py-0.5"
                 >
@@ -202,15 +202,15 @@ export default function Footer({ onNavigate }) {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="/privacy-policy" onClick={(e) => handleNavClick(e, 'privacy-policy')} className="hover:text-white transition-colors">
+            <a href="/privacy-policy/" onClick={(e) => handleNavClick(e, 'privacy-policy')} className="hover:text-white transition-colors">
               Privacy Policy
             </a>
             <span>·</span>
-            <a href="/terms-of-use" onClick={(e) => handleNavClick(e, 'terms-of-use')} className="hover:text-white transition-colors">
+            <a href="/terms-of-use/" onClick={(e) => handleNavClick(e, 'terms-of-use')} className="hover:text-white transition-colors">
               Terms of Use
             </a>
             <span>·</span>
-            <a href="/sitemap" onClick={(e) => handleNavClick(e, 'sitemap')} className="hover:text-white transition-colors">
+            <a href="/sitemap/" onClick={(e) => handleNavClick(e, 'sitemap')} className="hover:text-white transition-colors">
               Sitemap
             </a>
           </div>

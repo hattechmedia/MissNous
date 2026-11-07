@@ -66,19 +66,15 @@ export default function TrustBanner() {
     },
     {
       id: 'ph-balanced',
-      endValue: 4.5,
-      prefix: 'pH ',
-      suffix: '',
-      decimalPlaces: 1,
+      isStatic: true,
+      staticDisplay: 'pH 4.5',
       label: 'Balanced for Comfort',
       icon: ShieldCheck
     },
     {
       id: 'fruit-flavors',
-      endValue: 2,
-      prefix: '',
-      suffix: '',
-      decimalPlaces: 0,
+      isStatic: true,
+      staticDisplay: '2',
       label: 'Fruit-Inspired Flavors',
       icon: Sparkles
     }
@@ -106,15 +102,19 @@ export default function TrustBanner() {
                   <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#E8D3A5]" />
                 </div>
 
-                {/* Animated Golden Counter & Concise Label */}
+                {/* Animated or Static Golden Counter & Concise Label */}
                 <div className="space-y-0 sm:space-y-0.5 min-w-0">
                   <div className="font-sans text-xs sm:text-2xl lg:text-3xl font-bold tracking-tight text-[#E8D3A5] gold-gradient-text drop-shadow-xs leading-none sm:leading-tight">
-                    <CounterNumber 
-                      endValue={item.endValue} 
-                      decimalPlaces={item.decimalPlaces} 
-                      prefix={item.prefix}
-                      suffix={item.suffix} 
-                    />
+                    {item.isStatic ? (
+                      <span>{item.staticDisplay}</span>
+                    ) : (
+                      <CounterNumber 
+                        endValue={item.endValue} 
+                        decimalPlaces={item.decimalPlaces} 
+                        prefix={item.prefix}
+                        suffix={item.suffix} 
+                      />
+                    )}
                   </div>
                   <span className="block font-sans text-[8px] xs:text-[9px] sm:text-xs lg:text-sm font-semibold tracking-tight sm:tracking-wide uppercase text-[#FFF9F5]/90 leading-tight">
                     {item.label}

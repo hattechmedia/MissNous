@@ -464,7 +464,7 @@ export default function AboutPage({ onNavigate, onViewProduct }) {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs w-fit">
               <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
               <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                Our Story
+                Our Mission
               </span>
             </div>
 

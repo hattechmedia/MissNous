@@ -1,5 +1,4 @@
-const express = require('express');
-const { protect } = require('../middleware/auth');
+const { protect, optionalAuth } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const rateLimit = require('express-rate-limit');
@@ -16,8 +15,8 @@ const checkoutLimiter = rateLimit({
   message: { message: 'Too many checkout attempts. Please try again after a few minutes.' }
 });
 
-// POST /api/payments/create-checkout-session (Stripe Hosted Checkout Redirect)
-router.post('/create-checkout-session', protect, checkoutLimiter, async (req, res) => {
+// POST /api/payments/create-checkout-session (Stripe Hosted Checkout Redirect - supports Guests & Logged-in users)
+router.post('/create-checkout-session', optionalAuth, checkoutLimiter, async (req, res) => {
   try {
     const { items, shippingAddress, subtotal, tax = 0, total, origin } = req.body;
 
@@ -98,20 +97,30 @@ router.post('/create-checkout-session', protect, checkoutLimiter, async (req, re
       });
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const customerEmail = req.user?.email || shippingAddress?.email;
+    if (!customerEmail) {
+      return res.status(400).json({ message: 'A valid email address is required for checkout.' });
+    }
+
+    const sessionPayload = {
       mode: 'payment',
-      customer_email: req.user.email,
-      client_reference_id: req.user._id.toString(),
+      customer_email: customerEmail,
       line_items,
       metadata: {
-        userId: req.user._id.toString(),
-        userEmail: req.user.email,
-        userName: req.user.name || '',
+        userId: req.user ? req.user._id.toString() : 'guest',
+        userEmail: customerEmail,
+        userName: req.user?.name || shippingAddress?.name || 'Valued Customer',
         shippingAddress: JSON.stringify(shippingAddress || {})
       },
       success_url: `${appOrigin}/checkout?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appOrigin}/checkout?canceled=true`
-    });
+    };
+
+    if (req.user) {
+      sessionPayload.client_reference_id = req.user._id.toString();
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionPayload);
 
     res.json({
       url: session.url,
@@ -125,8 +134,8 @@ router.post('/create-checkout-session', protect, checkoutLimiter, async (req, re
   }
 });
 
-// POST /api/payments/verify-session (Called when user returns from Stripe)
-router.post('/verify-session', protect, async (req, res) => {
+// POST /api/payments/verify-session (Called when user returns from Stripe - supports Guests & Logged-in users)
+router.post('/verify-session', optionalAuth, async (req, res) => {
   try {
     const { sessionId, cartItems, shippingAddress } = req.body;
 
@@ -143,9 +152,11 @@ router.post('/verify-session', protect, async (req, res) => {
       });
     }
 
-    // Security: Verify that the current user owns this Stripe session
-    if (session.client_reference_id && session.client_reference_id !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Unauthorized session verification.' });
+    // Security: If session was tied to a user account, verify owner
+    if (session.client_reference_id) {
+      if (!req.user || session.client_reference_id !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'Unauthorized session verification.' });
+      }
     }
 
     const paymentIntentId = session.payment_intent || session.id;
@@ -164,14 +175,17 @@ router.post('/verify-session', protect, async (req, res) => {
       } catch (e) {}
     }
 
+    const customerEmail = session.customer_details?.email || session.metadata?.userEmail || req.user?.email || finalAddress?.email || 'guest@missnous.com';
+    const customerName = session.customer_details?.name || session.metadata?.userName || req.user?.name || finalAddress?.name || 'Valued Customer';
+
     const orderId = `MN-${Date.now().toString().slice(-4)}${Math.floor(1000 + Math.random() * 9000)}`;
     const totalAmount = session.amount_total ? session.amount_total / 100 : 0;
 
     const newOrder = await Order.create({
       orderId,
-      user: req.user._id,
-      userEmail: req.user.email,
-      userName: req.user.name || session.customer_details?.name || 'Valued Customer',
+      user: req.user ? req.user._id : undefined,
+      userEmail: customerEmail,
+      userName: customerName,
       items: (cartItems && cartItems.length > 0) ? cartItems.map(item => ({
         productId: item._id || item.id,
         name: item.name,
@@ -189,8 +203,8 @@ router.post('/verify-session', protect, async (req, res) => {
       paymentStatus: 'Paid',
       status: 'Confirmed',
       shippingAddress: finalAddress || {
-        name: session.customer_details?.name || req.user.name || 'Valued Customer',
-        email: session.customer_details?.email || req.user.email,
+        name: customerName,
+        email: customerEmail,
         address: '',
         city: '',
         postalCode: '',

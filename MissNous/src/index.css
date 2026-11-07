@@ -456,3 +456,15 @@
   opacity: 1;
   transform: translateX(0) translateY(0) scale(1);
 }
+
+/* Accessibility & Focus Rings */
+:focus-visible {
+  outline: 2px solid var(--color-deep-pink, #9E3F5C);
+  outline-offset: 2px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #76646A;
+  opacity: 1;
+}

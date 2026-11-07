@@ -140,7 +140,7 @@ export default function ContactPage({ onNavigate }) {
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#F7D6DF] shadow-xs">
                 <Sparkles className="w-3.5 h-3.5 text-[#9E3F5C] animate-pulse" />
                 <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#9E3F5C]">
-                  Get in Touch
+                  Direct Support
                 </span>
               </div>
               <h2 className="font-sans text-3xl sm:text-4xl font-medium text-[#2B2225] tracking-tight">
@@ -234,10 +234,11 @@ export default function ContactPage({ onNavigate }) {
                 {/* Name & Email Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5 text-left">
-                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                    <label htmlFor="contact-name" className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225] cursor-pointer">
                       Name *
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       name="name"
                       required
@@ -249,10 +250,11 @@ export default function ContactPage({ onNavigate }) {
                   </div>
 
                   <div className="space-y-1.5 text-left">
-                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                    <label htmlFor="contact-email" className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225] cursor-pointer">
                       Email *
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
                       required
@@ -267,10 +269,11 @@ export default function ContactPage({ onNavigate }) {
                 {/* Phone & Subject Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5 text-left">
-                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                    <label htmlFor="contact-phone" className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225] cursor-pointer">
                       Phone Number (optional)
                     </label>
                     <input
+                      id="contact-phone"
                       type="tel"
                       name="phone"
                       placeholder="+1 (555) 000-0000"
@@ -281,10 +284,11 @@ export default function ContactPage({ onNavigate }) {
                   </div>
 
                   <div className="space-y-1.5 text-left">
-                    <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                    <label htmlFor="contact-subject" className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225] cursor-pointer">
                       Subject (optional)
                     </label>
                     <input
+                      id="contact-subject"
                       type="text"
                       name="subject"
                       placeholder="Product Inquiry / Order Assistance"
@@ -297,10 +301,11 @@ export default function ContactPage({ onNavigate }) {
 
                 {/* Message Textarea */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225]">
+                  <label htmlFor="contact-message" className="block font-sans text-xs font-semibold uppercase tracking-wider text-[#2B2225] cursor-pointer">
                     Message *
                   </label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     required
                     rows={4}

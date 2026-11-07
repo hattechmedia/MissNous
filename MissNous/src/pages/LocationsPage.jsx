@@ -33,7 +33,7 @@ const WHY_CHOOSE_BENEFITS = [
   {
     icon: Package,
     title: '100% Discreet Packaging',
-    desc: 'Every order ships in a plain outer box with no logos, product names or flavour names outside.',
+    desc: 'Every order ships in a plain outer box with no logos, product names or flavor names outside.',
   },
   {
     icon: ShieldCheck,
@@ -100,7 +100,7 @@ const LOCAL_REVIEWS = [
     product: 'Strawberry Edition',
     rating: 5,
     quote:
-      'Discreet packaging arrived at my Newark apartment the next day. The strawberry flavour is subtle and sweet, and rinses completely clean with water without any residue.',
+      'Discreet packaging arrived at my Newark apartment the next day. The strawberry flavor is subtle and sweet, and rinses completely clean with water without any residue.',
   },
   {
     id: 2,
@@ -138,7 +138,7 @@ const LOCAL_REVIEWS = [
 const LOCATION_FAQS = [
   {
     q: 'How discreet is the packaging when my order arrives?',
-    a: 'Every order ships in a plain, unbranded box or padded mailer. The outside label has no product description, flavour or suggestive words. The return address reads only "MN Fulfillment".',
+    a: 'Every order ships in a plain, unbranded box or padded mailer. The outside label has no product description, flavor or suggestive words. The return address reads only "MN Fulfillment".',
   },
   {
     q: 'Do you deliver to all cities in New Jersey and across the United States?',
@@ -314,7 +314,7 @@ export default function LocationsPage({
         <div className="absolute inset-0 bg-gradient-to-t from-[#240c15] via-transparent to-transparent lg:hidden pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
-          <div className="max-w-2xl space-y-6 sm:space-y-7 text-left">
+          <div className="max-w-3xl space-y-6 sm:space-y-7 text-left">
             {/* Eyebrow */}
             <div className="flex items-center gap-3">
               <MapPin className="w-4 h-4 text-[#E8D3A5] flex-shrink-0" />
@@ -353,12 +353,12 @@ export default function LocationsPage({
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF9F5] border border-white/30 font-sans text-xs uppercase tracking-wider font-semibold backdrop-blur-md transition-all duration-300 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4 text-[#E8D3A5]" />
-                <span>Shop Flavours</span>
+                <span>Shop Flavors</span>
               </button>
             </div>
 
             {/* Trust badges (4 badges, in order from docx) */}
-            <div className="pt-4 sm:pt-5 border-t border-white/15 max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <div className="pt-4 sm:pt-5 border-t border-white/15 w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
               {[
                 { icon: Package, title: 'Discreet', line: 'Plain outer box' },
                 { icon: Truck, title: 'Fast Local', line: 'North NJ delivery' },
@@ -516,7 +516,7 @@ export default function LocationsPage({
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#9E3F5C] hover:bg-[#852f49] text-white text-xs font-bold transition-colors cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
-                      Shop Flavours — We Ship Everywhere
+                      Shop Flavors — We Ship Everywhere
                     </button>
                   </div>
                 )}
@@ -650,7 +650,7 @@ export default function LocationsPage({
                 onClick={() => onNavigate && onNavigate('shop')}
                 className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9E3F5C] text-white text-xs font-bold uppercase tracking-wider cursor-pointer"
               >
-                <span>Shop Flavours</span>
+                <span>Shop Flavors</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -666,7 +666,7 @@ export default function LocationsPage({
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#E8D3A5]/30 text-[#E8D3A5] text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Two Signature Flavours</span>
+              <span>Two Signature Flavors</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
               Our Products: Strawberry &amp; Pineapple
@@ -718,7 +718,7 @@ export default function LocationsPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
-                    Flavoured intimate lubricant (100ml)
+                    Flavored intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => handleGoProduct(strawberryProduct)}
@@ -727,7 +727,7 @@ export default function LocationsPage({
                     Miss Nous Intimate Lubricant – Strawberry
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    A silky, water-based lubricant with a sweet strawberry flavour. Non-sticky and rinses clean with water.
+                    A silky, water-based lubricant with a sweet strawberry flavor. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
@@ -803,7 +803,7 @@ export default function LocationsPage({
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5 text-white text-center sm:text-left">
                 <div className="space-y-2.5">
                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#E8D3A5] block">
-                    Flavoured intimate lubricant (100ml)
+                    Flavored intimate lubricant (100ml)
                   </span>
                   <h3
                     onClick={() => handleGoProduct(pineappleProduct)}
@@ -812,7 +812,7 @@ export default function LocationsPage({
                     Miss Nous Intimate Lubricant – Pineapple
                   </h3>
                   <p className="text-sm text-[#F7D6DF]/80 leading-relaxed line-clamp-3">
-                    A silky, water-based lubricant with a light, tropical pineapple flavour. Non-sticky and rinses clean with water.
+                    A silky, water-based lubricant with a light, tropical pineapple flavor. Non-sticky and rinses clean with water.
                   </p>
                 </div>
 
@@ -1137,7 +1137,7 @@ export default function LocationsPage({
                     className="px-7 py-3.5 rounded-full bg-[#9E3F5C] hover:bg-[#832e47] text-white font-sans text-sm font-bold uppercase tracking-wider shadow-pink-glow transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
                   >
                     <ShoppingBag className="w-4 h-4" />
-                    <span>Shop Flavours Now</span>
+                    <span>Shop Flavors Now</span>
                   </button>
 
                   <button
