@@ -117,7 +117,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
         <div className="relative w-full min-h-[380px] sm:min-h-[440px] lg:min-h-[520px] flex items-end overflow-hidden bg-[#2B2225]">
           <img
             src={selectedPost.coverImage || '/gpt-8.jpeg'}
-            alt={selectedPost.title}
+            alt={selectedPost.coverImageAlt || selectedPost.title}
             className="absolute inset-0 w-full h-full object-cover object-center opacity-65"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/95 via-[#2B2225]/50 to-[#2B2225]/30"></div>
@@ -280,7 +280,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
                     <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#2B2225]">
                       <img
                         src={post.coverImage || '/gpt-8.jpeg'}
-                        alt={post.title}
+                        alt={post.coverImageAlt || post.title}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

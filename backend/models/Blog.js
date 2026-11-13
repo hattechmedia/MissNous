@@ -26,6 +26,11 @@ const blogSchema = new mongoose.Schema({
     type: String,
     default: '/gpt-8.jpeg'
   },
+  coverImageAlt: {
+    type: String,
+    default: '',
+    trim: true
+  },
   category: {
     type: String,
     default: 'Wellness',

@@ -140,6 +140,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
       excerpt,
       content,
       coverImage,
+      coverImageAlt,
       category,
       categorySlug,
       tags,
@@ -176,6 +177,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
       excerpt: (excerpt || '').trim(),
       content: content.trim(),
       coverImage: coverImage || '/gpt-8.jpeg',
+      coverImageAlt: (coverImageAlt || '').trim(),
       category: (category || 'Wellness').trim(),
       categorySlug: categorySlug ? slugify(categorySlug) : slugify(category || 'Wellness'),
       tags: Array.isArray(tags) ? tags : (tags ? [tags] : []),
@@ -206,6 +208,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
       excerpt,
       content,
       coverImage,
+      coverImageAlt,
       category,
       categorySlug,
       tags,
@@ -224,6 +227,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
     if (excerpt !== undefined) updateData.excerpt = excerpt.trim();
     if (content !== undefined) updateData.content = content.trim();
     if (coverImage !== undefined) updateData.coverImage = coverImage;
+    if (coverImageAlt !== undefined) updateData.coverImageAlt = coverImageAlt.trim();
     if (category !== undefined) {
       updateData.category = category.trim();
       updateData.categorySlug = categorySlug ? slugify(categorySlug) : slugify(category);

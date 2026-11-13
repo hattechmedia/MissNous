@@ -71,6 +71,7 @@ export default function BlogsPage({
     excerpt: '',
     content: '',
     coverImage: '/gpt-8.jpeg',
+    coverImageAlt: '',
     category: blogCategories[0]?.name || '',
     categorySlug: blogCategories[0]?.slug || '',
     tags: [],
@@ -108,6 +109,7 @@ export default function BlogsPage({
       excerpt: '',
       content: '',
       coverImage: '/gpt-8.jpeg',
+      coverImageAlt: '',
       category: defaultCatName,
       categorySlug: defaultCatSlug,
       tags: [],
@@ -149,6 +151,7 @@ export default function BlogsPage({
       excerpt: blog.excerpt || '',
       content: blog.content || '',
       coverImage: blog.coverImage || '/gpt-8.jpeg',
+      coverImageAlt: blog.coverImageAlt || '',
       category: catName,
       categorySlug: catSlug,
       tags: Array.isArray(blog.tags) ? blog.tags : [],
@@ -170,6 +173,7 @@ export default function BlogsPage({
           content: fullBlog.content,
           excerpt: fullBlog.excerpt !== undefined ? fullBlog.excerpt : prev.excerpt,
           coverImage: fullBlog.coverImage || prev.coverImage,
+          coverImageAlt: fullBlog.coverImageAlt !== undefined ? fullBlog.coverImageAlt : prev.coverImageAlt,
           category: fullBlog.category || prev.category,
           categorySlug: fullBlog.categorySlug || prev.categorySlug,
           author: fullBlog.author || prev.author,
@@ -375,7 +379,7 @@ export default function BlogsPage({
           <div className="relative h-72 sm:h-96 w-full overflow-hidden bg-[#2B2225]">
             <img
               src={previewBlog.coverImage || '/gpt-8.jpeg'}
-              alt={previewBlog.title}
+              alt={previewBlog.coverImageAlt || previewBlog.title}
               className="w-full h-full object-cover object-center opacity-70"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#2B2225]/85 via-[#2B2225]/40 to-transparent"></div>
@@ -627,6 +631,24 @@ export default function BlogsPage({
                 className="hidden"
                 onChange={handleCoverUpload}
               />
+
+              {/* Cover Image Alt Text (SEO & Accessibility) */}
+              <div className="space-y-1.5 pt-1">
+                <label className="block text-xs font-semibold text-[#2B2225] flex items-center justify-between">
+                  <span>Cover Image Alt Text</span>
+                  <span className="text-[10px] text-[#9E3F5C] font-normal uppercase tracking-wider">SEO & Accessibility</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.coverImageAlt}
+                  onChange={(e) => setFormData(prev => ({ ...prev, coverImageAlt: e.target.value }))}
+                  placeholder="e.g. Luxurious silk pillowcase in blush pink"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#F7D6DF] bg-white text-xs text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:ring-1 focus:ring-[#9E3F5C] transition-all"
+                />
+                <p className="text-[10px] text-[#A09095] leading-relaxed">
+                  Alt text describes the image for screen readers and helps your blog rank in Google Image searches.
+                </p>
+              </div>
             </div>
 
             {/* Publishing Metadata Box */}
