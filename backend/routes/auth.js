@@ -1,8 +1,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const rateLimit = require('express-rate-limit');
+const rateLimit = process.env.VERCEL
+  ? () => (req, res, next) => next()
+  : require('express-rate-limit');
 const User = require('../models/User');
 const router = express.Router();
+
 
 // Strict rate limiter for login attempts (prevents brute force credential stuffing)
 const loginLimiter = rateLimit({

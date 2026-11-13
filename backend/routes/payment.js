@@ -2,8 +2,11 @@ const express = require('express');
 const { protect, optionalAuth } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const rateLimit = require('express-rate-limit');
+const rateLimit = process.env.VERCEL
+  ? () => (req, res, next) => next()
+  : require('express-rate-limit');
 const router = express.Router();
+
 
 const getStripe = () => {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -197,11 +200,11 @@ router.post('/verify-session', optionalAuth, async (req, res) => {
         productId: item._id || item.id,
         name: item.name,
         subtitle: item.subtitle || '',
-        price: item.price,
+        quantity: item.quantity,
         image: (typeof item.image === 'string' && (item.image.startsWith('data:') || item.image.length > 500))
           ? ((item.name || '').toLowerCase().includes('pineapple') ? '/gpt-5.png' : '/jpt-6.jpeg')
           : (item.image || '/jpt-6.jpeg')
-
+      })) : [],
       subtotal: totalAmount,
       tax: 0,
       shipping: 0,

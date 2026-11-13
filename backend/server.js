@@ -5,20 +5,26 @@ const dotenv = require('dotenv');
 const path = require('path');
 const dns = require('dns');
 
-// Force DNS resolution to use Google & Cloudflare Public DNS (fixes querySrv ECONNREFUSED on mongodb+srv in cloud & local)
-try {
-  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-} catch (e) {
-  console.warn('Could not set custom DNS servers:', e.message);
+// Force DNS resolution to use Google & Cloudflare Public DNS on local/VPS (avoid overriding Vercel internal DNS)
+if (!process.env.VERCEL) {
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+  } catch (e) {
+    console.warn('Could not set custom DNS servers:', e.message);
+  }
 }
 
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
 
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const rateLimit = process.env.VERCEL
+  ? () => (req, res, next) => next()
+  : require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
+
 
 // Security: Strict CORS whitelist
 const allowedOrigins = [
@@ -72,6 +78,10 @@ app.use(mongoSanitize());
 
 // Ensure database connection is ready before handling incoming API requests
 app.use(async (req, res, next) => {
+  // Preflights, health check and root probe must never block or wait for database
+  if (req.method === 'OPTIONS' || req.path === '/api/health' || req.path === '/') {
+    return next();
+  }
   try {
     if (mongoose.connection.readyState !== 1) {
       if (mongoose.connection.readyState === 2) {
@@ -239,4 +249,8 @@ const connectWithRetry = async () => {
   }
 };
 
-connectWithRetry();
+if (!process.env.VERCEL) {
+  connectWithRetry();
+}
+
+

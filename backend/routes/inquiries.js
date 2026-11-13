@@ -1,8 +1,11 @@
 const express = require('express');
-const rateLimit = require('express-rate-limit');
+const rateLimit = process.env.VERCEL
+  ? () => (req, res, next) => next()
+  : require('express-rate-limit');
 const Inquiry = require('../models/Inquiry');
 const { protect, adminOnly } = require('../middleware/auth');
 const router = express.Router();
+
 
 // Rate limiter for contact form submissions (prevents contact form spam)
 const contactFormLimiter = rateLimit({
