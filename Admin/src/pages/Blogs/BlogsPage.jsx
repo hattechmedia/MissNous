@@ -471,11 +471,17 @@ export default function BlogsPage({
           <div className="lg:col-span-8 space-y-6">
             
             {/* Title & Slug Box */}
+            {/* Title & Slug Box */}
             <div className="p-6 rounded-3xl bg-white border border-[#F7D6DF] shadow-xs space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#9E3F5C] mb-1.5">
-                  Article Title *
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#9E3F5C]">
+                    Article Title *
+                  </label>
+                  <span className="text-[11px] font-mono text-[#A09095]">
+                    {formData.title?.length || 0} chars
+                  </span>
+                </div>
                 <input
                   type="text"
                   required
@@ -503,9 +509,14 @@ export default function BlogsPage({
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#2B2225] mb-1.5">
-                  Short Summary
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#2B2225]">
+                    Short Summary
+                  </label>
+                  <span className="text-[11px] font-mono text-[#A09095]">
+                    {formData.excerpt?.length || 0} chars
+                  </span>
+                </div>
                 <textarea
                   rows={3}
                   value={formData.excerpt}
@@ -535,41 +546,119 @@ export default function BlogsPage({
 
             {/* SEO Meta Box */}
             <div className="p-6 rounded-3xl bg-white border border-[#F7D6DF] shadow-xs space-y-4">
-              <h3 className="text-sm font-bold text-[#2B2225] uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#D4AF6A]" />
-                SEO Search Engine Optimization
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-[#2B2225] uppercase tracking-wider flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#D4AF6A]" />
+                  SEO Search Engine Optimization
+                </h3>
+                <span className="text-[11px] text-[#A09095]">Google Search Preview Settings</span>
+              </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Meta Title with 60 char counter */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#5A4B50] mb-1">Meta Title</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-semibold text-[#5A4B50]">
+                      Meta Title
+                    </label>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                      <span className={`px-2 py-0.5 rounded-md font-semibold transition-colors ${
+                        (formData.metaTitle?.length || 0) > 60
+                          ? 'bg-rose-100 text-rose-700 border border-rose-300'
+                          : (formData.metaTitle?.length || 0) >= 40
+                          ? 'bg-emerald-100 text-emerald-700 border border-emerald-300'
+                          : 'bg-[#FDF2F5] text-[#7A5B64] border border-[#F7D6DF]'
+                      }`}>
+                        {formData.metaTitle?.length || 0} / 60 max
+                      </span>
+                    </div>
+                  </div>
                   <input
                     type="text"
                     value={formData.metaTitle}
                     onChange={(e) => setFormData(prev => ({ ...prev, metaTitle: e.target.value }))}
                     placeholder="SEO title (defaults to article title)"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border text-xs text-[#2B2225] placeholder:text-[#A09095] focus:outline-none transition-all ${
+                      (formData.metaTitle?.length || 0) > 60
+                        ? 'border-rose-400 focus:border-rose-600 focus:ring-1 focus:ring-rose-500/25'
+                        : 'border-[#F7D6DF] focus:border-[#9E3F5C] focus:ring-1 focus:ring-[#9E3F5C]/15'
+                    }`}
                   />
+                  <div className="flex items-center justify-between mt-1 text-[10px]">
+                    <span className="text-[#A09095]">Optimal length for Google SERP: 50–60 characters</span>
+                    <span className={`font-mono font-medium ${
+                      (formData.metaTitle?.length || 0) > 60
+                        ? 'text-rose-600 font-bold'
+                        : 'text-[#A09095]'
+                    }`}>
+                      {(formData.metaTitle?.length || 0) <= 60
+                        ? `${60 - (formData.metaTitle?.length || 0)} left`
+                        : `+${(formData.metaTitle?.length || 0) - 60} over limit`}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Meta Description with 160 char counter */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#5A4B50] mb-1">Meta Description</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-semibold text-[#5A4B50]">
+                      Meta Description
+                    </label>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                      <span className={`px-2 py-0.5 rounded-md font-semibold transition-colors ${
+                        (formData.metaDescription?.length || 0) > 160
+                          ? 'bg-rose-100 text-rose-700 border border-rose-300'
+                          : (formData.metaDescription?.length || 0) >= 120
+                          ? 'bg-emerald-100 text-emerald-700 border border-emerald-300'
+                          : 'bg-[#FDF2F5] text-[#7A5B64] border border-[#F7D6DF]'
+                      }`}>
+                        {formData.metaDescription?.length || 0} / 160 max
+                      </span>
+                    </div>
+                  </div>
                   <textarea
                     rows={2}
                     value={formData.metaDescription}
                     onChange={(e) => setFormData(prev => ({ ...prev, metaDescription: e.target.value }))}
                     placeholder="Short SEO snippet for Google..."
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border text-xs text-[#2B2225] placeholder:text-[#A09095] focus:outline-none transition-all ${
+                      (formData.metaDescription?.length || 0) > 160
+                        ? 'border-rose-400 focus:border-rose-600 focus:ring-1 focus:ring-rose-500/25'
+                        : 'border-[#F7D6DF] focus:border-[#9E3F5C] focus:ring-1 focus:ring-[#9E3F5C]/15'
+                    }`}
                   />
+                  <div className="flex items-center justify-between mt-1 text-[10px]">
+                    <span className="text-[#A09095]">Optimal snippet length for Google: 140–160 characters</span>
+                    <span className={`font-mono font-medium ${
+                      (formData.metaDescription?.length || 0) > 160
+                        ? 'text-rose-600 font-bold'
+                        : 'text-[#A09095]'
+                    }`}>
+                      {(formData.metaDescription?.length || 0) <= 160
+                        ? `${160 - (formData.metaDescription?.length || 0)} left`
+                        : `+${(formData.metaDescription?.length || 0) - 160} over limit`}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Keywords */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#5A4B50] mb-1">Keywords</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-semibold text-[#5A4B50]">
+                      Keywords
+                    </label>
+                    <span className="text-[11px] font-mono text-[#A09095]">
+                      {formData.keywords?.length || 0} chars
+                    </span>
+                  </div>
                   <input
                     type="text"
                     value={formData.keywords}
                     onChange={(e) => setFormData(prev => ({ ...prev, keywords: e.target.value }))}
                     placeholder="e.g. intimate care, organic wellness, clean beauty"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] placeholder:text-[#A09095] focus:outline-none focus:border-[#9E3F5C] focus:ring-1 focus:ring-[#9E3F5C]/15 transition-all"
                   />
+                  <p className="text-[10px] text-[#A09095] mt-1">Separate keywords with commas</p>
                 </div>
               </div>
             </div>
