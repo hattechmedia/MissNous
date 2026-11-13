@@ -70,8 +70,8 @@ export default function BlogsPage({
     excerpt: '',
     content: '',
     coverImage: '/gpt-8.jpeg',
-    category: 'Wellness',
-    categorySlug: 'wellness',
+    category: blogCategories[0]?.name || '',
+    categorySlug: blogCategories[0]?.slug || '',
     tags: [],
     author: 'Miss Nous Team',
     readTime: '5 min read',
@@ -88,8 +88,8 @@ export default function BlogsPage({
   const handleOpenCreate = () => {
     setEditingBlog(null);
 
-    let defaultCatName = 'Wellness';
-    let defaultCatSlug = 'wellness';
+    let defaultCatName = blogCategories[0]?.name || '';
+    let defaultCatSlug = blogCategories[0]?.slug || '';
 
     if (selectedCategory !== 'all') {
       const match = blogCategories.find(
@@ -99,9 +99,6 @@ export default function BlogsPage({
         defaultCatName = match.name;
         defaultCatSlug = match.slug;
       }
-    } else if (blogCategories.length > 0) {
-      defaultCatName = blogCategories[0].name;
-      defaultCatSlug = blogCategories[0].slug;
     }
 
     setFormData({
@@ -613,28 +610,43 @@ export default function BlogsPage({
                     + Manage Categories
                   </button>
                 </div>
-                <select
-                  value={formData.category}
-                  onChange={(e) => {
-                    const selectedName = e.target.value;
-                    const match = blogCategories.find(c => c.name === selectedName);
-                    setFormData(prev => ({
-                      ...prev,
-                      category: selectedName,
-                      categorySlug: match ? match.slug : slugify(selectedName)
-                    }));
-                  }}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] cursor-pointer"
-                >
-                  {blogCategories.map((cat) => (
-                    <option key={cat._id || cat.slug || cat.name} value={cat.name}>
-                      {cat.name} ({cat.slug})
-                    </option>
-                  ))}
-                  {!blogCategories.some(c => c.name === formData.category) && formData.category && (
-                    <option value={formData.category}>{formData.category}</option>
-                  )}
-                </select>
+                {blogCategories.length === 0 ? (
+                  <div className="p-3 rounded-xl bg-[#FFF9F5] border border-dashed border-[#F7D6DF] text-center space-y-2">
+                    <p className="text-[11px] text-[#A09095]">No categories created yet.</p>
+                    <button
+                      type="button"
+                      onClick={() => setIsCategoryModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#9E3F5C] text-white text-[11px] font-bold cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      Add Category
+                    </button>
+                  </div>
+                ) : (
+                  <select
+                    value={formData.category}
+                    onChange={(e) => {
+                      const selectedName = e.target.value;
+                      const match = blogCategories.find(c => c.name === selectedName);
+                      setFormData(prev => ({
+                        ...prev,
+                        category: selectedName,
+                        categorySlug: match ? match.slug : slugify(selectedName)
+                      }));
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] cursor-pointer"
+                  >
+                    <option value="">Select Category...</option>
+                    {blogCategories.map((cat) => (
+                      <option key={cat._id || cat.slug || cat.name} value={cat.name}>
+                        {cat.name} ({cat.slug})
+                      </option>
+                    ))}
+                    {!blogCategories.some(c => c.name === formData.category) && formData.category && (
+                      <option value={formData.category}>{formData.category}</option>
+                    )}
+                  </select>
+                )}
                 <p className="text-[10px] text-[#A09095] mt-1 font-mono">
                   Slug: <span className="text-[#9E3F5C]">/{formData.categorySlug || slugify(formData.category)}</span>
                 </p>

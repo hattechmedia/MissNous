@@ -15,10 +15,14 @@ export default function BlogPage({ blogs = [], onNavigate }) {
       const cached = localStorage.getItem('missnous_published_blogs');
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) {
+          // Remove legacy hardcoded dummy blog posts if any exist in localStorage
+          const filtered = parsed.filter(p => p.id !== 'post-ph-balance' && p.id !== 'post-water-vs-silicone');
+          if (filtered.length > 0) return filtered;
+        }
       }
     } catch (e) {}
-    return Array.isArray(blogs) && blogs.length > 0 ? blogs : BLOG_POSTS;
+    return Array.isArray(blogs) && blogs.length > 0 ? blogs : [];
   });
 
   useEffect(() => {
@@ -28,7 +32,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
 
   // Sync when blogs prop updates
   useEffect(() => {
-    if (Array.isArray(blogs) && blogs.length > 0) {
+    if (Array.isArray(blogs)) {
       setBlogList(blogs);
     }
   }, [blogs]);
@@ -38,7 +42,7 @@ export default function BlogPage({ blogs = [], onNavigate }) {
     const fetchBlogsFromApi = async () => {
       try {
         const data = await api.get('/blogs');
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setBlogList(data);
           localStorage.setItem('missnous_published_blogs', JSON.stringify(data));
         }
@@ -48,7 +52,9 @@ export default function BlogPage({ blogs = [], onNavigate }) {
           const cached = localStorage.getItem('missnous_published_blogs');
           if (cached) {
             const parsed = JSON.parse(cached);
-            if (Array.isArray(parsed)) setBlogList(parsed);
+            if (Array.isArray(parsed)) {
+              setBlogList(parsed.filter(p => p.id !== 'post-ph-balance' && p.id !== 'post-water-vs-silicone'));
+            }
           }
         } catch (e) {}
       }

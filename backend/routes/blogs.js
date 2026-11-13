@@ -17,26 +17,10 @@ const slugify = (text) => {
     .replace(/-+$/, '');
 };
 
-const DEFAULT_BLOG_CATEGORIES = [
-  { name: 'Wellness', slug: 'wellness', description: 'Holistic wellness, sensual balance and daily vitality.' },
-  { name: 'Intimate Care', slug: 'intimate-care', description: 'Body-safe formulas, pH balance and intimate comfort.' },
-  { name: 'Botanical Science', slug: 'botanical-science', description: 'Plant extracts, organic actives and ingredient deep-dives.' },
-  { name: 'Self-Care Guides', slug: 'self-care-guides', description: 'Actionable wellness guides and modern lifestyle rituals.' }
-];
-
-// GET /api/blogs/categories - Public: list all blog categories (auto-seeds defaults if empty)
+// GET /api/blogs/categories - Public: list all blog categories
 router.get('/categories', async (req, res) => {
   try {
-    let categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
-    if (!categories || categories.length === 0) {
-      try {
-        await BlogCategory.insertMany(DEFAULT_BLOG_CATEGORIES, { ordered: false });
-        categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
-      } catch (seedErr) {
-        // In case of parallel race condition
-        categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
-      }
-    }
+    const categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
     res.json(categories || []);
   } catch (err) {
     console.error('Fetch blog categories error:', err);

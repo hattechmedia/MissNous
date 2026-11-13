@@ -108,20 +108,15 @@ export default function App() {
     }
   });
 
-  const DEFAULT_BLOG_CATEGORIES = [
-    { _id: 'cat-wellness', name: 'Wellness', slug: 'wellness', description: 'Holistic wellness, sensual balance and daily vitality.' },
-    { _id: 'cat-intimate-care', name: 'Intimate Care', slug: 'intimate-care', description: 'Body-safe formulas, pH balance and intimate comfort.' },
-    { _id: 'cat-botanical-science', name: 'Botanical Science', slug: 'botanical-science', description: 'Plant extracts, organic actives and ingredient deep-dives.' },
-    { _id: 'cat-self-care-guides', name: 'Self-Care Guides', slug: 'self-care-guides', description: 'Actionable wellness guides and modern lifestyle rituals.' }
-  ];
-
   const [blogCategories, setBlogCategories] = useState(() => {
     try {
       const cached = localStorage.getItem('missnous_blog_categories');
       const parsed = cached ? JSON.parse(cached) : null;
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed)) {
+        return parsed.filter(c => !String(c._id || '').startsWith('cat-'));
+      }
     } catch (e) {}
-    return DEFAULT_BLOG_CATEGORIES;
+    return [];
   });
 
   const [loading, setLoading] = useState(false);
@@ -225,11 +220,11 @@ export default function App() {
           setInquiries(data.inquiries);
           try { localStorage.setItem('missnous_admin_inquiries', JSON.stringify(data.inquiries)); } catch (e) {}
         }
-        if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+        if (Array.isArray(data.blogs)) {
           setBlogs(data.blogs);
           try { localStorage.setItem('missnous_published_blogs', JSON.stringify(data.blogs)); } catch (e) {}
         }
-        if (Array.isArray(data.blogCategories) && data.blogCategories.length > 0) {
+        if (Array.isArray(data.blogCategories)) {
           setBlogCategories(data.blogCategories);
           try { localStorage.setItem('missnous_blog_categories', JSON.stringify(data.blogCategories)); } catch (e) {}
         }
@@ -270,7 +265,7 @@ export default function App() {
 
       const fetchBlogCategories = api.get('/blogs/categories')
         .then(cats => {
-          if (Array.isArray(cats) && cats.length > 0) {
+          if (Array.isArray(cats)) {
             setBlogCategories(cats);
             try { localStorage.setItem('missnous_blog_categories', JSON.stringify(cats)); } catch (e) {}
           }
