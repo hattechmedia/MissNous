@@ -164,7 +164,7 @@ export default function BlogsPage({
     }));
   };
 
-  // Save new category
+  // Save new category (URL slug is optional, auto-generated from name)
   const handleSaveCategory = async (e) => {
     e?.preventDefault();
     if (!newCategoryData.name.trim()) {
@@ -173,7 +173,7 @@ export default function BlogsPage({
     }
     const finalSlug = slugify(newCategoryData.slug || newCategoryData.name);
     if (!finalSlug) {
-      showToast?.('Please enter a valid URL slug.');
+      showToast?.('Please enter a valid category name.');
       return;
     }
 
@@ -1047,15 +1047,19 @@ export default function BlogsPage({
                 </div>
 
                 {/* URL Slug */}
+                {/* URL Slug (Optional) */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#2B2225] mb-1">
-                    URL Slug *
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-semibold text-[#2B2225]">
+                      URL Slug <span className="text-[#A09095] font-normal">(Optional)</span>
+                    </label>
+                    <span className="text-[10px] text-[#A09095]">Auto-generated</span>
+                  </div>
                   <input
                     type="text"
                     value={newCategoryData.slug}
                     onChange={handleCategorySlugChange}
-                    placeholder="e.g. sensual-wellness"
+                    placeholder={slugify(newCategoryData.name) || "auto-generated-from-name"}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#F7D6DF] text-xs font-mono text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
                   />
                 </div>
@@ -1077,7 +1081,7 @@ export default function BlogsPage({
 
               <div className="flex items-center justify-between pt-1">
                 <span className="text-[11px] text-[#A09095]">
-                  Tab URL: <span className="text-[#9E3F5C] font-mono font-semibold">/blog?category={newCategoryData.slug || 'category-slug'}</span>
+                  Tab URL: <span className="text-[#9E3F5C] font-mono font-semibold">/blog?category={slugify(newCategoryData.slug || newCategoryData.name) || 'auto-generated'}</span>
                 </span>
                 <button
                   type="submit"

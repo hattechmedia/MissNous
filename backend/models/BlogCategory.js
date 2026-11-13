@@ -23,6 +23,21 @@ const blogCategorySchema = new mongoose.Schema({
   timestamps: true
 });
 
+blogCategorySchema.pre('validate', function(next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  }
+  next();
+});
+
 blogCategorySchema.index({ createdAt: 1 });
 
 module.exports = mongoose.model('BlogCategory', blogCategorySchema);
