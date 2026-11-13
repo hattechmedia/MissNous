@@ -33,6 +33,15 @@ const protect = async (req, res, next) => {
   }
 };
 
+// Admin only middleware - must use after protect
+const adminOnly = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied. Admin only.' });
+  }
+};
+
 // Optional auth middleware - populates req.user if token exists, but doesn't block guests
 const optionalAuth = async (req, res, next) => {
   try {
@@ -55,3 +64,4 @@ const optionalAuth = async (req, res, next) => {
 };
 
 module.exports = { protect, adminOnly, optionalAuth };
+

@@ -1,10 +1,15 @@
+const express = require('express');
 const { protect, optionalAuth } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const getStripe = () => {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not configured.');
+  return require('stripe')(key);
+};
 
 // Rate limiter for checkout session creation (prevents Stripe API quota exhaustion)
 const checkoutLimiter = rateLimit({
@@ -120,6 +125,7 @@ router.post('/create-checkout-session', optionalAuth, checkoutLimiter, async (re
       sessionPayload.client_reference_id = req.user._id.toString();
     }
 
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create(sessionPayload);
 
     res.json({
@@ -143,6 +149,7 @@ router.post('/verify-session', optionalAuth, async (req, res) => {
       return res.status(400).json({ message: 'Session ID is required.' });
     }
 
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {

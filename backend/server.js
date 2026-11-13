@@ -20,27 +20,22 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 
-// Security: Security Headers with Helmet
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allows static images in /uploads to load on frontend
-  contentSecurityPolicy: false // Handled by frontend bundler / CDN
-}));
-
-// Security: Prevent NoSQL Query Injection (sanitizes req.body, req.query, req.params)
-app.use(mongoSanitize());
-
 // Security: Strict CORS whitelist
 const allowedOrigins = [
   'https://missnous.com',
   'https://www.missnous.com',
+  'https://admin.missnous.com',
+  'https://miss-nous.vercel.app',
+  'https://miss-nous-admin.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
+  'http://localhost:5175',
   'http://localhost:3000',
   process.env.FRONTEND_URL,
   process.env.ADMIN_URL
 ].filter(Boolean);
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // Allow server-to-server or tools without origin
     const isAllowed = 
@@ -53,12 +48,27 @@ app.use(cors({
     if (isAllowed) {
       return callback(null, true);
     }
-    return callback(new Error('CORS policy: Access blocked from unauthorized origin.'));
+    return callback(null, false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  optionsSuccessStatus: 200
+};
+
+// Mount CORS first so preflight OPTIONS requests are answered immediately
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// Security: Security Headers with Helmet
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allows static images in /uploads to load on frontend
+  contentSecurityPolicy: false // Handled by frontend bundler / CDN
 }));
+
+// Security: Prevent NoSQL Query Injection (sanitizes req.body, req.query, req.params)
+app.use(mongoSanitize());
+
 
 // Ensure database connection is ready before handling incoming API requests
 app.use(async (req, res, next) => {
