@@ -31,6 +31,12 @@ const blogSchema = new mongoose.Schema({
     default: 'Wellness',
     trim: true
   },
+  categorySlug: {
+    type: String,
+    default: 'wellness',
+    trim: true,
+    lowercase: true
+  },
   tags: {
     type: [String],
     default: []

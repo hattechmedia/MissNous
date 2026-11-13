@@ -5,20 +5,22 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const Inquiry = require('../models/Inquiry');
 const Blog = require('../models/Blog');
+const BlogCategory = require('../models/BlogCategory');
 const { protect, adminOnly } = require('../middleware/auth');
 const router = express.Router();
 
 // GET /api/admin/bootstrap - Ultra-fast aggregated overview for the admin panel
-// Executes all 6 collections concurrently via .lean() in 1 single HTTP request
+// Executes all 7 collections concurrently via .lean() in 1 single HTTP request
 router.get('/bootstrap', protect, adminOnly, async (req, res) => {
   try {
-    const [products, categories, orders, users, inquiries, blogs] = await Promise.all([
+    const [products, categories, orders, users, inquiries, blogs, blogCategories] = await Promise.all([
       Product.find().lean().sort({ createdAt: -1 }),
       Category.find().lean().sort({ createdAt: 1 }),
       Order.find().sort({ createdAt: -1 }).populate('user', 'name email').lean(),
       User.find().lean().select('-password').sort({ createdAt: -1 }),
       Inquiry.find().lean().sort({ createdAt: -1 }),
-      Blog.find().lean().select('-content').sort({ createdAt: -1 })
+      Blog.find().lean().select('-content').sort({ createdAt: -1 }),
+      BlogCategory.find().lean().sort({ createdAt: 1 })
     ]);
 
     res.json({
@@ -27,7 +29,8 @@ router.get('/bootstrap', protect, adminOnly, async (req, res) => {
       orders: orders || [],
       users: users || [],
       inquiries: inquiries || [],
-      blogs: blogs || []
+      blogs: blogs || [],
+      blogCategories: blogCategories || []
     });
   } catch (err) {
     console.error('Admin bootstrap error:', err);

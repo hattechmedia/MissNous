@@ -1,11 +1,12 @@
 const express = require('express');
 const Blog = require('../models/Blog');
+const BlogCategory = require('../models/BlogCategory');
 const { protect, adminOnly } = require('../middleware/auth');
 const router = express.Router();
 
 // Helper to auto-generate slug
 const slugify = (text) => {
-  return text
+  return (text || '')
     .toString()
     .toLowerCase()
     .trim()
@@ -16,12 +17,106 @@ const slugify = (text) => {
     .replace(/-+$/, '');
 };
 
+const DEFAULT_BLOG_CATEGORIES = [
+  { name: 'Wellness', slug: 'wellness', description: 'Holistic wellness, sensual balance and daily vitality.' },
+  { name: 'Intimate Care', slug: 'intimate-care', description: 'Body-safe formulas, pH balance and intimate comfort.' },
+  { name: 'Botanical Science', slug: 'botanical-science', description: 'Plant extracts, organic actives and ingredient deep-dives.' },
+  { name: 'Self-Care Guides', slug: 'self-care-guides', description: 'Actionable wellness guides and modern lifestyle rituals.' }
+];
+
+// GET /api/blogs/categories - Public: list all blog categories (auto-seeds defaults if empty)
+router.get('/categories', async (req, res) => {
+  try {
+    let categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
+    if (!categories || categories.length === 0) {
+      try {
+        await BlogCategory.insertMany(DEFAULT_BLOG_CATEGORIES, { ordered: false });
+        categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
+      } catch (seedErr) {
+        // In case of parallel race condition
+        categories = await BlogCategory.find().sort({ createdAt: 1 }).lean();
+      }
+    }
+    res.json(categories || []);
+  } catch (err) {
+    console.error('Fetch blog categories error:', err);
+    res.status(500).json({ message: 'Failed to fetch blog categories.' });
+  }
+});
+
+// POST /api/blogs/categories - Admin only: create a new blog category
+router.post('/categories', protect, adminOnly, async (req, res) => {
+  try {
+    const { name, slug, description } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: 'Category name is required.' });
+    }
+
+    const cleanName = name.trim();
+    const finalSlug = slugify(slug || cleanName);
+
+    if (!finalSlug) {
+      return res.status(400).json({ message: 'A valid URL slug is required.' });
+    }
+
+    // Check if category name or slug already exists
+    const existing = await BlogCategory.findOne({
+      $or: [
+        { slug: finalSlug },
+        { name: { $regex: new RegExp(`^${cleanName}$`, 'i') } }
+      ]
+    });
+
+    if (existing) {
+      return res.status(400).json({ message: 'A blog category with this name or URL slug already exists.' });
+    }
+
+    const created = await BlogCategory.create({
+      name: cleanName,
+      slug: finalSlug,
+      description: (description || '').trim()
+    });
+
+    res.status(201).json(created);
+  } catch (err) {
+    console.error('Create blog category error:', err);
+    res.status(500).json({ message: err.message || 'Failed to create blog category.' });
+  }
+});
+
+// DELETE /api/blogs/categories/:id - Admin only: delete a blog category
+router.delete('/categories/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const { id } = req.params;
+    let deleted = null;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      deleted = await BlogCategory.findByIdAndDelete(id);
+    }
+    if (!deleted) {
+      deleted = await BlogCategory.findOneAndDelete({ slug: id.toLowerCase() });
+    }
+    if (!deleted) {
+      return res.status(404).json({ message: 'Blog category not found.' });
+    }
+    res.json({ message: 'Category deleted successfully.', category: deleted });
+  } catch (err) {
+    console.error('Delete blog category error:', err);
+    res.status(500).json({ message: 'Failed to delete blog category.' });
+  }
+});
+
 // GET /api/blogs - Public: get all blogs (optionally filter by status or admin)
 router.get('/', async (req, res) => {
   try {
     const filter = {};
     if (req.query.all !== 'true') {
       filter.status = 'Published';
+    }
+    if (req.query.category) {
+      filter.$or = [
+        { category: req.query.category },
+        { categorySlug: slugify(req.query.category) }
+      ];
     }
     const blogs = await Blog.find(filter).sort({ createdAt: -1 });
     res.json(blogs);
@@ -62,6 +157,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
       content,
       coverImage,
       category,
+      categorySlug,
       tags,
       author,
       readTime,
@@ -96,9 +192,10 @@ router.post('/', protect, adminOnly, async (req, res) => {
       excerpt: (excerpt || '').trim(),
       content: content.trim(),
       coverImage: coverImage || '/gpt-8.jpeg',
-      category: category || 'Wellness',
+      category: (category || 'Wellness').trim(),
+      categorySlug: categorySlug ? slugify(categorySlug) : slugify(category || 'Wellness'),
       tags: Array.isArray(tags) ? tags : (tags ? [tags] : []),
-      author: author || 'Miss Nous Team',
+      author: (author || 'Miss Nous Team').trim(),
       readTime: finalReadTime,
       date: date || new Date().toISOString(),
       status: status || 'Published',
@@ -126,6 +223,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
       content,
       coverImage,
       category,
+      categorySlug,
       tags,
       author,
       readTime,
@@ -142,7 +240,12 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
     if (excerpt !== undefined) updateData.excerpt = excerpt.trim();
     if (content !== undefined) updateData.content = content.trim();
     if (coverImage !== undefined) updateData.coverImage = coverImage;
-    if (category !== undefined) updateData.category = category;
+    if (category !== undefined) {
+      updateData.category = category.trim();
+      updateData.categorySlug = categorySlug ? slugify(categorySlug) : slugify(category);
+    } else if (categorySlug !== undefined) {
+      updateData.categorySlug = slugify(categorySlug);
+    }
     if (tags !== undefined) updateData.tags = Array.isArray(tags) ? tags : [];
     if (author !== undefined) updateData.author = author.trim();
     if (readTime !== undefined) updateData.readTime = readTime;

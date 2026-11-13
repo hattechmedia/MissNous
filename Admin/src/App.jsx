@@ -107,6 +107,23 @@ export default function App() {
       return [];
     }
   });
+
+  const DEFAULT_BLOG_CATEGORIES = [
+    { _id: 'cat-wellness', name: 'Wellness', slug: 'wellness', description: 'Holistic wellness, sensual balance and daily vitality.' },
+    { _id: 'cat-intimate-care', name: 'Intimate Care', slug: 'intimate-care', description: 'Body-safe formulas, pH balance and intimate comfort.' },
+    { _id: 'cat-botanical-science', name: 'Botanical Science', slug: 'botanical-science', description: 'Plant extracts, organic actives and ingredient deep-dives.' },
+    { _id: 'cat-self-care-guides', name: 'Self-Care Guides', slug: 'self-care-guides', description: 'Actionable wellness guides and modern lifestyle rituals.' }
+  ];
+
+  const [blogCategories, setBlogCategories] = useState(() => {
+    try {
+      const cached = localStorage.getItem('missnous_blog_categories');
+      const parsed = cached ? JSON.parse(cached) : null;
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    } catch (e) {}
+    return DEFAULT_BLOG_CATEGORIES;
+  });
+
   const [loading, setLoading] = useState(false);
 
   // Notifications state
@@ -212,6 +229,10 @@ export default function App() {
           setBlogs(data.blogs);
           try { localStorage.setItem('missnous_published_blogs', JSON.stringify(data.blogs)); } catch (e) {}
         }
+        if (Array.isArray(data.blogCategories) && data.blogCategories.length > 0) {
+          setBlogCategories(data.blogCategories);
+          try { localStorage.setItem('missnous_blog_categories', JSON.stringify(data.blogCategories)); } catch (e) {}
+        }
         return;
       }
 
@@ -247,7 +268,16 @@ export default function App() {
         .then(inqs => { if (Array.isArray(inqs)) setInquiries(inqs); })
         .catch(() => {});
 
-      await Promise.allSettled([fetchProducts, fetchCategories, fetchOrders, fetchUsers, fetchInquiries]);
+      const fetchBlogCategories = api.get('/blogs/categories')
+        .then(cats => {
+          if (Array.isArray(cats) && cats.length > 0) {
+            setBlogCategories(cats);
+            try { localStorage.setItem('missnous_blog_categories', JSON.stringify(cats)); } catch (e) {}
+          }
+        })
+        .catch(() => {});
+
+      await Promise.allSettled([fetchProducts, fetchCategories, fetchOrders, fetchUsers, fetchInquiries, fetchBlogCategories]);
     } catch (err) {
       console.error('Failed to load admin data:', err.message);
     } finally {
@@ -572,6 +602,52 @@ export default function App() {
     }
   };
 
+  const handleAddBlogCategory = async (categoryData) => {
+    try {
+      const created = await api.post('/blogs/categories', categoryData);
+      setBlogCategories(prev => {
+        const next = [...prev, created];
+        try { localStorage.setItem('missnous_blog_categories', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast(`Category "${created.name}" created successfully!`);
+      return created;
+    } catch (err) {
+      const localCat = {
+        _id: `cat-${Date.now()}`,
+        name: categoryData.name,
+        slug: categoryData.slug,
+        description: categoryData.description || ''
+      };
+      setBlogCategories(prev => {
+        const next = [...prev, localCat];
+        try { localStorage.setItem('missnous_blog_categories', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast(`Category "${localCat.name}" saved!`);
+      return localCat;
+    }
+  };
+
+  const handleDeleteBlogCategory = async (categoryId) => {
+    try {
+      await api.delete(`/blogs/categories/${categoryId}`);
+      setBlogCategories(prev => {
+        const next = prev.filter(c => c._id !== categoryId && c.slug !== categoryId && c.id !== categoryId);
+        try { localStorage.setItem('missnous_blog_categories', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast('Category deleted successfully.');
+    } catch (err) {
+      setBlogCategories(prev => {
+        const next = prev.filter(c => c._id !== categoryId && c.slug !== categoryId && c.id !== categoryId);
+        try { localStorage.setItem('missnous_blog_categories', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      showToast('Category removed.');
+    }
+  };
+
   // ─── Contact Queries (Inquiries) ────────────────────────
   const handleUpdateInquiryStatus = async (inquiryId, newStatus) => {
     try {
@@ -721,9 +797,12 @@ export default function App() {
           {activeTab === 'blogs' && (
             <BlogsPage
               blogs={blogs}
+              blogCategories={blogCategories}
               onAddBlog={handleAddBlog}
               onUpdateBlog={handleUpdateBlog}
               onDeleteBlog={handleDeleteBlog}
+              onAddBlogCategory={handleAddBlogCategory}
+              onDeleteBlogCategory={handleDeleteBlogCategory}
               showToast={showToast}
             />
           )}

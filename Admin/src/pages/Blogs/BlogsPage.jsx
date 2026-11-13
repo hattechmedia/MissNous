@@ -17,17 +17,36 @@ import {
   Tag,
   CheckCircle2,
   AlertCircle,
+  FolderPlus,
+  Layers,
+  ExternalLink,
   Image as ImageIcon
 } from 'lucide-react';
 import RichEditor from '../../components/RichEditor';
 import { compressImage } from '../../utils/imageCompressor';
 import DOMPurify from 'dompurify';
 
+// Helper to auto-generate URL slug
+const slugify = (text) => {
+  return (text || '')
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+};
+
 export default function BlogsPage({
   blogs = [],
+  blogCategories = [],
   onAddBlog,
   onUpdateBlog,
   onDeleteBlog,
+  onAddBlogCategory,
+  onDeleteBlogCategory,
   showToast
 }) {
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'editor' | 'preview'
@@ -35,7 +54,14 @@ export default function BlogsPage({
   const [previewBlog, setPreviewBlog] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all'); // 'all' or category slug
   const [saving, setSaving] = useState(false);
+
+  // Category Modal State
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [newCategoryData, setNewCategoryData] = useState({ name: '', slug: '', description: '' });
+  const [categorySlugManual, setCategorySlugManual] = useState(false);
+  const [addingCategory, setAddingCategory] = useState(false);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -44,6 +70,8 @@ export default function BlogsPage({
     excerpt: '',
     content: '',
     coverImage: '/gpt-8.jpeg',
+    category: 'Wellness',
+    categorySlug: 'wellness',
     tags: [],
     author: 'Miss Nous Team',
     readTime: '5 min read',
@@ -56,15 +84,34 @@ export default function BlogsPage({
   const [newTagInput, setNewTagInput] = useState('');
   const fileInputRef = useRef(null);
 
-  // Open Create Mode
+  // Open Create Mode - Automatically defaults to active Category Tab
   const handleOpenCreate = () => {
     setEditingBlog(null);
+
+    let defaultCatName = 'Wellness';
+    let defaultCatSlug = 'wellness';
+
+    if (selectedCategory !== 'all') {
+      const match = blogCategories.find(
+        c => c.slug === selectedCategory || c.name.toLowerCase() === selectedCategory.toLowerCase()
+      );
+      if (match) {
+        defaultCatName = match.name;
+        defaultCatSlug = match.slug;
+      }
+    } else if (blogCategories.length > 0) {
+      defaultCatName = blogCategories[0].name;
+      defaultCatSlug = blogCategories[0].slug;
+    }
+
     setFormData({
       title: '',
       slug: '',
       excerpt: '',
       content: '',
       coverImage: '/gpt-8.jpeg',
+      category: defaultCatName,
+      categorySlug: defaultCatSlug,
       tags: [],
       author: 'Miss Nous Team',
       readTime: '5 min read',
@@ -79,12 +126,17 @@ export default function BlogsPage({
   // Open Edit Mode
   const handleOpenEdit = (blog) => {
     setEditingBlog(blog);
+    const catName = blog.category || 'Wellness';
+    const catSlug = blog.categorySlug || slugify(catName);
+
     setFormData({
       title: blog.title || '',
       slug: blog.slug || '',
       excerpt: blog.excerpt || '',
       content: blog.content || '',
       coverImage: blog.coverImage || '/gpt-8.jpeg',
+      category: catName,
+      categorySlug: catSlug,
       tags: Array.isArray(blog.tags) ? blog.tags : [],
       author: blog.author || 'Miss Nous Team',
       readTime: blog.readTime || '5 min read',
@@ -96,20 +148,77 @@ export default function BlogsPage({
     setViewMode('editor');
   };
 
+  // Handle category name typing in modal (auto-slugifies unless user edited slug manually)
+  const handleCategoryNameChange = (e) => {
+    const name = e.target.value;
+    setNewCategoryData(prev => ({
+      ...prev,
+      name,
+      slug: categorySlugManual ? prev.slug : slugify(name)
+    }));
+  };
+
+  // Handle category slug manual typing in modal
+  const handleCategorySlugChange = (e) => {
+    setCategorySlugManual(true);
+    setNewCategoryData(prev => ({
+      ...prev,
+      slug: slugify(e.target.value)
+    }));
+  };
+
+  // Save new category
+  const handleSaveCategory = async (e) => {
+    e?.preventDefault();
+    if (!newCategoryData.name.trim()) {
+      showToast?.('Please enter a category name.');
+      return;
+    }
+    const finalSlug = slugify(newCategoryData.slug || newCategoryData.name);
+    if (!finalSlug) {
+      showToast?.('Please enter a valid URL slug.');
+      return;
+    }
+
+    setAddingCategory(true);
+    try {
+      await onAddBlogCategory?.({
+        name: newCategoryData.name.trim(),
+        slug: finalSlug,
+        description: (newCategoryData.description || '').trim()
+      });
+      setNewCategoryData({ name: '', slug: '', description: '' });
+      setCategorySlugManual(false);
+      // Auto-switch to newly created category tab
+      setSelectedCategory(finalSlug);
+    } catch (err) {
+      showToast?.(err.message || 'Failed to create category.');
+    } finally {
+      setAddingCategory(false);
+    }
+  };
+
+  // Delete category
+  const handleDeleteCategory = async (category) => {
+    if (window.confirm(`Delete category "${category.name}"? Articles in this category will keep their content.`)) {
+      try {
+        await onDeleteBlogCategory?.(category._id || category.slug || category.id);
+        if (selectedCategory === category.slug) {
+          setSelectedCategory('all');
+        }
+      } catch (err) {
+        showToast?.('Failed to delete category.');
+      }
+    }
+  };
+
   // Title change with auto-slug generator
   const handleTitleChange = (e) => {
     const val = e.target.value;
     setFormData(prev => {
       const updated = { ...prev, title: val };
       if (!editingBlog) {
-        updated.slug = val
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, '-')
-          .replace(/[^\w\-]+/g, '')
-          .replace(/\-\-+/g, '-')
-          .replace(/^-+/, '')
-          .replace(/-+$/, '');
+        updated.slug = slugify(val);
       }
       return updated;
     });
@@ -190,12 +299,22 @@ export default function BlogsPage({
   const filteredBlogs = blogs.filter(b => {
     const matchesSearch =
       b.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.author?.toLowerCase().includes(searchTerm.toLowerCase());
+      b.author?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      b.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (Array.isArray(b.tags) && b.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase())));
+
     const matchesStatus =
       statusFilter === 'all' ||
       (statusFilter === 'published' && b.status === 'Published') ||
       (statusFilter === 'draft' && b.status === 'Draft');
-    return matchesSearch && matchesStatus;
+
+    const matchesCategory =
+      selectedCategory === 'all' ||
+      b.categorySlug === selectedCategory ||
+      (b.category && b.category.toLowerCase() === selectedCategory.toLowerCase()) ||
+      (blogCategories.some(c => c.slug === selectedCategory && b.category?.toLowerCase() === c.name.toLowerCase()));
+
+    return matchesSearch && matchesStatus && matchesCategory;
   });
 
   // ────────────────────────────────────────────────────
@@ -479,16 +598,66 @@ export default function BlogsPage({
                 Publishing Details
               </label>
 
-              {/* Author */}
+              {/* Category Selector */}
               <div>
-                <label className="block text-xs font-semibold text-[#2B2225] mb-1">Author</label>
-                <input
-                  type="text"
-                  value={formData.author}
-                  onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
-                  placeholder="e.g. Miss Nous Team"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
-                />
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-semibold text-[#2B2225] flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-[#9E3F5C]" />
+                    Article Category *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setIsCategoryModalOpen(true)}
+                    className="text-[11px] font-bold text-[#9E3F5C] hover:text-[#7C2F47] hover:underline cursor-pointer"
+                  >
+                    + Manage Categories
+                  </button>
+                </div>
+                <select
+                  value={formData.category}
+                  onChange={(e) => {
+                    const selectedName = e.target.value;
+                    const match = blogCategories.find(c => c.name === selectedName);
+                    setFormData(prev => ({
+                      ...prev,
+                      category: selectedName,
+                      categorySlug: match ? match.slug : slugify(selectedName)
+                    }));
+                  }}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C] cursor-pointer"
+                >
+                  {blogCategories.map((cat) => (
+                    <option key={cat._id || cat.slug || cat.name} value={cat.name}>
+                      {cat.name} ({cat.slug})
+                    </option>
+                  ))}
+                  {!blogCategories.some(c => c.name === formData.category) && formData.category && (
+                    <option value={formData.category}>{formData.category}</option>
+                  )}
+                </select>
+                <p className="text-[10px] text-[#A09095] mt-1 font-mono">
+                  Slug: <span className="text-[#9E3F5C]">/{formData.categorySlug || slugify(formData.category)}</span>
+                </p>
+              </div>
+
+              {/* Author Name */}
+              <div>
+                <label className="block text-xs font-semibold text-[#2B2225] mb-1.5 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-[#9E3F5C]" />
+                  Author Name *
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.author}
+                    onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
+                    placeholder="e.g. Miss Nous Team, Dr. Jane Smith"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                  />
+                </div>
+                <p className="text-[10px] text-[#A09095] mt-1">
+                  Displayed on the article hero, byline, and card footer.
+                </p>
               </div>
 
               {/* Tags */}
@@ -557,16 +726,92 @@ export default function BlogsPage({
             Blog Manager
           </h1>
           <p className="text-xs sm:text-sm text-[#A09095] max-w-xl">
-            Publish articles, self-care guides, and wellness stories that sync directly to the live website.
+            Publish articles, organize categories, and manage author stories that sync directly to the live website.
           </p>
         </div>
 
+        <div className="flex flex-wrap items-center gap-3 self-start sm:self-auto">
+          <button
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[#F7D6DF] hover:border-[#9E3F5C] hover:text-[#9E3F5C] text-[#2B2225] font-sans text-xs sm:text-sm font-bold shadow-xs transition-all cursor-pointer"
+            title="Manage Blog Categories"
+          >
+            <Tag className="w-4 h-4 text-[#9E3F5C]" />
+            Manage Categories
+          </button>
+
+          <button
+            onClick={handleOpenCreate}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs sm:text-sm font-bold shadow-pink-glow transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4 stroke-[2.5]" />
+            Create New Article
+          </button>
+        </div>
+      </div>
+
+      {/* ──── Category Tabs Bar (Dynamic Tabs with Counts) ──── */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {/* All Tab */}
         <button
-          onClick={handleOpenCreate}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-[#FFF9F5] font-sans text-xs sm:text-sm font-bold shadow-pink-glow transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap self-start sm:self-auto"
+          onClick={() => setSelectedCategory('all')}
+          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer shadow-xs ${
+            selectedCategory === 'all'
+              ? 'bg-[#9E3F5C] text-white shadow-pink-glow'
+              : 'bg-white text-[#2B2225] border border-[#F7D6DF] hover:border-[#9E3F5C] hover:text-[#9E3F5C]'
+          }`}
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
-          Create New Article
+          <span>All Articles</span>
+          <span
+            className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+              selectedCategory === 'all'
+                ? 'bg-white/25 text-white'
+                : 'bg-[#FDF2F5] text-[#9E3F5C]'
+            }`}
+          >
+            {blogs.length}
+          </span>
+        </button>
+
+        {/* Dynamic Category Tabs */}
+        {blogCategories.map((cat) => {
+          const count = blogs.filter(
+            b => b.categorySlug === cat.slug || b.category?.toLowerCase() === cat.name.toLowerCase()
+          ).length;
+          const isActive = selectedCategory === cat.slug || selectedCategory === cat.name.toLowerCase();
+
+          return (
+            <button
+              key={cat._id || cat.slug || cat.name}
+              onClick={() => setSelectedCategory(cat.slug)}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer shadow-xs ${
+                isActive
+                  ? 'bg-[#9E3F5C] text-white shadow-pink-glow'
+                  : 'bg-white text-[#2B2225] border border-[#F7D6DF] hover:border-[#9E3F5C] hover:text-[#9E3F5C]'
+              }`}
+            >
+              <span>{cat.name}</span>
+              <span
+                className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+                  isActive
+                    ? 'bg-white/25 text-white'
+                    : 'bg-[#FDF2F5] text-[#9E3F5C]'
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
+
+        {/* Quick Add Category Pill */}
+        <button
+          onClick={() => setIsCategoryModalOpen(true)}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-[#9E3F5C] bg-[#FDF2F5] border border-dashed border-[#F7D6DF] hover:bg-[#F7D6DF]/60 transition-all whitespace-nowrap cursor-pointer"
+          title="Add New Category"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>New Category</span>
         </button>
       </div>
 
@@ -577,7 +822,7 @@ export default function BlogsPage({
           <Search className="w-4 h-4 text-[#A09095] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search articles by title or author..."
+            placeholder="Search articles by title, author, or category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#FFF9F5] border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
@@ -610,19 +855,17 @@ export default function BlogsPage({
           </div>
           <h3 className="text-lg font-bold text-[#2B2225]">No Articles Found</h3>
           <p className="text-xs sm:text-sm text-[#A09095] max-w-md mx-auto">
-            {searchTerm || statusFilter !== 'all'
-              ? 'No articles match your current filter. Try adjusting your search query.'
+            {searchTerm || statusFilter !== 'all' || selectedCategory !== 'all'
+              ? 'No articles match your current filter. Try selecting a different category or adjusting your search.'
               : 'You have not created any blog posts yet. Click the button below to publish your first article!'}
           </p>
-          {!searchTerm && statusFilter === 'all' && (
-            <button
-              onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9E3F5C] text-white text-xs font-bold shadow-pink-glow hover:bg-[#7C2F47] transition-all cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              Write First Story
-            </button>
-          )}
+          <button
+            onClick={handleOpenCreate}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9E3F5C] text-white text-xs font-bold shadow-pink-glow hover:bg-[#7C2F47] transition-all cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            {selectedCategory !== 'all' ? `Write Article in ${blogCategories.find(c => c.slug === selectedCategory)?.name || 'Category'}` : 'Write First Story'}
+          </button>
         </div>
       ) : (
         <div className="rounded-3xl bg-white border border-[#F7D6DF] overflow-hidden shadow-luxury">
@@ -631,6 +874,7 @@ export default function BlogsPage({
               <thead>
                 <tr className="border-b border-[#F7D6DF] bg-[#FFF9F5] text-[11px] font-bold text-[#A09095] uppercase tracking-wider">
                   <th className="px-6 py-4">Article</th>
+                  <th className="px-6 py-4">Category</th>
                   <th className="px-6 py-4">Author</th>
                   <th className="px-6 py-4">Read Time</th>
                   <th className="px-6 py-4">Status</th>
@@ -661,11 +905,22 @@ export default function BlogsPage({
                       </div>
                     </td>
 
-
+                    {/* Category */}
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FDF2F5] text-[#9E3F5C] text-[11px] font-bold border border-[#F7D6DF]">
+                        <Tag className="w-3 h-3" />
+                        {blog.category || 'Wellness'}
+                      </span>
+                    </td>
 
                     {/* Author */}
-                    <td className="px-6 py-4 text-[#5A4B50] font-medium">
-                      {blog.author || 'Miss Nous Team'}
+                    <td className="px-6 py-4 text-[#2B2225] font-semibold">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-[#9E3F5C]/10 text-[#9E3F5C] flex items-center justify-center text-[10px] font-bold flex-shrink-0">
+                          {(blog.author || 'M').charAt(0)}
+                        </div>
+                        <span className="truncate max-w-[140px]">{blog.author || 'Miss Nous Team'}</span>
+                      </div>
                     </td>
 
                     {/* Read Time */}
@@ -723,6 +978,169 @@ export default function BlogsPage({
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────
+          4. CATEGORY MANAGEMENT MODAL
+          ──────────────────────────────────────────────────── */}
+      {isCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-3xl border border-[#F7D6DF] shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar p-6 sm:p-8 space-y-6">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-[#F7D6DF]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#FDF2F5] border border-[#F7D6DF] flex items-center justify-center text-[#9E3F5C]">
+                  <Tag className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-[#2B2225] font-sans">
+                    Blog Categories
+                  </h3>
+                  <p className="text-xs text-[#A09095]">
+                    Organize your articles into dedicated category tabs
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsCategoryModalOpen(false)}
+                className="p-2 rounded-xl text-[#A09095] hover:text-[#2B2225] hover:bg-[#FDF2F5] transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Form: Add New Category */}
+            <form onSubmit={handleSaveCategory} className="p-5 rounded-2xl bg-[#FFF9F5] border border-[#F7D6DF] space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#9E3F5C] flex items-center gap-1.5">
+                <Plus className="w-3.5 h-3.5" />
+                Create New Category
+              </h4>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Category Name */}
+                <div>
+                  <label className="block text-xs font-semibold text-[#2B2225] mb-1">
+                    Category Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={newCategoryData.name}
+                    onChange={handleCategoryNameChange}
+                    placeholder="e.g. Sensual Wellness"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#F7D6DF] text-xs font-semibold text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                  />
+                </div>
+
+                {/* URL Slug */}
+                <div>
+                  <label className="block text-xs font-semibold text-[#2B2225] mb-1">
+                    URL Slug *
+                  </label>
+                  <input
+                    type="text"
+                    value={newCategoryData.slug}
+                    onChange={handleCategorySlugChange}
+                    placeholder="e.g. sensual-wellness"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#F7D6DF] text-xs font-mono text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-xs font-semibold text-[#2B2225] mb-1">
+                  Description (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={newCategoryData.description}
+                  onChange={(e) => setNewCategoryData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Short tagline explaining this category topic..."
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#F7D6DF] text-xs text-[#2B2225] focus:outline-none focus:border-[#9E3F5C]"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-[11px] text-[#A09095]">
+                  Tab URL: <span className="text-[#9E3F5C] font-mono font-semibold">/blog?category={newCategoryData.slug || 'category-slug'}</span>
+                </span>
+                <button
+                  type="submit"
+                  disabled={addingCategory}
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#9E3F5C] hover:bg-[#7C2F47] text-white text-xs font-bold shadow-pink-glow transition-all cursor-pointer disabled:opacity-50"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  {addingCategory ? 'Adding...' : 'Add Category'}
+                </button>
+              </div>
+            </form>
+
+            {/* List: Existing Categories */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#A09095]">
+                Existing Categories ({blogCategories.length})
+              </h4>
+
+              <div className="divide-y divide-[#F7D6DF]/60 border border-[#F7D6DF] rounded-2xl overflow-hidden bg-white">
+                {blogCategories.map((cat) => {
+                  const articleCount = blogs.filter(
+                    b => b.categorySlug === cat.slug || b.category?.toLowerCase() === cat.name.toLowerCase()
+                  ).length;
+
+                  return (
+                    <div
+                      key={cat._id || cat.slug || cat.name}
+                      className="p-3.5 sm:p-4 flex items-center justify-between gap-3 hover:bg-[#FDF2F5]/40 transition-colors"
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-xs sm:text-sm text-[#2B2225]">
+                            {cat.name}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-md bg-[#FDF2F5] text-[#9E3F5C] text-[10px] font-mono font-semibold border border-[#F7D6DF]">
+                            /{cat.slug}
+                          </span>
+                        </div>
+                        {cat.description && (
+                          <p className="text-[11px] text-[#A09095] mt-0.5 truncate max-w-sm">
+                            {cat.description}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className="px-2.5 py-1 rounded-full bg-gray-100 text-[#5A4B50] text-[11px] font-bold">
+                          {articleCount} {articleCount === 1 ? 'story' : 'stories'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteCategory(cat)}
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                          title={`Delete category "${cat.name}"`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setIsCategoryModalOpen(false)}
+                className="px-6 py-2.5 rounded-full bg-[#2B2225] hover:bg-[#43353A] text-white text-xs font-bold transition-all cursor-pointer"
+              >
+                Done
+              </button>
+            </div>
+
           </div>
         </div>
       )}

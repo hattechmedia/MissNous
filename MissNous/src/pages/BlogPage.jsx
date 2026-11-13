@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ArrowRight, User, ChevronLeft, Calendar, BookOpen } from 'lucide-react';
+import { Sparkles, ArrowRight, User, ChevronLeft, Calendar, BookOpen, Tag } from 'lucide-react';
 import { BLOG_POSTS } from '../data/blogPosts';
 import NewsletterSection from '../components/NewsletterSection';
 import api from '../services/api';
@@ -127,6 +127,10 @@ export default function BlogPage({ blogs = [], onNavigate }) {
               <span className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
                 {formatDate(selectedPost.date || selectedPost.createdAt)}
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[#FFF9F5] border border-white/30 text-[11px] font-semibold">
+                <Tag className="w-3 h-3" />
+                {selectedPost.category || 'Wellness'}
               </span>
             </div>
             <h1 className="font-sans text-2xl sm:text-3xl lg:text-5xl font-medium text-[#FFF9F5] tracking-tight leading-[1.15] drop-shadow-md">
@@ -278,9 +282,15 @@ export default function BlogPage({ blogs = [], onNavigate }) {
 
                     {/* Card Content */}
                     <div className="p-5 sm:p-6 space-y-3">
-                      <div className="flex items-center gap-2 text-[#A09095] text-[11px] font-sans font-medium">
-                        <Calendar className="w-3 h-3" />
-                        <span>{formatDate(post.date || post.createdAt)}</span>
+                      <div className="flex items-center justify-between gap-2 text-[#A09095] text-[11px] font-sans font-medium">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="w-3 h-3" />
+                          <span>{formatDate(post.date || post.createdAt)}</span>
+                        </div>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#FDF2F5] text-[#9E3F5C] text-[10px] font-bold border border-[#F7D6DF]/80">
+                          <Tag className="w-2.5 h-2.5" />
+                          {post.category || 'Wellness'}
+                        </span>
                       </div>
 
                       <h3 className="font-sans text-base sm:text-lg font-bold text-[#2B2225] leading-snug group-hover:text-[#9E3F5C] transition-colors duration-300 line-clamp-2">
