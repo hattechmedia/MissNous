@@ -25,6 +25,7 @@ import {
 import RichEditor from '../../components/RichEditor';
 import { compressImage } from '../../utils/imageCompressor';
 import DOMPurify from 'dompurify';
+import api from '../../services/api';
 
 // Helper to auto-generate URL slug
 const slugify = (text) => {
@@ -120,10 +121,26 @@ export default function BlogsPage({
     setViewMode('editor');
   };
 
-  // Open Edit Mode
-  const handleOpenEdit = (blog) => {
+  // Open Preview Mode - loads full content if missing
+  const handleOpenPreview = async (blog) => {
+    setPreviewBlog(blog);
+    setViewMode('preview');
+    if (!blog.content) {
+      try {
+        const fullBlog = await api.get(`/blogs/${blog._id || blog.slug}`);
+        if (fullBlog && fullBlog.content) {
+          setPreviewBlog(fullBlog);
+        }
+      } catch (err) {
+        console.warn('Preview content fetch note:', err.message);
+      }
+    }
+  };
+
+  // Open Edit Mode - Guarantees full article content is loaded from API even if stripped in bootstrap
+  const handleOpenEdit = async (blog) => {
     setEditingBlog(blog);
-    const catName = blog.category || 'Wellness';
+    const catName = blog.category || blogCategories[0]?.name || '';
     const catSlug = blog.categorySlug || slugify(catName);
 
     setFormData({
@@ -143,6 +160,29 @@ export default function BlogsPage({
       keywords: blog.keywords || ''
     });
     setViewMode('editor');
+
+    // Always fetch fresh full blog content from API to ensure content is 100% loaded
+    try {
+      const fullBlog = await api.get(`/blogs/${blog._id || blog.slug}`);
+      if (fullBlog && fullBlog.content) {
+        setFormData(prev => ({
+          ...prev,
+          content: fullBlog.content,
+          excerpt: fullBlog.excerpt !== undefined ? fullBlog.excerpt : prev.excerpt,
+          coverImage: fullBlog.coverImage || prev.coverImage,
+          category: fullBlog.category || prev.category,
+          categorySlug: fullBlog.categorySlug || prev.categorySlug,
+          author: fullBlog.author || prev.author,
+          readTime: fullBlog.readTime || prev.readTime,
+          status: fullBlog.status || prev.status,
+          metaTitle: fullBlog.metaTitle || prev.metaTitle,
+          metaDescription: fullBlog.metaDescription || prev.metaDescription,
+          keywords: fullBlog.keywords || prev.keywords
+        }));
+      }
+    } catch (err) {
+      console.warn('Full blog content fetch note:', err.message);
+    }
   };
 
   // Handle category name typing in modal (auto-slugifies unless user edited slug manually)
@@ -958,7 +998,7 @@ export default function BlogsPage({
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
-                          onClick={() => { setPreviewBlog(blog); setViewMode('preview'); }}
+                          onClick={() => handleOpenPreview(blog)}
                           className="p-1.5 rounded-lg text-gray-500 hover:text-[#9E3F5C] hover:bg-[#FDF2F5] transition-colors cursor-pointer"
                           title="Preview article"
                         >

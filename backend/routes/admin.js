@@ -19,7 +19,7 @@ router.get('/bootstrap', protect, adminOnly, async (req, res) => {
       Order.find().sort({ createdAt: -1 }).populate('user', 'name email').lean(),
       User.find().lean().select('-password').sort({ createdAt: -1 }),
       Inquiry.find().lean().sort({ createdAt: -1 }),
-      Blog.find().lean().select('-content').sort({ createdAt: -1 }),
+      Blog.find().lean().sort({ createdAt: -1 }),
       BlogCategory.find().lean().sort({ createdAt: 1 })
     ]);
 

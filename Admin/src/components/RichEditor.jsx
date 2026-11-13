@@ -25,9 +25,13 @@ export default function RichEditor({
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (editorRef.current && document.activeElement !== editorRef.current) {
-      if (editorRef.current.innerHTML !== (value || '')) {
-        editorRef.current.innerHTML = value || '';
+    if (editorRef.current) {
+      const currentHtml = editorRef.current.innerHTML;
+      const targetHtml = value || '';
+      if (currentHtml !== targetHtml) {
+        if (!currentHtml || document.activeElement !== editorRef.current) {
+          editorRef.current.innerHTML = targetHtml;
+        }
       }
     }
   }, [value]);
