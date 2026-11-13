@@ -44,7 +44,7 @@ const getPageFromPath = () => {
     path.includes('strawberry') ||
     path.includes('pineapple') ||
     path.includes('lubricant')
-  ) return 'product-detail';
+  ) return 'product-detail'; 
   if (path === '/checkout') return 'checkout';
   if (path === '/account' || path === '/account-orders' || path === '/admin') return 'account';
   if (path === '/terms' || path === '/terms-of-use' || path === '/terms-of-service') return 'terms-of-use';
