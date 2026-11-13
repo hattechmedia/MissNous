@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const Order = require('../models/Order');
@@ -15,7 +15,7 @@ router.get('/bootstrap', protect, adminOnly, async (req, res) => {
     const [products, categories, orders, users, inquiries, blogs] = await Promise.all([
       Product.find().lean().sort({ createdAt: -1 }),
       Category.find().lean().sort({ createdAt: 1 }),
-      Order.find().lean().sort({ createdAt: -1 }).populate('user', 'name email'),
+      Order.find().sort({ createdAt: -1 }).populate('user', 'name email').lean(),
       User.find().lean().select('-password').sort({ createdAt: -1 }),
       Inquiry.find().lean().sort({ createdAt: -1 }),
       Blog.find().lean().select('-content').sort({ createdAt: -1 })

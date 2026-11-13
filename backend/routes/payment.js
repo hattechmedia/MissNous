@@ -198,9 +198,10 @@ router.post('/verify-session', optionalAuth, async (req, res) => {
         name: item.name,
         subtitle: item.subtitle || '',
         price: item.price,
-        quantity: item.quantity,
-        image: item.image
-      })) : [],
+        image: (typeof item.image === 'string' && (item.image.startsWith('data:') || item.image.length > 500))
+          ? ((item.name || '').toLowerCase().includes('pineapple') ? '/gpt-5.png' : '/jpt-6.jpeg')
+          : (item.image || '/jpt-6.jpeg')
+
       subtotal: totalAmount,
       tax: 0,
       shipping: 0,

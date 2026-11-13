@@ -53,6 +53,10 @@ router.post('/', protect, async (req, res) => {
         } catch (e) {}
       }
 
+      if (typeof itemImage === 'string' && (itemImage.startsWith('data:') || itemImage.length > 500)) {
+        itemImage = (itemName || '').toLowerCase().includes('pineapple') ? '/gpt-5.png' : '/jpt-6.jpeg';
+      }
+
       const safeQty = Math.max(1, parseInt(item.quantity, 10) || 1);
       calculatedSubtotal += unitPrice * safeQty;
 
